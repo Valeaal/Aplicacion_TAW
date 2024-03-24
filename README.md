@@ -1,4 +1,4 @@
-# Aplicacion TAW
+# Aplicación TAW
 TODO: realizar la documentación
 ## Criterio de organización de ramas
 + Cada miembro tiene una parte del código a realizar, así que irá subiendo sus avances en su rama individual
