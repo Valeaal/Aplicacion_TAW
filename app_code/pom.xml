@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>es.uma</groupId>
-    <artifactId>proyectoTAW</artifactId>
+    <artifactId>app_code</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>proyectoTAW</name>
     <description>proyectoTAW</description>
