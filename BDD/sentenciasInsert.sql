@@ -129,3 +129,23 @@ INSERT INTO ejercicio_entrenamiento (ejercicio_id,  entrenamiento_id,  desempeno
 INSERT INTO ejercicio_entrenamiento (ejercicio_id,  entrenamiento_id,  desempeno_id,  series,  repeticiones,  peso,  tiempo,  distancia,  orden) VALUES ('9', ' 8', ' 5', ' 4', ' 10', ' 20.0', ' 0', ' 0', ' 1');
 INSERT INTO ejercicio_entrenamiento (ejercicio_id,  entrenamiento_id,  desempeno_id,  series,  repeticiones,  peso,  tiempo,  distancia,  orden) VALUES ('10', ' 7', ' 5', ' 3', ' 15', ' 0', ' 0', ' 0', ' 2');
 
+
+-- Sentencias INSERT
+INSERT INTO Menu (nombre, descripcion., alergenos) VALUES ('Bocadillo mixto', 'Bocadillo de pan blanco con 200gr de jamon cocido y 50gr de queso', 'lactosa');
+INSERT INTO Menu (nombre, descripcion., alergenos) VALUES ('Café con leche', 'Mitad de café mitad de leche', 'lactosa');
+INSERT INTO Menu (nombre, descripcion., alergenos) VALUES ('Pollo a la plancha con arroz integral', ' 3 pechugas de pollo medianas y 50gr de arroz', ' Gluten');
+INSERT INTO Menu (nombre, descripcion., alergenos) VALUES ('Vegetales al vapor', ' 150gr de vegetales libres al vapor', 'NULL');
+INSERT INTO Menu (nombre, descripcion., alergenos) VALUES ('Pasta integral con salsa de tomate casera', ' 100gr de pasta y 25gr de salsa', 'Gluten');
+INSERT INTO Menu (nombre, descripcion., alergenos) VALUES ('Ensalada', ' Ensalada completa con atún y huevo duuro', 'Huevos');
+INSERT INTO Menu (nombre, descripcion., alergenos) VALUES ('Sandwich de atún', ' Sandwich de atún en pan integral con lechuga', ' tomate y mayonesa.Mayonesa y Gluten');
+INSERT INTO Menu (nombre, descripcion., alergenos) VALUES ('Filete de Salmón al horno con patatas asadas', ' 2 filetes de salmón con 50gr de patatas', ' Gluten');
+INSERT INTO Menu (nombre, descripcion., alergenos) VALUES ('Brócoli al vapor', ' 100gr de brócoli al vapor', 'NULL');
+INSERT INTO Menu (nombre, descripcion., alergenos) VALUES ('Ensalada César con pollo a la parrilla', 'Ensalada completa con salsa césar y 1-2filetes de pollo a la parrilla', 'Lactosa');
+INSERT INTO Menu (nombre, descripcion., alergenos) VALUES ('Tacos de carne molida', 'Tacos de carne molida con tortillas de maíz', ' lechuga', ' tomate', ' queso y salsa.Lactosa');
+INSERT INTO Menu (nombre, descripcion., alergenos) VALUES ('Hamburguesa de pavo', 'Hamburguesa de pavo en pan integral', 'Gluten');
+INSERT INTO Menu (nombre, descripcion., alergenos) VALUES ('Ensalada de quinoa', 'Ensalada de quinoa con vegetales asados y aderezo de limón y aceite de oliva', 'Gluten');
+INSERT INTO Menu (nombre, descripcion., alergenos) VALUES ('Wrap de pollo', ' Wrap de pollo con verduras a la parrilla', 'Gluten');
+INSERT INTO Menu (nombre, descripcion., alergenos) VALUES ('Pechuga de pollo al horno con puré de patatas', ' 2-3 filetes de pollo y 50gr de patatas', 'Gluten');
+INSERT INTO Menu (nombre, descripcion., alergenos) VALUES ('Pizza casera', 'Pizza casera con base integral', ' salsa de tomate', ' mozzarella', ' champiñones y pimientos.', 'Gluten');
+INSERT INTO Menu (nombre, descripcion., alergenos) VALUES ('Sopa', ' Sopa de verduras', 'NULL');
+
