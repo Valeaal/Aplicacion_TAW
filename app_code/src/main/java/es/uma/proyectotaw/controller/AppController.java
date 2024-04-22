@@ -17,8 +17,11 @@ public class AppController {
     @GetMapping("/")
     public String inicio(Model model) {
         List<Ejercicio> listaEjerciciosCompleta= this.ejercicioRepository.findAll();
-        model.addAttribute("lista", listaEjerciciosCompleta);
-        return "prueba";
+<<<<<<< HEAD
+=======
+        model.addAttribute("listaEjerciciosCompleta", listaEjerciciosCompleta);
+        return "Inicio";
+>>>>>>> scrumBranch
     }
 
 }
