@@ -18,8 +18,7 @@ public class AppController {
     public String inicio(Model model) {
         List<Ejercicio> listaEjerciciosCompleta= this.ejercicioRepository.findAll();
         model.addAttribute("lista", listaEjerciciosCompleta);
-        System.out.println(listaEjerciciosCompleta);
-        return null;
+        return "prueba";
     }
 
 }
