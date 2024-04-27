@@ -2,6 +2,13 @@
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<%
+    Usuario usrActual = (Usuario)session.getAttribute("usuario");
+    String nombre = "No has iniciado sesión";
+    if (usrActual != null) {
+        nombre = usrActual.getNombre();
+    }
+%>
 
 <html>
 
@@ -15,7 +22,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Centro Deportivo</a>
+        <a class="navbar-brand" href="#"><%= nombre.toString() %></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

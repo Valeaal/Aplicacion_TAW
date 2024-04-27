@@ -1,10 +1,11 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: alvaro
-  Date: 25/4/24
-  Time: 18:02
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="es.uma.proyectotaw.entity.*" %>
+<%@ page import="java.util.List" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%
+    String mensaje = (String)request.getAttribute("error");
+%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
@@ -40,6 +41,17 @@
                     </form>
                 </div>
             </div>
+            <%
+                if(mensaje != null){
+            %>
+            <div class="card mt-4">
+                <div class="card-body text-center">
+                    <h2 class="card-text text-danger"><%= mensaje %></h2>
+                </div>
+            </div>
+            <%
+                }
+            %>
         </div>
     </div>
 </div>
