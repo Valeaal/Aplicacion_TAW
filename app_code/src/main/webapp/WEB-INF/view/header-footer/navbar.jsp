@@ -4,9 +4,10 @@
 
 <%
     Usuario usrActual = (Usuario)session.getAttribute("usuario");
+    TipoUsuario tipoUsr = (TipoUsuario) session.getAttribute("tipo");
     String nombre = "No has iniciado sesión";
     if (usrActual != null) {
-        nombre = usrActual.getNombre();
+        nombre = usrActual.getNombre() + " : " + tipoUsr.getTipo();
     }
 %>
 
@@ -20,6 +21,10 @@
 
 <body class="d-flex flex-column min-vh-100">
 
+<%
+    if (tipoUsr != null && tipoUsr.getTipo().equals("admin")){ //Mostramos el navbar con las opciones del administrador
+%>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#"><%= nombre.toString() %></a>
@@ -29,7 +34,43 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Inicio</a>
+                    <a class="nav-link active" href="/">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Clientes -> Entrenadores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Clientes -> Dietistas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Búsqueda de elementos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/salir">Salir</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<%
+    } else if (tipoUsr != null && tipoUsr.getTipo().equals("dietist")){    //Mostramos el navbar con las opciones del dietista
+%>
+
+<%
+    } else {    //Mostramos el navbar para la persona no registrada
+%>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><%= nombre.toString() %></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/">Inicio</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Servicios</a>
@@ -45,7 +86,9 @@
     </div>
 </nav>
 
-
+<%
+    }
+%>
 <!-- Enlace a Bootstrap JS (opcional, solo si queremos funcionalidades como los dropdowns del navbar) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 

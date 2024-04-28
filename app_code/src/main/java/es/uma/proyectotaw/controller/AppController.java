@@ -20,6 +20,8 @@ public class AppController {
 
     @Autowired
     protected UsuarioRepository usuarioRepository;
+    @Autowired
+    private TipoUsuarioRepository tipoUsuarioRepository;
 
     @GetMapping("/login")
     public String login(Model model) {
@@ -33,10 +35,6 @@ public class AppController {
 
         Usuario user = usuarioRepository.buscarPorEmail(inputEmail);
 
-        //Esto es para cargar el inicio, que pide una variable a la bdd
-        List<Ejercicio> listaEjerciciosCompleta= this.ejercicioRepository.findAll();
-        model.addAttribute("listaEjerciciosCompleta", listaEjerciciosCompleta);
-
         if (user == null) {
             model.addAttribute("error", "Error: Usuario no encontrado");
             return "login";
@@ -44,21 +42,26 @@ public class AppController {
             model.addAttribute("error", "Error: Contraseña incorrecta");
             return "login";
         } else{
+            TipoUsuario tipoUsuario = tipoUsuarioRepository.buscarPorID(user.getId());  //Añadimos a la sesion el atributo del tipo de usuario (otra consulta SQL) cuando ya sabemos que tenemos el usuario not null
             session.setAttribute("usuario", user);
-            return "home";
+            session.setAttribute("tipo", tipoUsuario);
+            return "redirect:/";    //Si no usara el redirect y llamara directamente a home, tendría que cargar al model los atributos necesarios en cada metodo que devolviera a home
         }
     }
 
-    @PostMapping("/salir")
+    @GetMapping("/salir")
     public String salir(HttpSession session) {
         session.invalidate();
-        return "home";
+        return "redirect:/";    //Si no usara el redirect y llamara directamente a home, tendría que cargar al model los atributos necesarios en cada metodo que devolviera a home
     }
 
     @GetMapping("/")
     public String home(Model model) {
+
+        //Esto es para cargar el inicio, que pide una variable a la bdd
         List<Ejercicio> listaEjerciciosCompleta= this.ejercicioRepository.findAll();
         model.addAttribute("listaEjerciciosCompleta", listaEjerciciosCompleta);
+
         return "home";
     }
 
