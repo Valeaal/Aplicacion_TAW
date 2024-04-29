@@ -1,52 +1,57 @@
 USE TAW;
 
 -- Sentencias INSERT tipo_usuario
-INSERT INTO tipo_usuario (tipo) VALUES ('admin');
+INSERT INTO tipo_usuario (enu) VALUES ('admin');
 INSERT INTO tipo_usuario (tipo) VALUES ('entrenador_bodybuilding');
 INSERT INTO tipo_usuario (tipo) VALUES ('entrenador_crossfit');
 INSERT INTO tipo_usuario (tipo) VALUES ('dietista');
-INSERT INTO tipo_usuario (tipo) VALUES ('cliente');
 
 -- Sentencias INSERT usuario
 
-INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('ejemplo1@gmail.com', ' password123', ' Juan', ' Pérez Gómez', ' 1990-05-15', ' 2020-01-01', ' 9');
-INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('usuario2@example.com', ' securepass', ' María', ' Rodríguez López', ' 1985-08-22', ' 2019-11-10', ' 11');
-INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('user3@mail.com', ' mypass123', ' Pablo', ' Martínez Fernández', ' 1995-03-10', ' 2021-02-28', ' 13');
-INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('testuser4@example.org', ' testpass456', ' Laura', ' Sánchez Ruiz', ' 1988-11-03', ' 2018-07-15', '14');
-INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('demo5@hotmail.com', ' demopass789', ' Andrés', ' López González', ' 1979-09-20', ' 2017-12-05', '15');
-INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('usuario6@domain.com', ' userpass321', ' Ana', ' Pérez García', ' 1992-06-28', ' 2022-03-10', '5');
-INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('exampleuser7@gmail.com', ' examplepass', ' Diego', ' Gómez Martín', ' 1983-04-17', ' 2016-10-20', '4');
-INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('sampleuser8@example.net', ' sample123', ' Marta', ' Rodríguez Díaz', ' 1975-12-08', ' 2015-05-30', '5');
-INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('user9@mail.org', ' pass1234', ' Sergio', ' López Fernández', ' 1987-07-25', ' 2014-09-12', '5');
-INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('usuario10@example.com', ' pass4567', ' Elena', ' Sánchez Pérez', ' 1998-02-14', ' 2023-08-18', '5'); 
+INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('ejemplo1@gmail.com', ' password123', ' Juan', ' Pérez Gómez', '1990-05-15', '2020-01-01', '1');
+INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('usuario2@example.com', ' securepass', ' María', ' Rodríguez López', ' 1985-08-22', ' 2019-11-10', '2');
+INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('user3@mail.com', ' mypass123', ' Pablo', ' Martínez Fernández', ' 1995-03-10', ' 2021-02-28', '3');
+INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('testuser4@example.org', ' testpass456', ' Laura', ' Sánchez Ruiz', ' 1988-11-03', ' 2018-07-15', '4');
+INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('demo5@hotmail.com', ' demopass789', ' Andrés', ' López González', ' 1979-09-20', ' 2017-12-05', '1');
+INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('usuario6@domain.com', ' userpass321', ' Ana', ' Pérez García', ' 1992-06-28', ' 2022-03-10', '2');
+INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('exampleuser7@gmail.com', ' examplepass', ' Diego', ' Gómez Martín', ' 1983-04-17', ' 2016-10-20', '3');
+INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('sampleuser8@example.net', ' sample123', ' Marta', ' Rodríguez Díaz', ' 1975-12-08', ' 2015-05-30', '4');
+INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('user9@mail.org', ' pass1234', ' Sergio', ' López Fernández', ' 1987-07-25', ' 2014-09-12', '3');
+INSERT INTO usuario (email,  password,  nombre,  apellidos,  fecha_nacimiento,  pertenece_desde,  tipo_usuario_id) VALUES ('usuario10@example.com', ' pass4567', ' Elena', ' Sánchez Pérez', ' 1998-02-14', ' 2023-08-18', '2'); 
+
+INSERT INTO usuario (email, password, nombre, apellidos, fecha_nacimiento, pertenece_desde, tipo_usuario_id) VALUES ('nuevoemail1@example.net', 'nuevopass123', 'Marta', 'Rodríguez Díaz', '1975-12-08', '2015-05-30', NULL);
+INSERT INTO usuario (email, password, nombre, apellidos, fecha_nacimiento, pertenece_desde, tipo_usuario_id) VALUES ('nuevoemail2@mail.org', 'nuevopass1234', 'Sergio', 'López Fernández', '1987-07-25', '2014-09-12', NULL);
+INSERT INTO usuario (email, password, nombre, apellidos, fecha_nacimiento, pertenece_desde, tipo_usuario_id) VALUES ('nuevoemail3@example.com', 'nuevopass4567', 'Elena', 'Sánchez Pérez', '1998-02-14', '2023-08-18', NULL);
+
+
 -- Sentencias INSERT dieta
-INSERT INTO dieta (dietista_id, nombre, descripcion, fecha) VALUES ('12', ' Dieta cetogénica', ' Una dieta alta en grasas y baja en carbohidratos diseñada para inducir la cetosis.', ' 2024-04-19');
-INSERT INTO dieta (dietista_id, nombre, descripcion, fecha) VALUES ('12', ' Dieta mediterránea', ' Una dieta rica en frutas, verduras, pescado y aceite de oliva, inspirada en los hábitos alimenticios de los países mediterráneos.', ' 2024-04-18');
-INSERT INTO dieta (dietista_id, nombre, descripcion, fecha) VALUES ('12', ' Dieta alta en proteínas', ' Una dieta que se centra en consumir alimentos ricos en proteínas para aumentar la masa muscular y perder grasa.', ' 2024-04-17');
-INSERT INTO dieta (dietista_id, nombre, descripcion, fecha) VALUES ('12', ' Dieta sin gluten', ' Una dieta que excluye el gluten, diseñada para personas con enfermedad celíaca o sensibilidad al gluten.', ' 2024-04-16');
-INSERT INTO dieta (dietista_id, nombre, descripcion, fecha) VALUES ('12', ' Dieta vegetariana', ' Una dieta que excluye la carne y los productos derivados de animales, centrándose en alimentos de origen vegetal.', ' 2024-04-15');
+INSERT INTO dieta (dietista_id, nombre, descripcion, fecha) VALUES ('7', ' Dieta cetogénica', ' Una dieta alta en grasas y baja en carbohidratos diseñada para inducir la cetosis.', ' 2024-04-19');
+INSERT INTO dieta (dietista_id, nombre, descripcion, fecha) VALUES ('7', ' Dieta mediterránea', ' Una dieta rica en frutas, verduras, pescado y aceite de oliva, inspirada en los hábitos alimenticios de los países mediterráneos.', ' 2024-04-18');
+INSERT INTO dieta (dietista_id, nombre, descripcion, fecha) VALUES ('7', ' Dieta alta en proteínas', ' Una dieta que se centra en consumir alimentos ricos en proteínas para aumentar la masa muscular y perder grasa.', ' 2024-04-17');
+INSERT INTO dieta (dietista_id, nombre, descripcion, fecha) VALUES ('11', ' Dieta sin gluten', ' Una dieta que excluye el gluten, diseñada para personas con enfermedad celíaca o sensibilidad al gluten.', ' 2024-04-16');
+INSERT INTO dieta (dietista_id, nombre, descripcion, fecha) VALUES ('11', ' Dieta vegetariana', ' Una dieta que excluye la carne y los productos derivados de animales, centrándose en alimentos de origen vegetal.', ' 2024-04-15');
 
 -- Sentencias INSERT rutina
-INSERT INTO rutina (nombre, descripcion, fecha_creacion) VALUES ('Rutina de entrenamiento de fuerza', ' Una rutina diseñada para aumentar la fuerza muscular.', ' 2024-04-19');
-INSERT INTO rutina (nombre, descripcion, fecha_creacion) VALUES ('Rutina de cardio', ' Una rutina centrada en mejorar la resistencia cardiovascular.', ' 2024-04-18');
-INSERT INTO rutina (nombre, descripcion, fecha_creacion) VALUES ('Rutina de yoga matutina', ' Una rutina de yoga diseñada para practicar por la mañana.', ' 2024-04-17');
-INSERT INTO rutina (nombre, descripcion, fecha_creacion) VALUES ('Rutina de entrenamiento HIIT', ' Una rutina de entrenamiento de intervalos de alta intensidad.', ' 2024-04-16');
-INSERT INTO rutina (nombre, descripcion, fecha_creacion) VALUES ('Rutina de estiramiento', ' Una rutina diseñada para mejorar la flexibilidad y prevenir lesiones.', ' 2024-04-15');
+INSERT INTO rutina (nombre, descripcion, fecha_creacion,entrenador_id) VALUES ('Rutina de entrenamiento de fuerza', ' Una rutina diseñada para aumentar la fuerza muscular.', ' 2024-04-19','2');
+INSERT INTO rutina (nombre, descripcion, fecha_creacion,entrenador_id) VALUES ('Rutina de cardio', ' Una rutina centrada en mejorar la resistencia cardiovascular.', ' 2024-04-18','10');
+INSERT INTO rutina (nombre, descripcion, fecha_creacion,entrenador_id) VALUES ('Rutina de yoga matutina', ' Una rutina de yoga diseñada para practicar por la mañana.', ' 2024-04-17','10');
+INSERT INTO rutina (nombre, descripcion, fecha_creacion,entrenador_id) VALUES ('Rutina de entrenamiento HIIT', ' Una rutina de entrenamiento de intervalos de alta intensidad.', ' 2024-04-16','10');
+INSERT INTO rutina (nombre, descripcion, fecha_creacion,entrenador_id) VALUES ('Rutina de estiramiento', ' Una rutina diseñada para mejorar la flexibilidad y prevenir lesiones.', ' 2024-04-15','2');
 
 -- Sentencias INSERT cliente
-INSERT INTO cliente (usuario_id,  rutina_id,  dieta_id,  peso,  altura,  edad) VALUES ('9', ' 1', ' 1', ' 70.5', ' 175', ' 30');
-INSERT INTO cliente (usuario_id,  rutina_id,  dieta_id,  peso,  altura,  edad) VALUES ('11', ' 3', ' 3', ' 65.2', ' 168', ' 28');
-INSERT INTO cliente (usuario_id,  rutina_id,  dieta_id,  peso,  altura,  edad) VALUES ('13', ' 3', ' 3', ' 80.0', ' 180', ' 35');
+INSERT INTO cliente (usuario_id,  rutina_id,  dieta_id,  peso,  altura,  edad) VALUES ('15', ' 1', ' 1', ' 70.5', ' 175', ' 30');
+INSERT INTO cliente (usuario_id,  rutina_id,  dieta_id,  peso,  altura,  edad) VALUES ('16', ' 3', ' 3', ' 65.2', ' 168', ' 28');
+INSERT INTO cliente (usuario_id,  rutina_id,  dieta_id,  peso,  altura,  edad) VALUES ('17', ' 3', ' 3', ' 80.0', ' 180', ' 35');
 INSERT INTO cliente (usuario_id,  rutina_id,  dieta_id,  peso,  altura,  edad) VALUES ('14', ' 4', ' 4', ' 55.8', ' 160', ' 25');
 INSERT INTO cliente (usuario_id,  rutina_id,  dieta_id,  peso,  altura,  edad) VALUES ('15', ' 1', ' 5', ' 72.3', ' 172', ' 32');
 
 
 -- Sentencias INSERT cliente_rutina
-INSERT INTO cliente_rutina (cliente_id,  rutina_id,  vigente) VALUES ('2', '1', 1);
-INSERT INTO cliente_rutina (cliente_id,  rutina_id,  vigente) VALUES ('4', '3', 1);
-INSERT INTO cliente_rutina (cliente_id,  rutina_id,  vigente) VALUES ('6', '3', 0);
-INSERT INTO cliente_rutina (cliente_id,  rutina_id,  vigente) VALUES ('10', '4', 1);
-INSERT INTO cliente_rutina (cliente_id,  rutina_id,  vigente) VALUES ('11', '1', 0);
+INSERT INTO cliente_rutina (cliente_id,  rutina_id,  vigente) VALUES ('1', '1', 1);
+INSERT INTO cliente_rutina (cliente_id,  rutina_id,  vigente) VALUES ('2', '2', 1);
+INSERT INTO cliente_rutina (cliente_id,  rutina_id,  vigente) VALUES ('3', '3', 0);
+INSERT INTO cliente_rutina (cliente_id,  rutina_id,  vigente) VALUES ('3', '4', 1);
+INSERT INTO cliente_rutina (cliente_id,  rutina_id,  vigente) VALUES ('1', '5', 0);
 
 -- Sentencias INSERT tipo_ejercicio
 
@@ -110,22 +115,22 @@ INSERT INTO ejercicio (nombre, tipo, descripcion, url_video, grupo_muscular_id) 
 INSERT INTO ejercicio (nombre, tipo, descripcion, url_video, grupo_muscular_id) VALUES ('Tai Chi', '6', 'Arte marcial chino que combina movimientos suaves y fluidos con técnicas de respiración para mejorar la salud física y mental.', 'https://www.ejemplo.com/videos/tai-chi', '2');
 
 -- Sentencias INSERT desempeño
-INSERT INTO desempeno (cliente_id, valoracion, peso_realizado, comentarios) VALUES (9, 5, 50.5, 'Estaba bien');
-INSERT INTO desempeno (cliente_id, valoracion, peso_realizado, comentarios) VALUES (11, 4, 60.2, 'Ok');
-INSERT INTO desempeno (cliente_id, valoracion, peso_realizado, comentarios) VALUES (2, 3, 30.5, 'No me ha gustado');
-INSERT INTO desempeno (cliente_id, valoracion, peso_realizado, comentarios) VALUES (4, 4, 55.0, 'Ok');
-INSERT INTO desempeno (cliente_id, valoracion, peso_realizado, comentarios) VALUES (8, 5, 35.5, 'Estaba muy bien');
+INSERT INTO desempeno (cliente_id, valoracion, peso_realizado, comentarios) VALUES (1, 5, 50.5, 'Estaba bien');
+INSERT INTO desempeno (cliente_id, valoracion, peso_realizado, comentarios) VALUES (2, 4, 60.2, 'Ok');
+INSERT INTO desempeno (cliente_id, valoracion, peso_realizado, comentarios) VALUES (3, 3, 30.5, 'No me ha gustado');
+INSERT INTO desempeno (cliente_id, valoracion, peso_realizado, comentarios) VALUES (2, 4, 55.0, 'Ok');
+INSERT INTO desempeno (cliente_id, valoracion, peso_realizado, comentarios) VALUES (1, 5, 35.5, 'Estaba muy bien');
 
 
 -- Sentencias INSERT
-INSERT INTO ejercicio_entrenamiento (ejercicio_id,  entrenamiento_id,  desempeno_id,  series,  repeticiones,  peso,  tiempo,  distancia,  orden) VALUES ('12', ' 2', ' 6', ' 3', ' 10', ' 20.5', ' 0', ' 0', ' 1');
-INSERT INTO ejercicio_entrenamiento (ejercicio_id,  entrenamiento_id,  desempeno_id,  series,  repeticiones,  peso,  tiempo,  distancia,  orden) VALUES ('2', ' 2', ' 6', ' 4', ' 12', ' 0', ' 0', ' 0', ' 2');
-INSERT INTO ejercicio_entrenamiento (ejercicio_id,  entrenamiento_id,  desempeno_id,  series,  repeticiones,  peso,  tiempo,  distancia,  orden) VALUES ('3', ' 3', ' 2', ' 3', ' 8', ' 0', ' 0', ' 0', ' 1');
+INSERT INTO ejercicio_entrenamiento (ejercicio_id,  entrenamiento_id,  desempeno_id,  series,  repeticiones,  peso,  tiempo,  distancia,  orden) VALUES ('1', ' 1', ' 1', ' 3', ' 10', ' 20.5', ' 0', ' 0', ' 1');
+INSERT INTO ejercicio_entrenamiento (ejercicio_id,  entrenamiento_id,  desempeno_id,  series,  repeticiones,  peso,  tiempo,  distancia,  orden) VALUES ('2', ' 2', ' 2', ' 4', ' 12', ' 0', ' 0', ' 0', ' 2');
+INSERT INTO ejercicio_entrenamiento (ejercicio_id,  entrenamiento_id,  desempeno_id,  series,  repeticiones,  peso,  tiempo,  distancia,  orden) VALUES ('3', ' 3', ' 3', ' 3', ' 8', ' 0', ' 0', ' 0', ' 1');
 INSERT INTO ejercicio_entrenamiento (ejercicio_id,  entrenamiento_id,  desempeno_id,  series,  repeticiones,  peso,  tiempo,  distancia,  orden) VALUES ('4', ' 4', ' 2', ' 3', ' 15', ' 0', ' 0', ' 0', ' 2');
-INSERT INTO ejercicio_entrenamiento (ejercicio_id,  entrenamiento_id,  desempeno_id,  series,  repeticiones,  peso,  tiempo,  distancia,  orden) VALUES ('5', ' 5', ' 4', ' 4', ' 10', ' 25.0', ' 0', ' 0', ' 1');
+INSERT INTO ejercicio_entrenamiento (ejercicio_id,  entrenamiento_id,  desempeno_id,  series,  repeticiones,  peso,  tiempo,  distancia,  orden) VALUES ('5', ' 5', ' 1', ' 4', ' 10', ' 25.0', ' 0', ' 0', ' 1');
 INSERT INTO ejercicio_entrenamiento (ejercicio_id,  entrenamiento_id,  desempeno_id,  series,  repeticiones,  peso,  tiempo,  distancia,  orden) VALUES ('6', ' 6', ' 4', ' 3', ' 12', ' 0', ' 0', ' 0', ' 2');
 INSERT INTO ejercicio_entrenamiento (ejercicio_id,  entrenamiento_id,  desempeno_id,  series,  repeticiones,  peso,  tiempo,  distancia,  orden) VALUES ('7', ' 7', ' 4', ' 3', ' 15', ' 0', ' 0', ' 0', ' 1');
 INSERT INTO ejercicio_entrenamiento (ejercicio_id,  entrenamiento_id,  desempeno_id,  series,  repeticiones,  peso,  tiempo,  distancia,  orden) VALUES ('8', ' 6', ' 4', ' 3', ' 12', ' 0', ' 0', ' 0', ' 2');
-INSERT INTO ejercicio_entrenamiento (ejercicio_id,  entrenamiento_id,  desempeno_id,  series,  repeticiones,  peso,  tiempo,  distancia,  orden) VALUES ('9', ' 8', ' 5', ' 4', ' 10', ' 20.0', ' 0', ' 0', ' 1');
+INSERT INTO ejercicio_entrenamiento (ejercicio_id,  entrenamiento_id,  desempeno_id,  series,  repeticiones,  peso,  tiempo,  distancia,  orden) VALUES ('9', ' 5', ' 5', ' 4', ' 10', ' 20.0', ' 0', ' 0', ' 1');
 INSERT INTO ejercicio_entrenamiento (ejercicio_id,  entrenamiento_id,  desempeno_id,  series,  repeticiones,  peso,  tiempo,  distancia,  orden) VALUES ('10', ' 7', ' 5', ' 3', ' 15', ' 0', ' 0', ' 0', ' 2');
 
