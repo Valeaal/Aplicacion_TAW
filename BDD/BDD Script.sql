@@ -23,13 +23,9 @@ CREATE TABLE IF NOT EXISTS usuario (
     apellidos VARCHAR(255) NOT NULL,
     fecha_nacimiento DATE NOT NULL,
     pertenece_desde DATE NOT NULL,
-    tipo_usuario_id INT ,
+    tipo_usuario_id INT NOT NULL,
     FOREIGN KEY (tipo_usuario_id) REFERENCES tipo_usuario(id)
 );
-
-ALTER TABLE usuario
-MODIFY tipo_usuario_id INT NULL;
-
 
 CREATE TABLE IF NOT EXISTS dieta (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -40,29 +36,24 @@ CREATE TABLE IF NOT EXISTS dieta (
     FOREIGN KEY (dietista_id) REFERENCES usuario(id)
 );
 
-
 CREATE TABLE IF NOT EXISTS cliente (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario_id INT NOT NULL,
+    rutina_id INT,
     dieta_id INT,
     peso FLOAT NOT NULL,
     altura INT NOT NULL,
     edad INT NOT NULL,
     FOREIGN KEY (usuario_id) REFERENCES usuario(id),
+    FOREIGN KEY (rutina_id) REFERENCES dieta(id),
     FOREIGN KEY (dieta_id) REFERENCES dieta(id)
 );
 
-
-ALTER TABLE rutina
-RENAME COLUMN usuario_id TO entrenador_id;
-
 CREATE TABLE IF NOT EXISTS rutina (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    usuario_id INT NOT NULL,
     nombre VARCHAR(255) NOT NULL,
     descripcion TEXT,
-    fecha_creacion DATE NOT NULL,
-	FOREIGN KEY (usuario_id) REFERENCES usuario(id)
+    fecha_creacion DATE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS cliente_rutina (
