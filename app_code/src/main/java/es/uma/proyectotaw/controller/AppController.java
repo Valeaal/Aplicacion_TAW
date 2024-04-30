@@ -17,11 +17,11 @@ public class AppController {
 
     @Autowired
     protected EjercicioRepository ejercicioRepository;
-
     @Autowired
     protected UsuarioRepository usuarioRepository;
     @Autowired
     private TipoUsuarioRepository tipoUsuarioRepository;
+
 
     @GetMapping("/login")
     public String login(Model model) {

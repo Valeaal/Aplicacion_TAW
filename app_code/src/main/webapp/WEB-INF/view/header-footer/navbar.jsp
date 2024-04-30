@@ -43,6 +43,9 @@
                     <a class="nav-link" href="#">Clientes -> Dietistas</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="admin/clientes">Gestionar clientes</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#">Búsqueda de elementos</a>
                 </li>
                 <li class="nav-item">
