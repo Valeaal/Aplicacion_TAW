@@ -42,11 +42,13 @@ public class AppController {
             model.addAttribute("error", "Error: Contraseña incorrecta");
             return "login";
         } else{
-            TipoUsuario tipoUsuario = tipoUsuarioRepository.buscarPorID(user.getId());  //Añadimos a la sesion el atributo del tipo de usuario (otra consulta SQL) cuando ya sabemos que tenemos el usuario not null
+            TipoUsuario tipoUsuario = tipoUsuarioRepository.buscarPorID(user.getTipoUsuario().getId());
+            //Añadimos a la sesion el atributo del tipo de usuario (otra consulta SQL) cuando ya sabemos que tenemos el usuario not null
             session.setAttribute("usuario", user);
             session.setAttribute("tipo", tipoUsuario);
             return "redirect:/";    //Si no usara el redirect y llamara directamente a home, tendría que cargar al model los atributos necesarios en cada metodo que devolviera a home
         }
+
     }
 
     @GetMapping("/salir")

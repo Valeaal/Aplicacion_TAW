@@ -54,9 +54,19 @@
 </nav>
 
 <%
-    } else if (tipoUsr != null && tipoUsr.getTipo().equals("dietist")){    //Mostramos el navbar con las opciones del dietista
+    } else if (tipoUsr != null && tipoUsr.getTipo().equals("dietista")){    //Mostramos el navbar con las opciones del dietista
+%>
+<h1>Hola dietista</h1>
+<%
+    } else if (tipoUsr != null && tipoUsr.getTipo().equals("entrenador_crossfit")){    //Mostramos el navbar con las opciones del entrenador crossfit
 %>
 
+<h1>Hola crossfitero</h1>
+
+<%
+} else if (tipoUsr != null && tipoUsr.getTipo().equals("entrenador_bodybuilding")){    //Mostramos el navbar con las opciones del entrenador crossfit
+%>
+<h1>Hola bodybuilder ponme en forma TÚ!</h1>
 <%
     } else {    //Mostramos el navbar para la persona no registrada
 %>

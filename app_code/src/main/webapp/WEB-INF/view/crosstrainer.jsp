@@ -15,21 +15,7 @@
 </head>
 
 <jsp:include page="header-footer/navbar.jsp"></jsp:include>
-
-<section class="container mt-5">
-    <h2>Descubre nuestros servicios</h2>
-    <p  class="fs-5">Bienvenido al mejor centro deportivo de la zona. Ofrecemos una amplia gama de servicios y actividades para mantenerte en forma y saludable.</p>
-    <p  class="fs-6">En nuestra plataforma, tenemos actualmente <%= listaEjerciciosCompleta.size() %> ejercicios disponibles para ti.</p>
-</section>
-
-<section id="secondary-content" class="container mt-4">
-    <p class="fs-6">
-        Si quieres iniciar sesión, puedes hacerlo desde el navbar (YA ES FUNCIONAL).<br>
-        La idea es que una vez inicies sesión tengas en el navbar las opciones específicas de tu rol.<br>
-        La comprobación de usuario y contraseña ya están disponibles.<br>
-        El inicio de sesión como administrador ya está disponible.
-    </p>
-</section>
+<h1>Hola</h1>
 
 <jsp:include page="header-footer/footer.jsp"></jsp:include>
 
