@@ -1,7 +1,7 @@
 USE TAW;
 CREATE TABLE IF NOT EXISTS tipo_usuario (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    tipo ENUM('admin', 'entrenador_bodybuilding', 'entrenador_crossfit', 'dietista') NOT NULL
+    tipo ENUM('admin', 'entrenador_bodybuilding', 'entrenador_crossfit', 'dietista', 'cliente') NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS tipo_ejercicio (
