@@ -5,11 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b96b6358-19af-40f8-8189-6cb7247152f9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app_code/src/main/webapp/WEB-INF/view/dietista/asignacionDietas.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app_code/src/main/webapp/WEB-INF/view/dietista/crudDietas.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app_code/src/main/webapp/WEB-INF/view/dietista/creacionDietas.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app_code/src/main/webapp/WEB-INF/view/dietista/seguimientoClientes.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app_code/src/main/webapp/WEB-INF/view/dietista/seguimientoDietas.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app_code/src/main/webapp/WEB-INF/view/header-footer/navbar.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/app_code/src/main/webapp/WEB-INF/view/header-footer/navbar.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +53,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.ProyectoTawApplication.executor": "Run",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/javiertorrecilla/Desktop/UMA_PC/SegundoCuatrimestre/TAW/Proyecto/Aplicacion_TAW",
+    "last_opened_file_path": "/Users/javiertorrecilla/Desktop/UMA_PC/SegundoCuatrimestre/TAW/Proyecto/Sin título",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -93,6 +92,7 @@
       <updated>1713627472417</updated>
       <workItem from="1713627473100" duration="6254000" />
       <workItem from="1714388246483" duration="3347000" />
+      <workItem from="1714582273004" duration="211000" />
     </task>
     <servers />
   </component>
