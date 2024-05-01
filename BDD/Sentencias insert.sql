@@ -1,5 +1,5 @@
 -- Inserting into `tipo_usuario`
-INSERT INTO `TAW`.`tipo_usuario` (`tipo`) VALUES ('admin'), ('entrenador_bodybuilding'), ('dietista');
+INSERT INTO `TAW`.`tipo_usuario` (`tipo`) VALUES ('admin'), ('entrenador_bodybuilding'), ('dietista'), ('cliente');
 
 -- Inserting into `usuario`
 INSERT INTO `TAW`.`usuario` (`email`, `password`, `nombre`, `apellidos`, `fecha_nacimiento`, `pertenece_desde`, `tipo_usuario_id`) 
@@ -9,13 +9,13 @@ VALUES ('admin@example.com', 'adminpass', 'Admin', 'Istrador', '1980-01-01', '20
 
 -- Inserting into `dieta`
 INSERT INTO `TAW`.`dieta` (`dietista_id`, `nombre`, `descripcion`, `fecha`) 
-VALUES (7, 'Weight Loss', 'A diet plan designed for weight loss', '2024-01-01'),
-       (7, 'Muscle Gain', 'A diet plan designed to increase muscle mass', '2024-01-02');
+VALUES (3, 'Weight Loss', 'A diet plan designed for weight loss', '2024-01-01'),
+       (3, 'Muscle Gain', 'A diet plan designed to increase muscle mass', '2024-01-02');
 
 -- Inserting into `cliente`
 INSERT INTO `TAW`.`cliente` (`usuario_id`, `dieta_id`, `peso`, `altura`, `edad`) 
-VALUES (8, 3, 80.5, 180, 30),
-       (8, 4, 85.0, 180, 32);
+VALUES (4, 3, 80.5, 180, 30),
+       (4, 4, 85.0, 180, 32);
 
 -- Inserting into `rutina`
 INSERT INTO `TAW`.`rutina` (`nombre`, `entrenador_id`, `descripcion`, `fecha_creacion`) 
