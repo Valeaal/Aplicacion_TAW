@@ -2,7 +2,8 @@
 <%@ page import="es.uma.proyectotaw.entity.Rutina" %>
 <%@ page import="es.uma.proyectotaw.entity.Cliente" %>
 <%@ page import="es.uma.proyectotaw.entity.Entrenamiento" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.entity.GrupoMuscular" %><%--
   Created by IntelliJ IDEA.
   User: albadelatorres
   Date: 30/4/24
@@ -15,6 +16,7 @@
     Rutina rutina = (Rutina) request.getAttribute("rutina");
     Cliente cliente = (Cliente) request.getAttribute("cliente");
     List<Entrenamiento> entrenamiento = (List<Entrenamiento>) request.getAttribute("entrenamientos");
+    List<GrupoMuscular> grupomuscular= (List<GrupoMuscular>) request.getAttribute("grupomuscular");
 %>
 <html>
 <head>
@@ -36,14 +38,14 @@
                 <% for (Entrenamiento e : entrenamiento) { %>
                 <a href="/dia?id=<%=e.getId()%>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                     Día <%= dia %>
-                    <span class="badge badge-primary badge-pill">%%</span> <!-- Replace %% with actual percentage -->
+                    <span class="badge badge-primary badge-pill">%%</span> <!-- Aquí va el porcentaje real -->
                 </a>
                 <% dia++; %>
                 <% } %>
             </div>
         </div>
 
-        <!-- Filters Section -->
+        <!-- Filtro -->
         <div class="col-md-4">
             <h3>Buscar</h3>
             <div class="input-group mb-3">
@@ -71,9 +73,14 @@
             <div class="mb-3">
                 <select class="custom-select">
                     <option selected>Zona del Cuerpo</option>
-                    <option value="1">Superior</option>
-                    <option value="2">Central</option>
-                    <option value="3">Inferior</option>
+                    <%
+                        for(GrupoMuscular grupo : grupomuscular) {
+
+                    %>
+                    <option value="<%=grupo.getId()%>"><%=grupo.getGrupo()%></option>
+                    <%
+                        }
+                    %>
                 </select>
             </div>
         </div>

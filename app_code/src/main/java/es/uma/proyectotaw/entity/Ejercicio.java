@@ -3,6 +3,8 @@ package es.uma.proyectotaw.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.Set;
+import java.util.HashSet;
 
 @Getter
 @Setter
@@ -31,5 +33,9 @@ public class Ejercicio {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "grupo_muscular_id", nullable = false)
     private GrupoMuscular grupoMuscular;
+
+    @OneToMany(mappedBy = "ejercicio")
+    private Set<EjercicioEntrenamiento> entrenamientos = new HashSet<>();
+
 
 }

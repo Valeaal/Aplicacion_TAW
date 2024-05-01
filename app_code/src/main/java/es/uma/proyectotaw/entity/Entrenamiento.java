@@ -28,4 +28,7 @@ public class Entrenamiento {
 
     @OneToMany(mappedBy = "entrenamiento")
     private Set<EntrenamientoRutina> rutinas = new HashSet<>();
+
+    @OneToMany(mappedBy = "entrenamiento")
+    private Set<EjercicioEntrenamiento> ejercicios = new HashSet<>();
 }
