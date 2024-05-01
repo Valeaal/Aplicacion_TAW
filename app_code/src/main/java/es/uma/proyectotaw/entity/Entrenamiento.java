@@ -3,6 +3,8 @@ package es.uma.proyectotaw.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.Set;
+import java.util.HashSet;
 
 @Getter
 @Setter
@@ -24,4 +26,6 @@ public class Entrenamiento {
     @JoinColumn(name = "tipo", nullable = false)
     private TipoEjercicio tipo;
 
+    @OneToMany(mappedBy = "entrenamiento")
+    private Set<EntrenamientoRutina> rutinas = new HashSet<>();
 }

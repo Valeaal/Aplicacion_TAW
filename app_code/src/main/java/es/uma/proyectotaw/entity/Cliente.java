@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Getter
 @Setter
 @Entity
@@ -17,9 +20,9 @@ public class Cliente {
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rutina_id")
-    private Dieta rutina;
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "rutina_id")
+    //private Dieta rutina;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dieta_id")
