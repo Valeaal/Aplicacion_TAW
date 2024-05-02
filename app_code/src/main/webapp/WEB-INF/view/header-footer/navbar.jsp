@@ -37,13 +37,13 @@
                     <a class="nav-link active" href="/">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Clientes -> Entrenadores</a>
+                    <a class="nav-link" href="admin/clientesEntrenadores">Clientes -> Entrenadores</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Clientes -> Dietistas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="admin/clientes">Gestionar clientes</a>
+                    <a class="nav-link" href="admin/usuarios">Gestionar usuarios</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Búsqueda de elementos</a>
