@@ -36,7 +36,7 @@
             %>
             <div class="list-group">
                 <% for (Entrenamiento e : entrenamiento) { %>
-                <a href="/dia?id=<%=e.getId()%>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <a href="/dia?id=<%=e.getId()%>&clientId=<%=cliente.getId()%>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                     Día <%= dia %>
                     <span class="badge badge-primary badge-pill">%%</span> <!-- Aquí va el porcentaje real -->
                 </a>

@@ -29,6 +29,8 @@ public class AppController {
     private EntrenamientoRepository entrenamientoRepository;
     @Autowired
     private GrupoMuscularRepository grupoMuscularRepository;
+    @Autowired
+    private DesempenoRepository desempenoRepository;
 
 
     @GetMapping("/login")
@@ -77,9 +79,8 @@ public class AppController {
 
     @GetMapping("/rutina")
     public String rutina(@RequestParam("id") Integer id, Model model) {
-        Usuario user = usuarioRepository.getReferenceById(id);
         Cliente client = clienteRepository.getClienteByUserId(id);
-        Rutina rutina = (Rutina) rutinaRepository.getActiveRutinasByClienteId(client.getId()).get(0);
+        Rutina rutina = rutinaRepository.getActiveRutinasByClienteId(client.getId()).get(0);
         List<Entrenamiento> entrenamientos = entrenamientoRepository.findByRutinaId(rutina.getId());
         List<GrupoMuscular> grupomuscular = grupoMuscularRepository.findAll();
         model.addAttribute("rutina", rutina);

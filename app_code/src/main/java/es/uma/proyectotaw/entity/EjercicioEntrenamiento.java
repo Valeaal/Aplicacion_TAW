@@ -25,7 +25,7 @@ public class EjercicioEntrenamiento {
     @MapsId("desempenoId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "desempeno_id", nullable = false)
-    private Cliente desempeno;
+    private Desempeno desempeno;
 
     @Column(name = "series", nullable = false)
     private Integer series;
