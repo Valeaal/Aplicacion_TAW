@@ -27,7 +27,7 @@
         Si quieres iniciar sesión, puedes hacerlo desde el navbar (YA ES FUNCIONAL).<br>
         La idea es que una vez inicies sesión tengas en el navbar las opciones específicas de tu rol.<br>
         La comprobación de usuario y contraseña ya están disponibles.<br>
-        El inicio de sesión como administrador ya está disponible.
+        Todos los inicios de sesión de todos los roles están disponibles.
     </p>
 </section>
 
