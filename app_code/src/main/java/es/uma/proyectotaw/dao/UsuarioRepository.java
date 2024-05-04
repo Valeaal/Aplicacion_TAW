@@ -24,9 +24,17 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query("select YEAR(u.perteneceDesde) as ingreso from Usuario u group by ingreso order by 1 asc")
     public List<Integer> sacarIngresos();
 
-    @Query("select u from Usuario u where (u.nombre like concat('%', :inputNombre, '%')) and u.apellidos like (concat('%', :inputApellidos, '%')) and  (YEAR(current_date) - YEAR(u.fechaNacimiento) = :inputEdad)")
-    public List<Usuario> filtrarUsuarios (@Param("inputNombre") String inputNombre, @Param("inputApellidos") String inputApellidos,
-                                          @Param("inputEdad") Integer inputEdad/*, @Param("inputIngreso") Integer inputIngreso,
-                                          @Param("inputRol") Integer inputRol*/);
+    //Gracias al uso del "or is null" hacemos que los parámetros pasados nulos no afecten a la búsqueda, y así no hay que crear
+    //una consulta de búsqueda por cada combinación posible de parámetros
+    @Query("select u from Usuario u where (u.nombre like concat('%', :inputNombre, '%'))" +
+            "and (u.apellidos like concat('%', :inputApellidos, '%'))" +
+            "and ((YEAR(current_date) - YEAR(u.fechaNacimiento) = :inputEdad) or (:inputEdad  is null)) " +
+            "and ((:inputIngreso is null) or :inputIngreso = YEAR(u.perteneceDesde))" +
+            "and ((:inputRol is null) or u.tipoUsuario = :inputRol)")
+    public List<Usuario> filtrarUsuarios (@Param("inputNombre") String inputNombre,
+                                          @Param("inputApellidos") String inputApellidos,
+                                          @Param("inputEdad") Integer inputEdad,
+                                          @Param("inputIngreso") Integer inputIngreso,
+                                          @Param("inputRol") TipoUsuario inputRol);
 
 }

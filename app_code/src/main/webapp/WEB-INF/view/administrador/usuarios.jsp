@@ -32,13 +32,13 @@
                 <div class="card-body">
                     <form action="/admin/usuarios/filtrar">
                         <div class="mb-3 d-flex">
-                            <input type="text" class="form-control form-control-lg me-2" name="busquedaN" placeholder="Nombre">
-                            <input type="text" class="form-control form-control-lg me-2" name="busquedaA1" placeholder="Apellidos">
+                            <input type="text" class="form-control form-control-lg me-2" name="inputNombre" placeholder="Nombre">
+                            <input type="text" class="form-control form-control-lg me-2" name="inputApellidos" placeholder="Apellidos">
                         </div>
                         <div class="mb-3 d-flex">
                             <!-- Menú desplegable 1 -->
                             <div class="flex-grow-1 me-3">
-                                <select class="form-select" name="edad">
+                                <select class="form-select" name="StringEdad">
                                     <option selected>Selecciona Edad</option>
                                     <%
                                         for (int i = 0; i < Edades.size(); i++) {
@@ -51,7 +51,7 @@
                             </div>
                             <!-- Menú desplegable 2 -->
                             <div class="flex-grow-1 me-3">
-                                <select class="form-select" name="ingreso">
+                                <select class="form-select" name="StringIngreso">
                                     <option selected>Selecciona Año de Ingreso</option>
                                     <%
                                         for (int i = 0; i < Ingresos.size(); i++) {
@@ -64,7 +64,7 @@
                             </div>
                             <!-- Menú desplegable 3 -->
                             <div class= "flex-grow-1 me-3">
-                                <select class="form-select" name = "rol">
+                                <select class="form-select" name = "StringRol">
                                     <option selected>Selecciona Rol</option>
                                     <%
                                         for (String rol : Roles) {
