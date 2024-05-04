@@ -1,7 +1,7 @@
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dao.*;
-import es.uma.proyectotaw.entity.TipoUsuario;
+import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,21 +43,19 @@ public class AdminController {
         model.addAttribute("ingresos", ingresos);
         model.addAttribute("roles", rolesUsuarios);
 
-        //------------ PARA RELLENAR LA TABLA ------------//
+        //------------ PARA RELLENAR LA TABLA DE USUARIOS (sin filtro)------------//
         List<Usuario> usuariosCompleto = usuarioRepository.sacarUsuarios();
         model.addAttribute("usuarios", usuariosCompleto);
-
-
 
         return "administrador/usuarios";
     }
 
     @GetMapping("/usuarios/filtrar")
-    public String filtrar(@RequestParam("busquedaN") String inputNombre, @RequestParam("busquedaA1") String inputApellidos,
-                          @RequestParam("StringEdad") String StringEdad, /*@RequestParam("ingreso") Integer inputIngreso,
-                          @RequestParam("rol") Integer inputRol,*/ Model model) {
+    public String filtrar(@RequestParam(name = "inputNombre", required=false) String inputNombre, @RequestParam(name = "inputApellidos", required=false) String inputApellidos,
+                          @RequestParam("StringEdad") String StringEdad, @RequestParam("StringIngreso") String StringIngreso,
+                          @RequestParam("StringRol") String StringRol, Model model) {
 
-        //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO ------------//
+        //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO (igual que en /usuarios)------------//
         List<Integer> edades = usuarioRepository.sacarEdades(); //Esta consulta nos devuelve todas las edades, ordenadas y sin repetir listas para usar
         List<Integer> ingresos = usuarioRepository.sacarIngresos(); //Esta consulta nos devuelve todos los años, ordenados y sin repetir listos para usar
         List<Usuario> usuarios = usuarioRepository.sacarUsuarios(); //Esta consulta solo nos devuelve los usuarios, y queremos una lista de los roles
@@ -72,21 +70,34 @@ public class AdminController {
         model.addAttribute("ingresos", ingresos);
         model.addAttribute("roles", rolesUsuarios);
 
-        //------------ PARA RELLENAR LA TABLA ------------//
+        //------------ PARA RELLENAR LA TABLA (con filtros)------------//
 
+        //Para controlar si hemos introducido el dado, ponemos o no a null. Luego esto se maneja en la consulta
         Integer inputEdad;
         if( StringEdad.equals("Selecciona Edad") ){
-            inputEdad = 0;
+            inputEdad = null;
         } else {
             inputEdad = Integer.parseInt(StringEdad);
         }
 
+        //Para controlar si hemos introducido el dado, ponemos o no a null. Luego esto se maneja en la consulta
+        Integer inputIngreso;
+        if( StringIngreso.equals("Selecciona Año de Ingreso") ){
+            inputIngreso = null;
+        } else {
+            inputIngreso = Integer.parseInt(StringIngreso);
+        }
 
-        List<Usuario> usuariosFiltrado = usuarioRepository.filtrarUsuarios(inputNombre, inputApellidos, inputEdad);
+        //Para controlar si hemos introducido el dado, ponemos o no a null. Luego esto se maneja en la consulta
+        TipoUsuario inputRol;
+        if( StringRol.equals("Selecciona Rol") ){
+            inputRol = null;
+        } else {
+            inputRol = tipoUsuarioRepository.buscarPorString(StringRol);
+        }
 
+        List<Usuario> usuariosFiltrado = usuarioRepository.filtrarUsuarios(inputNombre, inputApellidos, inputEdad, inputIngreso, inputRol);
         model.addAttribute("usuarios", usuariosFiltrado);
-
-
 
         return "administrador/usuarios";
     }
