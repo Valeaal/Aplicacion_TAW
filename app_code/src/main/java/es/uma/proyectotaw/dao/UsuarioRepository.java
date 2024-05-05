@@ -2,6 +2,7 @@ package es.uma.proyectotaw.dao;
 
 import es.uma.proyectotaw.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -14,6 +15,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Query("select u from Usuario u where u.email = :inputEmail ")
     public Usuario buscarPorEmail (@Param("inputEmail") String inputEmail);
+
+    @Query("select u from Usuario u where u.id = :inputID ")
+    public Usuario buscarPorID (@Param("inputID") Integer inputID);
 
     @Query("select u from Usuario u where u.tipoUsuario = :inputTipo")
     public List<Usuario> buscarPorTipo(@Param("inputTipo") TipoUsuario inputTipo);
@@ -36,5 +40,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
                                           @Param("inputEdad") Integer inputEdad,
                                           @Param("inputIngreso") Integer inputIngreso,
                                           @Param("inputRol") TipoUsuario inputRol);
+
 
 }
