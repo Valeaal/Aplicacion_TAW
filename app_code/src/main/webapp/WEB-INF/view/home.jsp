@@ -24,10 +24,11 @@
 
 <section id="secondary-content" class="container mt-4">
     <p class="fs-6">
-        Si quieres iniciar sesión, puedes hacerlo desde el navbar (YA ES FUNCIONAL).<br>
-        La idea es que una vez inicies sesión tengas en el navbar las opciones específicas de tu rol.<br>
-        La comprobación de usuario y contraseña ya están disponibles.<br>
-        Todos los inicios de sesión de todos los roles están disponibles.
+        --NOVEDADES VERSIÓN 5 DE MAYO--<br>
+        Todos los inicios de sesión de todos los roles están disponibles. <br>
+        Función delete de usuarios (YA ES FUNCIONAL)<br>
+        Función filtrado de usuarios (YA ES FUNCIONAL)<br>
+        Quizás pueda serviros para manipular la bdd de fomra segura y hacer pruebas.
     </p>
 </section>
 

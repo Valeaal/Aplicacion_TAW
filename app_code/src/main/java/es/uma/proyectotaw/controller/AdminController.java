@@ -6,9 +6,7 @@ import es.uma.proyectotaw.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -21,6 +19,10 @@ public class AdminController {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private TipoUsuarioRepository tipoUsuarioRepository;
+
+    //////////////////////////////////////////////////////////////////////
+    //GESTIÓN DE LOS USUARIOS
+    //////////////////////////////////////////////////////////////////////
 
     @GetMapping("/usuarios")
     public String login(Model model) {
@@ -51,7 +53,7 @@ public class AdminController {
     }
 
     @GetMapping("/usuarios/filtrar")
-    public String filtrar(@RequestParam(name = "inputNombre", required=false) String inputNombre, @RequestParam(name = "inputApellidos", required=false) String inputApellidos,
+    public String filtrar(@RequestParam("inputNombre") String inputNombre, @RequestParam("inputApellidos") String inputApellidos,
                           @RequestParam("StringEdad") String StringEdad, @RequestParam("StringIngreso") String StringIngreso,
                           @RequestParam("StringRol") String StringRol, Model model) {
 
@@ -101,6 +103,40 @@ public class AdminController {
 
         return "administrador/usuarios";
     }
+
+    @GetMapping("/usuarios/seleccionar")
+    public String seleccionar(@RequestParam(name = "uSeleccionado", required = false) Integer inputUsr, @RequestParam("Boton") String inputBoton, Model model) {
+
+        //En caso de que no se seleccione ningun usuario, no se hace nada.
+        //Si sí se selecciona y se pulsa editar, se va a la página correspondiente.
+        //Si sí se selecciona y se pulsa borrar, se ejecuta la sentencia y se permanece en la página.
+        String direccionRetorno = "redirect:/admin/usuarios";
+        if (inputUsr != null){
+            if (inputBoton.equals("Eliminar")){
+                usuarioRepository.deleteById(inputUsr);
+            } else{
+                List<Usuario> usuarios = usuarioRepository.sacarUsuarios();
+                Set<TipoUsuario> rolesUsuarios = new HashSet<>();    //Al usar un set nos ahorramos las repeticiones
+                for (Usuario usr : usuarios) {
+                    rolesUsuarios.add(usr.getTipoUsuario());
+                }
+
+                model.addAttribute("roles", rolesUsuarios);
+                model.addAttribute("usuario", usuarioRepository.buscarPorID(inputUsr));
+                direccionRetorno = "administrador/usuarioUpdate";
+            }
+        }
+        return direccionRetorno;
+    }
+
+    @PostMapping("/usuarios/actualizar")
+    public String actualizar(Model model) {
+        return "redirect:/admin/usuarios";
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    //ASIGNACIÓN DE ENTRENADORES A CLIENTES
+    //////////////////////////////////////////////////////////////////////
 
     @GetMapping("/clientesEntrenadores")
     public String clientesEntrenadores(Model model) {
