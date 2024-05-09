@@ -45,4 +45,7 @@ public class EjercicioEntrenamiento {
     @Column(name = "orden", nullable = false)
     private Integer orden;
 
+    @Column(name = "completado", nullable = true)
+    private Integer completado;
+
 }

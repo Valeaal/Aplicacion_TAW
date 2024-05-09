@@ -1,17 +1,20 @@
 package es.uma.proyectotaw.controller;
 
+import es.uma.proyectotaw.ui.ComidaFiltro;
 import org.springframework.ui.Model;
 import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class ClienteController {
@@ -33,6 +36,38 @@ public class ClienteController {
     private DesempenoRepository desempenoRepository;
     @Autowired
     private EjercicioEntrenamientoRepository ejercicioEntrenamientoRepository;
+    @Autowired
+    private ComidaRepository comidaRepository;
+    @Autowired
+    private DietaRepository dietaRepository;
+    @Autowired
+    private ComidaDietaRepository comidaDietaRepository;
+
+    @GetMapping("/rutina")
+    public String rutina(@RequestParam("id") Integer id, Model model) {
+        Cliente client = clienteRepository.getClienteByUserId(id);
+        Rutina rutina = rutinaRepository.getActiveRutinasByClienteId(client.getId()).get(0);
+        List<Entrenamiento> entrenamientos = entrenamientoRepository.findByRutinaId(rutina.getId());
+        List<GrupoMuscular> grupomuscular = grupoMuscularRepository.findAll();
+        model.addAttribute("rutina", rutina);
+        model.addAttribute("cliente", client);
+        model.addAttribute("entrenamientos", entrenamientos);
+        model.addAttribute("grupomuscular", grupomuscular);
+        return "cliente/rutina";
+    }
+
+    @GetMapping("/menu")
+    public String menu(@RequestParam("id") Integer id, Model model){
+        Cliente client = clienteRepository.getClienteByUserId(id);
+        Dieta dieta = client.getDieta();
+        Set<DietaComida> dietaComidas = dieta.getDietas();
+        List<Comida> comidas = dietaRepository.findComidasByDietaId(dieta.getId());
+        model.addAttribute("dieta", dieta);
+        model.addAttribute("dietaComidas", dietaComidas);
+        model.addAttribute("comidas", comidas);
+        model.addAttribute("comidaFiltro", new ComidaFiltro());
+        return "cliente/menu";
+    }
 
     @GetMapping("/dia")
     public String getDia(@RequestParam("id") Integer id, @RequestParam("clientId") Integer clientId, Model model){
@@ -78,6 +113,45 @@ public class ClienteController {
         ejEntrenamiento.setDesempeno(desempeno);
         ejercicioEntrenamientoRepository.save(ejEntrenamiento);
         desempenoRepository.save(desempeno);
-        return "redirect:/dia";
+        return "redirect:/cliente/diaRutina";
+    }
+
+    @GetMapping("/comida")
+    public String comida(@RequestParam("id") Integer id, Model model){
+        Comida comida = comidaRepository.getReferenceById(id);
+        model.addAttribute("comida", comida);
+        return "/cliente/comida";
+    }
+
+    @PostMapping("/filtrarRutina")
+    public String rutinaFiltrada(@RequestParam("nombre") String nombre,
+                                 @RequestParam("peso") Integer peso,
+                                 @RequestParam("cliente") Integer clientId,
+                                 @RequestParam("parteCuerpo") Integer parteId,
+                                 Model model){
+
+        List<Rutina> rutinas = rutinaRepository.getAllRutinasByClienteId(clientId);
+        int pesoinf=0;
+        int pesosup=0;
+        if(peso==0){
+            peso = null;
+        } else if(peso==1){
+            pesoinf=0;
+            pesosup=20;
+        }
+        if(parteId==0){
+            parteId = null;
+        }
+        List<Ejercicio> ejercicio = ejercicioRepository.getEjercicioByClienteIdFiltrado(clientId, nombre, peso, parteId);
+        model.addAttribute("ejercicios", ejercicio);
+        return "/cliente/rutinaFiltrada";
+    }
+
+    @PostMapping("/filtrarComida")
+    public String comidaFiltrada(@ModelAttribute("comidaFiltro") ComidaFiltro comidaFiltro, Model model){
+        Set<DietaComida> comidaFiltrada = comidaDietaRepository.getComidaDietaByMomentoDiaYNombre(comidaFiltro.getNombre(), comidaFiltro.getMomentoDia());
+        model.addAttribute("dietaComidas", comidaFiltrada);
+        model.addAttribute("comidaFiltro", new ComidaFiltro());
+        return "/cliente/menu";
     }
 }

@@ -31,4 +31,6 @@ public class Entrenamiento {
 
     @OneToMany(mappedBy = "entrenamiento")
     private Set<EjercicioEntrenamiento> ejercicios = new HashSet<>();
+
+
 }

@@ -10,4 +10,8 @@ import java.util.List;
 public interface RutinaRepository extends JpaRepository<Rutina, Integer> {
     @Query("SELECT r FROM Rutina r JOIN r.clientes cr WHERE cr.cliente.id = :clienteId AND cr.vigente = true")
     List<Rutina> getActiveRutinasByClienteId(@Param("clienteId") Integer clienteId);
+
+    @Query("SELECT r FROM Rutina r JOIN r.clientes cr WHERE cr.cliente.id = :clienteId")
+    List<Rutina> getAllRutinasByClienteId(@Param("clienteId") Integer clienteId);
+
 }

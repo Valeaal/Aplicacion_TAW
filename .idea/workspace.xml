@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b96b6358-19af-40f8-8189-6cb7247152f9" name="Changes" comment="" />
+    <list default="true" id="b96b6358-19af-40f8-8189-6cb7247152f9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app_code/src/main/webapp/WEB-INF/view/cliente/comida.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app_code/src/main/webapp/WEB-INF/view/cliente/rutinaFiltrada.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_code/src/main/java/es/uma/proyectotaw/controller/AppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app_code/src/main/java/es/uma/proyectotaw/controller/AppController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_code/src/main/java/es/uma/proyectotaw/controller/ClienteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app_code/src/main/java/es/uma/proyectotaw/controller/ClienteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_code/src/main/java/es/uma/proyectotaw/dao/DietaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app_code/src/main/java/es/uma/proyectotaw/dao/DietaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_code/src/main/java/es/uma/proyectotaw/dao/EjercicioRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app_code/src/main/java/es/uma/proyectotaw/dao/EjercicioRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_code/src/main/java/es/uma/proyectotaw/dao/RutinaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app_code/src/main/java/es/uma/proyectotaw/dao/RutinaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_code/src/main/java/es/uma/proyectotaw/entity/Dieta.java" beforeDir="false" afterPath="$PROJECT_DIR$/app_code/src/main/java/es/uma/proyectotaw/entity/Dieta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_code/src/main/java/es/uma/proyectotaw/entity/EjercicioEntrenamiento.java" beforeDir="false" afterPath="$PROJECT_DIR$/app_code/src/main/java/es/uma/proyectotaw/entity/EjercicioEntrenamiento.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_code/src/main/java/es/uma/proyectotaw/entity/Entrenamiento.java" beforeDir="false" afterPath="$PROJECT_DIR$/app_code/src/main/java/es/uma/proyectotaw/entity/Entrenamiento.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_code/src/main/webapp/WEB-INF/view/cliente/menu.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/app_code/src/main/webapp/WEB-INF/view/cliente/menu.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_code/src/main/webapp/WEB-INF/view/cliente/rutina.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/app_code/src/main/webapp/WEB-INF/view/cliente/rutina.jsp" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,10 +32,13 @@
       </list>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 7
-}]]></component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2fN2ycghtWl1opW2YoYAabA6lMI" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -30,24 +47,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/alvaro/UMA/Tecnologías de Aplicaciones Web/Trabajo/Aplicacion_TAW",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;albaBranch&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/albadelatorres/Documents/GitHub/Aplicacion_TAW&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="ProyectoTawApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="app_code" />
@@ -74,6 +92,8 @@
       <option name="presentableId" value="Default" />
       <updated>1713627472417</updated>
       <workItem from="1713627473100" duration="6254000" />
+      <workItem from="1715011456160" duration="17000" />
+      <workItem from="1715242565849" duration="16000" />
     </task>
     <servers />
   </component>

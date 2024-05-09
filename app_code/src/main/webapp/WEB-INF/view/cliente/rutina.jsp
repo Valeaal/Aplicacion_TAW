@@ -1,9 +1,7 @@
 <%@ page import="org.springframework.web.bind.annotation.RequestParam" %>
-<%@ page import="es.uma.proyectotaw.entity.Rutina" %>
-<%@ page import="es.uma.proyectotaw.entity.Cliente" %>
-<%@ page import="es.uma.proyectotaw.entity.Entrenamiento" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.proyectotaw.entity.GrupoMuscular" %><%--
+<%@ page import="es.uma.proyectotaw.entity.*" %>
+<%@ page import="java.util.Set" %><%--
   Created by IntelliJ IDEA.
   User: albadelatorres
   Date: 30/4/24
@@ -38,7 +36,17 @@
                 <% for (Entrenamiento e : entrenamiento) { %>
                 <a href="/dia?id=<%=e.getId()%>&clientId=<%=cliente.getId()%>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                     Día <%= dia %>
-                    <span class="badge badge-primary badge-pill">%%</span> <!-- Aquí va el porcentaje real -->
+                    <%
+                        Set <EjercicioEntrenamiento> aux = (Set<EjercicioEntrenamiento>) e.getEjercicios();
+                        double porcentaje = 0.0;
+                        for(EjercicioEntrenamiento a: aux){
+                            porcentaje+= a.getCompletado();
+                        }
+                        if(porcentaje > 0.0) {
+                            porcentaje = porcentaje / aux.size();
+                        }
+                    %>
+                    <span class="badge badge-primary badge-pill">%%</span> <%=porcentaje%> %
                 </a>
                 <% dia++; %>
                 <% } %>
@@ -47,42 +55,51 @@
 
         <!-- Filtro -->
         <div class="col-md-4">
-            <h3>Buscar</h3>
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button">Buscar</button>
+            <h3>Filtrar por nombre, peso o grupo muscular:</h3>
+            <form method="post" action="/filtrarRutina">
+                <input hidden name="cliente" value="<%=cliente.getId()%>">
+                <div class="input-group mb-3">
+                    <input type="text" name="nombre" class="form-control" placeholder="Buscar..." aria-label="Buscar">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary">Buscar</button>
+                    </div>
                 </div>
-            </div>
-            <div class="mb-3">
-                <select class="custom-select">
-                    <option selected>% Desempeño</option>
-                    <option value="1">Alto</option>
-                    <option value="2">Medio</option>
-                    <option value="3">Bajo</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <select class="custom-select">
-                    <option selected>Peso</option>
-                    <option value="1">Ligero</option>
-                    <option value="2">Medio</option>
-                    <option value="3">Pesado</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <select class="custom-select">
-                    <option selected>Zona del Cuerpo</option>
-                    <%
-                        for(GrupoMuscular grupo : grupomuscular) {
+                <div class="mb-3">
+                    <select class="custom-select" name="peso">
+                        <option selected value="0">Peso</option>
+                        <option value="1">Ligero (0kg-20kg)</option>
+                        <option value="2">Medio (20kg-50kg)</option>
+                        <option value="3">Pesado (Mayor a 50kg)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <select name="parteCuerpo" class="custom-select">
+                        <option selected value="0">Zona del Cuerpo</option>
+                        <%
+                            for(GrupoMuscular grupo : grupomuscular) {
 
-                    %>
-                    <option value="<%=grupo.getId()%>"><%=grupo.getGrupo()%></option>
-                    <%
-                        }
-                    %>
-                </select>
-            </div>
+                        %>
+                        <option value="<%=grupo.getId()%>"><%=grupo.getGrupo()%></option>
+                        <%
+                            }
+                        %>
+                    </select>
+                </div>
+            </form>
+            <h3>Filtrar por desempeño:</h3>
+            <form action="/filtrarRutinaDesempenyo" action="post">
+                <div class="mb-3">
+                    <select class="custom-select" name="desempenyo">
+                        <option selected value="0">% Desempeño</option>
+                        <option value="3">Alto (70%-100%)</option>
+                        <option value="2">Medio (30%-70%)</option>
+                        <option value="1">Bajo (0%-30%)</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary">Buscar</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

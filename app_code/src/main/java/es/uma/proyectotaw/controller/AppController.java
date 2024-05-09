@@ -31,6 +31,8 @@ public class AppController {
     private GrupoMuscularRepository grupoMuscularRepository;
     @Autowired
     private DesempenoRepository desempenoRepository;
+    @Autowired
+    private DietaRepository dietaRepository;
 
 
     @GetMapping("/login")
@@ -75,19 +77,6 @@ public class AppController {
         model.addAttribute("listaEjerciciosCompleta", listaEjerciciosCompleta);
 
         return "home";
-    }
-
-    @GetMapping("/rutina")
-    public String rutina(@RequestParam("id") Integer id, Model model) {
-        Cliente client = clienteRepository.getClienteByUserId(id);
-        Rutina rutina = rutinaRepository.getActiveRutinasByClienteId(client.getId()).get(0);
-        List<Entrenamiento> entrenamientos = entrenamientoRepository.findByRutinaId(rutina.getId());
-        List<GrupoMuscular> grupomuscular = grupoMuscularRepository.findAll();
-        model.addAttribute("rutina", rutina);
-        model.addAttribute("cliente", client);
-        model.addAttribute("entrenamientos", entrenamientos);
-        model.addAttribute("grupomuscular", grupomuscular);
-        return "cliente/rutina";
     }
 
 
