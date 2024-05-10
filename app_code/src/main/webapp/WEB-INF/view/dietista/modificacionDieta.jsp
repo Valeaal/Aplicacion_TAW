@@ -1,20 +1,15 @@
-<%@ page import="java.util.List" %>
-<%@ page import="es.uma.proyectotaw.entity.Menu" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: javiertorrecilla
-  Date: 1/5/24
-  Time: 18:52
+  Date: 10/5/24
+  Time: 12:58
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    List<Menu> menus = (List<Menu>) request.getAttribute("menus");
-%>
-<html lang="es">
-<head>
+<html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Dieta</title>
+    <title>Modificar Dieta</title>
     <!-- Importar Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -29,34 +24,17 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-12">
-            <h2 class="text-center mb-3">Creación de Dietas</h2>
-            <h5>Establece nombre, cantidad de comida y calorias de la nueva dieta:</h5>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Nombre" aria-label="Nombre" aria-describedby="button-addon2" min="3" max="5">
-                        <div class="input-group-append"></div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Descripcion" aria-label="Descripcion" aria-describedby="button-addon2" min="3" max="5">
-                        <div class="input-group-append"></div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="input-group mb-3">
-                        <input type="number" class="form-control" placeholder="Calorias" aria-label="Calorias" aria-describedby="button-addon2">
-                        <div class="input-group-append">
-                        </div>
-                    </div>
+            <h2 class="text-center">Modificar Dieta</h2>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Buscar cliente" aria-label="Buscar cliente" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="button" id="button-addon2">Buscar</button>
                 </div>
             </div>
-            <h5>Establece los menus de cada comida de la dieta:</h5>
             <div class="row">
                 <div class="col-md-6">
                     <select class="custom-select mb-3">
-                        <option selected>Comida</option>
+                        <option selected="">Comida</option>
                         <option value="1">Desayuno</option>
                         <option value="2">Media Mañana</option>
                         <option value="3">Comida</option>
@@ -66,45 +44,40 @@
                 </div>
                 <div class="col-md-6">
                     <select class="custom-select mb-3">
-                        <option selected>Menu</option>
-                        <%
-                            for(Menu menu : menus){
-                        %>
-                        <option value="<%=menu.getId()%>"><%=menu.getNombre()%></option>
-                        <%
-                            }
-                        %>
+                        <option selected="">Menu</option>
+                        <option value="1">Menu 1</option>
+                        <option value="2">Menu 2</option>
+                        <option value="3">Menu 3</option>
+                        <option value="4">Menu 4</option>
+                        <option value="5">Menu 5</option>
                     </select>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-md-6 text-center mb-5">
-                    <button class="btn btn-primary mr-2">Añadir Comida</button>
-                </div>
-            </div>
-            <div class="table-responsive mt-5">
+            <div class="table-responsive">
                 <table class="table">
                     <thead>
                     <tr>
+                        <th>Seleccionar</th>
                         <th>Comida</th>
                         <th>Menú</th>
                         <th>Calorias</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- Aquí puedes usar Thymeleaf u otra tecnología para rellenar los datos -->
-                    <!-- Puedes agregar más filas según sea necesario -->
                     <tr>
+                        <td><input type="radio" name="cliente"></td>
                         <td>Desayuno</td>
                         <td>Menu 1</td>
                         <td>250</td>
                     </tr>
                     <tr>
+                        <td><input type="radio" name="cliente"></td>
                         <td>Comida</td>
                         <td>Menu 2</td>
                         <td>725</td>
                     </tr>
                     <tr>
+                        <td><input type="radio" name="cliente"></td>
                         <td>Cena</td>
                         <td>Menu 3</td>
                         <td>450</td>
@@ -113,8 +86,15 @@
                 </table>
             </div>
             <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-3">
+                    <button class="btn btn-primary mr-2">Añadir Comida</button>
+                    <button class="btn btn-warning mr-2">Actualizar Comida</button>
+                    <button class="btn btn-danger mr-2">Eliminar Comida</button>
+                </div>
+            </div>
+            <div class="row justify-content-center">
                 <div class="col-md-6 text-center">
-                    <button class="btn btn-success mr-2">Crear Dieta</button>
+                    <button class="btn btn-success mr-2">Guardar Cambios</button>
                 </div>
             </div>
         </div>
@@ -124,3 +104,5 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body></html>

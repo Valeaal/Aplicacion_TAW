@@ -1,4 +1,5 @@
-<%--
+<%@ page import="es.uma.proyectotaw.entity.Cliente" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: javiertorrecilla
   Date: 1/5/24
@@ -6,12 +7,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<htm<!DOCTYPE html>
+<%
+    List<Cliente> clientes = (List<Cliente>) request.getAttribute("clientes")
+%>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tablas Bootstrap con Buscador</title>
+    <title>Seguimiento Clientes</title>
     <!-- Importar Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -62,40 +65,40 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>Seleccionar</th>
                         <th>Nombre</th>
                         <th>Apellidos</th>
-                        <th>Género</th>
                         <th>Edad</th>
                         <th>Año de Ingreso</th>
+                        <th>Dieta</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- Aquí puedes usar Thymeleaf u otra tecnología para rellenar los datos -->
-                    <!-- Puedes agregar más filas según sea necesario -->
+                    <%
+                        for(Cliente cliente:clientes){
+                    %>
                     <tr>
-                        <td><input type="radio" name="cliente"></td>
-                        <td>Nombre Cliente 1</td>
-                        <td>Apellidos Cliente 1</td>
-                        <td>Hombre</td>
-                        <td>25</td>
-                        <td>2015</td>
+                        <td><%=cliente.getUsuario().getNombre()%></td>
+                        <td><%=cliente.getUsuario().getApellidos()%></td>
+                        <td><td><%=cliente.getEdad()%></td></td>
+                        <td><%=cliente.getUsuario().getPerteneceDesde()%></td>
+                        <%
+                            if(cliente.getDieta()!=null){
+                        %>
+                            <td><%=cliente.getDieta().getNombre()%></td>
+                        <%
+                            }else{
+                        %>
+                            <td>No tiene dieta asignada</td>
+                        <%
+                            }
+                        %>
+                        <td><button class="btn btn-primary mr-2">Hacer Seguimiento</button></td>
                     </tr>
-                    <tr>
-                        <td><input type="radio" name="cliente"></td>
-                        <td>Nombre Cliente 2</td>
-                        <td>Apellidos Cliente 2</td>
-                        <td>Mujer</td>
-                        <td>30</td>
-                        <td>2021</td>
-                    </tr>
+                    <%
+                        }
+                    %>
                     </tbody>
                 </table>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-md-6 text-center">
-                    <button class="btn btn-primary mr-2">Hacer Seguimiento</button>
-                </div>
             </div>
         </div>
     </div>
