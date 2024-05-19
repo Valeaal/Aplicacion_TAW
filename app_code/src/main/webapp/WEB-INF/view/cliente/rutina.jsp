@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="org.springframework.web.bind.annotation.RequestParam" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.*" %>
@@ -14,7 +15,7 @@
     Rutina rutina = (Rutina) request.getAttribute("rutina");
     Cliente cliente = (Cliente) request.getAttribute("cliente");
     List<Entrenamiento> entrenamiento = (List<Entrenamiento>) request.getAttribute("entrenamientos");
-    List<GrupoMuscular> grupomuscular= (List<GrupoMuscular>) request.getAttribute("grupomuscular");
+    List<GrupoMuscular> grupomuscular = (List<GrupoMuscular>) request.getAttribute("grupomuscular");
 %>
 <html>
 <head>
@@ -34,15 +35,16 @@
             %>
             <div class="list-group">
                 <% for (Entrenamiento e : entrenamiento) { %>
-                <a href="/dia?id=<%=e.getId()%>&clientId=<%=cliente.getId()%>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <a href="/dia?id=<%=e.getId()%>&clientId=<%=cliente.getId()%>"
+                   class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                     Día <%= dia %>
                     <%
-                        Set <EjercicioEntrenamiento> aux = (Set<EjercicioEntrenamiento>) e.getEjercicios();
+                        Set<EjercicioEntrenamiento> aux = (Set<EjercicioEntrenamiento>) e.getEjercicios();
                         double porcentaje = 0.0;
-                        for(EjercicioEntrenamiento a: aux){
-                            porcentaje+= a.getCompletado();
+                        for (EjercicioEntrenamiento a : aux) {
+                            porcentaje += a.getCompletado();
                         }
-                        if(porcentaje > 0.0) {
+                        if (porcentaje > 0.0) {
                             porcentaje = porcentaje / aux.size();
                         }
                     %>
@@ -55,51 +57,29 @@
 
         <!-- Filtro -->
         <div class="col-md-4">
-            <h3>Filtrar por nombre, peso o grupo muscular:</h3>
-            <form method="post" action="/filtrarRutina">
-                <input hidden name="cliente" value="<%=cliente.getId()%>">
-                <div class="input-group mb-3">
-                    <input type="text" name="nombre" class="form-control" placeholder="Buscar..." aria-label="Buscar">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary">Buscar</button>
-                    </div>
+            <h3>Filtrar por nombre de rutina:</h3>
+            <form:form action="/filtrarRutina" method="post" modelAttribute="rutinaFiltro">
+                <form:hidden path="clienteId" value="<%=cliente.getId()%>"/>
+                <form:input path="nombre"/>
+                <form:button>Buscar</form:button>
+            </form:form>
+            <div class="container">
+                <div class="col-md-6">
+                    <h3>Filtrar por desempeño:</h3>
+                    <form:form modelAttribute="desempenyoFiltro" method="post"
+                               action="/filtrarRutinaDesempenyo">
+                        <form:hidden path="idCliente" value="<%=cliente.getId()%>"/>
+                        <div class="form-group">
+                            <form:select path="desempenyo" id="desempenyo">
+                                <form:option value="Alto">Alto (70%-100%)</form:option>
+                                <form:option value="Medio">Medio (30%-70%)</form:option>
+                                <form:option value="Bajo">Bajo (0%-30%)</form:option>
+                            </form:select>
+                        </div>
+                        <button type="submit" class="btn btn-outline-secondary">Buscar</button>
+                    </form:form>
                 </div>
-                <div class="mb-3">
-                    <select class="custom-select" name="peso">
-                        <option selected value="0">Peso</option>
-                        <option value="1">Ligero (0kg-20kg)</option>
-                        <option value="2">Medio (20kg-50kg)</option>
-                        <option value="3">Pesado (Mayor a 50kg)</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <select name="parteCuerpo" class="custom-select">
-                        <option selected value="0">Zona del Cuerpo</option>
-                        <%
-                            for(GrupoMuscular grupo : grupomuscular) {
-
-                        %>
-                        <option value="<%=grupo.getId()%>"><%=grupo.getGrupo()%></option>
-                        <%
-                            }
-                        %>
-                    </select>
-                </div>
-            </form>
-            <h3>Filtrar por desempeño:</h3>
-            <form action="/filtrarRutinaDesempenyo" action="post">
-                <div class="mb-3">
-                    <select class="custom-select" name="desempenyo">
-                        <option selected value="0">% Desempeño</option>
-                        <option value="3">Alto (70%-100%)</option>
-                        <option value="2">Medio (30%-70%)</option>
-                        <option value="1">Bajo (0%-30%)</option>
-                    </select>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary">Buscar</button>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

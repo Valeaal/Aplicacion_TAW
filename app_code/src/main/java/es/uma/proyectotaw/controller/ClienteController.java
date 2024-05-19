@@ -1,6 +1,8 @@
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.ui.ComidaFiltro;
+import es.uma.proyectotaw.ui.DesempenyoFiltro;
+import es.uma.proyectotaw.ui.RutinaFiltro;
 import org.springframework.ui.Model;
 import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.dao.*;
@@ -53,6 +55,8 @@ public class ClienteController {
         model.addAttribute("cliente", client);
         model.addAttribute("entrenamientos", entrenamientos);
         model.addAttribute("grupomuscular", grupomuscular);
+        model.addAttribute("rutinaFiltro", new RutinaFiltro());
+        model.addAttribute("desempenyoFiltro", new DesempenyoFiltro());
         return "cliente/rutina";
     }
 
@@ -75,9 +79,9 @@ public class ClienteController {
         model.addAttribute("ejercicios", ejercicios);
         HashMap<Integer, List<Float>> map = new HashMap<>();
         for(Ejercicio ejercicio : ejercicios) {
-            int series = ejercicioRepository.findEjercicioSeries(ejercicio.getId());
-            int rep = ejercicioRepository.findEjercicioRepeticiones(ejercicio.getId());
-            float peso = ejercicioRepository.findEjercicioPeso(ejercicio.getId());
+            int series = ejercicioRepository.findEjercicioSeries(ejercicio.getId(), id);
+            int rep = ejercicioRepository.findEjercicioRepeticiones(ejercicio.getId(), id);
+            float peso = ejercicioRepository.findEjercicioPeso(ejercicio.getId(), id);
             List<Float> lista = new ArrayList<>();
             lista.add((float) series);
             lista.add((float) rep);
@@ -92,28 +96,19 @@ public class ClienteController {
     @GetMapping("/desempeno")
     public String getDesempeno(@RequestParam("id") Integer id, @RequestParam("clientId") Integer clientId, Model model){
         Ejercicio ejercicio = ejercicioRepository.getReferenceById(id);
+        Cliente cliente = clienteRepository.getReferenceById(clientId);
+        Desempeno desempeno = new Desempeno();
         model.addAttribute("ejercicio", ejercicio);
-        model.addAttribute("clientId", clientId);
+        model.addAttribute("desempeno", desempeno);
+        model.addAttribute("cliente", cliente);
         return "/cliente/desempeno";
     }
 
     @PostMapping("/guardarDesempeno")
-    public String guardarDesempeno(@RequestParam("valoracion") String valoracion,
-                                   @RequestParam("peso") String peso,
-                                   @RequestParam("comentario") String comentario,
-                                   @RequestParam("clientId") Integer clientId,
-                                   @RequestParam("ejercicioId") Integer ejercicioId,
-                                   Model model){
-        Desempeno desempeno = new Desempeno();
-        desempeno.setCliente(clienteRepository.getClienteByUserId(clientId));
-        desempeno.setComentarios(comentario);
-        desempeno.setValoracion(Integer.parseInt(valoracion));
-        desempeno.setPesoRealizado(Float.parseFloat(peso));
-        EjercicioEntrenamiento ejEntrenamiento = ejercicioEntrenamientoRepository.getEjercicioEntrenamientoFromEjId(ejercicioId);
-        ejEntrenamiento.setDesempeno(desempeno);
-        ejercicioEntrenamientoRepository.save(ejEntrenamiento);
+    public String guardarDesempeno(@ModelAttribute("desempeno") Desempeno desempeno, Model model){
+        desempeno.setId(953983); // porque?????
         desempenoRepository.save(desempeno);
-        return "redirect:/cliente/diaRutina";
+        return "redirect:/rutina?id="+ desempeno.getCliente().getUsuario().getId();
     }
 
     @GetMapping("/comida")
@@ -124,26 +119,14 @@ public class ClienteController {
     }
 
     @PostMapping("/filtrarRutina")
-    public String rutinaFiltrada(@RequestParam("nombre") String nombre,
-                                 @RequestParam("peso") Integer peso,
-                                 @RequestParam("cliente") Integer clientId,
-                                 @RequestParam("parteCuerpo") Integer parteId,
+    public String rutinaFiltrada(@ModelAttribute("rutinaFiltro") RutinaFiltro rutinaFiltro,
                                  Model model){
-
-        List<Rutina> rutinas = rutinaRepository.getAllRutinasByClienteId(clientId);
-        int pesoinf=0;
-        int pesosup=0;
-        if(peso==0){
-            peso = null;
-        } else if(peso==1){
-            pesoinf=0;
-            pesosup=20;
-        }
-        if(parteId==0){
-            parteId = null;
-        }
-        List<Ejercicio> ejercicio = ejercicioRepository.getEjercicioByClienteIdFiltrado(clientId, nombre, peso, parteId);
-        model.addAttribute("ejercicios", ejercicio);
+        Cliente client = clienteRepository.getClienteByUserId(rutinaFiltro.getClienteId());
+        List<Rutina> rutina = rutinaRepository.getRutinasByNameAndClientId(rutinaFiltro.getClienteId(), rutinaFiltro.getNombre());
+        model.addAttribute("rutina", rutina);
+        model.addAttribute("cliente", client);
+        model.addAttribute("rutinaFiltro", new RutinaFiltro());
+        model.addAttribute("desempenyoFiltro", new DesempenyoFiltro());
         return "/cliente/rutinaFiltrada";
     }
 
@@ -153,5 +136,17 @@ public class ClienteController {
         model.addAttribute("dietaComidas", comidaFiltrada);
         model.addAttribute("comidaFiltro", new ComidaFiltro());
         return "/cliente/menu";
+    }
+
+    @PostMapping("/filtrarRutinaDesempenyo")
+    public String filtrarRutinaDesempenyo(@ModelAttribute("desempenyoFiltro") DesempenyoFiltro filtro, Model model){
+        Cliente client = clienteRepository.getClienteByUserId(filtro.getIdCliente());
+        List<Rutina> rutina = rutinaRepository.getAllRutinasByClienteId(filtro.getIdCliente());
+        for(Rutina r : rutina){
+            List<Entrenamiento> entrenamientos = entrenamientoRepository.findByRutinaId(r.getId());
+            for(Entrenamiento e : entrenamientos){
+            }
+        }
+        return "/cliente/rutinaDesempenyoFiltrada";
     }
 }

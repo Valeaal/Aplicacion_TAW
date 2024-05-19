@@ -12,14 +12,14 @@ public interface EjercicioRepository extends JpaRepository <Ejercicio, Integer> 
     @Query("SELECT e.ejercicio FROM EjercicioEntrenamiento e WHERE e.entrenamiento.id = :entrenamientoId")
     List<Ejercicio> findEjerciciosByEntrenamientoId(@Param("entrenamientoId") Integer entrenamientoId);
 
-    @Query("SELECT ee.peso FROM EjercicioEntrenamiento ee WHERE ee.ejercicio.id = :ejercicioId")
-    Float findEjercicioPeso(@Param("ejercicioId") Integer ejercicioId);
+    @Query("SELECT ee.peso FROM EjercicioEntrenamiento ee WHERE ee.ejercicio.id = :ejercicioId AND ee.entrenamiento.id =:entrenamientoId")
+    Float findEjercicioPeso(@Param("ejercicioId") Integer ejercicioId, @Param("entrenamientoId") Integer entrenamientoId);
 
-    @Query("SELECT ee.series FROM EjercicioEntrenamiento ee WHERE ee.ejercicio.id = :ejercicioId")
-    Integer findEjercicioSeries(@Param("ejercicioId") Integer ejercicioId);
+    @Query("SELECT ee.series FROM EjercicioEntrenamiento ee WHERE ee.ejercicio.id = :ejercicioId AND ee.entrenamiento.id =:entrenamientoId")
+    Integer findEjercicioSeries(@Param("ejercicioId") Integer ejercicioId, @Param("entrenamientoId") Integer entrenamientoId);
 
-    @Query("SELECT ee.repeticiones FROM EjercicioEntrenamiento ee WHERE ee.ejercicio.id = :ejercicioId")
-    Integer findEjercicioRepeticiones(@Param("ejercicioId") Integer ejercicioId);
+    @Query("SELECT ee.repeticiones FROM EjercicioEntrenamiento ee WHERE ee.ejercicio.id = :ejercicioId AND ee.entrenamiento.id =:entrenamientoId")
+    Integer findEjercicioRepeticiones(@Param("ejercicioId") Integer ejercicioId, @Param("entrenamientoId") Integer entrenamientoId);
 
     @Query("SELECT ee.desempeno FROM EjercicioEntrenamiento ee WHERE ee.ejercicio.id = :ejercicioId")
     Integer findEjercicioDesempeno(@Param("ejercicioId") Integer ejercicioId);

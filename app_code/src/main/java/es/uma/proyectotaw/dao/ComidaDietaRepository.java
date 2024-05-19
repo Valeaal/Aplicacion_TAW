@@ -10,6 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 public interface ComidaDietaRepository extends JpaRepository<DietaComida, Integer> {
-    @Query("SELECT dc FROM DietaComida dc JOIN Comida c ON c.id=dc.comida.id WHERE c.nombre like concat ('%', :nombre, '%') AND dc.momentoDia=:momentoDia")
+    @Query("SELECT dc FROM DietaComida dc JOIN Comida c ON c.id=dc.comida.id WHERE (:nombre IS NULL OR c.nombre like concat ('%', :nombre, '%')) AND (:momentoDia IS NULL OR dc.momentoDia=:momentoDia)")
     Set<DietaComida> getComidaDietaByMomentoDiaYNombre(@Param("nombre") String nombre, @Param("momentoDia") Integer momentoDia);
 }

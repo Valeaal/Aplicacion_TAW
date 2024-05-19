@@ -1,5 +1,6 @@
 <%@ page import="es.uma.proyectotaw.entity.Ejercicio" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.entity.Rutina" %><%--
   Created by IntelliJ IDEA.
   User: albadelatorres
   Date: 5/5/24
@@ -8,7 +9,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<Ejercicio> ejercicios = (List<Ejercicio>) request.getAttribute("ejercicios");
+    List<Rutina> rutinas = (List<Rutina>) request.getAttribute("rutina");
 %>
 <html>
 <head>
@@ -16,9 +17,9 @@
 </head>
 <body>
 <%
-    for(Ejercicio ejercicio : ejercicios) {
+    for(Rutina r: rutinas) {
 %>
-<p><%=ejercicio.getNombre()%></p>
+<p><%=r.getNombre()%></p>
 <%
     }
 %>

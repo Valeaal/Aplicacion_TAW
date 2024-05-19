@@ -1,5 +1,7 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="es.uma.proyectotaw.entity.Ejercicio" %>
-<%@ page import="es.uma.proyectotaw.entity.Desempeno" %><%--
+<%@ page import="es.uma.proyectotaw.entity.Desempeno" %>
+<%@ page import="es.uma.proyectotaw.entity.Cliente" %><%--
   Created by IntelliJ IDEA.
   User: albadelatorres
   Date: 2/5/24
@@ -9,7 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Ejercicio ejercicio = (Ejercicio) request.getAttribute("ejercicio");
-    Integer clientId = (Integer) request.getAttribute("clientId");
+    Cliente cliente = (Cliente) request.getAttribute("cliente");
 %>
 <html>
 <head>
@@ -17,16 +19,14 @@
 </head>
 <body>
 <jsp:include page="../header-footer/navbar.jsp"></jsp:include>
-<form method="post" action="/guardarDesempeno">
-    Está valorando el ejercicio: <br>
-
-    Valoración: <input type="text" name="valoracion">  <br>
-    Peso realizado: <input type="text" name="peso">  <br>
-    Comentarios: <input type="text" name="comentario">  <br>
-    <input type="hidden" name="clientId" value="<%= clientId %>">
-    <input type="hidden" name="ejercicioId" value="<%= ejercicio.getId() %>">
-    <button>Enviar</button>
-</form>
+Está valorando el ejercicio <%=ejercicio.getNombre()%>: <br>
+<form:form modelAttribute="desempeno" method="post" action="/guardarDesempeno">
+    Valoración: <form:input path="valoracion"/>
+    Peso realizado: <form:input path="pesoRealizado"/>
+    <form:hidden path="cliente" value="<%=cliente.getId()%>"/>
+    Comentarios: <form:input path="comentarios"/>
+    <form:button>Enviar</form:button>
+</form:form>
 
 </body>
 </html>
