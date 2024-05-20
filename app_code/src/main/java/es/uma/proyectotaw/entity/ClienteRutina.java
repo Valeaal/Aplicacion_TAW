@@ -10,6 +10,7 @@ import lombok.Setter;
 @Table(name = "cliente_rutina")
 public class ClienteRutina {
     @EmbeddedId
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private ClienteRutinaId id;
 
     @MapsId("clienteId")

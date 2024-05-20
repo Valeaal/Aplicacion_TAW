@@ -21,6 +21,18 @@ public class AppController {
     protected UsuarioRepository usuarioRepository;
     @Autowired
     private TipoUsuarioRepository tipoUsuarioRepository;
+    @Autowired
+    private RutinaRepository rutinaRepository;
+    @Autowired
+    private ClienteRepository clienteRepository;
+    @Autowired
+    private EntrenamientoRepository entrenamientoRepository;
+    @Autowired
+    private GrupoMuscularRepository grupoMuscularRepository;
+    @Autowired
+    private DesempenoRepository desempenoRepository;
+    @Autowired
+    private DietaRepository dietaRepository;
 
 
     @GetMapping("/login")
@@ -66,7 +78,6 @@ public class AppController {
 
         return "home";
     }
-
 
 
 }
