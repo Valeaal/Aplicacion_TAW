@@ -3,6 +3,8 @@ package es.uma.proyectotaw.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.Set;
+import java.util.HashSet;
 
 @Getter
 @Setter
@@ -10,6 +12,7 @@ import lombok.Setter;
 @Table(name = "entrenamiento")
 public class Entrenamiento {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -23,5 +26,12 @@ public class Entrenamiento {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tipo", nullable = false)
     private TipoEjercicio tipo;
+
+    @OneToMany(mappedBy = "entrenamiento")
+    private Set<EntrenamientoRutina> rutinas = new HashSet<>();
+
+    @OneToMany(mappedBy = "entrenamiento")
+    private Set<EjercicioEntrenamiento> ejercicios = new HashSet<>();
+
 
 }

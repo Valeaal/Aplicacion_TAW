@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -12,6 +14,7 @@ import java.time.LocalDate;
 @Table(name = "dieta")
 public class Dieta {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -28,5 +31,8 @@ public class Dieta {
 
     @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
+
+    @OneToMany(mappedBy = "dieta")
+    private Set<DietaComida> dietas = new HashSet<>();
 
 }
