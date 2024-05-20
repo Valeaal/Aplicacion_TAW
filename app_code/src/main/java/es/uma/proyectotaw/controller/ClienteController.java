@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+// creado por: Alba de la Torre
+
 @Controller
 public class ClienteController {
     @Autowired
@@ -106,7 +108,6 @@ public class ClienteController {
 
     @PostMapping("/guardarDesempeno")
     public String guardarDesempeno(@ModelAttribute("desempeno") Desempeno desempeno, Model model){
-        desempeno.setId(953983); // porque?????
         desempenoRepository.save(desempeno);
         return "redirect:/rutina?id="+ desempeno.getCliente().getUsuario().getId();
     }

@@ -12,6 +12,7 @@ import java.util.HashSet;
 @Table(name = "ejercicio")
 public class Ejercicio {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
