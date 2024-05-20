@@ -1,5 +1,6 @@
 <%@ page import="java.util.*" %>
 <%@ page import="es.uma.proyectotaw.entity.Usuario" %>
+<%@ page import="es.uma.proyectotaw.entity.TipoUsuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -7,7 +8,7 @@
     List<Integer> Edades = (List<Integer>) request.getAttribute("edades");
     List<Integer> Ingresos = (List<Integer>) request.getAttribute("ingresos");
     List<Usuario> Usuarios = (List<Usuario>) request.getAttribute("usuarios");
-    Set<String> Roles = (Set<String>) request.getAttribute("roles");
+    List<TipoUsuario> Roles = (List<TipoUsuario>) request.getAttribute("roles");
 %>
 
 
@@ -71,9 +72,9 @@
                                 <select class="form-select" name="StringRol">
                                     <option selected>Selecciona Rol</option>
                                     <%
-                                        for (String rol : Roles) {
+                                        for (TipoUsuario rol : Roles) {
                                     %>
-                                    <option><%= rol %>
+                                    <option><%= rol.getTipo() %>
                                     </option>
                                     <%
                                         }

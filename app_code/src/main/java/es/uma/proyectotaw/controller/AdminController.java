@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -31,15 +32,7 @@ public class AdminController {
         List<Integer> edades = usuarioRepository.sacarEdades(); //Esta consulta nos devuelve todas las edades, ordenadas y sin repetir listas para usar
         List<Integer> ingresos = usuarioRepository.sacarIngresos(); //Esta consulta nos devuelve todos los años, ordenados y sin repetir listos para usar
         List<Usuario> usuarios = usuarioRepository.sacarUsuarios(); //Esta consulta solo nos devuelve los usuarios, y queremos una lista de los roles
-
-        //Para conseguir la lista de los roles, podríamos hacerlo desde la tabla TipoUsuario, pero gracias a este método vamos a hacer que solo nos
-        //aparezcan los roles existentes en los usuarios que tenemos en este momento en el bdd, no todos los posibles.
-        //Podríamos complicar la consulta SQL, pero realmente podemos simplemente recuperar los usuarios y ayudarnos de JPQL para hallar
-        //los tipos de roles que le corresponden.
-        Set<String> rolesUsuarios = new HashSet<>();    //Al usar un set nos ahorramos las repeticiones
-        for (Usuario usr : usuarios) {
-            rolesUsuarios.add(usr.getTipoUsuario().getTipo());
-        }
+        List<TipoUsuario> rolesUsuarios = usuarioRepository.sacarRoles(); //Esta consulta nos devuelve los roles de usuario que se usan ahora
 
         model.addAttribute("edades", edades);
         model.addAttribute("ingresos", ingresos);
@@ -61,12 +54,7 @@ public class AdminController {
         List<Integer> edades = usuarioRepository.sacarEdades(); //Esta consulta nos devuelve todas las edades, ordenadas y sin repetir listas para usar
         List<Integer> ingresos = usuarioRepository.sacarIngresos(); //Esta consulta nos devuelve todos los años, ordenados y sin repetir listos para usar
         List<Usuario> usuarios = usuarioRepository.sacarUsuarios(); //Esta consulta solo nos devuelve los usuarios, y queremos una lista de los roles
-
-        //En esencia es lo mismo que el método anterior
-        Set<String> rolesUsuarios = new HashSet<>();    //Al usar un set nos ahorramos las repeticiones
-        for (Usuario usr : usuarios) {
-            rolesUsuarios.add(usr.getTipoUsuario().getTipo());
-        }
+        List<TipoUsuario> rolesUsuarios = usuarioRepository.sacarRoles(); //Esta consulta nos devuelve los roles de usuario que se usan ahora
 
         model.addAttribute("edades", edades);
         model.addAttribute("ingresos", ingresos);
@@ -130,7 +118,23 @@ public class AdminController {
     }
 
     @PostMapping("/usuarios/actualizar")
-    public String actualizar(Model model) {
+    public String actualizar(Model model, @RequestParam("usuarioId") Integer usuarioId,
+                             @RequestParam("inputEmail") String inputEmail, @RequestParam("inputNombre") String inputNombre,
+                             @RequestParam("inputApellidos") String inputApellidos, @RequestParam("inputNacimiento") LocalDate inputNacimiento,
+                             @RequestParam("inputIngreso") LocalDate inputIngreso, @RequestParam("inputRol") String inputRol){
+
+        Usuario usr = usuarioRepository.buscarPorID(usuarioId);
+        usr.setNombre(inputNombre);
+        usr.setApellidos(inputApellidos);
+        usr.setEmail(inputEmail);
+        usr.setFechaNacimiento(inputNacimiento);
+        usr.setPerteneceDesde(inputIngreso);
+        TipoUsuario nuevoRol = tipoUsuarioRepository.buscarPorString(inputRol);
+        usr.setTipoUsuario(nuevoRol);
+        //En principio no consideramos que el usuario pueda cambiar la contraseña
+
+        usuarioRepository.save(usr);
+
         return "redirect:/admin/usuarios";
     }
 
