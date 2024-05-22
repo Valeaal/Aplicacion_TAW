@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,6 +14,7 @@ import java.time.LocalDate;
 @Table(name = "usuario")
 public class Usuario {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -33,8 +36,17 @@ public class Usuario {
     @Column(name = "pertenece_desde", nullable = false)
     private LocalDate perteneceDesde;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "tipo_usuario_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tipo_usuario_id")
     private TipoUsuario tipoUsuario;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Cliente> clientes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "dietista")
+    private List<Dieta> dietas = new ArrayList<>();
+
+    @OneToMany(mappedBy = "entrenador")
+    private List<Rutina> rutinas = new ArrayList<>();
 
 }

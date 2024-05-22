@@ -9,40 +9,39 @@ import lombok.Setter;
 @Entity
 @Table(name = "ejercicio_entrenamiento")
 public class EjercicioEntrenamiento {
-    @EmbeddedId
-    private EjercicioEntrenamientoId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
-    @MapsId("ejercicioId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ejercicio_id", nullable = false)
     private Ejercicio ejercicio;
 
-    @MapsId("entrenamientoId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "entrenamiento_id", nullable = false)
     private Entrenamiento entrenamiento;
 
-    @MapsId("desempenoId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "desempeno_id", nullable = false)
-    private Cliente desempeno;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "desempeno_id")
+    private Desempeno desempeno;
 
-    @Column(name = "series", nullable = false)
+    @Column(name = "series")
     private Integer series;
 
-    @Column(name = "repeticiones", nullable = false)
+    @Column(name = "repeticiones")
     private Integer repeticiones;
 
-    @Column(name = "peso", nullable = false)
+    @Column(name = "peso")
     private Float peso;
 
-    @Column(name = "tiempo", nullable = false)
+    @Column(name = "tiempo")
     private Integer tiempo;
 
-    @Column(name = "distancia", nullable = false)
+    @Column(name = "distancia")
     private Float distancia;
 
-    @Column(name = "orden", nullable = false)
+    @Column(name = "orden")
     private Integer orden;
 
 }

@@ -9,15 +9,14 @@ import lombok.Setter;
 @Entity
 @Table(name = "dieta_comida")
 public class DietaComida {
-    @EmbeddedId
-    private DietaComidaId id;
+    @Id
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
-    @MapsId("dietaId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "dieta_id", nullable = false)
     private Dieta dieta;
 
-    @MapsId("comidaId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "comida_id", nullable = false)
     private Comida comida;

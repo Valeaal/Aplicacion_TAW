@@ -9,15 +9,14 @@ import lombok.Setter;
 @Entity
 @Table(name = "cliente_rutina")
 public class ClienteRutina {
-    @EmbeddedId
-    private ClienteRutinaId id;
+    @Id
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
-    @MapsId("clienteId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
-    @MapsId("rutinaId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "rutina_id", nullable = false)
     private Rutina rutina;

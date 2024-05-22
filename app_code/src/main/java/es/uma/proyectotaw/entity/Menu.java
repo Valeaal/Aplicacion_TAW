@@ -4,12 +4,16 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "menu")
 public class Menu {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -23,5 +27,8 @@ public class Menu {
     @Lob
     @Column(name = "alergenos")
     private String alergenos;
+
+    @OneToMany(mappedBy = "menu")
+    private List<ComidaMenu> comidaMenus = new ArrayList<>();
 
 }

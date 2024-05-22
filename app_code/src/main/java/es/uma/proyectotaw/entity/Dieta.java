@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,6 +14,7 @@ import java.time.LocalDate;
 @Table(name = "dieta")
 public class Dieta {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -28,5 +31,11 @@ public class Dieta {
 
     @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
+
+    @OneToMany(mappedBy = "dieta")
+    private List<Cliente> clientes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "dieta")
+    private List<DietaComida> dietaComidas = new ArrayList<>();
 
 }

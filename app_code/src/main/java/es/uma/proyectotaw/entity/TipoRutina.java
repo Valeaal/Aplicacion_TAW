@@ -10,8 +10,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "tipo_ejercicio")
-public class TipoEjercicio {
+@Table(name = "tipo_rutina")
+public class TipoRutina {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -21,7 +21,7 @@ public class TipoEjercicio {
     @Column(name = "tipo", nullable = false)
     private String tipo;
 
-    @OneToMany(mappedBy = "tipo")
-    private List<Ejercicio> ejercicios = new ArrayList<>();
+    @OneToMany(mappedBy = "tipoRutina")
+    private List<Rutina> rutinas = new ArrayList<>();
 
 }
