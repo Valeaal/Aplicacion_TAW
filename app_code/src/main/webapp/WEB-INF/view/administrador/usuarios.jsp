@@ -74,8 +74,7 @@
                                     <%
                                         for (TipoUsuario rol : Roles) {
                                     %>
-                                    <option><%= rol.getTipo() %>
-                                    </option>
+                                    <option><%= rol.getTipo() %></option>
                                     <%
                                         }
                                     %>

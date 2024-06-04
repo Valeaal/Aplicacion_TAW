@@ -62,7 +62,7 @@ public class AdminController {
 
         //------------ PARA RELLENAR LA TABLA (con filtros)------------//
 
-        //Para controlar si hemos introducido el dado, ponemos o no a null. Luego esto se maneja en la consulta
+        //Para controlar si hemos introducido el dato, ponemos o no a null. Luego esto se maneja en la consulta
         Integer inputEdad;
         if( StringEdad.equals("Selecciona Edad") ){
             inputEdad = null;
@@ -70,7 +70,7 @@ public class AdminController {
             inputEdad = Integer.parseInt(StringEdad);
         }
 
-        //Para controlar si hemos introducido el dado, ponemos o no a null. Luego esto se maneja en la consulta
+        //Para controlar si hemos introducido el dato, ponemos o no a null. Luego esto se maneja en la consulta
         Integer inputIngreso;
         if( StringIngreso.equals("Selecciona Año de Ingreso") ){
             inputIngreso = null;
@@ -78,7 +78,7 @@ public class AdminController {
             inputIngreso = Integer.parseInt(StringIngreso);
         }
 
-        //Para controlar si hemos introducido el dado, ponemos o no a null. Luego esto se maneja en la consulta
+        //Para controlar si hemos introducido el dato, ponemos o no a null. Luego esto se maneja en la consulta
         TipoUsuario inputRol;
         if( StringRol.equals("Selecciona Rol") ){
             inputRol = null;
@@ -104,10 +104,7 @@ public class AdminController {
                 usuarioRepository.deleteById(inputUsr);
             } else{
                 List<Usuario> usuarios = usuarioRepository.sacarUsuarios();
-                Set<TipoUsuario> rolesUsuarios = new HashSet<>();    //Al usar un set nos ahorramos las repeticiones
-                for (Usuario usr : usuarios) {
-                    rolesUsuarios.add(usr.getTipoUsuario());
-                }
+                List<TipoUsuario> rolesUsuarios = tipoUsuarioRepository.findAll();    //Al usar un set nos ahorramos las repeticiones
 
                 model.addAttribute("roles", rolesUsuarios);
                 model.addAttribute("usuario", usuarioRepository.buscarPorID(inputUsr));

@@ -5,7 +5,7 @@
 
 <%
     Usuario usr = (Usuario) request.getAttribute("usuario");
-    Set<TipoUsuario> roles = (Set<TipoUsuario>) request.getAttribute("roles");
+    List<TipoUsuario> roles = (List<TipoUsuario>) request.getAttribute("roles");
 %>
 <html>
 <head>
