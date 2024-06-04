@@ -4,12 +4,16 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "cliente")
 public class Cliente {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -17,9 +21,9 @@ public class Cliente {
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rutina_id")
-    private Dieta rutina;
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "rutina_id")
+    //private Dieta rutina;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dieta_id")

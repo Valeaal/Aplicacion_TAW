@@ -10,6 +10,7 @@ import lombok.Setter;
 @Table(name = "ejercicio_entrenamiento")
 public class EjercicioEntrenamiento {
     @EmbeddedId
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private EjercicioEntrenamientoId id;
 
     @MapsId("ejercicioId")
@@ -25,7 +26,7 @@ public class EjercicioEntrenamiento {
     @MapsId("desempenoId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "desempeno_id", nullable = false)
-    private Cliente desempeno;
+    private Desempeno desempeno;
 
     @Column(name = "series", nullable = false)
     private Integer series;
@@ -44,5 +45,8 @@ public class EjercicioEntrenamiento {
 
     @Column(name = "orden", nullable = false)
     private Integer orden;
+
+    @Column(name = "completado", nullable = true)
+    private Integer completado;
 
 }

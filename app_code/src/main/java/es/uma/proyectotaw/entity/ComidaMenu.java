@@ -10,6 +10,7 @@ import lombok.Setter;
 @Table(name = "comida_menu")
 public class ComidaMenu {
     @EmbeddedId
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private ComidaMenuId id;
 
     @MapsId("comidaId")

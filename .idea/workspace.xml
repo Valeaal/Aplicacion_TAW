@@ -27,9 +27,6 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 7
@@ -51,9 +48,9 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.ProyectoTawApplication.executor": "Run",
+    "git-widget-placeholder": "albaBranch",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/javiertorrecilla/Desktop/UMA_PC/SegundoCuatrimestre/TAW/Proyecto/Sin título",
+    "last_opened_file_path": "/Users/albadelatorres/Documents/GitHub/Aplicacion_TAW",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -64,6 +61,11 @@
     "project.structure.side.proportion": "0.17210683",
     "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
   <component name="RunManager">
@@ -91,8 +93,9 @@
       <option name="presentableId" value="Default" />
       <updated>1713627472417</updated>
       <workItem from="1713627473100" duration="6254000" />
-      <workItem from="1714388246483" duration="3347000" />
-      <workItem from="1714582273004" duration="211000" />
+      <workItem from="1715011456160" duration="17000" />
+      <workItem from="1715242565849" duration="16000" />
+      <workItem from="1716128867065" duration="128000" />
     </task>
     <servers />
   </component>
