@@ -131,7 +131,7 @@
             <!-- Botones -->
             <div class="col-2 mt-auto">
                 <div class="d-grid">
-                    <button type="button" class="btn btn-success mb-2">Añadir usuario</button>
+                    <button type="submit" class="btn btn-success mb-2" name="Boton" value="Añadir">Añadir usuario</button>
                     <button type="submit" class="btn btn-warning mb-2" name="Boton" value="Modificar">Modificar usuario</button>
                     <button type="submit" class="btn btn-danger" name="Boton" value="Eliminar">Eliminar usuario</button>
                 </div>

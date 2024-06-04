@@ -95,19 +95,23 @@ public class AdminController {
     @GetMapping("/usuarios/seleccionar")
     public String seleccionar(@RequestParam(name = "uSeleccionado", required = false) Integer inputUsr, @RequestParam("Boton") String inputBoton, Model model) {
 
-        //En caso de que no se seleccione ningun usuario, no se hace nada.
         //Si sí se selecciona y se pulsa editar, se va a la página correspondiente.
         //Si sí se selecciona y se pulsa borrar, se ejecuta la sentencia y se permanece en la página.
+        //Independientemente si se selecciona o no un usuario y se pulsa añadir un usuario, llevará a la página correspondiente.
         String direccionRetorno = "redirect:/admin/usuarios";
-        if (inputUsr != null){
+
+        List<Usuario> usuarios = usuarioRepository.sacarUsuarios();
+        List<TipoUsuario> rolesUsuarios = tipoUsuarioRepository.findAll();
+
+        model.addAttribute("roles", rolesUsuarios);
+        model.addAttribute("usuario", usuarioRepository.buscarPorID(inputUsr));
+
+        if (inputBoton.equals("Añadir")) {
+            direccionRetorno = "administrador/nuevoUsuario";
+        } else if (inputUsr != null){
             if (inputBoton.equals("Eliminar")){
                 usuarioRepository.deleteById(inputUsr);
-            } else{
-                List<Usuario> usuarios = usuarioRepository.sacarUsuarios();
-                List<TipoUsuario> rolesUsuarios = tipoUsuarioRepository.findAll();    //Al usar un set nos ahorramos las repeticiones
-
-                model.addAttribute("roles", rolesUsuarios);
-                model.addAttribute("usuario", usuarioRepository.buscarPorID(inputUsr));
+            } else if (inputBoton.equals("Modificar")){
                 direccionRetorno = "administrador/usuarioUpdate";
             }
         }
@@ -134,6 +138,35 @@ public class AdminController {
 
         return "redirect:/admin/usuarios";
     }
+
+    @PostMapping("/usuarios/guardar")
+    public String guardar(Model model,
+                          @RequestParam("inputEmail") String inputEmail,
+                          @RequestParam("inputNombre") String inputNombre,
+                          @RequestParam("inputApellidos") String inputApellidos,
+                          @RequestParam("inputNacimiento") LocalDate inputNacimiento,
+                          @RequestParam("inputIngreso") LocalDate inputIngreso,
+                          @RequestParam("inputRol") String inputRol,
+                        @RequestParam("inputContraseña") String inputContraseña){
+
+        Usuario nuevoUsuario = new Usuario();
+        nuevoUsuario.setNombre(inputNombre);
+        nuevoUsuario.setApellidos(inputApellidos);
+        nuevoUsuario.setEmail(inputEmail);
+        nuevoUsuario.setFechaNacimiento(inputNacimiento);
+        nuevoUsuario.setPerteneceDesde(inputIngreso);
+        nuevoUsuario.setPassword(inputContraseña);
+
+
+        TipoUsuario nuevoRol = tipoUsuarioRepository.buscarPorString(inputRol);
+        nuevoUsuario.setTipoUsuario(nuevoRol);
+
+
+        usuarioRepository.save(nuevoUsuario);
+
+        return "redirect:/admin/usuarios";
+    }
+
 
     //////////////////////////////////////////////////////////////////////
     //ASIGNACIÓN DE ENTRENADORES A CLIENTES

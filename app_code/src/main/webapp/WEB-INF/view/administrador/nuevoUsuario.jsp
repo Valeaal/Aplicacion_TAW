@@ -1,10 +1,8 @@
 <%@ page import="es.uma.proyectotaw.entity.*" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Set" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    Usuario usr = (Usuario) request.getAttribute("usuario");
     List<TipoUsuario> roles = (List<TipoUsuario>) request.getAttribute("roles");
 %>
 <html>
@@ -20,64 +18,62 @@
 <jsp:include page="../header-footer/navbar.jsp"></jsp:include>
 
 <div class="container">
-    <h2 class="my-4">Editar Usuario <%= usr.getNombre()%>
-    </h2>
+    <h2 class="my-4">Añadir Nuevo Usuario</h2>
 
-    <form action="/admin/usuarios/actualizar" method="post">
-
-        <!-- Campo oculto para el ID-->
-        <input type="hidden" name="usuarioId" value="<%=usr.getId()%>">
+    <form action="/admin/usuarios/guardar" method="post">
 
         <!-- Campo de Email -->
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="text" class="form-control" id="email" name="inputEmail" value="<%=usr.getEmail()%>" required>
+            <input type="email" class="form-control" id="email" name="inputEmail" required>
         </div>
 
         <!-- Campo de Nombre -->
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="inputNombre" value="<%=usr.getNombre()%>" required>
+            <input type="text" class="form-control" id="nombre" name="inputNombre" required>
         </div>
 
         <!-- Campo de Apellidos -->
         <div class="mb-3">
             <label for="apellidos" class="form-label">Apellidos</label>
-            <input type="text" class="form-control" id="apellidos" name="inputApellidos" value="<%=usr.getApellidos()%>" required>
+            <input type="text" class="form-control" id="apellidos" name="inputApellidos" required>
         </div>
 
         <!-- Campo de Fecha de Nacimiento -->
         <div class="mb-3">
             <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
-            <input type="date" class="form-control" id="fechaNacimiento" name="inputNacimiento" value="<%=usr.getFechaNacimiento()%>" required>
+            <input type="date" class="form-control" id="fechaNacimiento" name="inputNacimiento" required>
         </div>
 
         <!-- Campo de Fecha de Ingreso -->
         <div class="mb-3">
             <label for="perteneceDesde" class="form-label">Fecha de Ingreso</label>
-            <input type="date" class="form-control" id="perteneceDesde" name="inputIngreso"
-                   value="<%=usr.getFechaNacimiento()%>" required>
+            <input type="date" class="form-control" id="perteneceDesde" name="inputIngreso" required>
         </div>
 
         <!-- Campo de Rol -->
         <div class="mb-3">
             <label for="rol" class="form-label">Rol</label>
             <select class="form-select" id="rol" name="inputRol">
-                <option selected><%= usr.getTipoUsuario().getTipo()%></option>
                 <%
-                for ( TipoUsuario rol : roles){
-                    if (rol != usr.getTipoUsuario()){
+                    for ( TipoUsuario rol : roles){
                 %>
-                        <option><%= rol.getTipo()%></option>
+                    <option value="<%= rol.getId() %>"><%= rol.getTipo()%></option>
                 <%
                     }
-                }
                 %>
             </select>
         </div>
 
+        <!-- Campo de Contraseña -->
+        <div class="mb-3">
+            <label for="contraseña" class="form-label">Contraseña</label>
+            <input type="text" class="form-control" id="contraseña" name="inputContraseña" required>
+        </div>
+
         <!-- Botón de enviar -->
-        <button type="submit" class="btn btn-primary">Actualizar Usuario</button>
+        <button type="submit" class="btn btn-primary">Añadir Usuario</button>
     </form>
 </div>
 
