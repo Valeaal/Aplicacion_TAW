@@ -157,6 +157,7 @@ public class AdminController {
         nuevoUsuario.setPerteneceDesde(inputIngreso);
         nuevoUsuario.setPassword(inputContraseña);
 
+        //TODO: CAMBIO GRANDE EN BDD A ESPERA DE MIKI, NO FUNCIONA PORQUE FALTA EL IDENTIFIER DEL USUARIO
 
         TipoUsuario nuevoRol = tipoUsuarioRepository.buscarPorString(inputRol);
         nuevoUsuario.setTipoUsuario(nuevoRol);
@@ -169,7 +170,7 @@ public class AdminController {
 
 
     //////////////////////////////////////////////////////////////////////
-    //ASIGNACIÓN DE ENTRENADORES A CLIENTES
+    //ASIGNACIÓN DE CLIENTES A ENTRENADORES
     //////////////////////////////////////////////////////////////////////
 
     @GetMapping("/clientesEntrenadores")
