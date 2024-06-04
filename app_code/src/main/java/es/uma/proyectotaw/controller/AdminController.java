@@ -21,9 +21,9 @@ public class AdminController {
     @Autowired
     private TipoUsuarioRepository tipoUsuarioRepository;
 
-    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //GESTIÓN DE LOS USUARIOS
-    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @GetMapping("/usuarios")
     public String login(Model model) {
@@ -169,9 +169,9 @@ public class AdminController {
     }
 
 
-    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //ASIGNACIÓN DE CLIENTES A ENTRENADORES
-    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @GetMapping("/clientesEntrenadores")
     public String clientesEntrenadores(Model model) {
@@ -194,5 +194,58 @@ public class AdminController {
 
         return "administrador/clientesEntrenadores";
     }
+
+    @GetMapping("/clientesEntrenadores/asignar")
+    public String clientesEntrenadoresAsignar(@RequestParam(required = false, name = "clienteSeleccionado") Integer clienteId,
+                                              @RequestParam(required = false, name = "entrenadorSeleccionado") Integer entrenadorId,
+                                              Model model) {
+
+        //El control de si estos valores son nulos también podría hacerse con <Optional> y .isPresent()
+        if (clienteId != null && entrenadorId != null) {
+            Usuario cliente = usuarioRepository.buscarPorID(clienteId);
+            Usuario entrenador = usuarioRepository.buscarPorID(entrenadorId);
+
+            //TODO: ACTUALIZAR LA RELACIÓN, ESPERANDO LA ACTUALIZACIÓN DE LA BDD
+        }
+
+        return "redirect:/admin/clientesEntrenadores";
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //ASIGNACIÓN DE CLIENTES A ENTRENADORES
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @GetMapping("/clientesDietistas")
+    public String clientesDietistas(Model model) {
+
+        TipoUsuario tipoCliente = tipoUsuarioRepository.buscarPorID(4);
+        List<Usuario> clientes = usuarioRepository.buscarPorTipo(tipoCliente);
+
+        TipoUsuario tipoDietista = tipoUsuarioRepository.buscarPorID(3);
+        List<Usuario> dietistas = usuarioRepository.buscarPorTipo(tipoDietista);
+
+        model.addAttribute("clientes", clientes);
+        model.addAttribute("dietistas", dietistas);
+
+        return "administrador/clientesDietistas";
+    }
+
+    @GetMapping("/clientesDietistas/asignar")
+    public String clientesDietistasAsignar(@RequestParam(required = false, name = "clienteSeleccionado") Integer clienteId,
+                                              @RequestParam(required = false, name = "dietistaSeleccionado") Integer dietistaId,
+                                              Model model) {
+
+        //El control de si estos valores son nulos también podría hacerse con <Optional> y .isPresent()
+        if (clienteId != null && dietistaId != null) {
+            Usuario cliente = usuarioRepository.buscarPorID(clienteId);
+            Usuario dietista = usuarioRepository.buscarPorID(dietistaId);
+
+            //TODO: ACTUALIZAR LA RELACIÓN, ESPERANDO LA ACTUALIZACIÓN DE LA BDD
+        }
+
+        return "redirect:/admin/clientesDietistas";
+    }
+
+
 
 }

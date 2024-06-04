@@ -13,7 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nueva Página</title>
+    <title>Clientes -> Entrenadores</title>
     <!-- Enlace a Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -23,86 +23,93 @@
 <jsp:include page="../header-footer/navbar.jsp"></jsp:include>
 
 <div class="container-fluid">
-    <div class="row">
-            <!-- Parte izquierda con tabla y barra de búsqueda -->
-            <div class="col  flex-grow-1 col-auto">
-                <form action="/admin/clientesEntrenadores/filtrarCLientes">
-                    <div class="mb-3 d-flex">
-                        <input type="text" class="form-control form-control-lg me-2" name="busquedaN"
-                               placeholder="Nombre cliente">
-                        <button type="submit" class="btn btn-primary">Buscar</button>
-                    </div>
-                </form>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Apellidos</th>
-                        <th scope="col">Ingreso</th>
-                        <th scope="col">Fecha Nacimiento</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- Aquí se pueden agregar filas dinámicamente con datos -->
-                    <% for (Usuario usr : clientes) { %>
-                    <tr>
-                        <td><input type="radio" name="cSeleccionado" value="<%= usr.getId()%>>"></td>
-                        <td><%= usr.getNombre()%>
-                        </td>
-                        <td><%= usr.getApellidos()%>
-                        </td>
-                        <td><%= usr.getPerteneceDesde()%>
-                        </td>
-                        <td><%= usr.getFechaNacimiento()%>
-                        </td>
-                    </tr>
-                    <% } %>
-                    </tbody>
-                </table>
+
+
+
+        <form action="/admin/clientesEntrenadores/asignar">
+
+            <div class="row">
+
+                <!-- Parte izquierda con tabla de clientes -->
+                <div class="col  flex-grow-1 col-auto">
+
+                    <h1>Lista de clientes</h1>
+                    <p>¿A qué cliente quieres asignarle un entrenador?<p>
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellidos</th>
+                            <th scope="col">Ingreso</th>
+                            <th scope="col">Fecha Nacimiento</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <% for (Usuario usr : clientes) { %>
+                        <tr>
+                            <td><input type="radio" name="clienteSeleccionado" value="<%= usr.getId()%>"></td>
+                            <td><%= usr.getNombre()%>
+                            </td>
+                            <td><%= usr.getApellidos()%>
+                            </td>
+                            <td><%= usr.getPerteneceDesde()%>
+                            </td>
+                            <td><%= usr.getFechaNacimiento()%>
+                            </td>
+                        </tr>
+                        <% } %>
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <!-- Parte derecha con tabla de entrenadores -->
+                <div class="col flex-grow-1 col-auto">
+
+                    <h1>Lista de entrenadores</h1>
+                    <p>¿Qué entrenador vas a asignarle?<p>
+
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellidos</th>
+                            <th scope="col">Rol</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Aquí se pueden agregar filas dinámicamente con datos -->
+                        <% for (Usuario usr : entrenadores) { %>
+                        <tr>
+                            <td><input type="radio" name="entrenadorSeleccionado" value="<%= usr.getId()%>"></td>
+                            <td><%= usr.getNombre()%>
+                            </td>
+                            <td><%= usr.getApellidos()%>
+                            </td>
+                            <td><%= usr.getTipoUsuario().getTipo()%>
+                            </td>
+                        </tr>
+                        <% } %>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
 
-
-            <!-- Parte derecha con tabla y barra de búsqueda -->
-            <div class="col flex-grow-1 col-auto">
-                <form action="/admin/clientesEntrenadores/filtrarEntrenadores">
-                    <div class="mb-3 d-flex">
-                        <input type="text" class="form-control form-control-lg me-2" name="busquedaN"
-                               placeholder="Nombre entrenador">
-                        <button type="submit" class="btn btn-primary">Buscar</button>
-                    </div>
-                </form>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Apellidos</th>
-                        <th scope="col">Rol</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- Aquí se pueden agregar filas dinámicamente con datos -->
-                    <% for (Usuario usr : entrenadores) { %>
-                    <tr>
-                        <td><input type="radio" name="cSeleccionado" value="<%= usr.getId()%>>"></td>
-                        <td><%= usr.getNombre()%>
-                        </td>
-                        <td><%= usr.getApellidos()%>
-                        </td>
-                        <td><%= usr.getTipoUsuario().getTipo()%>
-                        </td>
-                    </tr>
-                    <% } %>
-                    </tbody>
-                </table>
-
-            </div>
             <!-- Botón de asignar -->
             <div class="col col-auto mt-auto">
-                <button type="button" class="btn btn-success">Asignar</button>
+                <button type="submit" class="btn btn-success">Asignar</button>
             </div>
-    </div>
+
+        </form>
+
+
 </div>
 
 <jsp:include page="../header-footer/footer.jsp"></jsp:include>

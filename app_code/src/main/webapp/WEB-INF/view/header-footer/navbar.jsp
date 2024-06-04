@@ -40,7 +40,7 @@
                     <a class="nav-link" href="admin/clientesEntrenadores">Clientes -> Entrenadores</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Clientes -> Dietistas</a>
+                    <a class="nav-link" href="admin/clientesDietistas">Clientes -> Dietistas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="admin/usuarios">Gestionar usuarios</a>
