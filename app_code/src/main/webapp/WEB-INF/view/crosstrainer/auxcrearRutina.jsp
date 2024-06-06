@@ -8,7 +8,6 @@
     String descripcionRutina = (String) request.getAttribute("descripcionRutina");
     String numEntrenamientosStr = request.getParameter("numEntrenamientos");
     int numEntrenamientos = Integer.parseInt(numEntrenamientosStr);
-    Integer numeroDia = (Integer) request.getAttribute("numeroDia");
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -161,8 +160,10 @@
 <body>
 <h1>Escoja un entrenamiento para cada día</h1>
 <form method="post" action="/crossfit/anadirEntrenamiento">
-    <input type="hidden" value="<%= numeroDia %>" name="numeroDia">
-    <h2>Entrenamiento <%= numeroDia %>
+    <%
+        for (int i = 1; i <= numEntrenamientos; i++) {
+    %>
+    <h2>Entrenamiento <%= i %>
     </h2>
     <table>
         <thead>
@@ -204,11 +205,7 @@
         <tr>
             <td colspan="2">
                 <div class="button-container">
-                    <% if (numeroDia < numEntrenamientos) {%>
                     <button type="submit" class="add-button">Añadir</button>
-                    <%} else {%>
-                    <button type="submit" class="add-button">Crear Rutina</button>
-                    <%}%>
                 </div>
             </td>
 
@@ -217,9 +214,16 @@
         </tfoot>
 
     </table>
-
+    <%
+        }
+    %>
 </form>
 
+<div class="button-container">
+    <a href="/crossfit/crud" class="new-routine-btn">Crear Rutina</a>
+    <a></a>
+
+</div>
 
 </body>
 </html>
