@@ -20,8 +20,7 @@
 <jsp:include page="../header-footer/navbar.jsp"></jsp:include>
 
 <div class="container">
-    <h2 class="my-4">Editar Usuario <%= usr.getNombre()%>
-    </h2>
+    <h2 class="my-4">Editar Usuario <%= usr.getNombre()%></h2>
 
     <form action="/admin/usuarios/actualizar" method="post">
 

@@ -36,7 +36,7 @@
                         <div class="mb-3 d-flex">
                             <!-- Menú desplegable 1 -->
                             <div class="flex-grow-1 me-3">
-                                <select class="form-select" name="StringEdad">
+                                <select class="form-select" name="StringGrupo">
                                     <option selected>Selecciona Grupo Muscular</option>
                                     <%
                                         for (int i = 0; i < GruposMusculares.size(); i++) {
@@ -49,7 +49,7 @@
                             </div>
                             <!-- Menú desplegable 2 -->
                             <div class="flex-grow-1 me-3">
-                                <select class="form-select" name="StringIngreso">
+                                <select class="form-select" name="StringTipo">
                                     <option selected>Selecciona Tipo de Ejercicio</option>
                                     <%
                                         for (int i = 0; i < TiposEjercicio.size(); i++) {
@@ -90,7 +90,7 @@
                     <!-- Aquí se pueden agregar filas dinámicamente con datos -->
                     <% for (Ejercicio ejr : Ejercicios) { %>
                     <tr>
-                        <td><input type="radio" name="uSeleccionado" value= "<%= ejr.getId() %>" ></td>
+                        <td><input type="radio" name="eSeleccionado" value= "<%= ejr.getId() %>" ></td>
                         <td><%= ejr.getNombre()%></td>
                         <td><%= ejr.getDescripcion()%></td>
                         <td><%= ejr.getGrupoMuscular().getGrupo()%></td>

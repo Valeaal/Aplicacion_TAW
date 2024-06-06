@@ -100,7 +100,7 @@ public class AdminController {
     }
 
     @GetMapping("/usuarios/seleccionar")
-    public String seleccionar(@RequestParam(name = "uSeleccionado", required = false) Integer inputUsr, @RequestParam("Boton") String inputBoton, Model model) {
+    public String seleccionarUsuarios(@RequestParam(name = "uSeleccionado", required = false) Integer inputUsr, @RequestParam("Boton") String inputBoton, Model model) {
 
         //Si sí se selecciona y se pulsa editar, se va a la página correspondiente.
         //Si sí se selecciona y se pulsa borrar, se ejecuta la sentencia y se permanece en la página.
@@ -305,7 +305,35 @@ public class AdminController {
         List<Ejercicio> ejerciciosFiltrado = ejercicioRepository.filtrarEjercicios(inputNombre, inputTipo, inputGrupo);
         model.addAttribute("ejercicios", ejerciciosFiltrado);
 
-        return "administrador/usuarios";
+        return "administrador/ejercicios";
+    }
+
+    @GetMapping("/ejercicios/seleccionar")
+    public String seleccionarEjercicios(@RequestParam(name = "eSeleccionado", required = false) Integer inputEj, @RequestParam("Boton") String inputBoton, Model model) {
+
+        //Si sí se selecciona y se pulsa editar, se va a la página correspondiente.
+        //Si sí se selecciona y se pulsa borrar, se ejecuta la sentencia y se permanece en la página.
+        //Independientemente si se selecciona o no un usuario y se pulsa añadir un ejercicio, llevará a la página correspondiente.
+        String direccionRetorno = "redirect:/admin/ejercicios";
+
+        List <TipoEjercicio> tiposEjercicio = tipoEjercicioRepository.findAll();
+        List <GrupoMuscular> gruposMusculares = grupoMuscularRepository.findAll();
+
+        model.addAttribute("tiposEjercicio", tiposEjercicio);
+        model.addAttribute("gruposMusculares", gruposMusculares);
+
+        if (inputBoton.equals("Añadir")) {
+            direccionRetorno = "administrador/nuevoEjercicio";
+        } else if (inputEj != null){
+            if (inputBoton.equals("Eliminar")){
+                ejercicioRepository.deleteById(inputEj);
+            } else if (inputBoton.equals("Modificar")){
+                Ejercicio ejercicio = ejercicioRepository.getById(inputEj);
+                model.addAttribute("ejercicio", ejercicio);
+                direccionRetorno = "administrador/modificarEjercicio";
+            }
+        }
+        return direccionRetorno;
     }
 
 }
