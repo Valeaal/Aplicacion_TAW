@@ -20,6 +20,8 @@ public class AdminController {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private TipoUsuarioRepository tipoUsuarioRepository;
+    @Autowired
+    private ClienteRepository clienteRepository;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //GESTIÓN DE LOS USUARIOS
@@ -156,12 +158,8 @@ public class AdminController {
         nuevoUsuario.setFechaNacimiento(inputNacimiento);
         nuevoUsuario.setPerteneceDesde(inputIngreso);
         nuevoUsuario.setPassword(inputContraseña);
-
-        //TODO: CAMBIO GRANDE EN BDD A ESPERA DE MIKI, NO FUNCIONA PORQUE FALTA EL IDENTIFIER DEL USUARIO
-
         TipoUsuario nuevoRol = tipoUsuarioRepository.buscarPorString(inputRol);
         nuevoUsuario.setTipoUsuario(nuevoRol);
-
 
         usuarioRepository.save(nuevoUsuario);
 
@@ -202,10 +200,12 @@ public class AdminController {
 
         //El control de si estos valores son nulos también podría hacerse con <Optional> y .isPresent()
         if (clienteId != null && entrenadorId != null) {
-            Usuario cliente = usuarioRepository.buscarPorID(clienteId);
+            Cliente cliente = clienteRepository.getClienteByUserId(clienteId);
             Usuario entrenador = usuarioRepository.buscarPorID(entrenadorId);
 
-            //TODO: ACTUALIZAR LA RELACIÓN, ESPERANDO LA ACTUALIZACIÓN DE LA BDD
+            cliente.setEntrenador(entrenador);
+
+            clienteRepository.save(cliente);
         }
 
         return "redirect:/admin/clientesEntrenadores";
@@ -237,10 +237,12 @@ public class AdminController {
 
         //El control de si estos valores son nulos también podría hacerse con <Optional> y .isPresent()
         if (clienteId != null && dietistaId != null) {
-            Usuario cliente = usuarioRepository.buscarPorID(clienteId);
+            Cliente cliente = clienteRepository.getClienteByUserId(clienteId);
             Usuario dietista = usuarioRepository.buscarPorID(dietistaId);
 
-            //TODO: ACTUALIZAR LA RELACIÓN, ESPERANDO LA ACTUALIZACIÓN DE LA BDD
+            cliente.setDietista(dietista);
+
+            clienteRepository.save(cliente);
         }
 
         return "redirect:/admin/clientesDietistas";
