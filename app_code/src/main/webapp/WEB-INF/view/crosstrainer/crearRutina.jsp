@@ -4,6 +4,8 @@
 <%
     Integer idRutina = (Integer) request.getAttribute("idRutina");
     List<Entrenamiento> entrenamientos = (List<Entrenamiento>) request.getAttribute("entrenamientos");
+    String nombreRutina = (String) request.getAttribute("nombreRutina");
+    String descripcionRutina = (String) request.getAttribute("descripcionRutina");
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -135,10 +137,27 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transform: translateY(0);
         }
+
+        .new-routine-btn {
+            padding: 12px 25px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .new-routine-btn:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
 <h1>Escoja un entrenamiento para cada día</h1>
+<form method="post" action="/crossfit/anadirEntrenamiento">
 <%
     String numEntrenamientosStr = request.getParameter("numEntrenamientos");
     int numEntrenamientos = Integer.parseInt(numEntrenamientosStr);
@@ -146,16 +165,21 @@
 %>
 <h2>Día <%= i %>
 </h2>
-<table>
-    <thead>
-    <tr>
-        <th>Seleccione Entrenamiento</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <form method="post" action="/crossfit/anadirEntrenamiento">
-            <input type="hidden" name="idRutina" value="<%=idRutina%>" />
+    <table>
+        <thead>
+        <tr>
+            <th>Seleccione Entrenamiento</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+
+            <input type="hidden" name="idRutina" value="<%=idRutina%>"/>
+            <input type="hidden" name="diaSemana" value="<%=i%>"/>
+            <input type="hidden" name="nombreRutina" value="<%=nombreRutina%>"/>
+            <input type="hidden" name="descripcionRutina" value="<%=descripcionRutina%>"/>
+            <input type="hidden" name="numEntrenamientos" value="<%=numEntrenamientos%>"/>
+
             <td>
                 <select name="idEntrenamiento">
                     <% for (Entrenamiento entrenamiento : entrenamientos) { %>
@@ -164,29 +188,32 @@
                     <% } %>
                 </select>
             </td>
-        </form>
-    </tr>
+        </tr>
 
-    </tbody>
-    <tfoot>
-    <tr>
-        <td colspan="2">
-            <div class="button-container">
-                <button type="button" class="add-button">Añadir</button>
-            </div>
-        </td>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="2">
+                <div class="button-container">
+                    <button type="submit" class="add-button">Añadir</button>
+                </div>
+            </td>
 
-    </tr>
-    </tfoot>
-</table>
+        </tr>
+
+        </tfoot>
+
+    </table>
 <%
     }
 %>
-<form>
-    <div class="button-container">
-        <button class="modern-button">Crear Rutina</button>
-        <button class="cancel-button">Cancelar</button>
-    </div>
 </form>
+
+    <div class="button-container">
+        <a href="/crossfit/crud" class="new-routine-btn">Crear Rutina</a>
+        <a></a>
+
+    </div>
+
 </body>
 </html>

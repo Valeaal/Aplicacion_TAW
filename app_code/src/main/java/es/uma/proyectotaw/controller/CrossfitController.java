@@ -68,7 +68,11 @@ public class CrossfitController {
     Usuario entrenador = (Usuario)  session.getAttribute("usuario");
     nuevaRutina.setEntrenador(entrenador);
     this.rutinaRepository.save(nuevaRutina);
+
     model.addAttribute("idRutina", nuevaRutina.getId());
+    model.addAttribute("numEntrenamientos", numEntrenamientos);
+    model.addAttribute("nombreRutina", nombreRutina);
+    model.addAttribute("descripcionRutina", descripcionRutina);
 
     List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
     model.addAttribute("entrenamientos", entrenamientos);
@@ -78,6 +82,10 @@ public class CrossfitController {
     @PostMapping("/anadirEntrenamiento")
     public String doAnadirEntrenamiento(@RequestParam("idRutina") Integer idRutina,
                                         @RequestParam("idEntrenamiento") Integer idEntrenamiento,
+                                        @RequestParam("diaSemana") Integer diaSemana,
+                                        @RequestParam("nombreRutina") String nombreRutina,
+                                        @RequestParam("descripcionRutina") String descripcionRutina,
+                                        @RequestParam("numEntrenamientos") Integer numEntrenamientos,
                                         HttpSession session, Model model) {
 
         EntrenamientoRutina er = new EntrenamientoRutina();
@@ -85,12 +93,15 @@ public class CrossfitController {
         Entrenamiento entrenamiento = entrenamientoRepository.findById(idEntrenamiento).orElse(null);
         er.setRutina(rutina);
         er.setEntrenamiento(entrenamiento);
+        er.setDiaSemana(diaSemana);
         this.entrenamiento_RutinaRepository.save(er);
         Usuario entrenador = (Usuario)  session.getAttribute("usuario");
 
-        //  this.rutinaRepository.save(nuevaRutina);
-        //  model.addAttribute("idRutina", nuevaRutina.getId());
+
         model.addAttribute("idRutina", idRutina);
+        model.addAttribute("numEntrenamientos", numEntrenamientos);
+        model.addAttribute("nombreRutina", nombreRutina);
+        model.addAttribute("descripcionRutina", descripcionRutina);
         List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
         model.addAttribute("entrenamientos", entrenamientos);
         return "crosstrainer/crearRutina";
