@@ -4,7 +4,18 @@ import es.uma.proyectotaw.entity.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
+
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
     @Query("select u from Cliente u where u.usuario.id = :userId")
     public Cliente getClienteByUserId(Integer userId);
+
+    @Query("select u from Cliente  u where u.dieta IS NULL")
+    public List<Cliente> getClientesSinDieta();
+
+    @Query("select u from Cliente u where u.id = :userId")
+    public Cliente getClienteById(Integer userId);
 }
+
+
