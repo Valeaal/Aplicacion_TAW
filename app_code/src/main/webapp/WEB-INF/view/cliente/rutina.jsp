@@ -2,7 +2,8 @@
 <%@ page import="org.springframework.web.bind.annotation.RequestParam" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.*" %>
-<%@ page import="java.util.Set" %><%--
+<%@ page import="java.util.Set" %>
+<%@ page import="java.util.HashMap" %><%--
   Created by IntelliJ IDEA.
   User: albadelatorres
   Date: 30/4/24
@@ -16,6 +17,7 @@
     Cliente cliente = (Cliente) request.getAttribute("cliente");
     List<Entrenamiento> entrenamiento = (List<Entrenamiento>) request.getAttribute("entrenamientos");
     List<GrupoMuscular> grupomuscular = (List<GrupoMuscular>) request.getAttribute("grupomuscular");
+    HashMap<Integer,Float> cumplimiento = (HashMap<Integer,Float>) request.getAttribute("cumplimiento");
 %>
 <html>
 <head>
@@ -34,21 +36,13 @@
                 int dia = 1;
             %>
             <div class="list-group">
-                <% for (Entrenamiento e : entrenamiento) { %>
+                <% for (Entrenamiento e : entrenamiento) {
+                    float c = cumplimiento.get(e.getId());
+                %>
                 <a href="/dia?id=<%=e.getId()%>&clientId=<%=cliente.getId()%>"
                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                     Día <%= dia %>
-                    <%
-//                        Set<EjercicioEntrenamiento> aux = (Set<EjercicioEntrenamiento>) e.getEjercicios();
-//                        double porcentaje = 0.0;
-//                        for (EjercicioEntrenamiento a : aux) {
-//                            porcentaje += a.getCompletado();
-//                        }
-//                        if (porcentaje > 0.0) {
-//                            porcentaje = porcentaje / aux.size();
-//                        }
-                    %>
-                    <span class="badge badge-primary badge-pill">%%</span> 50%
+                    <span class="badge badge-primary badge-pill"></span><%=c%> %
                 </a>
                 <% dia++; %>
                 <% } %>

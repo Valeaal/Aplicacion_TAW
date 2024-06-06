@@ -52,16 +52,48 @@ public class ClienteController {
     public String rutina(@RequestParam("id") Integer id, Model model) {
         Cliente client = clienteRepository.getClienteByUserId(id);
         Rutina rutina = rutinaRepository.getActiveRutinasByClienteId(client.getId()).get(0);
-        int n = rutina.getId();
         List<Entrenamiento> entrenamientos = entrenamientoRepository.findByRutinaId(rutina.getId());
         List<GrupoMuscular> grupomuscular = grupoMuscularRepository.findAll();
+
+        HashMap<Integer, Float> cumplimiento= new HashMap<>();
+        for(Entrenamiento entrenamiento: entrenamientos){
+            float c = calcularCumplimiento(entrenamiento.getId());
+            cumplimiento.put(entrenamiento.getId(), c);
+        }
+
         model.addAttribute("rutina", rutina);
         model.addAttribute("cliente", client);
         model.addAttribute("entrenamientos", entrenamientos);
         model.addAttribute("grupomuscular", grupomuscular);
+        model.addAttribute("cumplimiento", cumplimiento);
         model.addAttribute("rutinaFiltro", new RutinaFiltro());
         model.addAttribute("desempenyoFiltro", new DesempenyoFiltro());
         return "cliente/rutina";
+    }
+
+    @GetMapping("/verRutina")
+    public String verRutinaNoActiva(@RequestParam("id") Integer id, Model model) {
+        List<Entrenamiento> entrenamientos = entrenamientoRepository.findByRutinaId(id);
+        HashMap<Integer, Float> cumplimiento= new HashMap<>();
+        for(Entrenamiento entrenamiento: entrenamientos){
+            float c = calcularCumplimiento(entrenamiento.getId());
+            cumplimiento.put(entrenamiento.getId(), c);
+        }
+        model.addAttribute("entrenamientos", entrenamientos);
+        model.addAttribute("cumplimiento", cumplimiento);
+
+        return "cliente/rutinaNoActiva";
+    }
+
+    private float calcularCumplimiento(Integer id) {
+        float res = 0;
+        Entrenamiento e = entrenamientoRepository.getReferenceById(id);
+        for(EjercicioEntrenamiento ee: e.getEjercicios()){
+            if(ee.getDesempeno()!=null){
+                res++;
+            }
+        }
+        return (res/e.getEjercicios().size())*100;
     }
 
     @GetMapping("/menu")
@@ -171,6 +203,8 @@ public class ClienteController {
                                  Model model){
         Cliente client = clienteRepository.getClienteByUserId(rutinaFiltro.getClienteId());
         List<Rutina> rutina = rutinaRepository.getRutinasByNameAndClientId(rutinaFiltro.getClienteId(), rutinaFiltro.getNombre());
+
+
         model.addAttribute("rutina", rutina);
         model.addAttribute("cliente", client);
         model.addAttribute("rutinaFiltro", new RutinaFiltro());
@@ -190,11 +224,36 @@ public class ClienteController {
     public String filtrarRutinaDesempenyo(@ModelAttribute("desempenyoFiltro") DesempenyoFiltro filtro, Model model){
         Cliente client = clienteRepository.getClienteByUserId(filtro.getIdCliente());
         List<Rutina> rutina = rutinaRepository.getAllRutinasByClienteId(filtro.getIdCliente());
+        List<Rutina> rutinasFiltradas = new ArrayList<>();
+        HashMap<Integer, Float> cumplimiento = new HashMap<>();
+        int upperBound = 0;
+        int lowerBound = 0;
+        if(filtro.getDesempenyo().equals("Alto")){
+            upperBound = 100;
+            lowerBound = 70;
+        } else if(filtro.getDesempenyo().equals("Medio")){
+            upperBound = 69;
+            lowerBound = 30;
+        } else if(filtro.getDesempenyo().equals("Bajo")){
+            upperBound = 29;
+            lowerBound = 0;
+        }
+        float desempenyoTotal = 0;
         for(Rutina r : rutina){
             List<Entrenamiento> entrenamientos = entrenamientoRepository.findByRutinaId(r.getId());
             for(Entrenamiento e : entrenamientos){
+                desempenyoTotal += calcularCumplimiento(e.getId());
+            }
+            desempenyoTotal = desempenyoTotal/rutina.size();
+            cumplimiento.put(r.getId(), desempenyoTotal);
+            if(desempenyoTotal <= upperBound && desempenyoTotal >= lowerBound){
+                rutinasFiltradas.add(r);
+                rutina.remove(r);
             }
         }
+        model.addAttribute("rutinasFiltradas", rutinasFiltradas);
+        model.addAttribute("rutinas", rutina);
+        model.addAttribute("cumplimiento", cumplimiento);
         return "/cliente/rutinaDesempenyoFiltrada";
     }
 }
