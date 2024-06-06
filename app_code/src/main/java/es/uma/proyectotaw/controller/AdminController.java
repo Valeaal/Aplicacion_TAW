@@ -112,7 +112,7 @@ public class AdminController {
             if (inputBoton.equals("Eliminar")){
                 usuarioRepository.deleteById(inputUsr);
             } else if (inputBoton.equals("Modificar")){
-                direccionRetorno = "administrador/usuarioUpdate";
+                direccionRetorno = "administrador/modificarUsuario";
             }
         }
         return direccionRetorno;
@@ -132,7 +132,7 @@ public class AdminController {
         usr.setPerteneceDesde(inputIngreso);
         TipoUsuario nuevoRol = tipoUsuarioRepository.buscarPorString(inputRol);
         usr.setTipoUsuario(nuevoRol);
-        //En principio no consideramos que el usuario pueda cambiar la contraseña
+        //En principio no consideramos que el administrador pueda cambiar la contraseña del usuario no?
 
         usuarioRepository.save(usr);
 
@@ -147,7 +147,7 @@ public class AdminController {
                           @RequestParam("inputNacimiento") LocalDate inputNacimiento,
                           @RequestParam("inputIngreso") LocalDate inputIngreso,
                           @RequestParam("inputRol") String inputRol,
-                        @RequestParam("inputContraseña") String inputContraseña){
+                          @RequestParam("inputContraseña") String inputContraseña){
 
         Usuario nuevoUsuario = new Usuario();
         nuevoUsuario.setNombre(inputNombre);
@@ -176,13 +176,13 @@ public class AdminController {
     @GetMapping("/clientesEntrenadores")
     public String clientesEntrenadores(Model model) {
 
-        TipoUsuario tipoCliente = tipoUsuarioRepository.buscarPorID(4);
+        TipoUsuario tipoCliente = tipoUsuarioRepository.buscarPorID(5);
         List<Usuario> clientes = usuarioRepository.buscarPorTipo(tipoCliente);
 
         TipoUsuario tipoBodubuilder = tipoUsuarioRepository.buscarPorID(2);
         List<Usuario> bodybuilders = usuarioRepository.buscarPorTipo(tipoBodubuilder);
 
-        TipoUsuario tipoCrosstrainer = tipoUsuarioRepository.buscarPorID(5);
+        TipoUsuario tipoCrosstrainer = tipoUsuarioRepository.buscarPorID(3);
         List<Usuario> crosstrainers = usuarioRepository.buscarPorTipo(tipoCrosstrainer);
 
         List<Usuario> entrenadores = new ArrayList<>();
@@ -212,16 +212,16 @@ public class AdminController {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //ASIGNACIÓN DE CLIENTES A ENTRENADORES
+    //ASIGNACIÓN DE CLIENTES A DIETISTAS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @GetMapping("/clientesDietistas")
     public String clientesDietistas(Model model) {
 
-        TipoUsuario tipoCliente = tipoUsuarioRepository.buscarPorID(4);
+        TipoUsuario tipoCliente = tipoUsuarioRepository.buscarPorID(5);
         List<Usuario> clientes = usuarioRepository.buscarPorTipo(tipoCliente);
 
-        TipoUsuario tipoDietista = tipoUsuarioRepository.buscarPorID(3);
+        TipoUsuario tipoDietista = tipoUsuarioRepository.buscarPorID(4);
         List<Usuario> dietistas = usuarioRepository.buscarPorTipo(tipoDietista);
 
         model.addAttribute("clientes", clientes);
