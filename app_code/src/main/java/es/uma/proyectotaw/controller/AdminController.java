@@ -22,6 +22,12 @@ public class AdminController {
     private TipoUsuarioRepository tipoUsuarioRepository;
     @Autowired
     private ClienteRepository clienteRepository;
+    @Autowired
+    private EjercicioRepository ejercicioRepository;
+    @Autowired
+    private TipoEjercicioRepository tipoEjercicioRepository;
+    @Autowired
+    private GrupoMuscularRepository grupoMuscularRepository;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //GESTIÓN DE LOS USUARIOS
@@ -33,7 +39,6 @@ public class AdminController {
         //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO ------------//
         List<Integer> edades = usuarioRepository.sacarEdades(); //Esta consulta nos devuelve todas las edades, ordenadas y sin repetir listas para usar
         List<Integer> ingresos = usuarioRepository.sacarIngresos(); //Esta consulta nos devuelve todos los años, ordenados y sin repetir listos para usar
-        List<Usuario> usuarios = usuarioRepository.sacarUsuarios(); //Esta consulta solo nos devuelve los usuarios, y queremos una lista de los roles
         List<TipoUsuario> rolesUsuarios = usuarioRepository.sacarRoles(); //Esta consulta nos devuelve los roles de usuario que se usan ahora
 
         model.addAttribute("edades", edades);
@@ -48,9 +53,9 @@ public class AdminController {
     }
 
     @GetMapping("/usuarios/filtrar")
-    public String filtrar(@RequestParam("inputNombre") String inputNombre, @RequestParam("inputApellidos") String inputApellidos,
-                          @RequestParam("StringEdad") String StringEdad, @RequestParam("StringIngreso") String StringIngreso,
-                          @RequestParam("StringRol") String StringRol, Model model) {
+    public String Usuariofiltrar(@RequestParam("inputNombre") String inputNombre, @RequestParam("inputApellidos") String inputApellidos,
+                                @RequestParam("StringEdad") String StringEdad, @RequestParam("StringIngreso") String StringIngreso,
+                                @RequestParam("StringRol") String StringRol, Model model) {
 
         //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO (igual que en /usuarios)------------//
         List<Integer> edades = usuarioRepository.sacarEdades(); //Esta consulta nos devuelve todas las edades, ordenadas y sin repetir listas para usar
@@ -248,6 +253,59 @@ public class AdminController {
         return "redirect:/admin/clientesDietistas";
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //GESTIÓN DE LOS EJERCICIOS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @GetMapping("/ejercicios")
+    public String ejercicios(Model model) {
 
+        //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO ------------//
+        List <TipoEjercicio> tiposEjercicio = tipoEjercicioRepository.findAll();
+        List <GrupoMuscular> gruposMusculares = grupoMuscularRepository.findAll();
+
+        model.addAttribute("tiposEjercicio", tiposEjercicio);
+        model.addAttribute("gruposMusculares", gruposMusculares);
+
+        //------------ PARA RELLENAR LA TABLA DE USUARIOS (sin filtro)------------//
+        List<Ejercicio> ejerciciosCompleto = ejercicioRepository.findAll();
+        model.addAttribute("ejercicios", ejerciciosCompleto);
+
+        return "/administrador/ejercicios";
+    }
+
+    @GetMapping("/ejercicios/filtrar")
+    public String Ejerciciofiltrar(@RequestParam("inputNombre") String inputNombre, @RequestParam("StringGrupo") String StringGrupo,
+                                   @RequestParam("StringTipo") String StringTipo, Model model) {
+
+        //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO ------------//
+        List <TipoEjercicio> tiposEjercicio = tipoEjercicioRepository.findAll();
+        List <GrupoMuscular> gruposMusculares = grupoMuscularRepository.findAll();
+
+        model.addAttribute("tiposEjercicio", tiposEjercicio);
+        model.addAttribute("gruposMusculares", gruposMusculares);
+
+        //------------ PARA RELLENAR LA TABLA (con filtros)------------//
+
+        //Para controlar si hemos introducido el dato, ponemos o no a null. Luego esto se maneja en la consulta
+        GrupoMuscular inputGrupo;
+        if(StringGrupo.equals("Selecciona Grupo Muscular") ){
+            inputGrupo = null;
+        } else {
+            inputGrupo = grupoMuscularRepository.buscarPorString(StringGrupo);
+        }
+
+        //Para controlar si hemos introducido el dato, ponemos o no a null. Luego esto se maneja en la consulta
+        TipoEjercicio inputTipo;
+        if(StringTipo.equals("Selecciona Tipo de Ejercicio") ){
+            inputTipo = null;
+        } else {
+            inputTipo = tipoEjercicioRepository.buscarPorString(StringTipo);
+        }
+
+        List<Ejercicio> ejerciciosFiltrado = ejercicioRepository.filtrarEjercicios(inputNombre, inputTipo, inputGrupo);
+        model.addAttribute("ejercicios", ejerciciosFiltrado);
+
+        return "administrador/usuarios";
+    }
 
 }

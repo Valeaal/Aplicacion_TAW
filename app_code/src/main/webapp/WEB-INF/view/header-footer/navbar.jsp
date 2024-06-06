@@ -34,7 +34,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/">Inicio</a>
+                    <a class="nav-link" href="/">Inicio</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="admin/clientesEntrenadores">Clientes -> Entrenadores</a>
@@ -46,7 +46,10 @@
                     <a class="nav-link" href="admin/usuarios">Gestionar usuarios</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Búsqueda de elementos</a>
+                    <a class="nav-link" href="admin/ejercicios">Gestionar ejercicios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="admin/comidas">Gestionar comidas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/salir">Salir</a>

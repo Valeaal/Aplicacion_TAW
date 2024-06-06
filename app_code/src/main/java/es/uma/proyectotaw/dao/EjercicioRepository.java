@@ -1,6 +1,6 @@
 package es.uma.proyectotaw.dao;
 
-import es.uma.proyectotaw.entity.Ejercicio;
+import es.uma.proyectotaw.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -35,6 +35,15 @@ public interface EjercicioRepository extends JpaRepository <Ejercicio, Integer> 
             "AND (:peso IS NULL OR ee.peso = :peso)")
     List<Ejercicio> getEjercicioByClienteIdFiltrado(@Param("clienteId") Integer clienteId, @Param("nombre") String nombre,
                                                @Param("peso") Integer peso, @Param("parteId") Integer parteId);
+
+    //Gracias al uso del "or is null" hacemos que los parámetros pasados nulos no afecten a la búsqueda, y así no hay que crear
+    //una consulta de búsqueda por cada combinación posible de parámetros
+    @Query("select e from Ejercicio e where (e.nombre like concat('%', :inputNombre, '%'))" +
+            "and ((:inputTipo is null) or e.tipo = :inputTipo)" +
+            "and ((:inputGrupo is null) or e.grupoMuscular = :inputGrupo)")
+    public List<Ejercicio> filtrarEjercicios (@Param("inputNombre") String inputNombre,
+                                              @Param("inputTipo") TipoEjercicio inputTipo,
+                                              @Param("inputGrupo") GrupoMuscular inputGrupo);
 
     /*List<Ejercicio> getEjercicioByClientIdDesempenyo(@Param("clienteId") Integer clienteId, @Param("desempenyoSup") Integer desempenyoLimiteSup,
                                                       @Param("desempenyoInf") Integer desempenyoLimiteInf);*/
