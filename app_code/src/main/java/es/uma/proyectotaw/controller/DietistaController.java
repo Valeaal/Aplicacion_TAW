@@ -1,15 +1,14 @@
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dao.*;
-import es.uma.proyectotaw.entity.Cliente;
-import es.uma.proyectotaw.entity.Dieta;
-import es.uma.proyectotaw.entity.Menu;
+import es.uma.proyectotaw.entity.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -22,30 +21,41 @@ public class DietistaController {
     private DietaRepository dietaRepository;
     @Autowired
     private MenuRepository menuRepository;
-    
+    @Autowired
+    private TipoUsuarioRepository tipoUsuarioRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-    @GetMapping("/dietas")
-    public String doDietas(Model model){
-        String strTo = "crudDietas";
+
+    @GetMapping("/asignacion")
+    public String asignacionDietas(Model model) {
+
+        TipoUsuario tipoCliente = this.tipoUsuarioRepository.buscarPorID(5);
+        List<Cliente> clientes = this.clienteRepository.getClientesSinDieta();
+
         List<Dieta> dietas = this.dietaRepository.findAll();
-        model.addAttribute("dietas",dietas);
-        return strTo;
+
+        model.addAttribute("clientes", clientes);
+        model.addAttribute("dietas", dietas);
+
+        return "dietista/asignacion";
     }
 
-    @GetMapping("/dietas/nueva")
-    public String doNuevaDieta(Model model){
-        String strTo = "creacionDietas";
-        List<Menu> menus = this.menuRepository.findAll();
-        model.addAttribute("dietas",menus);
-        return strTo;
-    }
+    @GetMapping("/asignacion/asignar")
+    public String clientesDietaAsignar(@RequestParam(required = false, name = "clienteSeleccionado") Integer clienteId,
+                                              @RequestParam(required = false, name = "dietaSeleccionado") Integer dietaId,
+                                              Model model) {
 
-    @GetMapping("/seguimiento")
-    public String doSeguimiento(Model model){
-        String strTo = "seguimiento";
-        List<Cliente> clientes = this.clienteRepository.clientesConDietas();
-        model.addAttribute("clientes",clientes);
-        return strTo;
+        if (clienteId != null && dietaId != null) {
+            Cliente cliente = clienteRepository.getClienteByUserId(clienteId);
+            Dieta dieta = dietaRepository.buscarPorID(dietaId);
+
+            cliente.setDieta(dieta);
+
+            clienteRepository.save(cliente);
+        }
+
+        return "redirect:/dietista/asignacion";
     }
 
 
