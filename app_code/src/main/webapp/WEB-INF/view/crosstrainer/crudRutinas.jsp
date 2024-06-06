@@ -1,13 +1,11 @@
 <%@ page import="java.util.*" %>
 <%@ page import="es.uma.proyectotaw.entity.Usuario" %>
+<%@ page import="es.uma.proyectotaw.entity.Rutina" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    /* List<Integer> Edades = (List<Integer>) request.getAttribute("edades");
-     List<Integer> Ingresos = (List<Integer>) request.getAttribute("ingresos");
-     List<Usuario> Usuarios = (List<Usuario>) request.getAttribute("usuarios");
-     Set<String> Roles = (Set<String>) request.getAttribute("roles"); */
+    List<Rutina> rutinas = (List<Rutina>) request.getAttribute("rutinas");
 %>
 
 <style>
@@ -204,66 +202,21 @@
                 </thead>
                 <tbody>
                 <!-- Aquí se deben iterar las rutinas para generar las filas dinámicamente -->
+                <%for (Rutina rutina : rutinas) {%>
                 <tr>
-                    <td>Rutina 1</td>
-                    <td>5</td>
-                    <td>Descripción de la rutina 1</td>
-                    <td>2024-05-20</td>
+                    <td><%=rutina.getNombre()%></td>
+                    <td><%=rutina.getEntrenamientos().size()%></td>
+                    <td><%=rutina.getDescripcion()%></td>
+                    <td><%=rutina.getFechaCreacion()%></td>
                     <td>
-                        <button type="submit" class="btn btn-warning mb-2" name="Boton" value="Modificar">Editar
-                            Rutina
-                        </button>
+                        <a href="/crossfit/crud/editar?idRutina=<%=rutina.getId()%>" class="btn btn-warning mb-2">Editar</a>
                     </td>
                     <td>
-                        <button type="submit" class="btn btn-danger mb-2" name="Boton" value="Eliminar">Borrar Rutina
-                        </button>
+                        <a href="/crossfit/crud/borrar?idRutina=<%=rutina.getId()%>" class="btn btn-danger mb-2">Borrar</a>
                     </td>
                 </tr>
-                <tr>
-                    <td>Rutina 2</td>
-                    <td>3</td>
-                    <td>Descripción de la rutina 2</td>
-                    <td>2024-05-18</td>
-                    <td>
-                        <button type="submit" class="btn btn-warning mb-2" name="Boton" value="Modificar">Editar
-                            Rutina
-                        </button>
-                    </td>
-                    <td>
-                        <button type="submit" class="btn btn-danger mb-2" name="Boton" value="Eliminar">Borrar Rutina
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Rutina 3</td>
-                    <td>3</td>
-                    <td>Descripción de la rutina 2</td>
-                    <td>2024-05-18</td>
-                    <td>
-                        <button type="submit" class="btn btn-warning mb-2" name="Boton" value="Modificar">Editar
-                            Rutina
-                        </button>
-                    </td>
-                    <td>
-                        <button type="submit" class="btn btn-danger mb-2" name="Boton" value="Eliminar">Borrar Rutina
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Rutina 4</td>
-                    <td>3</td>
-                    <td>Descripción de la rutina 2</td>
-                    <td>2024-05-18</td>
-                    <td>
-                        <button type="submit" class="btn btn-warning mb-2" name="Boton" value="Modificar">Editar
-                            Rutina
-                        </button>
-                    </td>
-                    <td>
-                        <button type="submit" class="btn btn-danger mb-2" name="Boton" value="Eliminar">Borrar Rutina
-                        </button>
-                    </td>
-                </tr>
+                <%}%>
+
 
                 <!-- Fin de la iteración -->
                 </tbody>

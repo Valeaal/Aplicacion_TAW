@@ -1,14 +1,11 @@
 <%@ page import="es.uma.proyectotaw.entity.Entrenamiento" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.entity.Rutina" %>
+<%@ page import="es.uma.proyectotaw.entity.EntrenamientoRutina" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Integer idRutina = (Integer) request.getAttribute("idRutina");
-    List<Entrenamiento> entrenamientos = (List<Entrenamiento>) request.getAttribute("entrenamientos");
-    String nombreRutina = (String) request.getAttribute("nombreRutina");
-    String descripcionRutina = (String) request.getAttribute("descripcionRutina");
-    String numEntrenamientosStr = request.getParameter("numEntrenamientos");
-    int numEntrenamientos = Integer.parseInt(numEntrenamientosStr);
-    Integer numeroDia = (Integer) request.getAttribute("numeroDia");
+    Rutina rutina = (Rutina) request.getAttribute("rutina");
+    List<EntrenamientoRutina> entrenamientos = (List<EntrenamientoRutina>) request.getAttribute("entrenamientosdeRutina");
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -161,8 +158,10 @@
 <body>
 <h1>Escoja un entrenamiento para cada día</h1>
 <form method="post" action="/crossfit/anadirEntrenamiento">
-    <input type="hidden" value="<%= numeroDia %>" name="numeroDia">
-    <h2>Entrenamiento <%= numeroDia %>
+    <%
+        for (int i = 1; i <= rutina.getEntrenamientos().size(); i++) {
+    %>
+    <h2>Entrenamiento <%= i %>
     </h2>
     <table>
         <thead>
@@ -173,15 +172,15 @@
         <tbody>
         <tr>
 
-            <input type="hidden" name="idRutina" value="<%=idRutina%>"/>
-            <input type="hidden" name="nombreRutina" value="<%=nombreRutina%>"/>
-            <input type="hidden" name="descripcionRutina" value="<%=descripcionRutina%>"/>
-            <input type="hidden" name="numEntrenamientos" value="<%=numEntrenamientos%>"/>
+            <input type="hidden" name="idRutina" value="<%%>"/>
+            <input type="hidden" name="nombreRutina" value="<%%>"/>
+            <input type="hidden" name="descripcionRutina" value="<%%>"/>
+            <input type="hidden" name="numEntrenamientos" value="<%%>"/>
 
             <td>
                 <select name="idEntrenamiento">
-                    <% for (Entrenamiento entrenamiento : entrenamientos) { %>
-                    <option value="<%= entrenamiento.getId() %>"><%= entrenamiento.getNombre() %>
+                    <% for (EntrenamientoRutina entrenamiento : entrenamientos) { %>
+                    <option value="<%= entrenamiento.getId() %>"><%= entrenamiento.getEntrenamiento().getNombre() %>
                     </option>
                     <% } %>
                 </select>
@@ -204,11 +203,7 @@
         <tr>
             <td colspan="2">
                 <div class="button-container">
-                    <% if (numeroDia < numEntrenamientos) {%>
                     <button type="submit" class="add-button">Añadir</button>
-                    <%} else {%>
-                    <button type="submit" class="add-button">Crear Rutina</button>
-                    <%}%>
                 </div>
             </td>
 
@@ -217,9 +212,16 @@
         </tfoot>
 
     </table>
-
+    <%
+        }
+    %>
 </form>
 
+<div class="button-container">
+    <a href="/crossfit/crud" class="new-routine-btn">Crear Rutina</a>
+    <a></a>
+
+</div>
 
 </body>
 </html>
