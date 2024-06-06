@@ -13,7 +13,8 @@
 
 <body class="d-flex flex-column min-vh-100">
 
-<footer class="footer fixed-bottom py-3 bg-light">
+<!--<footer class="footer fixed-bottom py-3 bg-light"> -->
+<footer class="footer fixed py-3 bg-light">
     <div class="container text-center">
         <p class="mb-0">&copy; 2024 Universidad de Málaga.</p>
         <p class="mb-0">Grupo 4: Alba, Torrecilla, Miki, Alonso, Álvaro.</p>
