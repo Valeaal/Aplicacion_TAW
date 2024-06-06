@@ -12,6 +12,7 @@
     List<Ejercicio> ejercicios = (List<Ejercicio>) request.getAttribute("ejercicios");
     HashMap<Integer, List<Float>> map = (HashMap<Integer, List<Float>>) request.getAttribute("map");
     Integer clientId = (Integer) request.getAttribute("clientId");
+    Integer entrenamientoId = (Integer) request.getAttribute("entrenamientoId");
 %>
 <html>
 <head>
@@ -39,6 +40,7 @@
             int series = (int)(float)descripcion.get(0);
             int reps = (int)(float)descripcion.get(1);
             Float peso = descripcion.get(2);
+            int realizado = (int) (float)descripcion.get(3);
         %>
         <tr>
             <td><%= ejercicio.getNombre() %></td>
@@ -50,7 +52,18 @@
             <td><%= series %></td>
             <td><%= reps %></td>
             <td><%= peso %></td>
-            <td><a href="/desempeno?id=<%=ejercicio.getId()%>&clientId=<%=clientId%>" class="btn btn-primary">Valorar</a></td>
+            <%
+                if(realizado == 0){
+            %>
+            <td><a href="/desempeno?id=<%=ejercicio.getId()%>&clientId=<%=clientId%>&entrenamientoId=<%=entrenamientoId%>" class="btn btn-primary">Valorar</a></td>
+            <%
+                } else {
+            %>
+            <td><a href="/verDesempeno?id=<%=ejercicio.getId()%>&clientId=<%=clientId%>&entrenamientoId=<%=entrenamientoId%>" class="btn btn-primary">Ver valoración</a></td>
+
+            <%
+                }
+            %>
         </tr>
         <% } %>
         </tbody>

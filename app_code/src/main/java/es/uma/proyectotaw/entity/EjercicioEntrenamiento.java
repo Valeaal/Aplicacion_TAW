@@ -22,23 +22,23 @@ public class EjercicioEntrenamiento {
     @JoinColumn(name = "entrenamiento_id", nullable = false)
     private Entrenamiento entrenamiento;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "desempeno_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "desempeno_id", nullable = false)
     private Desempeno desempeno;
 
-    @Column(name = "series")
+    @Column(name = "series", nullable = false)
     private Integer series;
 
-    @Column(name = "repeticiones")
+    @Column(name = "repeticiones", nullable = false)
     private Integer repeticiones;
 
-    @Column(name = "peso")
+    @Column(name = "peso", nullable = false)
     private Float peso;
 
-    @Column(name = "tiempo")
+    @Column(name = "tiempo", nullable = false)
     private Integer tiempo;
 
-    @Column(name = "distancia")
+    @Column(name = "distancia", nullable = false)
     private Float distancia;
 
     @Column(name = "orden", nullable = false)

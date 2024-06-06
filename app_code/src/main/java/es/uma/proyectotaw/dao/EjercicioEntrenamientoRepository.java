@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface EjercicioEntrenamientoRepository extends JpaRepository<EjercicioEntrenamiento, Integer> {
-    @Query("select e from EjercicioEntrenamiento e where e.ejercicio.id= :ejercicioId")
-    public EjercicioEntrenamiento getEjercicioEntrenamientoFromEjId(@Param("ejercicioId") Integer ejercicioId);
+    @Query("SELECT e FROM EjercicioEntrenamiento e WHERE e.ejercicio.id=:ejercicioId AND e.entrenamiento.id=:entrenamientoId")
+    EjercicioEntrenamiento getEjercicioEntrenamientoFromEjAndEntrenamientoId(Integer ejercicioId, Integer entrenamientoId);
 }

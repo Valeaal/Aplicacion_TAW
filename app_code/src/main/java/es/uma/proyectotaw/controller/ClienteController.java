@@ -2,6 +2,7 @@ package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.ui.ComidaFiltro;
 import es.uma.proyectotaw.ui.DesempenyoFiltro;
+import es.uma.proyectotaw.ui.DesempenyoYEjercicio;
 import es.uma.proyectotaw.ui.RutinaFiltro;
 import org.springframework.ui.Model;
 import es.uma.proyectotaw.entity.*;
@@ -85,32 +86,77 @@ public class ClienteController {
             int series = ejercicioRepository.findEjercicioSeries(ejercicio.getId(), id);
             int rep = ejercicioRepository.findEjercicioRepeticiones(ejercicio.getId(), id);
             float peso = ejercicioRepository.findEjercicioPeso(ejercicio.getId(), id);
+            int realizado = 1;
+            int eeID= ejercicioRepository.findId(ejercicio.getId(), id);
+            EjercicioEntrenamiento ee = ejercicioEntrenamientoRepository.getReferenceById(eeID);
+            if(ee.getDesempeno()==null){
+                realizado = 0;
+            }
             List<Float> lista = new ArrayList<>();
             lista.add((float) series);
             lista.add((float) rep);
             lista.add(peso);
+            lista.add((float) realizado);
             map.put(ejercicio.getId(), lista);
         }
         model.addAttribute("map", map);
         model.addAttribute("clientId", clientId);
+        model.addAttribute("entrenamientoId", id);
         return "/cliente/diaRutina";
     }
 
     @GetMapping("/desempeno")
-    public String getDesempeno(@RequestParam("id") Integer id, @RequestParam("clientId") Integer clientId, Model model){
+    public String getDesempeno(@RequestParam("id") Integer id,
+                               @RequestParam("clientId") Integer clientId,
+                               @RequestParam("entrenamientoId") Integer entrenamientoId,
+                               Model model){
         Ejercicio ejercicio = ejercicioRepository.getReferenceById(id);
         Cliente cliente = clienteRepository.getReferenceById(clientId);
-        Desempeno desempeno = new Desempeno();
+        //Desempeno desempeno = new Desempeno();
+        DesempenyoYEjercicio desempeno = new DesempenyoYEjercicio();
         model.addAttribute("ejercicio", ejercicio);
         model.addAttribute("desempeno", desempeno);
         model.addAttribute("cliente", cliente);
+        model.addAttribute("entrenamientoId", entrenamientoId);
+        return "/cliente/desempeno";
+    }
+
+    @GetMapping("/verDesempeno")
+    public String verDesempeno(@RequestParam("id") Integer id,
+                               @RequestParam("clientId") Integer clientId,
+                               @RequestParam("entrenamientoId") Integer entrenamientoId,
+                               Model model){
+        Ejercicio ejercicio = ejercicioRepository.getReferenceById(id);
+        Cliente cliente = clienteRepository.getReferenceById(clientId);
+        Desempeno d = desempenoRepository.getDesempenoByEntremanientoAndEjId(id, entrenamientoId);
+
+        DesempenyoYEjercicio desempeno = new DesempenyoYEjercicio();
+        desempeno.setComentarios(d.getComentarios());
+        desempeno.setValoracion(d.getValoracion());
+        desempeno.setPesoRealizado(d.getPesoRealizado());
+
+        model.addAttribute("ejercicio", ejercicio);
+        model.addAttribute("desempeno", desempeno);
+        model.addAttribute("cliente", cliente);
+        model.addAttribute("entrenamientoId", entrenamientoId);
         return "/cliente/desempeno";
     }
 
     @PostMapping("/guardarDesempeno")
-    public String guardarDesempeno(@ModelAttribute("desempeno") Desempeno desempeno, Model model){
-        desempenoRepository.save(desempeno);
-        return "redirect:/rutina?id="+ desempeno.getCliente().getUsuario().getId();
+    public String guardarDesempeno(@ModelAttribute("desempeno") DesempenyoYEjercicio desempeno, Model model){
+        Desempeno d = new Desempeno();
+        Cliente c = clienteRepository.getReferenceById(desempeno.getCliente());
+        d.setCliente(c);
+        d.setPesoRealizado(desempeno.getPesoRealizado());
+        d.setComentarios(desempeno.getComentarios());
+        d.setValoracion(desempeno.getValoracion());
+
+        EjercicioEntrenamiento ee = ejercicioEntrenamientoRepository.getEjercicioEntrenamientoFromEjAndEntrenamientoId(desempeno.getEjercicio(), desempeno.getEntrenamiento());
+        ee.setDesempeno(d);
+
+        desempenoRepository.save(d);
+        ejercicioEntrenamientoRepository.save(ee);
+        return "redirect:/rutina?id="+ c.getUsuario().getId();
     }
 
     @GetMapping("/comida")
