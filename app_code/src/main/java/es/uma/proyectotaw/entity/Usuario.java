@@ -34,8 +34,8 @@ public class Usuario {
     @Column(name = "pertenece_desde", nullable = false)
     private LocalDate perteneceDesde;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "tipo_usuario_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tipo_usuario_id")
     private TipoUsuario tipoUsuario;
 
 }

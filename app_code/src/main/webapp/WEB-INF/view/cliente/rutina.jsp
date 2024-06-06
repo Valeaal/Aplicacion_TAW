@@ -39,16 +39,16 @@
                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                     Día <%= dia %>
                     <%
-                        Set<EjercicioEntrenamiento> aux = (Set<EjercicioEntrenamiento>) e.getEjercicios();
-                        double porcentaje = 0.0;
-                        for (EjercicioEntrenamiento a : aux) {
-                            porcentaje += a.getCompletado();
-                        }
-                        if (porcentaje > 0.0) {
-                            porcentaje = porcentaje / aux.size();
-                        }
+//                        Set<EjercicioEntrenamiento> aux = (Set<EjercicioEntrenamiento>) e.getEjercicios();
+//                        double porcentaje = 0.0;
+//                        for (EjercicioEntrenamiento a : aux) {
+//                            porcentaje += a.getCompletado();
+//                        }
+//                        if (porcentaje > 0.0) {
+//                            porcentaje = porcentaje / aux.size();
+//                        }
                     %>
-                    <span class="badge badge-primary badge-pill">%%</span> <%=porcentaje%> %
+                    <span class="badge badge-primary badge-pill">%%</span> 50%
                 </a>
                 <% dia++; %>
                 <% } %>

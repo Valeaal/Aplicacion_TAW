@@ -9,16 +9,15 @@ import lombok.Setter;
 @Entity
 @Table(name = "entrenamiento_rutina")
 public class EntrenamientoRutina {
-    @EmbeddedId
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private EntrenamientoRutinaId id;
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
-    @MapsId("entrenamientoId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "entrenamiento_id", nullable = false)
     private Entrenamiento entrenamiento;
 
-    @MapsId("rutinaId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "rutina_id", nullable = false)
     private Rutina rutina;
