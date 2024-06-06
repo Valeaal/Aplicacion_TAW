@@ -22,6 +22,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query("select u from Usuario u where u.tipoUsuario = :inputTipo")
     public List<Usuario> buscarPorTipo(@Param("inputTipo") TipoUsuario inputTipo);
 
+    @Query("select u.tipoUsuario from Usuario u group by u.tipoUsuario")
+    public List<TipoUsuario> sacarRoles();
+
     @Query("select YEAR(current_date) - YEAR(u.fechaNacimiento) as edad from Usuario u group by edad order by 1 desc")
     public List<Integer> sacarEdades();
 

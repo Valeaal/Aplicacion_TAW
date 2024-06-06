@@ -5,9 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Set;
 import java.util.HashSet;
-
+import java.util.Set;
 
 @Getter
 @Setter
@@ -29,9 +28,18 @@ public class Rutina {
     @Column(name = "fecha_creacion", nullable = false)
     private LocalDate fechaCreacion;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "entrenador_id", nullable = false)
+    private Usuario entrenador;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tipo_rutina")
+    private TipoRutina tipoRutina;
+
     @OneToMany(mappedBy = "rutina")
     private Set<ClienteRutina> clientes = new HashSet<>();
 
     @OneToMany(mappedBy = "rutina")
     private Set<EntrenamientoRutina> entrenamientos = new HashSet<>();
+
 }

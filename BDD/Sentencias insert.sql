@@ -1,79 +1,80 @@
--- Inserting into `tipo_usuario`
-INSERT INTO `TAW`.`tipo_usuario` (`tipo`) VALUES ('admin'), ('entrenador_bodybuilding'), ('dietista'), ('cliente');
+-- Insertar datos en la tabla tipo_usuario
+INSERT INTO TAW.tipo_usuario (id, tipo) VALUES 
+(1, 'admin'),
+(2, 'entrenador_bodybuilding'),
+(3, 'entrenador_crossfit'),
+(4, 'dietista'),
+(5, 'cliente');
 
--- Inserting into `usuario`
-INSERT INTO `TAW`.`usuario` (`email`, `password`, `nombre`, `apellidos`, `fecha_nacimiento`, `pertenece_desde`, `tipo_usuario_id`) 
-VALUES ('admin@example.com', 'adminpass', 'Admin', 'Istrador', '1980-01-01', '2020-01-01', 1),
-       ('trainer@example.com', 'trainerpass', 'Trainer', 'Fitness', '1990-02-02', '2020-02-01', 2),
-       ('diet@example.com', 'dietpass', 'Diet', 'Expert', '1995-03-03', '2021-01-01', 3);
+-- Insertar datos en la tabla usuario
+INSERT INTO TAW.usuario (id, email, password, nombre, apellidos, fecha_nacimiento, pertenece_desde, tipo_usuario_id) VALUES 
+(1, 'admin@example.com', 'password', 'Admin', 'Admin', '1980-01-01', '2020-01-01', 1),
+(2, 'bbtrainer@example.com', 'password', 'John', 'Doe', '1990-05-15', '2021-06-01', 2),
+(3, 'cftrainer@example.com', 'password', 'Jane', 'Smith', '1985-07-22', '2021-06-01', 3),
+(4, 'dietista@example.com', 'password', 'Emily', 'Brown', '1992-03-10', '2021-06-01', 4),
+(5, 'client@example.com', 'password', 'client', 'client', '1992-03-10', '2021-06-01', 5);
 
--- Inserting into `dieta`
-INSERT INTO `TAW`.`dieta` (`dietista_id`, `nombre`, `descripcion`, `fecha`) 
-VALUES (3, 'Weight Loss', 'A diet plan designed for weight loss', '2024-01-01'),
-       (3, 'Muscle Gain', 'A diet plan designed to increase muscle mass', '2024-01-02');
+-- Insertar datos en la tabla dieta
+INSERT INTO TAW.dieta (id, dietista_id, nombre, descripcion, fecha) VALUES 
+(1, 4, 'Dieta Keto', 'Dieta basada en altos niveles de grasas y bajos en carbohidratos', '2023-01-01');
 
--- Inserting into `cliente`
-INSERT INTO `TAW`.`cliente` (`usuario_id`, `dieta_id`, `peso`, `altura`, `edad`) 
-VALUES (4, 3, 80.5, 180, 30),
-       (4, 4, 85.0, 180, 32);
+-- Insertar datos en la tabla cliente
+INSERT INTO TAW.cliente (id, usuario_id, dieta_id, entrenador_id, peso, altura, edad, dietista_id) VALUES 
+(1, 5, 1, 2, 70.5, 175, 30, 4);
 
--- Inserting into `rutina`
-INSERT INTO `TAW`.`rutina` (`nombre`, `entrenador_id`, `descripcion`, `fecha_creacion`) 
-VALUES ('General Fitness', 6,'Routine for overall fitness', '2024-04-01'),
-       ('Strength Training',6, 'Routine for strength training', '2024-04-02');
+-- Insertar datos en la tabla tipo_rutina
+INSERT INTO TAW.tipo_rutina (id, tipo) VALUES 
+(1, 'Cross-Training'),
+(2, 'Bodybuilding');
 
--- Inserting into `cliente_rutina`
-INSERT INTO `TAW`.`cliente_rutina` (`cliente_id`, `rutina_id`, `vigente`) 
-VALUES (1, 1, b'1'),
-       (2, 2, b'1');
+-- Insertar datos en la tabla rutina
+INSERT INTO TAW.rutina (id, nombre, descripcion, fecha_creacion, entrenador_id, tipo_rutina) VALUES 
+(1, 'Rutina Fuerza', 'Rutina de fuerza para principiantes', '2023-01-01', 2, 2);
 
--- Inserting into `comida`
-INSERT INTO `TAW`.`comida` (`nombre`, `descripcion`) 
-VALUES ('Chicken Salad', 'A healthy salad with grilled chicken breast'),
-       ('Protein Shake', 'A nutritious protein shake with banana and peanut butter');
+-- Insertar datos en la tabla cliente_rutina
+INSERT INTO TAW.cliente_rutina (id, cliente_id, rutina_id, vigente) VALUES 
+(1, 1, 1, b'1');
 
--- Inserting into `menu`
-INSERT INTO `TAW`.`menu` (`nombre`, `descripcion`, `alergenos`) 
-VALUES ('Healthy Choice', 'Menu focused on healthy, low-calorie options', 'None'),
-       ('Power Boost', 'Menu designed to maximize energy and performance', 'Peanuts');
+-- Insertar datos en la tabla comida
+INSERT INTO TAW.comida (id, nombre, descripcion) VALUES 
+(1, 'Pollo a la plancha', 'Pollo cocido a la plancha con especias');
 
--- Inserting into `comida_menu`
-INSERT INTO `TAW`.`comida_menu` (`comida_id`, `menu_id`) 
-VALUES (1, 1),
-       (2, 2);
+-- Insertar datos en la tabla menu
+INSERT INTO TAW.menu (id, nombre, descripcion, alergenos) VALUES 
+(1, 'Menu Saludable', 'Menu equilibrado sin alergenos', 'Ninguno');
 
--- Inserting into `desempeno`
-INSERT INTO `TAW`.`desempeno` (`cliente_id`, `valoracion`, `peso_realizado`, `comentarios`) 
-VALUES (1, 5, 80.5, 'Buen entrenamiento'),
-       (2, 4, 85.0, 'Está bien , pero podría mejorarse');
+-- Insertar datos en la tabla comida_menu
+INSERT INTO TAW.comida_menu (id, comida_id, menu_id) VALUES 
+(1, 1, 1);
 
--- Inserting into `dieta_comida`
-INSERT INTO `TAW`.`dieta_comida` (`dieta_id`, `comida_id`, `momento_dia`) 
-VALUES (3, 1, 1), -- 1: Breakfast
-       (4, 2, 2); -- 2: Lunch
+-- Insertar datos en la tabla desempeno
+INSERT INTO TAW.desempeno (id, cliente_id, valoracion, peso_realizado, comentarios) VALUES 
+(1, 1, 5, 70.5, 'Muy buen desempeño');
 
--- Inserting into `tipo_ejercicio`
-INSERT INTO `TAW`.`tipo_ejercicio` (`tipo`) VALUES ('fuerza'), ('flexibilidad');
+-- Insertar datos en la tabla dieta_comida
+INSERT INTO TAW.dieta_comida (id, dieta_id, comida_id, momento_dia) VALUES 
+(1, 1, 1, 1);
 
--- Inserting into `grupo_muscular`
-INSERT INTO `TAW`.`grupo_muscular` (`grupo`) VALUES ('pecho'), ('bicep');
+-- Insertar datos en la tabla tipo_ejercicio
+INSERT INTO TAW.tipo_ejercicio (id, tipo) VALUES 
+(1, 'fuerza');
 
--- Inserting into `ejercicio`
-INSERT INTO `TAW`.`ejercicio` (`nombre`, `tipo`, `descripcion`, `url_video`, `grupo_muscular_id`) 
-VALUES ('Bench Press', 1, 'Standard bench press', '', 1),
-       ('Bicep Curl', 2, 'Dumbbell bicep curl', '', 2);
+-- Insertar datos en la tabla grupo_muscular
+INSERT INTO TAW.grupo_muscular (id, grupo) VALUES 
+(1, 'pecho');
 
--- Inserting into `entrenamiento`
-INSERT INTO `TAW`.`entrenamiento` (`nombre`, `descripcion`, `tipo`) 
-VALUES ('Upper Body Strength', 'Focused upper body strength training', 1),
-       ('Flexibility Routine', 'Routine for improved flexibility', 2);
+-- Insertar datos en la tabla ejercicio
+INSERT INTO TAW.ejercicio (id, nombre, descripcion, url_video, grupo_muscular_id, tipo) VALUES 
+(1, 'Press de banca', 'Ejercicio para trabajar el pecho', 'http://example.com/video', 1, 1);
 
--- Inserting into `ejercicio_entrenamiento`
-INSERT INTO `TAW`.`ejercicio_entrenamiento` (`ejercicio_id`, `entrenamiento_id`, `desempeno_id`, `series`, `repeticiones`, `peso`, `tiempo`, `distancia`, `orden`) 
-VALUES (1, 1, 1, 3, 10, 50.0, 0, 0.0, 1),
-       (2, 2, 2, 3, 12, 20.0, 0, 0.0, 1);
+-- Insertar datos en la tabla entrenamiento
+INSERT INTO TAW.entrenamiento (id, nombre, descripcion) VALUES 
+(1, 'Entrenamiento de fuerza', 'Entrenamiento de fuerza para todos los niveles');
 
--- Inserting into `entrenamiento_rutina`
-INSERT INTO `TAW`.`entrenamiento_rutina` (`entrenamiento_id`, `rutina_id`, `dia_semana`) 
-VALUES (1, 1, 1),  -- 1: Monday
-       (2, 2, 3);  -- 3: Wednesday
+-- Insertar datos en la tabla ejercicio_entrenamiento
+INSERT INTO TAW.ejercicio_entrenamiento (id, ejercicio_id, entrenamiento_id, desempeno_id, series, repeticiones, peso, tiempo, distancia, orden) VALUES 
+(1, 1, 1, 1, 3, 10, 70.0, NULL, NULL, 1);
+
+-- Insertar datos en la tabla entrenamiento_rutina
+INSERT INTO TAW.entrenamiento_rutina (id, entrenamiento_id, rutina_id, dia_semana) VALUES 
+(1, 1, 1, 1);

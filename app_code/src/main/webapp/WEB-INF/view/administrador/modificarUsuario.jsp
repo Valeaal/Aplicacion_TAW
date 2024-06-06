@@ -5,13 +5,13 @@
 
 <%
     Usuario usr = (Usuario) request.getAttribute("usuario");
-    Set<TipoUsuario> roles = (Set<TipoUsuario>) request.getAttribute("roles");
+    List<TipoUsuario> roles = (List<TipoUsuario>) request.getAttribute("roles");
 %>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Usuario</title>
+    <title>Gestión de usuarios</title>
     <!-- Enlace a Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -25,10 +25,13 @@
 
     <form action="/admin/usuarios/actualizar" method="post">
 
+        <!-- Campo oculto para el ID-->
+        <input type="hidden" name="usuarioId" value="<%=usr.getId()%>">
+
         <!-- Campo de Email -->
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="inputEmail" value="<%=usr.getEmail()%>" required>
+            <input type="text" class="form-control" id="email" name="inputEmail" value="<%=usr.getEmail()%>" required>
         </div>
 
         <!-- Campo de Nombre -->
@@ -40,15 +43,13 @@
         <!-- Campo de Apellidos -->
         <div class="mb-3">
             <label for="apellidos" class="form-label">Apellidos</label>
-            <input type="text" class="form-control" id="apellidos" name="inputApellidos" value="<%=usr.getApellidos()%>"
-                   required>
+            <input type="text" class="form-control" id="apellidos" name="inputApellidos" value="<%=usr.getApellidos()%>" required>
         </div>
 
         <!-- Campo de Fecha de Nacimiento -->
         <div class="mb-3">
             <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
-            <input type="date" class="form-control" id="fechaNacimiento" name="inputNacimiento"
-                   value="<%=usr.getFechaNacimiento()%>" required>
+            <input type="date" class="form-control" id="fechaNacimiento" name="inputNacimiento" value="<%=usr.getFechaNacimiento()%>" required>
         </div>
 
         <!-- Campo de Fecha de Ingreso -->

@@ -1,7 +1,6 @@
 package es.uma.proyectotaw.dao;
 
 import es.uma.proyectotaw.entity.Ejercicio;
-import es.uma.proyectotaw.entity.Rutina;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
