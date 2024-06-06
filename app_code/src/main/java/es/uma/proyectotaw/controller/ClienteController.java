@@ -51,6 +51,7 @@ public class ClienteController {
     public String rutina(@RequestParam("id") Integer id, Model model) {
         Cliente client = clienteRepository.getClienteByUserId(id);
         Rutina rutina = rutinaRepository.getActiveRutinasByClienteId(client.getId()).get(0);
+        int n = rutina.getId();
         List<Entrenamiento> entrenamientos = entrenamientoRepository.findByRutinaId(rutina.getId());
         List<GrupoMuscular> grupomuscular = grupoMuscularRepository.findAll();
         model.addAttribute("rutina", rutina);
@@ -66,7 +67,7 @@ public class ClienteController {
     public String menu(@RequestParam("id") Integer id, Model model){
         Cliente client = clienteRepository.getClienteByUserId(id);
         Dieta dieta = client.getDieta();
-        Set<DietaComida> dietaComidas = dieta.getDietas();
+        Set<DietaComida> dietaComidas = dietaRepository.getComidaDietaByDietaId(dieta.getId());
         List<Comida> comidas = dietaRepository.findComidasByDietaId(dieta.getId());
         model.addAttribute("dieta", dieta);
         model.addAttribute("dietaComidas", dietaComidas);
