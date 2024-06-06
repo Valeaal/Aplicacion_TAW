@@ -13,6 +13,9 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
     @Query("select u from Cliente  u where u.dieta IS NULL")
     public List<Cliente> getClientesSinDieta();
+
+    @Query("select u from Cliente u where u.id = :userId")
+    public Cliente getClienteById(Integer userId);
 }
 
 

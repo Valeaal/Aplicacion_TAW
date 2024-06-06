@@ -47,7 +47,7 @@ public class DietistaController {
                                               Model model) {
 
         if (clienteId != null && dietaId != null) {
-            Cliente cliente = clienteRepository.getClienteByUserId(clienteId);
+            Cliente cliente = clienteRepository.getClienteById(clienteId);
             Dieta dieta = dietaRepository.buscarPorID(dietaId);
 
             cliente.setDieta(dieta);
