@@ -15,8 +15,8 @@ INSERT INTO TAW.usuario (id, email, password, nombre, apellidos, fecha_nacimient
 (5, 'client@example.com', 'password', 'client', 'client', '1992-03-10', '2021-06-01', 5);
 
 -- Insertar datos en la tabla dieta
-INSERT INTO TAW.dieta (id, dietista_id, nombre, descripcion, fecha) VALUES 
-(1, 4, 'Dieta Keto', 'Dieta basada en altos niveles de grasas y bajos en carbohidratos', '2023-01-01');
+INSERT INTO TAW.dieta (id, dietista_id, nombre, descripcion, fecha, calorias) VALUES 
+(1, 4, 'Dieta Keto', 'Dieta basada en altos niveles de grasas y bajos en carbohidratos', '2023-01-01', 2000);
 
 -- Insertar datos en la tabla cliente
 INSERT INTO TAW.cliente (id, usuario_id, dieta_id, entrenador_id, peso, altura, edad, dietista_id) VALUES 

@@ -49,7 +49,7 @@
                     <a class="nav-link" href="admin/ejercicios">Gestionar ejercicios</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="admin/comidas">Gestionar comidas</a>
+                    <a class="nav-link" href="admin/menus">Gestionar menús</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/salir">Salir</a>

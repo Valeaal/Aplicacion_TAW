@@ -28,6 +28,8 @@ public class AdminController {
     private TipoEjercicioRepository tipoEjercicioRepository;
     @Autowired
     private GrupoMuscularRepository grupoMuscularRepository;
+    @Autowired
+    private MenuRepository menuRepository;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //GESTIÓN DE LOS USUARIOS
@@ -359,6 +361,32 @@ public class AdminController {
         ejercicioRepository.save(ejercicio);
 
         return "redirect:/admin/ejercicios";
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //GESTIÓN DE LOS MENÚS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @GetMapping("/menus")
+    public String menus(Model model) {
+
+        //------------ PARA RELLENAR LA TABLA DE USUARIOS (sin filtro)------------//
+        List<Menu> menusCompleto = menuRepository.findAll();
+        model.addAttribute("menus", menusCompleto);
+
+        return "/administrador/menus";
+    }
+
+    @GetMapping("/menus/filtrar")
+    public String Menufiltrar(@RequestParam("inputNombre") String inputNombre,
+                              @RequestParam("inputAlergenos") String inputAlergenos, Model model) {
+
+        //------------ PARA RELLENAR LA TABLA (con filtros)------------//
+
+        List<Menu> menusFiltrado = menuRepository.filtrarMenus(inputNombre, inputAlergenos);
+        model.addAttribute("menus", menusFiltrado);
+
+        return "administrador/menus";
     }
 
 

@@ -65,6 +65,7 @@ CREATE TABLE IF NOT EXISTS TAW.dieta (
   nombre VARCHAR(255) NOT NULL,
   descripcion TEXT NULL DEFAULT NULL,
   fecha DATE NOT NULL,
+  calorias INT NOT NULL,  -- Nuevo atributo
   PRIMARY KEY (id),
   INDEX dietista_id (dietista_id ASC) VISIBLE,
   CONSTRAINT dieta_ibfk_1
