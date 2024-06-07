@@ -2,6 +2,8 @@ package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dao.*;
 import es.uma.proyectotaw.entity.*;
+import es.uma.proyectotaw.ui.FiltroDietas;
+import es.uma.proyectotaw.ui.SeguimientoDietasCliente;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -63,6 +65,7 @@ public class DietistaController {
     public String doDietas(Model model) {
         List<Dieta> dietas = dietaRepository.findAll();
         model.addAttribute("dietas", dietas);
+        model.addAttribute("FiltroDietas", new FiltroDietas());
         return "dietista/crudDietas";
     }
 
@@ -85,8 +88,29 @@ public class DietistaController {
     public String doSeguimientoClientes(Model model){
         List<Cliente> clientes = this.clienteRepository.getClientesConDieta();
         model.addAttribute("clientes", clientes);
+        model.addAttribute("SeguimientoDietasCliente", new SeguimientoDietasCliente());
         return "dietista/seguimientoClientes";
     }
+
+    @PostMapping("/filtrarClientesSeguimiento")
+    public String buscarClientes(@ModelAttribute("SeguimientoDietasCliente") SeguimientoDietasCliente seguimientoDietasCliente, Model model) {
+        if(seguimientoDietasCliente.getDieta()==""){seguimientoDietasCliente.setDieta(null);}
+        if(seguimientoDietasCliente.getNombre()==""){seguimientoDietasCliente.setNombre(null);}
+        List<Cliente> clientes = clienteRepository.getClienteFiltrado(seguimientoDietasCliente.getEdad(), seguimientoDietasCliente.getNombre(), seguimientoDietasCliente.getDieta());
+        model.addAttribute("clientes", clientes);
+        return "dietista/seguimientoClientes";
+    }
+
+    @PostMapping("/filtrarDietas")
+    public String filtrarDietas(@ModelAttribute("FiltroDietas") FiltroDietas filtroDietas, Model model){
+        if(filtroDietas.getNombre()==""){filtroDietas.setNombre(null);}
+        List<Dieta> dietas = dietaRepository.getDietasFiltradas(filtroDietas.getNombre(), filtroDietas.getCalorias());
+        model.addAttribute("dietas", dietas);
+        return "dietista/crudDietas";
+    }
+
+
+
 
 
 

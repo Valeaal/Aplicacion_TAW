@@ -1,5 +1,6 @@
 <%@ page import="es.uma.proyectotaw.entity.Cliente" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %><%--
   Created by IntelliJ IDEA.
   User: javiertorrecilla
   Date: 1/5/24
@@ -70,31 +71,22 @@
     <div class="row">
         <div class="col-md-12">
             <h2 class="text-center">Seguimiento Clientes</h2>
-            <div class="search-section">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Buscar cliente" aria-label="Buscar cliente" aria-describedby="button-addon2">
+            <form:form method="post" action="/filtrarClientesSeguimiento" modelAttribute="SeguimientoDietasCliente">
+                <div class="search-section">
+                    <div class="input-group">
+                        <form:input path="nombre" class="form-control" placeholder="Buscar cliente" aria-label="Buscar cliente"/>
+                    </div>
+                    <div class="input-group">
+                        <form:input path="edad" type="number" class="form-control" placeholder="Edad" aria-label="Edad" min="14" max="100"/>
+                    </div>
+                    <div class="input-group">
+                        <form:input path="dieta" class="form-control" placeholder="Dieta" aria-label="Dieta"/>
+                    </div>
                     <div class="input-group-append">
-                        <button class="btn btn-outline-primary" type="button" id="button-addon2">Buscar</button>
+                        <button class="btn btn-outline-primary" type="submit">Buscar</button>
                     </div>
                 </div>
-                <select class="custom-select">
-                    <option selected>Género</option>
-                    <option value="1">Hombre</option>
-                    <option value="2">Mujer</option>
-                </select>
-                <div class="input-group">
-                    <input type="number" class="form-control" placeholder="Edad" aria-label="Edad" aria-describedby="button-addon2" min="14" max="100">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-primary" type="button" id="buscarEdad">Buscar</button>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <input type="number" class="form-control" placeholder="Ingreso" aria-label="Ingreso" aria-describedby="button-addon2" min="14" max="100">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-primary" type="button" id="buscarIngreso">Buscar</button>
-                    </div>
-                </div>
-            </div>
+            </form:form>
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
@@ -109,7 +101,7 @@
                     </thead>
                     <tbody>
                     <%
-                        for(Cliente cliente : clientes) {
+                        for (Cliente cliente : clientes) {
                     %>
                     <tr>
                         <td><%=cliente.getUsuario().getNombre()%></td>
