@@ -1,0 +1,175 @@
+<%@ page import="es.uma.proyectotaw.entity.Entrenamiento" %>
+<%@ page import="java.util.List" %><%--
+  Created by IntelliJ IDEA.
+  User: pablo
+  Date: 07/06/2024
+  Time: 18:30
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    Integer idRutina = (Integer) request.getAttribute("idRutina");
+    List<Entrenamiento> entrenamientos = (List<Entrenamiento>) request.getAttribute("entrenamientos");
+%>
+<html>
+<head>
+    <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 45%;
+        }
+
+        h1, h2, h5 {
+            color: #333;
+            margin: 10px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            height: fit-content;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background-color: #f9f9f9;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 400px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <form method="post" action="/guardarEntrenamientoNuevoDeRutina">
+        <input type="hidden" name="idRutina" value="<%=idRutina%>"/>
+        <h2>Añadir a la rutina
+        </h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Seleccione Entrenamiento</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <select name="idEntrenamiento">
+                        <% for (Entrenamiento entrenamiento : entrenamientos) { %>
+                        <option value="<%= entrenamiento.getId() %>"><%= entrenamiento.getNombre() %>
+                        </option>
+                        <% } %>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <select name="diaSemana">
+                    <option value="1">Lunes</option>
+                    <option value="2">Martes</option>
+                    <option value="3">Miercoles</option>
+                    <option value="4">Jueves</option>
+                    <option value="5">Viernes</option>
+                    <option value="6">Sabado</option>
+                    <option value="7">Domingo</option>
+                </select>
+            </tr>
+
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="2">
+                    <div class="button-container">
+                        <button type="submit" class="add-button">Añadir</button>
+                    </div>
+                </td>
+            </tr>
+
+            </tfoot>
+
+        </table>
+
+    </form>
+
+
+</div>
+</body>
+</html>

@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="es.uma.proyectotaw.entity.Entrenamiento" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.Rutina" %>
@@ -5,7 +6,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Rutina rutina = (Rutina) request.getAttribute("rutina");
-    List<EntrenamientoRutina> entrenamientos = (List<EntrenamientoRutina>) request.getAttribute("entrenamientosdeRutina");
+    List<EntrenamientoRutina> entrenamientosdeRutina = (List<EntrenamientoRutina>) request.getAttribute("entrenamientosdeRutina");
+    List<Entrenamiento> entrenamientos = (List<Entrenamiento>) request.getAttribute("entrenamientos");
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -15,134 +17,102 @@
     <title>Tablas de Entrenamientos</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
+        }
+
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
             padding: 20px;
-            color: #333;
         }
 
-        h1 {
-            color: #007bff;
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
             text-align: center;
-            margin-bottom: 40px;
+            width: 45%;
         }
 
-        h2 {
+        h1, h2, h5 {
             color: #333;
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 10px;
-            margin-top: 40px;
+            margin: 10px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
             margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            background-color: #0056b3;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            height: fit-content;
         }
 
         th, td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: center;
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
         }
 
         th {
-            background-color: #007bff;
-            color: #fff;
+            background-color: #f9f9f9;
+            font-weight: 600;
         }
 
-        select {
-            width: 100%;
-            padding: 10px;
-            margin: 20px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
         }
 
-        .error {
-            color: red;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-
-        .button-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .add-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            background-color: #28a745;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .add-button:hover {
-            background-color: #218838;
-        }
-
-        .modern-button, .cancel-button {
-            display: inline-block;
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            margin: 0 10px;
-        }
-
-        .modern-button {
-            color: #fff;
-            background-color: #007bff;
-        }
-
-        .modern-button:hover {
-            background-color: #0056b3;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .modern-button:active {
-            background-color: #004494;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transform: translateY(0);
-        }
-
-        .cancel-button {
-            color: #fff;
-            background-color: #dc3545;
-        }
-
-        .cancel-button:hover {
-            background-color: #c82333;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .cancel-button:active {
-            background-color: #bd2130;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transform: translateY(0);
-        }
-
-        .new-routine-btn {
-            padding: 12px 25px;
-            font-size: 16px;
+        .btn {
+            padding: 8px 15px;
+            font-size: 14px;
             color: #ffffff;
-            background-color: #28a745;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -150,78 +120,117 @@
             transition: background-color 0.3s;
         }
 
-        .new-routine-btn:hover {
+        .btn-ok {
+            background-color: #28a745;
+        }
+
+        .btn-ok:hover {
             background-color: #218838;
+        }
+
+        .btn-borrar {
+            background-color: #dc3545;
+        }
+
+        .btn-borrar:hover {
+            background-color: #c82333;
+        }
+
+        .btn-add {
+            background-color: #17a2b8;
+        }
+
+        .btn-add:hover {
+            background-color: #138496;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     </style>
 </head>
 <body>
-<h1>Escoja un entrenamiento para cada día</h1>
-<form method="post" action="/crossfit/anadirEntrenamiento">
-    <%
-        for (int i = 1; i <= rutina.getEntrenamientos().size(); i++) {
-    %>
-    <h2>Entrenamiento <%= i %>
-    </h2>
-    <table>
-        <thead>
-        <tr>
-            <th>Seleccione Entrenamiento</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
+<div class="main-container">
+    <div class="container">
+        <h2>Datos de la rutina:</h2>
+        <form action="/guardarDatosRutina" method="post">
+            <input type="hidden" name="idRutina" value="<%= rutina.getId() %>">
+            <h5>Nombre</h5>
+            <input type="text" name="nombreRutina" value="<%= rutina.getNombre() %>">
+            <h5>Descripción:</h5>
+            <input type="text" name="descripcionRutina" value="<%= rutina.getDescripcion() %>">
+            <button type="submit">Guardar</button>
+        </form>
+    </div>
 
-            <input type="hidden" name="idRutina" value="<%%>"/>
-            <input type="hidden" name="nombreRutina" value="<%%>"/>
-            <input type="hidden" name="descripcionRutina" value="<%%>"/>
-            <input type="hidden" name="numEntrenamientos" value="<%%>"/>
-
+    <div class="container">
+        <h2>Entrenamientos de la rutina:</h2>
+        <h4>Desea modificar algún entrenamiento de esta rutina?</h4>
+        <table>
+            <tr>
+                <th>Dia</th>
+                <th>Entrenamiento</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <% for (EntrenamientoRutina entrenamientoRutina : entrenamientosdeRutina) { %>
+            <form action="/editarEntrenamientosdeRutina" method="post">
+                <tr>
+                    <td>
+                        <select name="diaSemana" id="diaSemana">
+                            <option value="1" <%= entrenamientoRutina.getDiaSemana() == 1 ? "selected" : "" %>>Lunes
+                            </option>
+                            <option value="2" <%= entrenamientoRutina.getDiaSemana() == 2 ? "selected" : "" %>>Martes
+                            </option>
+                            <option value="3" <%= entrenamientoRutina.getDiaSemana() == 3 ? "selected" : "" %>>Miércoles
+                            </option>
+                            <option value="4" <%= entrenamientoRutina.getDiaSemana() == 4 ? "selected" : "" %>>Jueves
+                            </option>
+                            <option value="5" <%= entrenamientoRutina.getDiaSemana() == 5 ? "selected" : "" %>>Viernes
+                            </option>
+                            <option value="6" <%= entrenamientoRutina.getDiaSemana() == 6 ? "selected" : "" %>>Sábado
+                            </option>
+                            <option value="7" <%= entrenamientoRutina.getDiaSemana() == 7 ? "selected" : "" %>>Domingo
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="idEntrenamiento">
+                            <% for (Entrenamiento entrenamiento : entrenamientos) { %>
+                            <option value="<%= entrenamiento.getId() %>"
+                                    <%= entrenamientoRutina.getEntrenamiento().getId() == entrenamiento.getId() ? "selected" : "" %>>
+                                <%= entrenamiento.getNombre() %>
+                            </option>
+                            <% } %>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="hidden" name="idEntrenamientoRutina" value="<%=entrenamientoRutina.getId()%>">
+                        <button type="submit" class="btn btn-ok">OK</button>
+                        <!-- <a class="btn btn-ok" href="/editarEntrenamientosdeRutina?id=<%= entrenamientoRutina.getId() %>
+                        &idEntrenamiento=<%= entrenamientoRutina.getEntrenamiento().getId() %>
+                        &diaSemana=<%= entrenamientoRutina.getDiaSemana() %>">OK</a> -->
+                    </td>
+            </form>
             <td>
-                <select name="idEntrenamiento">
-                    <% for (EntrenamientoRutina entrenamiento : entrenamientos) { %>
-                    <option value="<%= entrenamiento.getId() %>"><%= entrenamiento.getEntrenamiento().getNombre() %>
-                    </option>
-                    <% } %>
-                </select>
+                <a class="btn btn-borrar" href="/borrarEntrenamientosdeRutina?id=<%=entrenamientoRutina.getId()%>">Borrar</a>
             </td>
-        </tr>
-        <tr>
-            <select name="diaSemana">
-                <option value="1">Lunes</option>
-                <option value="2">Martes</option>
-                <option value="3">Miercoles</option>
-                <option value="4">Jueves</option>
-                <option value="5">Viernes</option>
-                <option value="6">Sabado</option>
-                <option value="7">Domingo</option>
-            </select>
-        </tr>
+            </tr>
+            <% } %>
 
-        </tbody>
-        <tfoot>
-        <tr>
-            <td colspan="2">
-                <div class="button-container">
-                    <button type="submit" class="add-button">Añadir</button>
-                </div>
-            </td>
 
-        </tr>
-
-        </tfoot>
-
-    </table>
-    <%
-        }
-    %>
-</form>
-
-<div class="button-container">
-    <a href="/crossfit/crud" class="new-routine-btn">Crear Rutina</a>
-    <a></a>
-
+        </table>
+            <a class="btn btn-add" href="/addEntrenamientosdeRutina?id=<%=rutina.getId()%>">Añadir
+                entrenamiento</a>
+    </div>
 </div>
-
 </body>
 </html>

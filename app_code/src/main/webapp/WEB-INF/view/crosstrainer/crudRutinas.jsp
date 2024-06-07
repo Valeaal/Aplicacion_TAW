@@ -187,7 +187,7 @@
         <div class="container">
             <div class="header">
                 <h1>Rutinas</h1>
-                <a href="/crossfit/numeroEntrenamientos" class="new-routine-btn">Nueva Rutina</a>
+                <a href="/numeroEntrenamientos" class="new-routine-btn">Nueva Rutina</a>
             </div>
             <table>
                 <thead>
@@ -209,10 +209,10 @@
                     <td><%=rutina.getDescripcion()%></td>
                     <td><%=rutina.getFechaCreacion()%></td>
                     <td>
-                        <a href="/crossfit/crud/editar?idRutina=<%=rutina.getId()%>" class="btn btn-warning mb-2">Editar</a>
+                        <a href="/crud/editar?idRutina=<%=rutina.getId()%>" class="btn btn-warning mb-2">Editar</a>
                     </td>
                     <td>
-                        <a href="/crossfit/crud/borrar?idRutina=<%=rutina.getId()%>" class="btn btn-danger mb-2">Borrar</a>
+                        <a href="/crud/borrar?idRutina=<%=rutina.getId()%>" class="btn btn-danger mb-2">Borrar</a>
                     </td>
                 </tr>
                 <%}%>
@@ -225,7 +225,7 @@
     </form>
 </div>
 
-<jsp:include page="../header-footer/footer.jsp"></jsp:include>
+
 
 <!-- Enlace a Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

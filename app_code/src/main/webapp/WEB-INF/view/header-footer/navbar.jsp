@@ -105,13 +105,13 @@
                     <a class="nav-link active" href="/">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="crossfit/crud">CRUD</a>
+                    <a class="nav-link" href="/crud">CRUD</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="crossfit/asignarRutinas">Asignar Rutinas</a>
+                    <a class="nav-link" href="/asignarRutinas">Asignar Rutinas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="crossfit/seguimientoRutinas">Seguimiento Clientes</a>
+                    <a class="nav-link" href="/seguimientoRutinas">Seguimiento Clientes</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/salir">Salir</a>
