@@ -63,6 +63,9 @@ public class CrossfitController {
             asignacionRutinaACliente.setCliente(cliente);
             asignacionRutinaACliente.setRutina(rutina);
             asignacionRutinaACliente.setVigente(true);
+            for(ClienteRutina cr : this.cliente_RutinaRepository.findActiveRoutines()){ // para que la nueva sea la vigente
+                cr.setVigente(false);
+            }
             this.cliente_RutinaRepository.save(asignacionRutinaACliente);
         }
 
