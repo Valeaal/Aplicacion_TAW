@@ -8,34 +8,54 @@
 
 %>
 
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nueva Página</title>
+    <title>Asignación de Clientes y Rutinas</title>
     <!-- Enlace a Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <jsp:include page="../header-footer/navbar.jsp"></jsp:include>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container-fluid {
+            padding-top: 50px;
+        }
+
+        .table {
+            background-color: #fff;
+        }
+
+        .btn-success {
+            background-color: #198754;
+            border-color: #198754;
+        }
+
+        .btn-success:hover {
+            background-color: #157347;
+            border-color: #157347;
+        }
+    </style>
 </head>
 
-<body class="bg-light">
 
-<jsp:include page="../header-footer/navbar.jsp"></jsp:include>
-
+<body>
 <div class="container-fluid">
     <div class="row">
-        <!-- Parte izquierda con tabla y barra de búsqueda -->
-        <div class="col  flex-grow-1 col-auto">
-            <form >
-                <div class="mb-3 d-flex">
-                    <input type="text" class="form-control form-control-lg me-2" name="busquedaN"
-                           placeholder="Nombre cliente">
+        <!-- Parte izquierda con tabla de clientes -->
+        <div class="col-md-6">
+            <form>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="busquedaN" placeholder="Buscar cliente por nombre">
                     <button type="submit" class="btn btn-primary">Buscar</button>
                 </div>
             </form>
-            <table class="table">
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th scope="col"></th>
@@ -46,10 +66,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!-- Aquí se pueden agregar filas dinámicamente con datos -->
+                <!-- Filas de clientes -->
                 <% for (Usuario usr : clientes) { %>
                 <tr>
-                    <td><input type="radio" name="cSeleccionado" value="<%= usr.getId()%>>"></td>
+                    <td><input type="radio" name="idCliente" value="<%= usr.getId()%>"></td>
                     <td><%= usr.getNombre()%>
                     </td>
                     <td><%= usr.getApellidos()%>
@@ -64,46 +84,49 @@
             </table>
         </div>
 
-
-        <!-- Parte derecha con tabla y barra de búsqueda -->
-        <div class="col flex-grow-1 col-auto">
-            <form action=""> <!-- Aqui llamas al controlador a filtrar rutinas-->
-                <div class="mb-3 d-flex">
-                    <input type="text" class="form-control form-control-lg me-2" name="busquedaN"
-                           placeholder="Nombre rutina">
+        <!-- Parte derecha con tabla de rutinas -->
+        <div class="col-md-6">
+            <form action="">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="busquedaN" placeholder="Buscar rutina por nombre">
                     <button type="submit" class="btn btn-primary">Buscar</button>
                 </div>
             </form>
-            <table class="table">
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th scope="col"></th>
                     <th scope="col">Nombre</th>
-                    <th scope="col">NUMERO ENTRENAMIENTOS</th>
-                    <th scope="col">TIPO</th>
+                    <th scope="col">Número Entrenamientos</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">FechaCreacion</th>
                 </tr>
                 </thead>
                 <tbody>
-                <!-- Aquí se pueden agregar filas dinámicamente con datos -->
+                <!-- Filas de rutinas -->
                 <% for (Rutina rutina : rutinas) { %>
                 <tr>
-                    <td><input type="radio" name="cSeleccionado" value="<%= rutina.getId()%>>"></td>
+                    <td><input type="radio" name="idRutina" value="<%= rutina.getId()%>"></td>
                     <td><%= rutina.getNombre()%>
                     </td>
-                    <td>
+                    <td><%= rutina.getEntrenamientos().size()%>
                     </td>
-                    <td>
+                    <td><%= rutina.getDescripcion()%>
                     </td>
-                    <td>
+                    <td><%= rutina.getFechaCreacion()%>
                     </td>
+
+
                 </tr>
                 <% } %>
                 </tbody>
             </table>
-
         </div>
-        <!-- Botón de asignar -->
-        <div class="col col-auto mt-auto">
+    </div>
+
+    <!-- Botón de asignar -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-auto">
             <button type="button" class="btn btn-success">Asignar</button>
         </div>
     </div>
