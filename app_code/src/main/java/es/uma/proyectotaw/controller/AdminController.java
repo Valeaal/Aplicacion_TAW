@@ -126,10 +126,10 @@ public class AdminController {
     }
 
     @PostMapping("/usuarios/actualizar")
-    public String actualizar(Model model, @RequestParam("usuarioId") Integer usuarioId,
-                             @RequestParam("inputEmail") String inputEmail, @RequestParam("inputNombre") String inputNombre,
-                             @RequestParam("inputApellidos") String inputApellidos, @RequestParam("inputNacimiento") LocalDate inputNacimiento,
-                             @RequestParam("inputIngreso") LocalDate inputIngreso, @RequestParam("inputRol") String inputRol){
+    public String actualizarUsuarios(Model model, @RequestParam("usuarioId") Integer usuarioId,
+                                    @RequestParam("inputEmail") String inputEmail, @RequestParam("inputNombre") String inputNombre,
+                                    @RequestParam("inputApellidos") String inputApellidos, @RequestParam("inputNacimiento") LocalDate inputNacimiento,
+                                    @RequestParam("inputIngreso") LocalDate inputIngreso, @RequestParam("inputRol") String inputRol){
 
         Usuario usr = usuarioRepository.buscarPorID(usuarioId);
         usr.setNombre(inputNombre);
@@ -147,7 +147,7 @@ public class AdminController {
     }
 
     @PostMapping("/usuarios/guardar")
-    public String guardar(Model model,
+    public String guardarUsuarios(Model model,
                           @RequestParam("inputEmail") String inputEmail,
                           @RequestParam("inputNombre") String inputNombre,
                           @RequestParam("inputApellidos") String inputApellidos,
@@ -323,6 +323,8 @@ public class AdminController {
         model.addAttribute("gruposMusculares", gruposMusculares);
 
         if (inputBoton.equals("Añadir")) {
+            Ejercicio ejercicio = new Ejercicio();
+            model.addAttribute("ejercicio", ejercicio);
             direccionRetorno = "administrador/nuevoEjercicio";
         } else if (inputEj != null){
             if (inputBoton.equals("Eliminar")){
@@ -335,5 +337,30 @@ public class AdminController {
         }
         return direccionRetorno;
     }
+
+    @PostMapping("/ejercicios/actualizar")
+    public String actualizarEjercicios(Model model, @ModelAttribute("ejercicio") Ejercicio ejercicio){
+
+        Ejercicio nuevoEj = ejercicioRepository.findById(ejercicio.getId()).orElse(new Ejercicio());
+        nuevoEj.setNombre(ejercicio.getNombre());
+        nuevoEj.setDescripcion(ejercicio.getDescripcion());
+        nuevoEj.setUrlVideo(ejercicio.getUrlVideo());
+        nuevoEj.setTipo(ejercicio.getTipo());
+        nuevoEj.setGrupoMuscular(ejercicio.getGrupoMuscular());
+
+        ejercicioRepository.save(nuevoEj);
+
+        return "redirect:/admin/ejercicios";
+    }
+
+    @PostMapping("/ejercicios/guardar")
+    public String guardarEjercicios(Model model, @ModelAttribute("ejercicio") Ejercicio ejercicio){
+
+        ejercicioRepository.save(ejercicio);
+
+        return "redirect:/admin/ejercicios";
+    }
+
+
 
 }
