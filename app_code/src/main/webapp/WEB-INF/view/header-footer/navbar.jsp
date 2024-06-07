@@ -74,13 +74,13 @@
                     <a class="nav-link active" href="/">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="dietista/dietas">Dietas</a>
+                    <a class="nav-link" href="dietas">Dietas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="dietista/asignacion">Asignación Dietas</a>
+                    <a class="nav-link" href="dietistaAsignacion">Asignación Dietas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="dietista/seguimiento">Seguimiento Dietas</a>
+                    <a class="nav-link" href="dietistaSeguimiento">Seguimiento Dietas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/salir">Salir</a>

@@ -32,8 +32,9 @@ public class CrossfitController {
 
 
     @GetMapping("/crud")
-    public String doCRUD(HttpSession session) {
-
+    public String doCRUD(Model model) {
+        List<Rutina> rutinas = rutinaRepository.findAll();
+        model.addAttribute("rutinas", rutinas);
         return "crosstrainer/crudRutinas";
     }
     @GetMapping("/asignarRutinas")
@@ -60,6 +61,7 @@ public class CrossfitController {
     public String doCrearRutina(@RequestParam("nombreRutina") String nombreRutina,
                                 @RequestParam("descripcionRutina") String descripcionRutina,
                                 @RequestParam("numEntrenamientos") Integer numEntrenamientos,
+                                @RequestParam("numeroDia") Integer numeroDia,
                                 HttpSession session, Model model) {
     Rutina nuevaRutina = new Rutina();
     nuevaRutina.setNombre(nombreRutina);
@@ -68,11 +70,10 @@ public class CrossfitController {
     Usuario entrenador = (Usuario)  session.getAttribute("usuario");
     nuevaRutina.setEntrenador(entrenador);
     this.rutinaRepository.save(nuevaRutina);
-
     model.addAttribute("idRutina", nuevaRutina.getId());
-    model.addAttribute("numEntrenamientos", numEntrenamientos);
-    model.addAttribute("nombreRutina", nombreRutina);
-    model.addAttribute("descripcionRutina", descripcionRutina);
+
+    numeroDia++;
+    model.addAttribute("numeroDia", numeroDia);
 
     List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
     model.addAttribute("entrenamientos", entrenamientos);
@@ -83,10 +84,10 @@ public class CrossfitController {
     public String doAnadirEntrenamiento(@RequestParam("idRutina") Integer idRutina,
                                         @RequestParam("idEntrenamiento") Integer idEntrenamiento,
                                         @RequestParam("diaSemana") Integer diaSemana,
-                                        @RequestParam("nombreRutina") String nombreRutina,
-                                        @RequestParam("descripcionRutina") String descripcionRutina,
+                                        @RequestParam("numeroDia") Integer numeroDia,
                                         @RequestParam("numEntrenamientos") Integer numEntrenamientos,
                                         HttpSession session, Model model) {
+
 
         EntrenamientoRutina er = new EntrenamientoRutina();
         Rutina rutina = rutinaRepository.findById(idRutina).orElse(null);
@@ -95,15 +96,41 @@ public class CrossfitController {
         er.setEntrenamiento(entrenamiento);
         er.setDiaSemana(diaSemana);
         this.entrenamiento_RutinaRepository.save(er);
-        Usuario entrenador = (Usuario)  session.getAttribute("usuario");
 
+        if(numeroDia == numEntrenamientos){
+            return "redirect:/crossfit/crud";
+        }
+
+        numeroDia++;
+        model.addAttribute("numeroDia", numeroDia);
 
         model.addAttribute("idRutina", idRutina);
-        model.addAttribute("numEntrenamientos", numEntrenamientos);
-        model.addAttribute("nombreRutina", nombreRutina);
-        model.addAttribute("descripcionRutina", descripcionRutina);
         List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
         model.addAttribute("entrenamientos", entrenamientos);
         return "crosstrainer/crearRutina";
+    }
+
+    @GetMapping("/crud/borrar")
+    public String doBorrar(@RequestParam("idRutina") Integer idRutina ,Model model) {
+        Rutina rutina = this.rutinaRepository.findById(idRutina).orElse(null);
+        for(EntrenamientoRutina erEliminados : this.entrenamiento_RutinaRepository.findAll()) {
+            if(erEliminados.getRutina().getId() == idRutina) {
+                this.entrenamiento_RutinaRepository.delete(erEliminados);
+            }
+        }
+        this.rutinaRepository.delete(rutina);
+
+        List<Rutina> rutinas = rutinaRepository.findAll();
+        model.addAttribute("rutinas", rutinas);
+        return "redirect:/crossfit/crud";
+    }
+
+    @GetMapping("/crud/editar")
+    public String doEditar(@RequestParam("idRutina") Integer idRutina ,Model model) {
+        Rutina rutina = this.rutinaRepository.findById(idRutina).orElse(null);
+        model.addAttribute("rutina", rutina);
+        List<EntrenamientoRutina> entrenamientosdeRutina = this.entrenamiento_RutinaRepository.buscarEntrenamientosdeRutina(idRutina);
+        model.addAttribute("entrenamientosdeRutina", entrenamientosdeRutina);
+        return "crosstrainer/editarRutina";
     }
 }
