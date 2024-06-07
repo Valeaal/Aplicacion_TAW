@@ -62,7 +62,7 @@
 
 <div class="container">
 
-    <form action="/dietista/asignacion/asignar" method="post">
+    <form action="/dietistaAsignacion/asignar" method="post">
 
         <div class="row">
 

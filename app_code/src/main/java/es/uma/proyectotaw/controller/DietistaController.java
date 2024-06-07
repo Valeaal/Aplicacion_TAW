@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/dietista")
 public class DietistaController {
 
     @Autowired
@@ -25,9 +24,11 @@ public class DietistaController {
     private TipoUsuarioRepository tipoUsuarioRepository;
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private Dieta_ComidaRepository dietaComidaRepository;
 
 
-    @GetMapping("/asignacion")
+    @GetMapping("/dietistaAsignacion")
     public String asignacionDietas(Model model) {
 
         TipoUsuario tipoCliente = this.tipoUsuarioRepository.buscarPorID(5);
@@ -41,7 +42,7 @@ public class DietistaController {
         return "dietista/asignacion";
     }
 
-    @GetMapping("/asignacion/asignar")
+    @GetMapping("/dietistaAsignacion/asignar")
     public String clientesDietaAsignar(@RequestParam(required = false, name = "clienteSeleccionado") Integer clienteId,
                                               @RequestParam(required = false, name = "dietaSeleccionado") Integer dietaId,
                                               Model model) {
@@ -55,7 +56,36 @@ public class DietistaController {
             clienteRepository.save(cliente);
         }
 
-        return "redirect:/dietista/asignacion";
+        return "redirect:/dietistaAsignacion";
+    }
+
+    @GetMapping("/dietas")
+    public String doDietas(Model model) {
+        List<Dieta> dietas = dietaRepository.findAll();
+        model.addAttribute("dietas", dietas);
+        return "dietista/crudDietas";
+    }
+
+    @GetMapping("/dietas/eliminar")
+    public String doBorrar(@RequestParam("id") Integer id ,Model model) {
+        Dieta dieta = this.dietaRepository.findById(id).orElse(null);
+        for(DietaComida dc : this.dietaComidaRepository.findAll()) {
+            if(dc.getDieta().getId() == id) {
+                this.dietaComidaRepository.delete(dc);
+            }
+        }
+        this.dietaRepository.delete(dieta);
+
+        List<Dieta> dietas = dietaRepository.findAll();
+        model.addAttribute("dietas", dietas);
+        return "redirect:/dietas";
+    }
+
+    @GetMapping("/dietistaSeguimiento")
+    public String doSeguimientoClientes(Model model){
+        List<Cliente> clientes = this.clienteRepository.getClientesConDieta();
+        model.addAttribute("clientes", clientes);
+        return "dietista/seguimientoClientes";
     }
 
 
