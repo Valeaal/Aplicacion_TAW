@@ -53,6 +53,9 @@
                     <a class="nav-link" href="/admin/menus">Gestionar menús</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/admin/ejerciciosEntrenamientos">Gestionar dimensiones de ejercicios</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/salir">Salir</a>
                 </li>
             </ul>

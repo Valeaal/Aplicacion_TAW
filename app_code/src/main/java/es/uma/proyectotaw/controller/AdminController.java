@@ -30,6 +30,10 @@ public class AdminController {
     private GrupoMuscularRepository grupoMuscularRepository;
     @Autowired
     private MenuRepository menuRepository;
+    @Autowired
+    private EjercicioEntrenamientoRepository ejercicioEntrenamientoRepository;
+    @Autowired
+    private EntrenamientoRepository entrenamientoRepository;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //GESTIÓN DE LOS USUARIOS
@@ -432,6 +436,27 @@ public class AdminController {
         menuRepository.save(menu);
 
         return "redirect:/admin/menus";
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //GESTIÓN DE DIMENSIONES DE EJERCICIOS (TABLA EJERCICIO_ENTRENAMIENTO)
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @GetMapping("/ejerciciosEntrenamientos")
+    public String ejerciciosEntrenamientos(Model model) {
+
+        //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO ------------//
+        List <Ejercicio> ejercicios = ejercicioRepository.findAll();
+        List <Entrenamiento> entrenamientos = entrenamientoRepository.findAll();
+
+        model.addAttribute("ejercicios", ejercicios);
+        model.addAttribute("entrenamientos", entrenamientos);
+
+        //------------ PARA RELLENAR LA TABLA DE DIMENSIONES DE EJERCICIOS (sin filtro)------------//
+        List<EjercicioEntrenamiento> ejerciciosEntrenamientosCompleto = ejercicioEntrenamientoRepository.findAll();
+        model.addAttribute("ejerciciosEntrenamientos", ejerciciosEntrenamientosCompleto);
+
+        return "/administrador/ejerciciosEntrenamientos";
     }
 
 }
