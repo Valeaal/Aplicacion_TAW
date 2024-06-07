@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de ejercicios</title>
+    <title>Gestión de menús</title>
     <!-- Enlace a Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -18,9 +18,9 @@
 
 
 <div class="container">
-    <h2 class="my-4">Editar un ejercicio</h2>
+    <h2 class="my-4">Crear un menú</h2>
 
-    <form:form modelAttribute="ejercicio" action="/admin/ejercicios/actualizar" method="post">
+    <form:form modelAttribute="menu" action="/admin/menus/guardar" method="post">
 
         <form:hidden path="id" />
 
@@ -30,27 +30,17 @@
         </div>
 
         <div class="mb-3">
-            <form:label class="form-label" path="descripcion">Descripción:</form:label>
+            <form:label class="form-label" path="nombre">Descripción:</form:label>
             <form:input class="form-control" path="descripcion"  />
         </div>
 
         <div class="mb-3">
-            <form:label class="form-label" path="urlVideo">URL del vídeo:</form:label>
-            <form:input class="form-control" path="urlVideo" />
-        </div>
-
-        <div class="mb-3">
-            <form:label class="form-label" path="tipo">Tipo de ejercicio:</form:label>
-            <form:select class="form-select" path="tipo" items="${tiposEjercicio}" itemLabel="tipo" itemValue="id" />
-        </div>
-
-        <div class="mb-3">
-            <form:label class="form-label" path="grupoMuscular">Grupo Muscular:</form:label>
-            <form:select class="form-select" path="grupoMuscular" items="${gruposMusculares}" itemLabel="grupo" itemValue="id" />
+            <form:label class="form-label" path="alergenos">Alérgenos:</form:label>
+            <form:input class="form-control" path="alergenos" />
         </div>
 
         <!-- Botón de enviar -->
-        <button type="submit" class="btn btn-primary">Actualizar Ejercicio</button>
+        <button type="submit" class="btn btn-primary">Añadir Menú</button>
     </form:form>
 </div>
 

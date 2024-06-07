@@ -50,7 +50,7 @@
         </div>
 
         <!-- Botón de enviar -->
-        <button type="submit" class="btn btn-primary">Actualizar Ejercicio</button>
+        <button type="submit" class="btn btn-primary">Añadir Ejercicio</button>
     </form:form>
 </div>
 

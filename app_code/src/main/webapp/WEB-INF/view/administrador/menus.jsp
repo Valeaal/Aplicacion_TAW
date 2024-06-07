@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <form action="/admin/ejercicios/seleccionar">
+    <form action="/admin/menus/seleccionar">
         <div class="d-flex justify-content-between align-items-start mt-5">
 
             <!-- Tabla -->
@@ -60,7 +60,7 @@
                     <!-- Aquí se pueden agregar filas dinámicamente con datos -->
                     <% for (Menu m : Menus) { %>
                     <tr>
-                        <td><input type="radio" name="eSeleccionado" value= "<%= m.getId() %>" ></td>
+                        <td><input type="radio" name="mSeleccionado" value= "<%= m.getId() %>" ></td>
                         <td><%= m.getNombre()%></td>
                         <td><%= m.getDescripcion()%></td>
                         <td><%= m.getAlergenos()%></td>

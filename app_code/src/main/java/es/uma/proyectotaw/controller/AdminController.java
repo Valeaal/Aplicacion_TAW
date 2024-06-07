@@ -315,7 +315,7 @@ public class AdminController {
 
         //Si sí se selecciona y se pulsa editar, se va a la página correspondiente.
         //Si sí se selecciona y se pulsa borrar, se ejecuta la sentencia y se permanece en la página.
-        //Independientemente si se selecciona o no un usuario y se pulsa añadir un ejercicio, llevará a la página correspondiente.
+        //Independientemente si se selecciona o no un ejercicio y se pulsa añadir, llevará a la página correspondiente.
         String direccionRetorno = "redirect:/admin/ejercicios";
 
         List <TipoEjercicio> tiposEjercicio = tipoEjercicioRepository.findAll();
@@ -389,6 +389,49 @@ public class AdminController {
         return "administrador/menus";
     }
 
+    @GetMapping("/menus/seleccionar")
+    public String seleccionarMenus(@RequestParam(name = "mSeleccionado", required = false) Integer inputMenu, @RequestParam("Boton") String inputBoton, Model model) {
 
+        //Si sí se selecciona y se pulsa editar, se va a la página correspondiente.
+        //Si sí se selecciona y se pulsa borrar, se ejecuta la sentencia y se permanece en la página.
+        //Independientemente si se selecciona o no un menú y se pulsa añadir, llevará a la página correspondiente.
+        String direccionRetorno = "redirect:/admin/menus";
+
+        if (inputBoton.equals("Añadir")) {
+            Menu menu = new Menu();
+            model.addAttribute("menu", menu);
+            direccionRetorno = "administrador/nuevoMenu";
+        } else if (inputMenu != null){
+            if (inputBoton.equals("Eliminar")){
+                menuRepository.deleteById(inputMenu);
+            } else if (inputBoton.equals("Modificar")){
+                Menu menu = menuRepository.getById(inputMenu);
+                model.addAttribute("menu", menu);
+                direccionRetorno = "administrador/modificarMenu";
+            }
+        }
+        return direccionRetorno;
+    }
+
+    @PostMapping("/menus/actualizar")
+    public String actualizarMenus(Model model, @ModelAttribute("menu") Menu menu){
+
+        Menu nuevoMenu = menuRepository.findById(menu.getId()).orElse(new Menu());
+        nuevoMenu.setNombre(menu.getNombre());
+        nuevoMenu.setDescripcion(menu.getDescripcion());
+        nuevoMenu.setAlergenos(menu.getAlergenos());
+
+        menuRepository.save(nuevoMenu);
+
+        return "redirect:/admin/menus";
+    }
+
+    @PostMapping("/menus/guardar")
+    public String guardarMenus(Model model, @ModelAttribute("menu") Menu menu){
+
+        menuRepository.save(menu);
+
+        return "redirect:/admin/menus";
+    }
 
 }
