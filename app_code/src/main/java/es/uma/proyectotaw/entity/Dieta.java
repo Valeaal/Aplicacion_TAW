@@ -30,4 +30,9 @@ public class Dieta {
     @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
 
+    @Column(name = "calorias", nullable = false)
+    private int calorias;
+
+
+
 }
