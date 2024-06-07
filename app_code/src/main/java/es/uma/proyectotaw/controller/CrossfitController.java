@@ -25,27 +25,52 @@ public class CrossfitController {
     protected EntrenamientoRepository entrenamientoRepository;
     @Autowired
     protected Entrenamiento_RutinaRepository entrenamiento_RutinaRepository;
+    @Autowired
+    protected Cliente_RutinaRepository cliente_RutinaRepository;
+    @Autowired
+    protected ClienteRepository clienteRepository;
+    @Autowired
+    protected Tipo_RutinaRepository tipo_RutinaRepository;
 
 
     @GetMapping("/crud")
     public String doCRUD(Model model) {
-        List<Rutina> rutinas = rutinaRepository.findAll();
+        List<Rutina> rutinas = rutinaRepository.getCrossfitRutinas();
         model.addAttribute("rutinas", rutinas);
         return "crosstrainer/crudRutinas";
     }
 
-    @GetMapping("/asignarRutinas")
+    @GetMapping("/ClientesRutinas")
     public String doAsignarRutinas(Model model) {
         TipoUsuario tipoCliente = tipoUsuarioRepository.buscarPorID(5); // aqui estamos buscando al cliente
-        List<Usuario> clientes = usuarioRepository.buscarPorTipo(tipoCliente);
+        List<Usuario> clientes = this.usuarioRepository.buscarPorTipo(tipoCliente);
         List<Rutina> rutinas = rutinaRepository.findAll();
         model.addAttribute("clientes", clientes);
         model.addAttribute("rutinas", rutinas);
         return "crosstrainer/asignarRutinas";
     }
 
+    @PostMapping("/ClientesRutinas/asignar")
+    public String doAsignacionRutinas(@RequestParam("idRutina") Integer idRutina,
+                                      @RequestParam("idUser") Integer idUser,
+                                      Model model) {
+
+        if (idRutina != null && idUser != null) {
+            Rutina rutina = rutinaRepository.findById(idRutina).orElse(null);
+            Usuario user = this.usuarioRepository.findById(idUser).orElse(null);
+            Cliente cliente = this.clienteRepository.getClienteByUserId(idUser);
+            ClienteRutina asignacionRutinaACliente = new ClienteRutina();
+            asignacionRutinaACliente.setCliente(cliente);
+            asignacionRutinaACliente.setRutina(rutina);
+            asignacionRutinaACliente.setVigente(true);
+            this.cliente_RutinaRepository.save(asignacionRutinaACliente);
+        }
+
+        return "redirect:/ClientesRutinas";
+    }
+
     @GetMapping("/seguimientoRutinas")
-    public String doSeguimientoRutinas(HttpSession session) {
+    public String doSeguimientoRutinas() {
 
         return "crosstrainer/seguimientoRutinas";
     }
@@ -66,6 +91,8 @@ public class CrossfitController {
         nuevaRutina.setNombre(nombreRutina);
         nuevaRutina.setDescripcion(descripcionRutina);
         nuevaRutina.setFechaCreacion(LocalDate.now());
+        TipoRutina tr = this.tipo_RutinaRepository.findById(2).orElse(null);
+        nuevaRutina.setTipoRutina(tr);
         Usuario entrenador = (Usuario) session.getAttribute("usuario");
         nuevaRutina.setEntrenador(entrenador);
         this.rutinaRepository.save(nuevaRutina);
@@ -115,6 +142,11 @@ public class CrossfitController {
         for (EntrenamientoRutina erEliminados : this.entrenamiento_RutinaRepository.findAll()) {
             if (erEliminados.getRutina().getId() == idRutina) {
                 this.entrenamiento_RutinaRepository.delete(erEliminados);
+            }
+        }
+        for (ClienteRutina cr : this.cliente_RutinaRepository.findAll()) {
+            if (cr.getRutina().getId() == idRutina) {
+                this.cliente_RutinaRepository.delete(cr);
             }
         }
         this.rutinaRepository.delete(rutina);

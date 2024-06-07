@@ -46,90 +46,82 @@
 
 <body>
 <div class="container-fluid">
-    <div class="row">
-        <!-- Parte izquierda con tabla de clientes -->
-        <div class="col-md-6">
-            <form>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" name="busquedaN" placeholder="Buscar cliente por nombre">
-                    <button type="submit" class="btn btn-primary">Buscar</button>
+    <form action="/ClientesRutinas/asignar" method="post">
+        <div class="row">
+            <!-- Parte izquierda con tabla de clientes -->
+            <div class="col-md-6">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellidos</th>
+                        <th scope="col">Ingreso</th>
+                        <th scope="col">Fecha Nacimiento</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Filas de clientes -->
+                    <% for (Usuario usr : clientes) { %>
+                    <tr>
+                        <td><input type="radio" name="idUser" value="<%= usr.getId()%>"></td>
+                        <td><%= usr.getNombre()%>
+                        </td>
+                        <td><%= usr.getApellidos()%>
+                        </td>
+                        <td><%= usr.getPerteneceDesde()%>
+                        </td>
+                        <td><%= usr.getFechaNacimiento()%>
+                        </td>
+                    </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Parte derecha con tabla de rutinas -->
+            <div class="col-md-6">
+                <div class="d-flex justify-content-center">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Número Entrenamientos</th>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col">FechaCreacion</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Filas de rutinas -->
+                        <% for (Rutina rutina : rutinas) { %>
+                        <tr>
+                            <td><input type="radio" name="idRutina" value="<%= rutina.getId()%>"></td>
+                            <td><%= rutina.getNombre()%>
+                            </td>
+                            <td><%= rutina.getEntrenamientos().size()%>
+                            </td>
+                            <td><%= rutina.getDescripcion()%>
+                            </td>
+                            <td><%= rutina.getFechaCreacion()%>
+                            </td>
+
+
+                        </tr>
+                        <% } %>
+                        </tbody>
+                    </table>
                 </div>
-            </form>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellidos</th>
-                    <th scope="col">Ingreso</th>
-                    <th scope="col">Fecha Nacimiento</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- Filas de clientes -->
-                <% for (Usuario usr : clientes) { %>
-                <tr>
-                    <td><input type="radio" name="idCliente" value="<%= usr.getId()%>"></td>
-                    <td><%= usr.getNombre()%>
-                    </td>
-                    <td><%= usr.getApellidos()%>
-                    </td>
-                    <td><%= usr.getPerteneceDesde()%>
-                    </td>
-                    <td><%= usr.getFechaNacimiento()%>
-                    </td>
-                </tr>
-                <% } %>
-                </tbody>
-            </table>
+            </div>
         </div>
 
-        <!-- Parte derecha con tabla de rutinas -->
-        <div class="col-md-6">
-            <form action="">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" name="busquedaN" placeholder="Buscar rutina por nombre">
-                    <button type="submit" class="btn btn-primary">Buscar</button>
-                </div>
-            </form>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Número Entrenamientos</th>
-                    <th scope="col">Descripcion</th>
-                    <th scope="col">FechaCreacion</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- Filas de rutinas -->
-                <% for (Rutina rutina : rutinas) { %>
-                <tr>
-                    <td><input type="radio" name="idRutina" value="<%= rutina.getId()%>"></td>
-                    <td><%= rutina.getNombre()%>
-                    </td>
-                    <td><%= rutina.getEntrenamientos().size()%>
-                    </td>
-                    <td><%= rutina.getDescripcion()%>
-                    </td>
-                    <td><%= rutina.getFechaCreacion()%>
-                    </td>
-
-
-                </tr>
-                <% } %>
-                </tbody>
-            </table>
+        <!-- Botón de asignar -->
+        <div class="row justify-content-center mt-4">
+            <div class="col-auto">
+                <button type="submit" class="btn btn-success">Asignar</button>
+            </div>
         </div>
-    </div>
-
-    <!-- Botón de asignar -->
-    <div class="row justify-content-center mt-4">
-        <div class="col-auto">
-            <button type="button" class="btn btn-success">Asignar</button>
-        </div>
-    </div>
+    </form>
 </div>
 
 <jsp:include page="../header-footer/footer.jsp"></jsp:include>

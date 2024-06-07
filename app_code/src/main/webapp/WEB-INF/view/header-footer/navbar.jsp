@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    Usuario usrActual = (Usuario)session.getAttribute("usuario");
+    Usuario usrActual = (Usuario) session.getAttribute("usuario");
     TipoUsuario tipoUsr = (TipoUsuario) session.getAttribute("tipo");
     String nombre = "No has iniciado sesión";
     if (usrActual != null) {
@@ -22,13 +22,15 @@
 <body class="d-flex flex-column min-vh-100">
 
 <%
-    if (tipoUsr != null && tipoUsr.getTipo().equals("admin")){ //Mostramos el navbar con las opciones del administrador
+    if (tipoUsr != null && tipoUsr.getTipo().equals("admin")) { //Mostramos el navbar con las opciones del administrador
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"><%= nombre.toString() %></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="#"><%= nombre.toString() %>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -60,12 +62,14 @@
 </nav>
 
 <%
-    } else if (tipoUsr != null && tipoUsr.getTipo().equals("dietista")){    //Mostramos el navbar con las opciones del dietista
+} else if (tipoUsr != null && tipoUsr.getTipo().equals("dietista")) {    //Mostramos el navbar con las opciones del dietista
 %>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"><%= nombre.toString() %></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="#"><%= nombre.toString() %>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -90,13 +94,15 @@
     </div>
 </nav>
 <%
-    } else if (tipoUsr != null && tipoUsr.getTipo().equals("entrenador_crossfit")){    //Mostramos el navbar con las opciones del entrenador crossfit
+} else if (tipoUsr != null && tipoUsr.getTipo().equals("entrenador_crossfit")) {    //Mostramos el navbar con las opciones del entrenador crossfit
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"><%= nombre.toString() %></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="#"><%= nombre.toString() %>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -108,7 +114,7 @@
                     <a class="nav-link" href="/crud">CRUD</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/asignarRutinas">Asignar Rutinas</a>
+                    <a class="nav-link" href="/ClientesRutinas">Asignar Rutinas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/seguimientoRutinas">Seguimiento Clientes</a>
@@ -122,17 +128,19 @@
 </nav>
 
 <%
-} else if (tipoUsr != null && tipoUsr.getTipo().equals("entrenador_bodybuilding")){    //Mostramos el navbar con las opciones del entrenador crossfit
+} else if (tipoUsr != null && tipoUsr.getTipo().equals("entrenador_bodybuilding")) {    //Mostramos el navbar con las opciones del entrenador crossfit
 %>
 <h1>Hola bodybuilder ponme en forma TÚ!</h1>
 
 <%
-    } else if (tipoUsr != null && tipoUsr.getTipo().equals("cliente")){
+} else if (tipoUsr != null && tipoUsr.getTipo().equals("cliente")) {
 %>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"><%= nombre.toString() %></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="#"><%= nombre.toString() %>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -155,13 +163,15 @@
 </nav>
 
 <%
-    } else {    //Mostramos el navbar para la persona no registrada
+} else {    //Mostramos el navbar para la persona no registrada
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"><%= nombre.toString() %></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="#"><%= nombre.toString() %>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
