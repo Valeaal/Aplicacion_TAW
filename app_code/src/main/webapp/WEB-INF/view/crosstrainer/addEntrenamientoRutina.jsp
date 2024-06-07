@@ -116,23 +116,38 @@
             text-align: center;
             width: 400px;
         }
+
+        .button-container {
+            text-align: center;
+        }
+
+        .add-button {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .add-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <form method="post" action="/guardarEntrenamientoNuevoDeRutina">
         <input type="hidden" name="idRutina" value="<%=idRutina%>"/>
-        <h2>Añadir a la rutina
-        </h2>
+        <h2>Añadir a la rutina</h2>
         <table>
-            <thead>
-            <tr>
-                <th>Seleccione Entrenamiento</th>
-            </tr>
-            </thead>
             <tbody>
             <tr>
                 <td>
+                    <h5>Seleccione un entrenamiento</h5>
                     <select name="idEntrenamiento">
                         <% for (Entrenamiento entrenamiento : entrenamientos) { %>
                         <option value="<%= entrenamiento.getId() %>"><%= entrenamiento.getNombre() %>
@@ -142,17 +157,19 @@
                 </td>
             </tr>
             <tr>
-                <select name="diaSemana">
-                    <option value="1">Lunes</option>
-                    <option value="2">Martes</option>
-                    <option value="3">Miercoles</option>
-                    <option value="4">Jueves</option>
-                    <option value="5">Viernes</option>
-                    <option value="6">Sabado</option>
-                    <option value="7">Domingo</option>
-                </select>
+                <td>
+                    <h5>Seleccione un día</h5>
+                    <select name="diaSemana">
+                        <option value="1">Lunes</option>
+                        <option value="2">Martes</option>
+                        <option value="3">Miércoles</option>
+                        <option value="4">Jueves</option>
+                        <option value="5">Viernes</option>
+                        <option value="6">Sábado</option>
+                        <option value="7">Domingo</option>
+                    </select>
+                </td>
             </tr>
-
             </tbody>
             <tfoot>
             <tr>

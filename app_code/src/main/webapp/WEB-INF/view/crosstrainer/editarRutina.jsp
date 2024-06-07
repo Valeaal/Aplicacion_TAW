@@ -64,34 +64,44 @@
             box-sizing: border-box;
         }
 
-        button {
-            background-color: #007bff;
+        button, a.btn {
+            display: inline-block;
             color: #fff;
             border: none;
             padding: 10px 20px;
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
-            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        button:hover, a.btn:hover {
+            background-color: #0056b3;
+        }
+
+        button {
+            background-color: #007bff;
         }
 
         select {
-            width: calc(100% - 20px);
+            width: 100%;
+            height: 45px;
             padding: 10px;
             margin-bottom: 20px;
             border: 1px solid #ddd;
             border-radius: 4px;
             box-sizing: border-box;
-        }
-
-        button:hover {
-            background-color: #0056b3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            height: fit-content;
         }
 
         th, td {
@@ -107,17 +117,6 @@
 
         tr:nth-child(even) {
             background-color: #f9f9f9;
-        }
-
-        .btn {
-            padding: 8px 15px;
-            font-size: 14px;
-            color: #ffffff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.3s;
         }
 
         .btn-ok {
@@ -142,18 +141,6 @@
 
         .btn-add:hover {
             background-color: #138496;
-        }
-
-        select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
     </style>
 </head>
@@ -215,9 +202,6 @@
                     <td>
                         <input type="hidden" name="idEntrenamientoRutina" value="<%=entrenamientoRutina.getId()%>">
                         <button type="submit" class="btn btn-ok">OK</button>
-                        <!-- <a class="btn btn-ok" href="/editarEntrenamientosdeRutina?id=<%= entrenamientoRutina.getId() %>
-                        &idEntrenamiento=<%= entrenamientoRutina.getEntrenamiento().getId() %>
-                        &diaSemana=<%= entrenamientoRutina.getDiaSemana() %>">OK</a> -->
                     </td>
             </form>
             <td>
@@ -225,11 +209,15 @@
             </td>
             </tr>
             <% } %>
-
-
+            <tr>
+                <td></td>
+                <td>
+                    <a class="btn btn-add" href="/addEntrenamientosdeRutina?id=<%=rutina.getId()%>">Añadir
+                        entrenamiento</a>
+                </td>
+                <td></td>
+            </tr>
         </table>
-            <a class="btn btn-add" href="/addEntrenamientosdeRutina?id=<%=rutina.getId()%>">Añadir
-                entrenamiento</a>
     </div>
 </div>
 </body>
