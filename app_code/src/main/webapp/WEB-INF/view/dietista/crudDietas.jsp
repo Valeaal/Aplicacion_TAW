@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="es.uma.proyectotaw.entity.Dieta" %>
 <%@ page import="java.util.List" %>
 <%--
@@ -75,21 +76,24 @@
     <div class="col-md-12">
       <h2 class="text-center">Dietas</h2>
       <div class="search-section">
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Buscar dietas..." aria-label="Buscar dietas" aria-describedby="button-addon2">
-          <div class="input-group-append">
-            <button class="btn btn-outline-primary" type="button" id="button-addon2">Buscar</button>
+        <form:form action="/filtrarDietas" modelAttribute="FiltroDietas" method="post" class="form-inline w-100">
+          <div class="input-group mr-2">
+            <form:input type="text" path="nombre" class="form-control" placeholder="Buscar dietas..." aria-label="Buscar dietas" />
           </div>
-        </div>
-        <select class="custom-select">
-          <option selected>Calorías</option>
-          <option value="1">Menos de 500</option>
-          <option value="2">Entre 500 y 1000</option>
-          <option value="3">Entre 1000 y 1500</option>
-          <option value="4">Entre 1500 y 2000</option>
-          <option value="5">Entre 2500 y 3000</option>
-          <option value="6">Más de 3000</option>
-        </select>
+          <div class="input-group mr-2">
+            <form:select path="calorias" class="custom-select">
+              <form:option value="" label="Calorías"/>
+              <form:option value="1" label="Menos de 500"/>
+              <form:option value="2" label="Entre 500 y 1000"/>
+              <form:option value="3" label="Entre 1000 y 1500"/>
+              <form:option value="4" label="Entre 1500 y 2000"/>
+              <form:option value="5" label="Entre 2000 y 2500"/> 
+              <form:option value="6" label="Entre 2500 y 3000"/>
+              <form:option value="7" label="Más de 3000"/>
+            </form:select>
+          </div>
+          <button type="submit" class="btn btn-outline-primary">Buscar</button>
+        </form:form>
       </div>
       <div class="table-responsive">
         <table class="table table-hover">
@@ -117,7 +121,7 @@
         </table>
       </div>
       <div class="new-dieta-button">
-        <a href="/dietas/nueva" class="btn btn-success">Modificar Dieta</a>
+        <a href="/dietas/nueva" class="btn btn-success">Nueva Dieta</a>
       </div>
     </div>
   </div>

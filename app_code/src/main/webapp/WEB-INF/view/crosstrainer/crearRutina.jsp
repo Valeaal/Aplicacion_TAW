@@ -160,7 +160,7 @@
 </head>
 <body>
 <h1>Escoja un entrenamiento para cada día</h1>
-<form method="post" action="/crossfit/anadirEntrenamiento">
+<form method="post" action="/anadirEntrenamiento">
     <input type="hidden" value="<%= numeroDia %>" name="numeroDia">
     <h2>Entrenamiento <%= numeroDia %>
     </h2>

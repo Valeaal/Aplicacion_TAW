@@ -77,7 +77,7 @@
 <body>
 <div class="container">
     <h2>Creación de rutina:</h2>
-    <form action="/crossfit/crearRutina" method="post">
+    <form action="/crearRutina" method="post">
         <input type="hidden" value="0" name="numeroDia">
         <h5>Nombre</h5>
         <input type="text" name="nombreRutina">
