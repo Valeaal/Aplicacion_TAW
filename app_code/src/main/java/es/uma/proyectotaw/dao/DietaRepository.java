@@ -20,4 +20,20 @@ public interface DietaRepository extends JpaRepository<Dieta, Integer> {
 
     @Query("select u from Dieta u where u.id = :inputID ")
     public Dieta buscarPorID (@Param("inputID") Integer inputID);
+
+    @Query("SELECT d FROM Dieta d " +
+            "WHERE (:nombre IS NULL OR LOWER(d.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))) " +
+            "AND (:calorias IS NULL OR " +
+            "(d.calorias < 500 AND :calorias = 1) OR " +
+            "(d.calorias >= 500 AND d.calorias < 1000 AND :calorias = 2) OR " +
+            "(d.calorias >= 1000 AND d.calorias < 1500 AND :calorias = 3) OR " +
+            "(d.calorias >= 1500 AND d.calorias < 2000 AND :calorias = 4) OR " +
+            "(d.calorias >= 2000 AND d.calorias < 2500 AND :calorias = 5) OR " +
+            "(d.calorias >= 2500 AND d.calorias < 3000 AND :calorias = 6) OR " +
+            "(d.calorias >= 3000 AND :calorias = 7))")
+    List<Dieta> getDietasFiltradas(String nombre, Integer calorias);
+
+
+
+
 }
