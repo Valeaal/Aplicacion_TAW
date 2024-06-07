@@ -27,8 +27,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"><%= nombre.toString() %>
-        </a>
+        <a class="navbar-brand" href="#"><%= nombre.toString() %></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -39,19 +38,19 @@
                     <a class="nav-link" href="/">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="admin/clientesEntrenadores">Clientes -> Entrenadores</a>
+                    <a class="nav-link" href="/admin/clientesEntrenadores">Clientes -> Entrenadores</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="admin/clientesDietistas">Clientes -> Dietistas</a>
+                    <a class="nav-link" href="/admin/clientesDietistas">Clientes -> Dietistas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="admin/usuarios">Gestionar usuarios</a>
+                    <a class="nav-link" href="/admin/usuarios">Gestionar usuarios</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="admin/ejercicios">Gestionar ejercicios</a>
+                    <a class="nav-link" href="/admin/ejercicios">Gestionar ejercicios</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="admin/menus">Gestionar menús</a>
+                    <a class="nav-link" href="/admin/menus">Gestionar menús</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/salir">Salir</a>
@@ -60,6 +59,7 @@
         </div>
     </div>
 </nav>
+
 
 <%
 } else if (tipoUsr != null && tipoUsr.getTipo().equals("dietista")) {    //Mostramos el navbar con las opciones del dietista
