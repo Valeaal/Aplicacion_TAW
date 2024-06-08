@@ -510,7 +510,7 @@ public class AdminController {
         //Si sí se selecciona y se pulsa editar, se va a la página correspondiente.
         //Si sí se selecciona y se pulsa borrar, se ejecuta la sentencia y se permanece en la página.
         //Independientemente si se selecciona o no un ejercicioEntrenamiento y se pulsa añadir, llevará a la página correspondiente.
-        String direccionRetorno = "redirect:/admin/ejerciciosEntrenamiento";
+        String direccionRetorno = "redirect:/admin/ejerciciosEntrenamientos";
 
         List <Ejercicio> ejercicios = ejercicioRepository.findAll();
         List <Entrenamiento> entrenamientos = entrenamientoRepository.findAll();
@@ -530,6 +530,14 @@ public class AdminController {
             }
         }
         return direccionRetorno;
+    }
+
+    @PostMapping("/ejerciciosEntrenamientos/guardar")
+    public String guardarEjerciciosEntrenamientos(Model model, @ModelAttribute("ejercicioEntrenamiento") EjercicioEntrenamiento ejercicioEntrenamiento){
+
+        ejercicioEntrenamientoRepository.save(ejercicioEntrenamiento);
+
+        return "redirect:/admin/ejerciciosEntrenamientos";
     }
 
 }

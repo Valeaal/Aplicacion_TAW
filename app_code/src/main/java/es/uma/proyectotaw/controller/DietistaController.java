@@ -160,6 +160,9 @@ public class DietistaController {
         dieta.setDescripcion(nuevaDieta.getDescripcion());
         dieta.setCalorias(nuevaDieta.getCalorias());
         this.dietaRepository.save(dieta);
+
+        return null;
+        //Lo he pusto pq  si no no compila srry
         
     }
 
