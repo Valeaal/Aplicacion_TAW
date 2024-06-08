@@ -24,11 +24,10 @@
 
 <section id="secondary-content" class="container mt-4">
     <p class="fs-6">
-        --NOVEDADES VERSIÓN 5 DE MAYO--<br>
-        Todos los inicios de sesión de todos los roles están disponibles. <br>
-        Función delete de usuarios (YA ES FUNCIONAL)<br>
-        Función filtrado de usuarios (YA ES FUNCIONAL)<br>
-        Quizás pueda serviros para manipular la bdd de fomra segura y hacer pruebas.
+        ¡¡¡¡¡¡VAMOS CHICOS QUE ACABAMO!!!!!<br>
+        La parte del administrador juraría que está acabada.<br>
+        Podemos entregarle mañana lo que llevamos pa que nos diga como lo ve.<br>
+        Así si tenemos algún fallo podemos corregirlo.
     </p>
 </section>
 

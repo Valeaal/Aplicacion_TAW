@@ -519,6 +519,8 @@ public class AdminController {
         model.addAttribute("entrenamientos", entrenamientos);
 
         if (inputBoton.equals("Añadir")) {
+            EjercicioEntrenamiento nuevo = new EjercicioEntrenamiento();
+            model.addAttribute("ejercicioEntrenamiento", nuevo);
             direccionRetorno = "administrador/nuevoEjercicioEntrenamiento";
         } else if (inputEj != null){
             if (inputBoton.equals("Eliminar")){
@@ -532,6 +534,7 @@ public class AdminController {
         return direccionRetorno;
     }
 
+    //En este caso, hemos hecho que tanto el modificar como el añadir se manejen en este método
     @PostMapping("/ejerciciosEntrenamientos/guardar")
     public String guardarEjerciciosEntrenamientos(Model model, @ModelAttribute("ejercicioEntrenamiento") EjercicioEntrenamiento ejercicioEntrenamiento){
 
