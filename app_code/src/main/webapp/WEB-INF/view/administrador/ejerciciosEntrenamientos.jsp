@@ -29,7 +29,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="/admin/usuarios/filtrar">
+                    <form action="/admin/ejerciciosEntrenamientos/filtrar">
                         <div class="mb-3 d-flex">
                             <input type="number" class="form-control form-control-lg me-2" name="inputSeries" placeholder="Número de series">
                             <input type="number" class="form-control form-control-lg me-2" name="inputRepeticiones" placeholder="Número de repeticiones">
@@ -43,7 +43,7 @@
                         <div class="mb-3 d-flex">
                             <!-- Menú desplegable 1 -->
                             <div class="flex-grow-1 me-3">
-                                <select class="form-select" name="StringEdad">
+                                <select class="form-select" name="StringEntrenamiento">
                                     <option selected>Selecciona Entrenamiento</option>
                                     <%
                                         for (int i = 0; i < Entrenamientos.size(); i++) {
@@ -56,7 +56,7 @@
                             </div>
                             <!-- Menú desplegable 2 -->
                             <div class="flex-grow-1 me-3">
-                                <select class="form-select" name="StringIngreso">
+                                <select class="form-select" name="StringEjercicio">
                                     <option selected>Selecciona Ejercicio</option>
                                     <%
                                         for (int i = 0; i < Ejercicios.size(); i++) {

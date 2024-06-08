@@ -45,6 +45,9 @@ public interface EjercicioRepository extends JpaRepository <Ejercicio, Integer> 
                                               @Param("inputTipo") TipoEjercicio inputTipo,
                                               @Param("inputGrupo") GrupoMuscular inputGrupo);
 
+    @Query("select e from Ejercicio e where e.nombre = :ejercicioString")
+    public Ejercicio buscarPorString (@Param("ejercicioString") String ejercicioString);
+
     /*List<Ejercicio> getEjercicioByClientIdDesempenyo(@Param("clienteId") Integer clienteId, @Param("desempenyoSup") Integer desempenyoLimiteSup,
                                                       @Param("desempenyoInf") Integer desempenyoLimiteInf);*/
 }
