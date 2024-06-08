@@ -30,6 +30,10 @@ public class AdminController {
     private GrupoMuscularRepository grupoMuscularRepository;
     @Autowired
     private MenuRepository menuRepository;
+    @Autowired
+    private EjercicioEntrenamientoRepository ejercicioEntrenamientoRepository;
+    @Autowired
+    private EntrenamientoRepository entrenamientoRepository;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //GESTIÓN DE LOS USUARIOS
@@ -71,6 +75,7 @@ public class AdminController {
 
         //------------ PARA RELLENAR LA TABLA (con filtros)------------//
 
+        //Esto con un input type number podemos solucionarlo de otra forma, pero aquí hemos elegido hacer un select. Tenemos ejemplos en este Controller usando type number.
         //Para controlar si hemos introducido el dato, ponemos o no a null. Luego esto se maneja en la consulta
         Integer inputEdad;
         if( StringEdad.equals("Selecciona Edad") ){
@@ -79,6 +84,7 @@ public class AdminController {
             inputEdad = Integer.parseInt(StringEdad);
         }
 
+        //Esto con un input type number podemos solucionarlo de otra forma, pero aquí hemos elegido hacer un select. Tenemos ejemplos en este Controller usando type number.
         //Para controlar si hemos introducido el dato, ponemos o no a null. Luego esto se maneja en la consulta
         Integer inputIngreso;
         if( StringIngreso.equals("Selecciona Año de Ingreso") ){
@@ -432,6 +438,70 @@ public class AdminController {
         menuRepository.save(menu);
 
         return "redirect:/admin/menus";
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //GESTIÓN DE DIMENSIONES DE EJERCICIOS (TABLA EJERCICIO_ENTRENAMIENTO)
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @GetMapping("/ejerciciosEntrenamientos")
+    public String ejerciciosEntrenamientos(Model model) {
+
+        //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO ------------//
+        List <Ejercicio> ejercicios = ejercicioRepository.findAll();
+        List <Entrenamiento> entrenamientos = entrenamientoRepository.findAll();
+
+        model.addAttribute("ejercicios", ejercicios);
+        model.addAttribute("entrenamientos", entrenamientos);
+
+        //------------ PARA RELLENAR LA TABLA DE DIMENSIONES DE EJERCICIOS (sin filtro)------------//
+        List<EjercicioEntrenamiento> ejerciciosEntrenamientosCompleto = ejercicioEntrenamientoRepository.findAll();
+        model.addAttribute("ejerciciosEntrenamientos", ejerciciosEntrenamientosCompleto);
+
+        return "/administrador/ejerciciosEntrenamientos";
+    }
+
+    @GetMapping("/ejerciciosEntrenamientos/filtrar")
+    public String EjerciciosEntrenamientosfiltrar(
+            @RequestParam(value = "inputRepeticiones", required = false) Integer inputRepeticiones,
+            @RequestParam(value = "inputPeso", required = false) Integer inputPeso,
+            @RequestParam(value = "inputTiempo", required = false) Integer inputTiempo,
+            @RequestParam(value = "inputDistancia", required = false) Integer inputDistancia,
+            @RequestParam(value = "inputOrden", required = false) Integer inputOrden,
+            @RequestParam(value = "StringEntrenamiento", required = false) String StringEntrenamiento,
+            @RequestParam(value = "StringEjercicio", required = false) String StringEjercicio,
+            @RequestParam(value = "inputSeries", required = false) Integer inputSeries,
+            Model model) {
+
+        //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO ------------//
+        List <Ejercicio> ejercicios = ejercicioRepository.findAll();
+        List <Entrenamiento> entrenamientos = entrenamientoRepository.findAll();
+
+        model.addAttribute("ejercicios", ejercicios);
+        model.addAttribute("entrenamientos", entrenamientos);
+
+        //------------ PARA RELLENAR LA TABLA (con filtros)------------//
+
+        //Para controlar si hemos introducido el dato, ponemos o no a null. Luego esto se maneja en la consulta
+        Ejercicio inputEjercicio;
+        if(StringEntrenamiento.equals("Selecciona Ejercicio") ){
+            inputEjercicio = null;
+        } else {
+            inputEjercicio = ejercicioRepository.buscarPorString(StringEjercicio);
+        }
+
+        //Para controlar si hemos introducido el dato, ponemos o no a null. Luego esto se maneja en la consulta
+        Entrenamiento inputEntrenamiento;
+        if(StringEntrenamiento.equals("Selecciona Entrenamiento") ){
+            inputEntrenamiento = null;
+        } else {
+            inputEntrenamiento = entrenamientoRepository.buscarPorString(StringEntrenamiento);
+        }
+
+        List<EjercicioEntrenamiento> ejerciciosEntrenamientoFiltrado = ejercicioEntrenamientoRepository.filtrarEjerciciosEntrenamiento(inputEjercicio, inputEntrenamiento, inputSeries, inputRepeticiones, inputPeso, inputTiempo, inputDistancia, inputOrden);
+        model.addAttribute("ejerciciosEntrenamientos", ejerciciosEntrenamientoFiltrado);
+
+        return "administrador/ejerciciosEntrenamientos";
     }
 
 }
