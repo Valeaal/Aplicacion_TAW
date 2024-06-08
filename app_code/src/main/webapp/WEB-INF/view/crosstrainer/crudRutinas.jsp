@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.*" %>
 <%@ page import="es.uma.proyectotaw.entity.Usuario" %>
 <%@ page import="es.uma.proyectotaw.entity.Rutina" %>
@@ -103,6 +104,30 @@
     .btn-delete:hover {
         background-color: #c82333;
     }
+
+    .btn-reset {
+        background-color: #6c757d;
+    }
+
+    .btn-reset:hover {
+        background-color: #5a6268;
+    }
+
+    .btn-reset-link {
+        padding: 8px 15px;
+        font-size: 14px;
+        color: #ffffff;
+        background-color: #6c757d;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+    .btn-reset-link:hover {
+        background-color: #5a6268;
+    }
 </style>
 
 <html lang="en">
@@ -118,70 +143,44 @@
 
 <jsp:include page="../header-footer/navbar.jsp"></jsp:include>
 
-<div class="container-fluid ">
+<div class="container-fluid">
     <!-- Formulario -->
-    <div class="row justify-content-center mt-2">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <form> <!--Aqui filtras-->
-                        <div class="mb-3 d-flex">
-                            <input type="text" class="form-control form-control-lg me-2" name="inputRutina"
-                                   placeholder="Buscar Rutina">
-
-                        </div>
-                        <div class="mb-3 d-flex">
-                            <!-- Menú desplegable 1 -->
-                            <div class="flex-grow-1 me-3">
-                                <select class="form-select" name="StringEdad">
-                                    <option selected>Nº ENTRENAMIENTOS</option>
-
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-
-                                </select>
+    <form:form modelAttribute="filtroRutinas" method="post" action="/filtrarRutinas">
+        <div class="row justify-content-center mt-2">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form> <!--Aqui filtras-->
+                            <div class="mb-3 d-flex">
+                                <form:input path="nombreRutina" class="form-control form-control-lg me-2"
+                                            placeholder="Buscar Rutina"/>
                             </div>
-                            <!-- Menú desplegable 2 -->
-                            <div class="flex-grow-1 me-3">
-                                <select class="form-select" name="StringIngreso">
-                                    <option selected>TIPO</option>
-                                    <%
-                                        //   for (int i = 0; i < Ingresos.size(); i++) {
-                                    %>
-                                    <option><% %>
-                                    </option>
-                                    <%
-                                        //   }
-                                    %>
-                                </select>
+                            <div class="mb-3 d-flex">
+                                <!-- Menú desplegable 1 -->
+                                <div class="flex-grow-1 me-3">
+                                    <form:select class="form-select" path="numeroEntrenamientos">
+                                        <form:option value="-1">Nº ENTRENAMIENTOS</form:option>
+                                        <form:option value="1">1</form:option>
+                                        <form:option value="2">2</form:option>
+                                        <form:option value="3">3</form:option>
+                                        <form:option value="4">4</form:option>
+                                        <form:option value="5">5</form:option>
+                                        <form:option value="6">6</form:option>
+                                        <form:option value="7">7</form:option>
+                                    </form:select>
+                                </div>
+
+                                <!-- Botón de búsqueda -->
+                                <button type="submit" class="btn btn-primary me-2">Buscar</button>
+                                <!-- Enlace de restablecer -->
+                                <a href="/crud" class="btn-reset-link">Restablecer</a>
                             </div>
-                            <!-- Menú desplegable 3 -->
-                            <div class="flex-grow-1 me-3">
-                                <select class="form-select" name="StringRol">
-                                    <option selected>OBJETIVO</option>
-                                    <%
-                                        // for (String rol : Roles) {
-                                    %>
-                                    <option><% %>
-                                    </option>
-                                    <%
-                                        //    }
-                                    %>
-                                </select>
-                            </div>
-                            <!-- Botón de búsqueda -->
-                            <button type="submit" class="btn btn-primary">Buscar</button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form:form>
 
     <form action=""> <!-- Aqui guardamos el objeto seleccionado-->
         <div class="container">
@@ -204,10 +203,14 @@
                 <!-- Aquí se deben iterar las rutinas para generar las filas dinámicamente -->
                 <%for (Rutina rutina : rutinas) {%>
                 <tr>
-                    <td><%=rutina.getNombre()%></td>
-                    <td><%=rutina.getEntrenamientos().size()%></td>
-                    <td><%=rutina.getDescripcion()%></td>
-                    <td><%=rutina.getFechaCreacion()%></td>
+                    <td><%=rutina.getNombre()%>
+                    </td>
+                    <td><%=rutina.getEntrenamientos().size()%>
+                    </td>
+                    <td><%=rutina.getDescripcion()%>
+                    </td>
+                    <td><%=rutina.getFechaCreacion()%>
+                    </td>
                     <td>
                         <a href="/crud/editar?idRutina=<%=rutina.getId()%>" class="btn btn-warning mb-2">Editar</a>
                     </td>
@@ -216,16 +219,12 @@
                     </td>
                 </tr>
                 <%}%>
-
-
                 <!-- Fin de la iteración -->
                 </tbody>
             </table>
         </div>
     </form>
 </div>
-
-
 
 <!-- Enlace a Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

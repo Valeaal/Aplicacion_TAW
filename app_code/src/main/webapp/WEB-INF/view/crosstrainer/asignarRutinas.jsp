@@ -1,9 +1,10 @@
 <%@ page import="java.util.*" %>
 <%@ page import="es.uma.proyectotaw.entity.Usuario" %>
 <%@ page import="es.uma.proyectotaw.entity.Rutina" %>
+<%@ page import="es.uma.proyectotaw.entity.Cliente" %>
 
 <%
-    List<Usuario> clientes = (List<Usuario>) request.getAttribute("clientes");
+    List<Cliente> clientes = (List<Cliente>) request.getAttribute("clientes");
     List<Rutina> rutinas = (List<Rutina>) request.getAttribute("rutinas");
 
 %>
@@ -62,16 +63,16 @@
                     </thead>
                     <tbody>
                     <!-- Filas de clientes -->
-                    <% for (Usuario usr : clientes) { %>
+                    <% for (Cliente cliente : clientes) { %>
                     <tr>
-                        <td><input type="radio" name="idUser" value="<%= usr.getId()%>"></td>
-                        <td><%= usr.getNombre()%>
+                        <td><input type="radio" name="idUser" value="<%= cliente.getUsuario().getId()%>"></td>
+                        <td><%= cliente.getUsuario().getNombre()%>
                         </td>
-                        <td><%= usr.getApellidos()%>
+                        <td><%= cliente.getUsuario().getApellidos()%>
                         </td>
-                        <td><%= usr.getPerteneceDesde()%>
+                        <td><%= cliente.getUsuario().getPerteneceDesde()%>
                         </td>
-                        <td><%= usr.getFechaNacimiento()%>
+                        <td><%= cliente.getUsuario().getFechaNacimiento()%>
                         </td>
                     </tr>
                     <% } %>

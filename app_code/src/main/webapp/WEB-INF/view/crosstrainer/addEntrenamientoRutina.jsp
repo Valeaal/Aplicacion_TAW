@@ -142,20 +142,9 @@
 <div class="container">
     <form method="post" action="/guardarEntrenamientoNuevoDeRutina">
         <input type="hidden" name="idRutina" value="<%=idRutina%>"/>
-        <h2>Añadir a la rutina</h2>
+        <h2>Añadir entrenamiento a la rutina</h2>
         <table>
             <tbody>
-            <tr>
-                <td>
-                    <h5>Seleccione un entrenamiento</h5>
-                    <select name="idEntrenamiento">
-                        <% for (Entrenamiento entrenamiento : entrenamientos) { %>
-                        <option value="<%= entrenamiento.getId() %>"><%= entrenamiento.getNombre() %>
-                        </option>
-                        <% } %>
-                    </select>
-                </td>
-            </tr>
             <tr>
                 <td>
                     <h5>Seleccione un día</h5>
@@ -167,6 +156,17 @@
                         <option value="5">Viernes</option>
                         <option value="6">Sábado</option>
                         <option value="7">Domingo</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>Seleccione un entrenamiento</h5>
+                    <select name="idEntrenamiento">
+                        <% for (Entrenamiento entrenamiento : entrenamientos) { %>
+                        <option value="<%= entrenamiento.getId() %>"><%= entrenamiento.getNombre() %>
+                        </option>
+                        <% } %>
                     </select>
                 </td>
             </tr>
