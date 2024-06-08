@@ -504,4 +504,32 @@ public class AdminController {
         return "administrador/ejerciciosEntrenamientos";
     }
 
+    @GetMapping("/ejerciciosEntrenamientos/seleccionar")
+    public String seleccionarEjerciciosEntrenamiento(@RequestParam(name = "eSeleccionado", required = false) Integer inputEj, @RequestParam("Boton") String inputBoton, Model model) {
+
+        //Si sí se selecciona y se pulsa editar, se va a la página correspondiente.
+        //Si sí se selecciona y se pulsa borrar, se ejecuta la sentencia y se permanece en la página.
+        //Independientemente si se selecciona o no un ejercicioEntrenamiento y se pulsa añadir, llevará a la página correspondiente.
+        String direccionRetorno = "redirect:/admin/ejerciciosEntrenamiento";
+
+        List <Ejercicio> ejercicios = ejercicioRepository.findAll();
+        List <Entrenamiento> entrenamientos = entrenamientoRepository.findAll();
+
+        model.addAttribute("ejercicios", ejercicios);
+        model.addAttribute("entrenamientos", entrenamientos);
+
+        if (inputBoton.equals("Añadir")) {
+            direccionRetorno = "administrador/nuevoEjercicioEntrenamiento";
+        } else if (inputEj != null){
+            if (inputBoton.equals("Eliminar")){
+                ejercicioEntrenamientoRepository.deleteById(inputEj);
+            } else if (inputBoton.equals("Modificar")){
+                EjercicioEntrenamiento ejercicioEntrenamiento = ejercicioEntrenamientoRepository.getById(inputEj);
+                model.addAttribute("ejercicioEntrenamiento", ejercicioEntrenamiento);
+                direccionRetorno = "administrador/modificarEjercicioEntrenamiento";
+            }
+        }
+        return direccionRetorno;
+    }
+
 }

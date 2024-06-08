@@ -13,6 +13,13 @@
 
 <body class="d-flex flex-column min-vh-100">
 
+<style>
+    /* Para que no tape a las páginas más largas */
+    body {
+        margin-bottom: 80px; /* Ajusta este valor a la altura del footer */
+    }
+</style>
+
 <!--<footer class="footer fixed-bottom py-3 bg-light"> -->
 <footer class="footer fixed-bottom py-3 bg-light">
     <div class="container text-center">
