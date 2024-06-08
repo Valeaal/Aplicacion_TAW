@@ -2,6 +2,7 @@ package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dao.*;
 import es.uma.proyectotaw.entity.*;
+import es.uma.proyectotaw.ui.Filtro_Rutina_nEntrenamientos;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,13 +38,37 @@ public class CrossfitController {
     public String doCRUD(Model model) {
         List<Rutina> rutinas = rutinaRepository.getCrossfitRutinas();
         model.addAttribute("rutinas", rutinas);
+        model.addAttribute("filtroRutinas", new Filtro_Rutina_nEntrenamientos());
+        return "crosstrainer/crudRutinas";
+    }
+
+    @PostMapping("/filtrarRutinas")
+    public String doFiltrarRutinas(@ModelAttribute("filtroRutinas") Filtro_Rutina_nEntrenamientos filtroRutinas,
+                                   Model model) {
+        if ((filtroRutinas.getNombreRutina() == null || filtroRutinas.getNombreRutina().equals("")) &&
+                filtroRutinas.getNumeroEntrenamientos() == -1) {
+            return "redirect:/crud";
+        } else if (filtroRutinas.getNumeroEntrenamientos() == -1) {
+            List<Rutina> rutinas = rutinaRepository.filtrarPorNombre(filtroRutinas.getNombreRutina());
+            model.addAttribute("rutinas", rutinas);
+        } else if (filtroRutinas.getNombreRutina() == null || filtroRutinas.getNombreRutina().equals("")) {
+            List<Rutina> rutinas = this.rutinaRepository.filtrarPornumEntrenamientos(filtroRutinas.getNumeroEntrenamientos());
+            model.addAttribute("rutinas", rutinas);
+        } else {
+            List<Rutina> rutinas = this.rutinaRepository.filtrarPorNombreynEntrenamientos(filtroRutinas.getNombreRutina(),
+                    filtroRutinas.getNumeroEntrenamientos());
+            model.addAttribute("rutinas", rutinas);
+        }
+        model.addAttribute("filtroRutinas", filtroRutinas);
         return "crosstrainer/crudRutinas";
     }
 
     @GetMapping("/ClientesRutinas")
-    public String doAsignarRutinas(Model model) {
-        TipoUsuario tipoCliente = tipoUsuarioRepository.buscarPorID(5); // aqui estamos buscando al cliente
-        List<Usuario> clientes = this.usuarioRepository.buscarPorTipo(tipoCliente);
+    public String doAsignarRutinas(Model model, HttpSession session) {
+       // TipoUsuario tipoCliente = tipoUsuarioRepository.buscarPorID(5); // aqui estamos buscando al cliente
+       // List<Usuario> clientes = this.usuarioRepository.buscarPorTipo(tipoCliente);
+        Usuario entrenador = (Usuario) session.getAttribute("usuario");
+        List<Cliente> clientes = this.clienteRepository.getClienteDelEntrenador(entrenador.getId()); // sacamos los cliente del entrenador
         List<Rutina> rutinas = rutinaRepository.findAll();
         model.addAttribute("clientes", clientes);
         model.addAttribute("rutinas", rutinas);
@@ -63,7 +88,7 @@ public class CrossfitController {
             asignacionRutinaACliente.setCliente(cliente);
             asignacionRutinaACliente.setRutina(rutina);
             asignacionRutinaACliente.setVigente(true);
-            for(ClienteRutina cr : this.cliente_RutinaRepository.findActiveRoutines()){ // para que la nueva sea la vigente
+            for (ClienteRutina cr : this.cliente_RutinaRepository.findActiveRoutines()) { // para que la nueva sea la vigente
                 cr.setVigente(false);
             }
             this.cliente_RutinaRepository.save(asignacionRutinaACliente);
@@ -73,8 +98,11 @@ public class CrossfitController {
     }
 
     @GetMapping("/seguimientoRutinas")
-    public String doSeguimientoRutinas() {
-
+    public String doSeguimientoRutinas(Model model, HttpSession session) {
+        Usuario entrenador = (Usuario) session.getAttribute("usuario");
+        List<Cliente> clientes = this.clienteRepository.getClienteDelEntrenador(entrenador.getId()); // sacamos los cliente del entrenador
+        //  List<Cliente> clientes = this.clienteRepository.findAll();
+        model.addAttribute("clientes", clientes);
         return "crosstrainer/seguimientoRutinas";
     }
 

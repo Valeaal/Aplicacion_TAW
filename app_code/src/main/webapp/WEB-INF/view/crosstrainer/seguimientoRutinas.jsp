@@ -4,6 +4,7 @@
 
 <%
     List<Ejercicio> listaEjerciciosCompleta = (List<Ejercicio>) request.getAttribute("listaEjerciciosCompleta");
+    List<Cliente> clientes = (List<Cliente>) request.getAttribute("clientes");
 %>
 
 <html>
@@ -16,6 +17,20 @@
 
 <jsp:include page="../header-footer/navbar.jsp"></jsp:include>
 <h1>Bienvenido al asignar rutinas</h1>
+<table>
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    <% for(Cliente cliente : clientes){%>
+    <tr>
+        <td><%=cliente.getUsuario().getNombre()%></td>
+        <td><%=cliente.getUsuario().getApellidos()%></td>
+        <td><%=cliente.getUsuario().getFechaNacimiento()%></td>
+    </tr>
+    <% }%>
+</table>
 
 <jsp:include page="../header-footer/footer.jsp"></jsp:include>
 

@@ -11,6 +11,18 @@ public interface RutinaRepository extends JpaRepository<Rutina, Integer> {
     @Query("select r from Rutina r where r.tipoRutina.id = 2")
     List<Rutina> getCrossfitRutinas();
 
+    @Query("select r from Rutina r  where r.tipoRutina.id = 2 and r.nombre like concat('%', :nombre, '%')")
+    List<Rutina> filtrarPorNombre(@Param("nombre") String nombre);
+
+    @Query("SELECT r FROM Rutina r WHERE r.tipoRutina.id = 2 AND (SELECT COUNT(e) FROM r.entrenamientos e) = :n")
+    List<Rutina> filtrarPornumEntrenamientos(@Param("n") Integer n);
+
+    @Query("select r from Rutina r where r.tipoRutina.id = 2 and r.nombre like concat('%', :nombre, '%') and" +
+            " (SELECT COUNT(e) FROM r.entrenamientos e) = :n")
+    List<Rutina> filtrarPorNombreynEntrenamientos(@Param("nombre") String nombre,
+                                                  @Param("n") Integer n);
+
+
     @Query("SELECT r FROM Rutina r JOIN r.clientes cr WHERE cr.cliente.id = :clienteId AND cr.vigente = true")
     List<Rutina> getActiveRutinasByClienteId(@Param("clienteId") Integer clienteId);
 

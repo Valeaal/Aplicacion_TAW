@@ -24,11 +24,14 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            padding: 10px;
+            box-sizing: border-box;
         }
 
         .main-container {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            align-items: center;
             width: 100%;
             max-width: 1200px;
             padding: 20px;
@@ -36,11 +39,14 @@
 
         .container {
             background-color: #fff;
-            padding: 40px;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
             text-align: center;
-            width: 45%;
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
         }
 
         h1, h2, h5 {
@@ -55,8 +61,8 @@
             color: #555;
         }
 
-        input[type="text"] {
-            width: calc(100% - 20px);
+        input[type="text"], select {
+            width: 100%;
             padding: 10px;
             margin-bottom: 20px;
             border: 1px solid #ddd;
@@ -75,7 +81,6 @@
             text-align: center;
             text-decoration: none;
             box-sizing: border-box;
-            width: 100%;
         }
 
         button:hover, a.btn:hover {
@@ -84,16 +89,15 @@
 
         button {
             background-color: #007bff;
+            width: auto;
+        }
+
+        .btn-add {
+            background-color: #17a2b8;
+            width: auto;
         }
 
         select {
-            width: 100%;
-            height: 45px;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -102,6 +106,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 20px;
         }
 
         th, td {
@@ -135,12 +140,20 @@
             background-color: #c82333;
         }
 
-        .btn-add {
-            background-color: #17a2b8;
-        }
-
         .btn-add:hover {
             background-color: #138496;
+        }
+
+        @media (min-width: 768px) {
+            .main-container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .container {
+                width: 45%;
+                margin-bottom: 0;
+            }
         }
     </style>
 </head>
@@ -160,10 +173,10 @@
 
     <div class="container">
         <h2>Entrenamientos de la rutina:</h2>
-        <h4>Desea modificar algún entrenamiento de esta rutina?</h4>
+        <h4>¿Desea modificar algún entrenamiento de esta rutina?</h4>
         <table>
             <tr>
-                <th>Dia</th>
+                <th>Día</th>
                 <th>Entrenamiento</th>
                 <th></th>
                 <th></th>
@@ -177,7 +190,8 @@
                             </option>
                             <option value="2" <%= entrenamientoRutina.getDiaSemana() == 2 ? "selected" : "" %>>Martes
                             </option>
-                            <option value="3" <%= entrenamientoRutina.getDiaSemana() == 3 ? "selected" : "" %>>Miércoles
+                            <option value="3" <%= entrenamientoRutina.getDiaSemana() == 3 ? "selected" : "" %>>
+                                Miércoles
                             </option>
                             <option value="4" <%= entrenamientoRutina.getDiaSemana() == 4 ? "selected" : "" %>>Jueves
                             </option>
@@ -200,24 +214,18 @@
                         </select>
                     </td>
                     <td>
-                        <input type="hidden" name="idEntrenamientoRutina" value="<%=entrenamientoRutina.getId()%>">
+                        <input type="hidden" name="idEntrenamientoRutina" value="<%= entrenamientoRutina.getId() %>">
                         <button type="submit" class="btn btn-ok">OK</button>
                     </td>
             </form>
             <td>
-                <a class="btn btn-borrar" href="/borrarEntrenamientosdeRutina?id=<%=entrenamientoRutina.getId()%>">Borrar</a>
+                <a class="btn btn-borrar" href="/borrarEntrenamientosdeRutina?id=<%= entrenamientoRutina.getId() %>">Borrar</a>
             </td>
             </tr>
             <% } %>
-            <tr>
-                <td></td>
-                <td>
-                    <a class="btn btn-add" href="/addEntrenamientosdeRutina?id=<%=rutina.getId()%>">Añadir
-                        entrenamiento</a>
-                </td>
-                <td></td>
-            </tr>
+
         </table>
+        <a class="btn btn-add" href="/addEntrenamientosdeRutina?id=<%= rutina.getId() %>">Añadir entrenamiento</a>
     </div>
 </div>
 </body>
