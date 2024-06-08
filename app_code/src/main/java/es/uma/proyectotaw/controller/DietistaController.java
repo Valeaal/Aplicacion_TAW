@@ -2,7 +2,9 @@ package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dao.*;
 import es.uma.proyectotaw.entity.*;
+import es.uma.proyectotaw.ui.ComidasDieta;
 import es.uma.proyectotaw.ui.FiltroDietas;
+import es.uma.proyectotaw.ui.NuevaDieta;
 import es.uma.proyectotaw.ui.SeguimientoDietasCliente;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,6 +112,56 @@ public class DietistaController {
         return "dietista/crudDietas";
     }
 
+    @GetMapping("/dietaCrear")
+    public String mostrarFormularioNuevaDieta(Model model) {
+        model.addAttribute("nuevaDieta", new NuevaDieta());
+        return "dietista/nuevaDieta";
+    }
+
+    @PostMapping("/crearDieta")
+    public String procesarFormularioNuevaDieta(@ModelAttribute("nuevaDieta") NuevaDieta nuevaDieta, Model model, HttpSession sesion) {
+        String strTo = "";
+        Dieta dieta = new Dieta();
+        dieta.setNombre(nuevaDieta.getNombre());
+        dieta.setDescripcion(nuevaDieta.getDescripcion());
+        dieta.setCalorias(nuevaDieta.getCalorias());
+        dieta.setFecha(LocalDate.now());
+        Usuario dietista = (Usuario) sesion.getAttribute("usuario");
+        dieta.setDietista(dietista);
+        this.dietaRepository.save(dieta);
+        sesion.setAttribute("cantidadIngestas", nuevaDieta.getComidasDiarias());
+        model.addAttribute("ComidasDieta", new ComidasDieta());
+        if((Integer) sesion.getAttribute("cantidadIngestas")==3){
+            strTo = "dietista/nuevaDietaComidas3";
+        }
+        if((Integer) sesion.getAttribute("cantidadIngestas")==4){
+            strTo = "dietista/nuevaDietaComidas4";
+        }
+        if((Integer) sesion.getAttribute("cantidadIngestas")==5){
+            strTo = "dietista/nuevaDietaComidas5";
+        }
+        
+        return strTo;
+    }
+
+
+    @GetMapping("/dietas/modificar")
+    public String doModificar(@RequestParam("id") Integer id ,Model model) {
+        Dieta dieta = this.dietaRepository.findById(id).orElse(null);
+        model.addAttribute("nuevaDieta", new NuevaDieta());
+        model.addAttribute("dieta", dieta);
+        return "dietista/editarDieta";
+    }
+
+    @PostMapping("/editarDieta")
+    public String doEditarDieta(@ModelAttribute("nuevaDieta") NuevaDieta nuevaDieta, Model model){
+        Dieta dieta = this.dietaRepository.findById(nuevaDieta.getId()).orElse(null);
+        dieta.setNombre(nuevaDieta.getNombre());
+        dieta.setDescripcion(nuevaDieta.getDescripcion());
+        dieta.setCalorias(nuevaDieta.getCalorias());
+        this.dietaRepository.save(dieta);
+        
+    }
 
 
 

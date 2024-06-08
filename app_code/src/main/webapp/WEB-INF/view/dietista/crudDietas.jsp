@@ -121,7 +121,7 @@
         </table>
       </div>
       <div class="new-dieta-button">
-        <a href="/dietas/nueva" class="btn btn-success">Nueva Dieta</a>
+        <a href="/dietaCrear" class="btn btn-success">Nueva Dieta</a>
       </div>
     </div>
   </div>
