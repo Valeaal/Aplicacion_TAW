@@ -51,9 +51,6 @@ public interface EjercicioRepository extends JpaRepository <Ejercicio, Integer> 
     @Query("select e from Ejercicio e where e.nombre = :ejercicioString")
     public Ejercicio buscarPorString (@Param("ejercicioString") String ejercicioString);
 
-    @Query("select e from Ejercicio e where e.nombre like concat('%',:nombre,'%')")
-    public List<Ejercicio> findByNombre(@Param("nombre") String nombre);
-
     /*List<Ejercicio> getEjercicioByClientIdDesempenyo(@Param("clienteId") Integer clienteId, @Param("desempenyoSup") Integer desempenyoLimiteSup,
                                                       @Param("desempenyoInf") Integer desempenyoLimiteInf);*/
 }
