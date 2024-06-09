@@ -153,7 +153,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table TAW.cliente_rutina
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS TAW.cliente_rutina (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   cliente_id INT NOT NULL,
   rutina_id INT NOT NULL,
   vigente BIT(1) NOT NULL,
