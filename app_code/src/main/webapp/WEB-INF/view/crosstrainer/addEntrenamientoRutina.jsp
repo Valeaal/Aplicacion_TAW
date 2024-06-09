@@ -121,6 +121,19 @@
             text-align: center;
         }
 
+        button, a.btn {
+            display: inline-block;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
         .add-button {
             display: inline-block;
             background-color: #007bff;
@@ -135,6 +148,14 @@
 
         .add-button:hover {
             background-color: #0056b3;
+        }
+
+        .btn-borrar {
+            background-color: #dc3545;
+        }
+
+        .btn-borrar:hover {
+            background-color: darkred;
         }
     </style>
 </head>
@@ -176,6 +197,7 @@
                 <td colspan="2">
                     <div class="button-container">
                         <button type="submit" class="add-button">Añadir</button>
+                        <a class="btn btn-borrar" href="crud/editar?idRutina=<%=idRutina%>">Cancelar</a>
                     </div>
                 </td>
             </tr>

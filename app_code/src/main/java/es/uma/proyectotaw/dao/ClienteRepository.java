@@ -23,7 +23,11 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
     public Cliente getClienteById(Integer userId);
 
     @Query("select u from Cliente u where u.entrenador.id = :crossfitTrainerId")
-    public List<Cliente> getClienteDelEntrenador(Integer crossfitTrainerId);
+    public List<Cliente> getClientesDelEntrenador(Integer crossfitTrainerId);
+
+    @Query("select u from Cliente u where u.entrenador.id = :crossfitTrainerId and " +
+            "LOWER(u.usuario.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))")
+    public List<Cliente> getClientesDelEntrenadorYFiltro(Integer crossfitTrainerId,String nombre);
 
 
     @Query("SELECT u FROM Cliente u " +
