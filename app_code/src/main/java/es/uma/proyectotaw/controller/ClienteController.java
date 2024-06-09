@@ -1,9 +1,6 @@
 package es.uma.proyectotaw.controller;
 
-import es.uma.proyectotaw.ui.ComidaFiltro;
-import es.uma.proyectotaw.ui.DesempenyoFiltro;
-import es.uma.proyectotaw.ui.DesempenyoYEjercicio;
-import es.uma.proyectotaw.ui.RutinaFiltro;
+import es.uma.proyectotaw.ui.*;
 import org.springframework.ui.Model;
 import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.dao.*;
@@ -49,6 +46,10 @@ public class ClienteController {
     private ComidaDietaRepository comidaDietaRepository;
     @Autowired
     private EntrenamientoRutinaRepository entrenamientoRutinaRepository;
+    @Autowired
+    private MenuRepository menuRepository;
+    @Autowired
+    private ComidaMenuRepository comidaMenuRepository;
 
     @GetMapping("/rutina")
     public String rutina(@RequestParam("id") Integer id, Model model) {
@@ -120,6 +121,7 @@ public class ClienteController {
         model.addAttribute("dietaComidas", dietaComidas);
         model.addAttribute("comidas", comidas);
         model.addAttribute("comidaFiltro", new ComidaFiltro());
+        model.addAttribute("client", client);
         return "cliente/menu";
     }
 
@@ -207,10 +209,77 @@ public class ClienteController {
     }
 
     @GetMapping("/comida")
-    public String comida(@RequestParam("id") Integer id, Model model){
+    public String comida(@RequestParam("id") Integer id, @RequestParam("clientId") Integer clientId, Model model){
         Comida comida = comidaRepository.getReferenceById(id);
+        Cliente client = clienteRepository.getReferenceById(clientId);
+        Set<ComidaMenu> menus =  comida.getMenus();
+        HashMap <Integer, Integer> desempenyo = new HashMap();
+        int realizado = 1;
+        for(ComidaMenu menu : menus){
+            if(menu.getDesempeno()==null){
+                realizado = 0;
+            }
+            desempenyo.put(menu.getMenu().getId(), realizado);
+        }
+
+        model.addAttribute("desempenyo", desempenyo);
         model.addAttribute("comida", comida);
+        model.addAttribute("menus", menus);
+        model.addAttribute("client", client);
         return "/cliente/comida";
+    }
+
+    @GetMapping("/dietaDesempeno")
+    public String dietaDesempenyo(@RequestParam("id") Integer id,
+                                  @RequestParam("comidaId") Integer comidaId,
+                                  @RequestParam("clientId") Integer clientId,
+                                  Model model){
+        ComidaDesempenyo desempeno = new ComidaDesempenyo();
+        Menu menu = menuRepository.getReferenceById(id);
+        Cliente cliente = clienteRepository.getReferenceById(clientId);
+
+        model.addAttribute("menu", menu);
+        model.addAttribute("desempeno", desempeno);
+        model.addAttribute("cliente", cliente);
+        model.addAttribute("comidaId", comidaId);
+
+        return "/cliente/dietaDesempenyo";
+    }
+    @PostMapping("/guardarDesempenoDieta")
+    public String guardarDesempenoDieta(@ModelAttribute("desempeno") ComidaDesempenyo desempeno, Model model){
+        Desempeno d = new Desempeno();
+        Cliente c = clienteRepository.getReferenceById(desempeno.getCliente());
+        d.setCliente(c);
+        d.setPesoRealizado(0F);
+        d.setComentarios(desempeno.getComentarios());
+        d.setValoracion(desempeno.getValoracion());
+
+        ComidaMenu cm = comidaMenuRepository.getcomidaMenuByMenuAndComidaId(desempeno.getMenu(), desempeno.getComida());
+        cm.setDesempeno(d);
+
+        desempenoRepository.save(d);
+        comidaMenuRepository.save(cm);
+        return "redirect:/menu?id="+ c.getUsuario().getId();
+    }
+
+    @GetMapping("/verDietaDesempeno")
+    public String verDietaDesempeno(@RequestParam("id") Integer id,
+                                    @RequestParam("comidaId") Integer comidaId,
+                                    @RequestParam("clientId") Integer clientId,
+                                    Model model){
+        ComidaDesempenyo desempeno = new ComidaDesempenyo();
+        Menu menu = menuRepository.getReferenceById(id);
+        Cliente cliente = clienteRepository.getReferenceById(clientId);
+        Desempeno d = desempenoRepository.getDesempenoByMenuAndComidaId(id, comidaId);
+
+        desempeno.setComentarios(d.getComentarios());
+        desempeno.setValoracion(d.getValoracion());
+
+        model.addAttribute("menu", menu);
+        model.addAttribute("desempeno", desempeno);
+        model.addAttribute("cliente", cliente);
+        model.addAttribute("comidaId", comidaId);
+        return "/cliente/dietaDesempenyo";
     }
 
     @PostMapping("/filtrarRutina")
@@ -264,6 +333,9 @@ public class ClienteController {
             if(desempenyoTotal <= upperBound && desempenyoTotal >= lowerBound){
                 rutinasFiltradas.add(r);
                 rutina.remove(r);
+                if(rutina.isEmpty()){
+                    break;
+                }
             }
         }
         model.addAttribute("rutinasFiltradas", rutinasFiltradas);
@@ -271,4 +343,6 @@ public class ClienteController {
         model.addAttribute("cumplimiento", cumplimiento);
         return "/cliente/rutinaDesempenyoFiltrada";
     }
+
+
 }

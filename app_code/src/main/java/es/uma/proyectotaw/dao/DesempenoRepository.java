@@ -15,4 +15,7 @@ public interface DesempenoRepository extends JpaRepository<Desempeno, Integer> {
     @Query("SELECT d.desempeno FROM EjercicioEntrenamiento d WHERE d.entrenamiento.id=:entrenamientoId AND d.ejercicio.id=:ejId")
     Desempeno getDesempenoByEntremanientoAndEjId(@Param("ejId") Integer ejId, @Param("entrenamientoId") Integer entrenamientoId);
 
+    @Query("SELECT d.desempeno FROM ComidaMenu d WHERE d.menu.id=:menuId AND d.comida.id=:comidaId")
+    Desempeno getDesempenoByMenuAndComidaId(@Param("menuId") Integer menuId, @Param("comidaId") Integer comidaId);
+
 }

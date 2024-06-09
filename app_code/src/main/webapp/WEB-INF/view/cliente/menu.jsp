@@ -5,7 +5,8 @@
 <%@ page import="es.uma.proyectotaw.entity.DietaComida" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Set" %>
-<%@ page import="es.uma.proyectotaw.ui.ComidaFiltro" %><%--
+<%@ page import="es.uma.proyectotaw.ui.ComidaFiltro" %>
+<%@ page import="es.uma.proyectotaw.entity.Cliente" %><%--
   Created by IntelliJ IDEA.
   User: albadelatorres
   Date: 30/4/24
@@ -14,10 +15,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    //Dieta dieta = (Dieta) request.getAttribute("dieta");
     Set<DietaComida> dietaComidas = (Set<DietaComida>) request.getAttribute("dietaComidas");
-    //List<Comida> comidas = (List<Comida>) request.getAttribute("comidas");
     String comidaFiltro = request.getParameter("comidaFiltro");
+    Cliente client = (Cliente) request.getAttribute("client");
 %>
 <html>
 <head>
@@ -27,6 +27,7 @@
 </head>
 <body>
 <jsp:include page="../header-footer/navbar.jsp"></jsp:include>
+<h2>Tu dieta actual:</h2>
 <%
     List<Comida> comidasM1 = new ArrayList<>();
     List<Comida> comidasM2 = new ArrayList<>();
@@ -50,7 +51,7 @@
                     <h2 class="mt-5">Desayuno</h2>
                     <ul class="list-group">
                         <% for (Comida comida : comidasM1) { %>
-                        <li class="list-group-item"><a href="/comida?id=<%=comida.getId()%>"><%=comida.getNombre()%></a></li>
+                        <li class="list-group-item"><a href="/comida?id=<%=comida.getId()%>&clientId=<%=client.getId()%>"><%=comida.getNombre()%></a></li>
                         <% } %>
                     </ul>
                 </div>
@@ -62,7 +63,7 @@
                     <h2 class="mt-5">Comida</h2>
                     <ul class="list-group">
                         <% for (Comida comida : comidasM2) { %>
-                        <li class="list-group-item"><a href="/comida?id=<%=comida.getId()%>"><%=comida.getNombre()%></a></li>
+                        <li class="list-group-item"><a href="/comida?id=<%=comida.getId()%>&clientId=<%=client.getId()%>"><%=comida.getNombre()%></a></li>
                         <% } %>
                     </ul>
                 </div>
@@ -74,7 +75,7 @@
                     <h2 class="mt-5">Cena</h2>
                     <ul class="list-group">
                         <% for (Comida comida : comidasM3) { %>
-                        <li class="list-group-item"><a href="/comida?id=<%=comida.getId()%>"><%=comida.getNombre()%></a></li>
+                        <li class="list-group-item"><a href="/comida?id=<%=comida.getId()%>&clientId=<%=client.getId()%>"><%=comida.getNombre()%></a></li>
                         <% } %>
                     </ul>
                 </div>
