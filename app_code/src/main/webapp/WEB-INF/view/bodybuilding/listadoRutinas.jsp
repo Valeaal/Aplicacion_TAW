@@ -1,3 +1,4 @@
+<%-- @author: Miguel Galdeano Rodríguez --%> 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.*" %>
 <%@ page import="es.uma.proyectotaw.entity.Usuario" %>
