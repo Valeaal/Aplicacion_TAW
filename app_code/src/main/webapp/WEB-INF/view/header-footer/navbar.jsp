@@ -133,7 +133,7 @@
 </nav>
 
 <%
-} else if (tipoUsr != null && tipoUsr.getTipo().equals("entrenador_bodybuilding")) {    //Mostramos el navbar con las opciones del entrenador crossfit
+} else if (tipoUsr != null && tipoUsr.getTipo().equals("entrenador_bodybuilding")) {    //Mostramos el navbar con las opciones del entrenador bodybuilding
 %>
 <h1>Hola <%=usrActual.getNombre()%> <%=usrActual.getApellidos()%> ponme en forma TÚ!</h1>
 
