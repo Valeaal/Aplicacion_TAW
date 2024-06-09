@@ -1,3 +1,4 @@
+<%-- @author: Miguel Galdeano Rodríguez --%> 
 <%@ page import="java.util.*" %>
 <%@ page import="es.uma.proyectotaw.entity.Usuario" %>
 <%@ page import="es.uma.proyectotaw.entity.Rutina" %>
