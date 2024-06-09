@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.time.LocalDate;
 
 public interface RutinaRepository extends JpaRepository<Rutina, Integer> {
     @Query("select r from Rutina r where r.tipoRutina.id = 2")
@@ -31,6 +32,18 @@ public interface RutinaRepository extends JpaRepository<Rutina, Integer> {
 
     @Query("SELECT r FROM Rutina r JOIN r.clientes cr WHERE cr.cliente.id =:clienteId AND r.nombre like concat('%', :nombre, '%')")
     List<Rutina> getRutinasByNameAndClientId(@Param("clienteId") Integer clienteId, @Param("nombre") String nombre);
+
+    @Query("select r from Rutina r where r.tipoRutina.id = :tipo")
+    public List<Rutina> findByTipo(@Param("tipo") Integer tipo);
+
+    @Query("select r from Rutina r where r.nombre like concat('%',:nombre,'%') and  r.tipoRutina.id = :tipo")
+    public List<Rutina> findByNombre(@Param("nombre") String nombre,@Param("tipo") Integer tipo);
+
+    @Query("select r from Rutina r where r.nombre like concat('%',:nombre,'%') and  r.tipoRutina.id = :tipo and r.fechaCreacion >= :inicio and r.fechaCreacion <= :fin ")
+    public List<Rutina> findByNombre(@Param("nombre") String nombre, @Param("inicio") LocalDate inicio, @Param("fin")LocalDate fin,@Param("tipo") Integer tipo);
+
+    @Query("select r from Rutina r where r.nombre like concat('%',:nombre,'%') and size(r.entrenamientos) = :num and r.fechaCreacion >= :inicio and r.fechaCreacion <= :fin and r.tipoRutina.id = :tipo")
+    public List<Rutina> findByNombreAndEntrenos(@Param("nombre") String nombre,@Param("num")Integer num,@Param("tipo") Integer tipo,@Param("inicio") LocalDate inicio, @Param("fin")LocalDate fin);
 
     /*@Query("SELECT R.id, R.nombre, AVG(Performance.porcentaje) AS AveragePerformance" +
             "FROM Rutina R" +

@@ -133,7 +133,35 @@
 <%
 } else if (tipoUsr != null && tipoUsr.getTipo().equals("entrenador_bodybuilding")) {    //Mostramos el navbar con las opciones del entrenador crossfit
 %>
-<h1>Hola bodybuilder ponme en forma TÚ!</h1>
+<h1>Hola <%=usrActual.getNombre()%> <%=usrActual.getApellidos()%> ponme en forma TÚ!</h1>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><%= nombre.toString() %></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../bodybuilding/">Ver rutinas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../bodybuilding/asignarRutinas">Asignar Rutinas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../bodybuilding/seguimientoRutinas">Seguimiento Clientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/salir">Salir</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 <%
 } else if (tipoUsr != null && tipoUsr.getTipo().equals("cliente")) {
