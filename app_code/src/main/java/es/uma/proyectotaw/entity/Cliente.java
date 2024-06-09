@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Getter
 @Setter
 @Entity
@@ -18,13 +21,13 @@ public class Cliente {
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "rutina_id")
+    //private Dieta rutina;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dieta_id")
     private Dieta dieta;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "entrenador_id")
-    private Usuario entrenador;
 
     @Column(name = "peso", nullable = false)
     private Float peso;
@@ -34,9 +37,5 @@ public class Cliente {
 
     @Column(name = "edad", nullable = false)
     private Integer edad;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "dietista_id")
-    private Usuario dietista;
 
 }

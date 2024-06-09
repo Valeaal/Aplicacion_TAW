@@ -20,6 +20,9 @@ public interface EjercicioRepository extends JpaRepository <Ejercicio, Integer> 
     @Query("SELECT ee.repeticiones FROM EjercicioEntrenamiento ee WHERE ee.ejercicio.id = :ejercicioId AND ee.entrenamiento.id =:entrenamientoId")
     Integer findEjercicioRepeticiones(@Param("ejercicioId") Integer ejercicioId, @Param("entrenamientoId") Integer entrenamientoId);
 
+    @Query("SELECT ee.id FROM EjercicioEntrenamiento ee WHERE ee.ejercicio.id = :ejercicioId AND ee.entrenamiento.id =:entrenamientoId")
+    Integer findId(@Param("ejercicioId") Integer ejercicioId, @Param("entrenamientoId") Integer entrenamientoId);
+
     @Query("SELECT ee.desempeno FROM EjercicioEntrenamiento ee WHERE ee.ejercicio.id = :ejercicioId")
     Integer findEjercicioDesempeno(@Param("ejercicioId") Integer ejercicioId);
 

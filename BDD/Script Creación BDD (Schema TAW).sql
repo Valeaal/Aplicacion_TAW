@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS TAW.tipo_usuario (
   tipo ENUM('admin', 'entrenador_bodybuilding', 'entrenador_crossfit', 'dietista', 'cliente') NOT NULL,
   PRIMARY KEY (id))
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS TAW.usuario (
     FOREIGN KEY (tipo_usuario_id)
     REFERENCES TAW.tipo_usuario (id))
 ENGINE = InnoDB
-AUTO_INCREMENT = 20
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -65,14 +65,13 @@ CREATE TABLE IF NOT EXISTS TAW.dieta (
   nombre VARCHAR(255) NOT NULL,
   descripcion TEXT NULL DEFAULT NULL,
   fecha DATE NOT NULL,
-  calorias INT NOT NULL,  -- Nuevo atributo
   PRIMARY KEY (id),
   INDEX dietista_id (dietista_id ASC) VISIBLE,
   CONSTRAINT dieta_ibfk_1
     FOREIGN KEY (dietista_id)
     REFERENCES TAW.usuario (id))
 ENGINE = InnoDB
-AUTO_INCREMENT = 6
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -107,7 +106,7 @@ CREATE TABLE IF NOT EXISTS TAW.cliente (
     FOREIGN KEY (dietista_id)
     REFERENCES TAW.usuario (id))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -120,7 +119,7 @@ CREATE TABLE IF NOT EXISTS TAW.tipo_rutina (
   tipo ENUM('Cross-Training', 'Bodybuilding') NOT NULL,
   PRIMARY KEY (id))
 ENGINE = InnoDB
-AUTO_INCREMENT = 10
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -145,7 +144,7 @@ CREATE TABLE IF NOT EXISTS TAW.rutina (
     FOREIGN KEY (entrenador_id)
     REFERENCES TAW.usuario (id))
 ENGINE = InnoDB
-AUTO_INCREMENT = 13
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -154,7 +153,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table TAW.cliente_rutina
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS TAW.cliente_rutina (
-  id INT NOT NULL AUTO_INCREMENT,
+  id INT NOT NULL,
   cliente_id INT NOT NULL,
   rutina_id INT NOT NULL,
   vigente BIT(1) NOT NULL,
@@ -168,6 +167,7 @@ CREATE TABLE IF NOT EXISTS TAW.cliente_rutina (
     FOREIGN KEY (rutina_id)
     REFERENCES TAW.rutina (id))
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -181,6 +181,7 @@ CREATE TABLE IF NOT EXISTS TAW.comida (
   descripcion TEXT NULL DEFAULT NULL,
   PRIMARY KEY (id))
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -195,6 +196,7 @@ CREATE TABLE IF NOT EXISTS TAW.menu (
   alergenos TEXT NULL DEFAULT NULL,
   PRIMARY KEY (id))
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -203,19 +205,27 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table TAW.comida_menu
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS TAW.comida_menu (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   comida_id INT NOT NULL,
   menu_id INT NOT NULL,
+  desempeno_id INT NULL,  -- This column is added to link desempeno directly.
   PRIMARY KEY (id),
   INDEX menu_id (menu_id ASC) VISIBLE,
   INDEX comida_menu_ibfk_1 (comida_id ASC) VISIBLE,
+  INDEX comida_menu_ibfk_2 (menu_id ASC) VISIBLE,
+  INDEX comida_menu_ibfk_3 (desempeno_id ASC) VISIBLE,
   CONSTRAINT comida_menu_ibfk_1
     FOREIGN KEY (comida_id)
     REFERENCES TAW.comida (id),
   CONSTRAINT comida_menu_ibfk_2
     FOREIGN KEY (menu_id)
-    REFERENCES TAW.menu (id))
+    REFERENCES TAW.menu (id),
+  CONSTRAINT comida_menu_ibfk_3
+    FOREIGN KEY (desempeno_id)
+    REFERENCES TAW.desempeno (id)  -- Foreign key to desempeno table.
+)
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -235,7 +245,7 @@ CREATE TABLE IF NOT EXISTS TAW.desempeno (
     FOREIGN KEY (cliente_id)
     REFERENCES TAW.cliente (id))
 ENGINE = InnoDB
-AUTO_INCREMENT = 6
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -270,7 +280,7 @@ CREATE TABLE IF NOT EXISTS TAW.tipo_ejercicio (
   tipo ENUM('fuerza', 'resistencia', 'velocidad', 'flexibilidad', 'potencia', 'estabilidad', 'movilidad') NOT NULL,
   PRIMARY KEY (id))
 ENGINE = InnoDB
-AUTO_INCREMENT = 8
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -283,7 +293,7 @@ CREATE TABLE IF NOT EXISTS TAW.grupo_muscular (
   grupo ENUM('pecho', 'espalda', 'bicep', 'tricep', 'hombro', 'femoral', 'cuadricep', 'gluteo', 'aductor', 'gemelo') NOT NULL,
   PRIMARY KEY (id))
 ENGINE = InnoDB
-AUTO_INCREMENT = 11
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -308,7 +318,7 @@ CREATE TABLE IF NOT EXISTS TAW.ejercicio (
     FOREIGN KEY (grupo_muscular_id)
     REFERENCES TAW.grupo_muscular (id))
 ENGINE = InnoDB
-AUTO_INCREMENT = 23
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -322,7 +332,7 @@ CREATE TABLE IF NOT EXISTS TAW.entrenamiento (
   descripcion TEXT NULL DEFAULT NULL,
   PRIMARY KEY (id))
 ENGINE = InnoDB
-AUTO_INCREMENT = 9
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -355,7 +365,7 @@ CREATE TABLE IF NOT EXISTS TAW.ejercicio_entrenamiento (
     FOREIGN KEY (desempeno_id)
     REFERENCES TAW.desempeno (id))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -378,7 +388,7 @@ CREATE TABLE IF NOT EXISTS TAW.entrenamiento_rutina (
     FOREIGN KEY (rutina_id)
     REFERENCES TAW.rutina (id))
 ENGINE = InnoDB
-AUTO_INCREMENT = 9
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
