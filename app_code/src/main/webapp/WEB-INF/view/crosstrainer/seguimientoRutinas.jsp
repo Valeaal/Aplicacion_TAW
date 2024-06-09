@@ -208,7 +208,7 @@
                 <td><%= cliente.getUsuario().getFechaNacimiento() %>
                 </td>
                 <td>
-                    <a href="/verDesempeno?idCliente=<%= cliente.getId() %>" class="btn btn-warning mb-2">Realizar
+                    <a href="/verDesempenoo?idCliente=<%= cliente.getId() %>" class="btn btn-warning mb-2">Realizar
                         Seguimiento</a>
                 </td>
             </tr>
