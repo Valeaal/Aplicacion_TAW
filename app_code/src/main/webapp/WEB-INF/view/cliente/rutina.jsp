@@ -16,12 +16,12 @@
     Rutina rutina = (Rutina) request.getAttribute("rutina");
     Cliente cliente = (Cliente) request.getAttribute("cliente");
     List<Entrenamiento> entrenamiento = (List<Entrenamiento>) request.getAttribute("entrenamientos");
-    List<GrupoMuscular> grupomuscular = (List<GrupoMuscular>) request.getAttribute("grupomuscular");
     HashMap<Integer,Float> cumplimiento = (HashMap<Integer,Float>) request.getAttribute("cumplimiento");
+    HashMap<Integer,Integer> dia = (HashMap<Integer,Integer>) request.getAttribute("dia");
 %>
 <html>
 <head>
-    <title>Tus rutinas</title>
+    <title>Tu rutina activa</title>
     <!-- Include Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -29,22 +29,20 @@
 <jsp:include page="../header-footer/navbar.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row mt-4">
+        <h2>Tu rutina actual:</h2>
         <!-- Entrenamientos Section -->
         <div class="col-md-8">
             <h3>Entrenamientos</h3>
-            <%
-                int dia = 1;
-            %>
             <div class="list-group">
                 <% for (Entrenamiento e : entrenamiento) {
                     float c = cumplimiento.get(e.getId());
+                    int diaSemana = dia.get(e.getId());
                 %>
                 <a href="/dia?id=<%=e.getId()%>&clientId=<%=cliente.getId()%>"
                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                    Día <%= dia %>
+                    Día <%= diaSemana %>
                     <span class="badge badge-primary badge-pill"></span><%=c%> %
                 </a>
-                <% dia++; %>
                 <% } %>
             </div>
         </div>

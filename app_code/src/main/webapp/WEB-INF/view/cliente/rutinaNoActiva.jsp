@@ -11,6 +11,8 @@
 <%
     List<Entrenamiento> entrenamiento = (List<Entrenamiento>) request.getAttribute("entrenamientos");
     HashMap<Integer,Float> cumplimiento = (HashMap<Integer,Float>) request.getAttribute("cumplimiento");
+    HashMap<Integer,Integer> dia = (HashMap<Integer,Integer>) request.getAttribute("dia");
+
 %>
 <html>
 <head>
@@ -23,19 +25,16 @@
         <!-- Entrenamientos Section -->
         <div class="col-md-8">
             <h3>Entrenamientos</h3>
-            <%
-                int dia = 1;
-            %>
             <div class="list-group">
                 <% for (Entrenamiento e : entrenamiento) {
                     float c = cumplimiento.get(e.getId());
+                    int diaSemana = dia.get(e.getId());
                 %>
                 <a href="#"
                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                    Día <%= dia %>
+                    Día <%= diaSemana %>
                     <span class="badge badge-primary badge-pill"></span><%=c%> %
                 </a>
-                <% dia++; %>
                 <% } %>
             </div>
         </div>

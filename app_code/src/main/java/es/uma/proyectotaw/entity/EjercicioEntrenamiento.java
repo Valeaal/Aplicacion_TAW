@@ -35,10 +35,10 @@ public class EjercicioEntrenamiento {
     @Column(name = "peso", nullable = false)
     private Float peso;
 
-    @Column(name = "tiempo", nullable = false)
+    @Column(name = "tiempo")
     private Integer tiempo;
 
-    @Column(name = "distancia", nullable = false)
+    @Column(name = "distancia")
     private Float distancia;
 
     @Column(name = "orden", nullable = false)

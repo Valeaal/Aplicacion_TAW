@@ -47,6 +47,8 @@ public class ClienteController {
     private DietaRepository dietaRepository;
     @Autowired
     private ComidaDietaRepository comidaDietaRepository;
+    @Autowired
+    private EntrenamientoRutinaRepository entrenamientoRutinaRepository;
 
     @GetMapping("/rutina")
     public String rutina(@RequestParam("id") Integer id, Model model) {
@@ -61,10 +63,16 @@ public class ClienteController {
             cumplimiento.put(entrenamiento.getId(), c);
         }
 
+        HashMap<Integer, Integer> dia = new HashMap<>();
+        for(Entrenamiento entrenamiento: entrenamientos){
+            int diaSemana = entrenamientoRutinaRepository.getdiaSemanaFromRutinaAndEntrenamientoId(rutina.getId(), entrenamiento.getId());
+            dia.put(entrenamiento.getId(),diaSemana);
+        }
         model.addAttribute("rutina", rutina);
         model.addAttribute("cliente", client);
         model.addAttribute("entrenamientos", entrenamientos);
         model.addAttribute("grupomuscular", grupomuscular);
+        model.addAttribute("dia", dia);
         model.addAttribute("cumplimiento", cumplimiento);
         model.addAttribute("rutinaFiltro", new RutinaFiltro());
         model.addAttribute("desempenyoFiltro", new DesempenyoFiltro());
@@ -79,7 +87,13 @@ public class ClienteController {
             float c = calcularCumplimiento(entrenamiento.getId());
             cumplimiento.put(entrenamiento.getId(), c);
         }
+        HashMap<Integer, Integer> dia = new HashMap<>();
+        for(Entrenamiento entrenamiento: entrenamientos){
+            int diaSemana = entrenamientoRutinaRepository.getdiaSemanaFromRutinaAndEntrenamientoId(id, entrenamiento.getId());
+            dia.put(entrenamiento.getId(),diaSemana);
+        }
         model.addAttribute("entrenamientos", entrenamientos);
+        model.addAttribute("dia", dia);
         model.addAttribute("cumplimiento", cumplimiento);
 
         return "cliente/rutinaNoActiva";
@@ -184,6 +198,7 @@ public class ClienteController {
         d.setValoracion(desempeno.getValoracion());
 
         EjercicioEntrenamiento ee = ejercicioEntrenamientoRepository.getEjercicioEntrenamientoFromEjAndEntrenamientoId(desempeno.getEjercicio(), desempeno.getEntrenamiento());
+        ee.setOrden(1);
         ee.setDesempeno(d);
 
         desempenoRepository.save(d);
