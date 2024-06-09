@@ -17,8 +17,6 @@
 
 <body class="bg-light">
 
-<jsp:include page="../header-footer/navbar.jsp"></jsp:include>
-
 <div class="container-fluid">
     <div class="row">
         <!-- Parte izquierda con tabla y barra de búsqueda -->
@@ -47,21 +45,49 @@
             </table>
                 <h1>Entrenamientos: </h1>
                 <table class="table" border="collapse">
-                    <%for(EntrenamientoRutina ent : rutina.getEntrenamientoRutinas()){%>
+                    <%
+                    EntrenamientoRutina entreno = null;
+                    for(int i = 1; i<8;i++){
+                    for(EntrenamientoRutina ent: rutina.getEntrenamientoRutinas()) {
+                        if(ent.getDiaSemana() == i){
+                            entreno = ent;
+                        }
+                    }
+                        if(entreno != null){
+                    %>
                     <tr>
-                        <th scope="col">Día <%=ent.getDiaSemana()%> : </th>
-                        <th scope="col"><%=ent.getEntrenamiento().getNombre()%></th>
-                        <td scope="col"><% for(EjercicioEntrenamiento ej : ent.getEntrenamiento().getEjercicioEntrenamientos()){ %>
+                        <th scope="col">Día <%=i%> : </th>
+                        <th scope="col"><%=entreno.getEntrenamiento().getNombre()%></th>
+                        <td scope="col"><% for(EjercicioEntrenamiento ej : entreno.getEntrenamiento().getEjercicioEntrenamientos()){ %>
                             <%=ej.getEjercicio().getNombre()%><br/>
                             <%}%>
                         </td>
+                        <td scope="col">
+                            <a href="/bodybuilding/eliminarEntrenamientoRutina?id=<%=entreno.getId()%>">
+                                <button class="btn btn-danger" type="button">Eliminar entrenamiento</button>
+                            </a>
+                        </td>
                     </tr>
-                    <%}%>
+                    <%}else{%>
+                    <tr>
+                        <th scope="col">Día <%=i%> : </th>
+                        <th scope="col">No hay entrenamiento</th>
+                        <td></td>
+                        <td scope="col">
+                            <a href="/bodybuilding/anyadirEntrenamientoRutina?id=<%=rutina.getId()%>&dia=<%=i%>">
+                                <button class="btn btn-warning" type="button">Añadir entrenamiento</button>
+                            </a>
+                        </td>
+                    </tr>
+                    <%}
+                        entreno = null;
+                    }%>
                 </table>
             <div style="text-align: center">
                 <form:button class="btn btn-outline-success">Guardar</form:button>
             </div>
             </form:form>
+
             <form action="/bodybuilding/listar" method="get">
             <div style="text-align: center">
                 <button class="btn btn-outline-danger">Descartar cambios</button>

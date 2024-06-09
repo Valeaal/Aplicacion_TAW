@@ -25,7 +25,7 @@
 <jsp:include page="../header-footer/navbar.jsp"></jsp:include>
 
 <div class="container-fluid">
-    <form:form action="/bodybuilding/filtrarEntrenamientos" method="post" modelAttribute="filtro">
+    <form:form action="/bodybuilding/filtrarRutinas" method="post" modelAttribute="filtro">
         <form:hidden path="activo"/>
         <div class="mb-3 d-flex w-100">
             <div class="table-responsive w-100">
@@ -42,8 +42,8 @@
                         <tr>
                             <td> <form:input type="text" name="ejercicio" path="nombre"/></td>
                             <td><form:select path="numEntrenamientos" items="${['-',1,2,3,4,5,6,7]}"/></td>
-                            <td><form:input type="date" path="fechaInicio"/></td>
-                            <td> <form:input type="date" path="fechaFin"/></td>
+                            <td><form:input type="date" path="fechaInicio" /></td>
+                            <td> <form:input type="date" path="fechaFin" /></td>
                             <td> <form:button type="submit" class="btn btn-primary">Buscar</form:button></td>
                             <td><a href="/bodybuilding/listar">
                                 <button class="btn btn-danger" type="button">Eliminar filtros</button>
@@ -81,15 +81,15 @@
                     <td><%= rutina.getNombre()%></td>
                     <td><%= rutina.getDescripcion()%></td>
                     <td><%= rutina.getEntrenador().getNombre()%> <%= rutina.getEntrenador().getApellidos()%></td>
-                    <td><%= rutina.getEntrenamientoRutinas().size()%></td>
+                    <td><%= rutina.getEntrenamientos().size()%></td>
                     <td><%= rutina.getTipoRutina().getTipo()%></td>
                     <td><%= rutina.getFechaCreacion()%></td>
                     <td><a href="/bodybuilding/editarRutina?id=<%=rutina.getId()%>">
                         <button class="btn btn-primary" type="button">Editar</button>
                     </a></td>
-                    <td><%--<a href="/bodybuilding/eliminarEjercicio?id=<%=ejercicio.getId()%>">
+                    <td><a href="/bodybuilding/eliminarRutina?id=<%=rutina.getId()%>">
                          <button class="btn btn-danger" type="button">Eliminar</button>
-                    </a>--%></td>
+                    </a></td>
                 </tr>
                 <% } %>
                 </tbody>

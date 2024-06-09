@@ -22,6 +22,16 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
     @Query("select u from Cliente u where u.id = :userId")
     public Cliente getClienteById(Integer userId);
 
+    @Query("select u from Cliente u where u.entrenador.id = :crossfitTrainerId")
+    public List<Cliente> getClientesDelEntrenador(Integer crossfitTrainerId);
+
+    @Query("select c.usuario from Cliente c where c.entrenador = :entrenador")
+    public List<Usuario> findByEntrenador(@Param("entrenador")Usuario usuario);
+
+    @Query("select u from Cliente u where u.entrenador.id = :crossfitTrainerId and " +
+            "LOWER(u.usuario.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))")
+    public List<Cliente> getClientesDelEntrenadorYFiltro(Integer crossfitTrainerId,String nombre);
+
 
     @Query("SELECT u FROM Cliente u " +
             "WHERE (:edad IS NULL OR u.edad = :edad) " +
