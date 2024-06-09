@@ -26,6 +26,10 @@ public class Cliente {
     //private Dieta rutina;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "entrenador_id")
+    private Usuario entrenador;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dieta_id")
     private Dieta dieta;
 
