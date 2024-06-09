@@ -124,7 +124,7 @@ public class CrossfitController {
         return "crosstrainer/seguimientoRutinas";
     }
 
-    @GetMapping("/verDesempeno")
+    @GetMapping("/verDesempenoo")
     public String doverDesempeno(Model model, HttpSession session,
                                  @RequestParam("idCliente") Integer idCliente) {
         Cliente cliente = this.clienteRepository.findById(idCliente).orElse(null);
