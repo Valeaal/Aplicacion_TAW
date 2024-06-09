@@ -38,4 +38,9 @@ public class Cliente {
     @Column(name = "edad", nullable = false)
     private Integer edad;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dietista_id")
+    private Usuario dietista;
+
+
 }
