@@ -10,7 +10,7 @@
     List<Desempeno> desempenosCliente = (List<Desempeno>) request.getAttribute("desempenosCliente");
     List<EjercicioEntrenamiento> ejercicios = (List<EjercicioEntrenamiento>) request.getAttribute("ejercicios");
 %>
-<!DOCTYPE html>
+<!DOCTYPE html><!--Hecho por Pablo Alonso Burgos-->
 <html lang="es">
 <head>
     <meta charset="UTF-8">

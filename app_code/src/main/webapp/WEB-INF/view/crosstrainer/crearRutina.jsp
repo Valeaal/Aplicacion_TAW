@@ -11,7 +11,7 @@
     Integer numeroDia = (Integer) request.getAttribute("numeroDia");
 %>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es"> <!--Hecho por Pablo Alonso Burgos-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

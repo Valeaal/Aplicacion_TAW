@@ -8,7 +8,7 @@
 <%
     List<Rutina> rutinas = (List<Rutina>) request.getAttribute("rutinas");
 %>
-
+<!--Hecho por Pablo Alonso Burgos-->
 <style>
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

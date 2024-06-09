@@ -11,7 +11,7 @@
     Integer idRutina = (Integer) request.getAttribute("idRutina");
     List<Entrenamiento> entrenamientos = (List<Entrenamiento>) request.getAttribute("entrenamientos");
 %>
-<html>
+<html> <!--Hecho por Pablo Alonso Burgos-->
 <head>
     <title>Title</title>
     <style>
