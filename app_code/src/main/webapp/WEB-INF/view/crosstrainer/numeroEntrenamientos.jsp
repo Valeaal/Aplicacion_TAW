@@ -21,6 +21,7 @@
             height: 100vh;
             margin: 0;
         }
+
         .container {
             background-color: #fff;
             padding: 40px;
@@ -29,16 +30,19 @@
             text-align: center;
             width: 400px;
         }
+
         h1, h2, h5 {
             color: #333;
             margin: 10px 0;
         }
+
         label {
             display: block;
             margin-bottom: 10px;
             font-weight: bold;
             color: #555;
         }
+
         input[type="text"] {
             width: calc(100% - 20px);
             padding: 10px;
@@ -47,6 +51,7 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
+
         button {
             background-color: #007bff;
             color: #fff;
@@ -56,7 +61,9 @@
             cursor: pointer;
             font-size: 16px;
             margin-top: 20px;
+            margin-right: 10px;
         }
+
         select {
             width: calc(100% - 20px);
             padding: 10px;
@@ -65,12 +72,34 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
+
         button:hover {
             background-color: #0056b3;
         }
-        button a {
+
+        button, a.btn {
+            display: inline-block;
             color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
             text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-borrar {
+            background-color: #dc3545;
+        }
+
+        .btn-borrar:hover {
+            background-color: darkred;
         }
     </style>
 </head>
@@ -85,12 +114,14 @@
         <input type="text" name="descripcionRutina">
         <h5>Número de entrenamientos</h5>
         <select name="numEntrenamientos">
-            <% for(int i = 1; i < 8; i++){%>
-            <option><%=i%></option>
+            <% for (int i = 1; i < 8; i++) {%>
+            <option><%=i%>
+            </option>
             <% }%>
         </select>
         <br>
         <button type="submit">OK</button>
+        <a class="btn btn-borrar" href="/crud">Cancelar</a>
     </form>
 </div>
 </body>
