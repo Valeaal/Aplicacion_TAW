@@ -1,6 +1,6 @@
 <%@ page import="java.util.*" %>
 <%@ page import="es.uma.proyectotaw.entity.Usuario" %>
-
+<!-- Autor: Álvaro Valencia Villalón -->
 <%
   List<Usuario> clientes = (List<Usuario>) request.getAttribute("clientes");
   List<Usuario> dietistas = (List<Usuario>) request.getAttribute("dietistas");
