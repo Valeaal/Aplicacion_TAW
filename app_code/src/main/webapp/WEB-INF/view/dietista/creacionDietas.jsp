@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.entity.Menu" %><%--
   Created by IntelliJ IDEA.
   User: javiertorrecilla
   Date: 1/5/24
@@ -6,12 +7,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<<!DOCTYPE html>
+<%
+    List<Menu> menus = (List<Menu>) request.getAttribute("menus");
+%>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tablas Bootstrap con Buscador</title>
+    <title>Crear Dieta</title>
     <!-- Importar Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -27,7 +30,7 @@
     <div class="row">
         <div class="col-md-12">
             <h2 class="text-center mb-3">Creación de Dietas</h2>
-            <h5>Establece nombre, cantidad de comida y tipo de la nueva dieta:</h5>
+            <h5>Establece nombre, cantidad de comida y calorias de la nueva dieta:</h5>
             <div class="row">
                 <div class="col-md-4">
                     <div class="input-group mb-3">
@@ -37,23 +40,21 @@
                 </div>
                 <div class="col-md-4">
                     <div class="input-group mb-3">
-                        <input type="number" class="form-control" placeholder="Número de Comidas" aria-label="Comidas" aria-describedby="button-addon2" min="3" max="5">
+                        <input type="text" class="form-control" placeholder="Descripcion" aria-label="Descripcion" aria-describedby="button-addon2" min="3" max="5">
                         <div class="input-group-append"></div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <select class="custom-select mb-3">
-                        <option selected>Tipo</option>
-                        <option value="1">Pérdida de Peso</option>
-                        <option value="2">Volumen</option>
-                        <option value="3">Definición</option>
-                        <option value="4">Salud</option>
-                    </select>
+                    <div class="input-group mb-3">
+                        <input type="number" class="form-control" placeholder="Calorias" aria-label="Calorias" aria-describedby="button-addon2">
+                        <div class="input-group-append">
+                        </div>
+                    </div>
                 </div>
             </div>
-            <h5>Establece los menus y calorias de cada comida de la dieta:</h5>
+            <h5>Establece los menus de cada comida de la dieta:</h5>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <select class="custom-select mb-3">
                         <option selected>Comida</option>
                         <option value="1">Desayuno</option>
@@ -63,22 +64,17 @@
                         <option value="5">Cena</option>
                     </select>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <select class="custom-select mb-3">
                         <option selected>Menu</option>
-                        <option value="1">Menu 1</option>
-                        <option value="2">Menu 2</option>
-                        <option value="3">Menu 3</option>
-                        <option value="4">Menu 4</option>
-                        <option value="5">Menu 5</option>
+                        <%
+                            for(Menu menu : menus){
+                        %>
+                        <option value="<%=menu.getId()%>"><%=menu.getNombre()%></option>
+                        <%
+                            }
+                        %>
                     </select>
-                </div>
-                <div class="col-md-4">
-                    <div class="input-group mb-3">
-                        <input type="number" class="form-control" placeholder="Calorias" aria-label="Calorias" aria-describedby="button-addon2">
-                        <div class="input-group-append">
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="row justify-content-center">

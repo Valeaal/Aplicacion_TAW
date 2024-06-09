@@ -1,5 +1,6 @@
 <%@ page import="java.util.*" %>
 <%@ page import="es.uma.proyectotaw.entity.Usuario" %>
+<%@ page import="es.uma.proyectotaw.entity.TipoUsuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -7,11 +8,11 @@
     List<Integer> Edades = (List<Integer>) request.getAttribute("edades");
     List<Integer> Ingresos = (List<Integer>) request.getAttribute("ingresos");
     List<Usuario> Usuarios = (List<Usuario>) request.getAttribute("usuarios");
-    Set<String> Roles = (Set<String>) request.getAttribute("roles");
+    List<TipoUsuario> Roles = (List<TipoUsuario>) request.getAttribute("roles");
 %>
 
 
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -71,10 +72,9 @@
                                 <select class="form-select" name="StringRol">
                                     <option selected>Selecciona Rol</option>
                                     <%
-                                        for (String rol : Roles) {
+                                        for (TipoUsuario rol : Roles) {
                                     %>
-                                    <option><%= rol %>
-                                    </option>
+                                    <option><%= rol.getTipo() %></option>
                                     <%
                                         }
                                     %>
@@ -131,7 +131,7 @@
             <!-- Botones -->
             <div class="col-2 mt-auto">
                 <div class="d-grid">
-                    <button type="button" class="btn btn-success mb-2">Añadir usuario</button>
+                    <button type="submit" class="btn btn-success mb-2" name="Boton" value="Añadir">Añadir usuario</button>
                     <button type="submit" class="btn btn-warning mb-2" name="Boton" value="Modificar">Modificar usuario</button>
                     <button type="submit" class="btn btn-danger" name="Boton" value="Eliminar">Eliminar usuario</button>
                 </div>
