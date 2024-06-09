@@ -61,11 +61,11 @@
         width: 100%;
         border-collapse: collapse;
         height: fit-content;
+        text-align: center;
     }
 
     th, td {
         padding: 15px;
-        text-align: left;
         border-bottom: 1px solid #e0e0e0;
     }
 

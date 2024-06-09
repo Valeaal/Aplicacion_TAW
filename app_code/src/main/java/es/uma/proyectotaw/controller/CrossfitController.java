@@ -5,6 +5,7 @@ import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.ui.Filtro_Rutina_nEntrenamientos;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,10 @@ public class CrossfitController {
     protected ClienteRepository clienteRepository;
     @Autowired
     protected Tipo_RutinaRepository tipo_RutinaRepository;
+    @Autowired
+    protected DesempenoRepository desempenoRepository;
+    @Autowired
+    protected EjercicioEntrenamientoRepository ejercicioEntrenamientoRepository;
 
 
     @GetMapping("/crud")
@@ -65,10 +70,8 @@ public class CrossfitController {
 
     @GetMapping("/ClientesRutinas")
     public String doAsignarRutinas(Model model, HttpSession session) {
-       // TipoUsuario tipoCliente = tipoUsuarioRepository.buscarPorID(5); // aqui estamos buscando al cliente
-       // List<Usuario> clientes = this.usuarioRepository.buscarPorTipo(tipoCliente);
         Usuario entrenador = (Usuario) session.getAttribute("usuario");
-        List<Cliente> clientes = this.clienteRepository.getClienteDelEntrenador(entrenador.getId()); // sacamos los cliente del entrenador
+        List<Cliente> clientes = this.clienteRepository.getClientesDelEntrenador(entrenador.getId()); // sacamos los cliente del entrenador
         List<Rutina> rutinas = rutinaRepository.findAll();
         model.addAttribute("clientes", clientes);
         model.addAttribute("rutinas", rutinas);
@@ -88,7 +91,7 @@ public class CrossfitController {
             asignacionRutinaACliente.setCliente(cliente);
             asignacionRutinaACliente.setRutina(rutina);
             asignacionRutinaACliente.setVigente(true);
-            for (ClienteRutina cr : this.cliente_RutinaRepository.findActiveRoutines()) { // para que la nueva sea la vigente
+            for (ClienteRutina cr : this.cliente_RutinaRepository.findActiveRoutines(cliente.getId())) { // para que la nueva sea la vigente
                 cr.setVigente(false);
             }
             this.cliente_RutinaRepository.save(asignacionRutinaACliente);
@@ -100,10 +103,40 @@ public class CrossfitController {
     @GetMapping("/seguimientoRutinas")
     public String doSeguimientoRutinas(Model model, HttpSession session) {
         Usuario entrenador = (Usuario) session.getAttribute("usuario");
-        List<Cliente> clientes = this.clienteRepository.getClienteDelEntrenador(entrenador.getId()); // sacamos los cliente del entrenador
+        List<Cliente> clientes = this.clienteRepository.getClientesDelEntrenador(entrenador.getId()); // sacamos los cliente del entrenador
         //  List<Cliente> clientes = this.clienteRepository.findAll();
         model.addAttribute("clientes", clientes);
+        model.addAttribute("clienteFiltro", new Usuario());
         return "crosstrainer/seguimientoRutinas";
+    }
+
+    @GetMapping("/filtroClientes")
+    public String doSeguimientoRutinas(Model model, HttpSession session,
+                                       @ModelAttribute("clienteFiltro") Usuario clienteFiltro) {
+        Usuario entrenador = (Usuario) session.getAttribute("usuario");
+        if (clienteFiltro.getNombre() == null) {
+            return "redirect:/seguimientoRutinas";
+        }
+        List<Cliente> clientes = this.clienteRepository.getClientesDelEntrenadorYFiltro(entrenador.getId(), clienteFiltro.getNombre()); // sacamos los cliente del entrenador
+
+        model.addAttribute("clientes", clientes);
+        model.addAttribute("clienteFiltro", clienteFiltro);
+        return "crosstrainer/seguimientoRutinas";
+    }
+
+    @GetMapping("/verDesempenoo")
+    public String doverDesempeno(Model model, HttpSession session,
+                                 @RequestParam("idCliente") Integer idCliente) {
+        Cliente cliente = this.clienteRepository.findById(idCliente).orElse(null);
+        model.addAttribute("cliente", cliente);
+        List<ClienteRutina> historialRutinasCliente = this.cliente_RutinaRepository.historialRutinasCliente(idCliente);
+        model.addAttribute("historialRutinasCliente", historialRutinasCliente);
+        // ahora vamos a sacar el desempeño/valoracion de los ejercicios realizados por el cliente
+        List<Desempeno> desempenosCliente = this.desempenoRepository.desempenoDelCliente(idCliente);
+        model.addAttribute("desempenosCliente", desempenosCliente);
+        List<EjercicioEntrenamiento> ejercicios = this.ejercicioEntrenamientoRepository.findAll();
+        model.addAttribute("ejercicios", ejercicios);
+        return "crosstrainer/verDesempeno";
     }
 
     @GetMapping("/numeroEntrenamientos")
@@ -183,6 +216,7 @@ public class CrossfitController {
         this.rutinaRepository.delete(rutina);
 
         List<Rutina> rutinas = rutinaRepository.findAll();
+
         model.addAttribute("rutinas", rutinas);
         return "redirect:/crud";
     }
@@ -195,6 +229,7 @@ public class CrossfitController {
         model.addAttribute("entrenamientosdeRutina", entrenamientosdeRutina);
         List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
         model.addAttribute("entrenamientos", entrenamientos);
+
         return "crosstrainer/editarRutina";
     }
 
@@ -204,11 +239,11 @@ public class CrossfitController {
                                                  @RequestParam("idEntrenamientoRutina") Integer idEntrenamientoRutina,
                                                  Model model) {
         EntrenamientoRutina er = this.entrenamiento_RutinaRepository.findById(idEntrenamientoRutina).orElse(null);
-
         Entrenamiento entrenamiento = entrenamientoRepository.findById(idEntrenamiento).orElse(null);
         er.setEntrenamiento(entrenamiento);
         er.setDiaSemana(diaSemana);
         this.entrenamiento_RutinaRepository.save(er);
+
         return "redirect:/crud/editar?idRutina=" + er.getRutina().getId(); // le hace falta el id de la rutina
 
     }
@@ -260,6 +295,7 @@ public class CrossfitController {
         r.setNombre(nombreRutina);
         r.setDescripcion(descripcionRutina);
         this.rutinaRepository.save(r);
+
         return "redirect:/crud";
     }
 }

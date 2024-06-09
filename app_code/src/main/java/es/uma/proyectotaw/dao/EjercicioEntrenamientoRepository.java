@@ -29,4 +29,6 @@ public interface EjercicioEntrenamientoRepository extends JpaRepository<Ejercici
                                           @Param("inputTiempo") Integer inputTiempo,
                                           @Param("inputDistancia") Integer inputDistancia,
                                           @Param("inputOrden") Integer inputOrden);
+    @Query("SELECT e FROM EjercicioEntrenamiento e WHERE e.ejercicio.id=:ejercicioId AND e.entrenamiento.id=:entrenamientoId")
+    EjercicioEntrenamiento getEjercicioEntrenamientoFromEjAndEntrenamientoId(Integer ejercicioId, Integer entrenamientoId);
 }

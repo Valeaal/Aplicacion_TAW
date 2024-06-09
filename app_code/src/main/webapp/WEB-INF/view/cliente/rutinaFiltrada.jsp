@@ -19,7 +19,7 @@
 <%
     for(Rutina r: rutinas) {
 %>
-<p><%=r.getNombre()%></p>
+<p><%=r.getNombre()%></p> Desempeño:
 <%
     }
 %>

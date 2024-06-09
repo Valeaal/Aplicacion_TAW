@@ -20,6 +20,9 @@ public interface EjercicioRepository extends JpaRepository <Ejercicio, Integer> 
     @Query("SELECT ee.repeticiones FROM EjercicioEntrenamiento ee WHERE ee.ejercicio.id = :ejercicioId AND ee.entrenamiento.id =:entrenamientoId")
     Integer findEjercicioRepeticiones(@Param("ejercicioId") Integer ejercicioId, @Param("entrenamientoId") Integer entrenamientoId);
 
+    @Query("SELECT ee.id FROM EjercicioEntrenamiento ee WHERE ee.ejercicio.id = :ejercicioId AND ee.entrenamiento.id =:entrenamientoId")
+    Integer findId(@Param("ejercicioId") Integer ejercicioId, @Param("entrenamientoId") Integer entrenamientoId);
+
     @Query("SELECT ee.desempeno FROM EjercicioEntrenamiento ee WHERE ee.ejercicio.id = :ejercicioId")
     Integer findEjercicioDesempeno(@Param("ejercicioId") Integer ejercicioId);
 
@@ -47,6 +50,9 @@ public interface EjercicioRepository extends JpaRepository <Ejercicio, Integer> 
 
     @Query("select e from Ejercicio e where e.nombre = :ejercicioString")
     public Ejercicio buscarPorString (@Param("ejercicioString") String ejercicioString);
+
+    @Query("select e from Ejercicio e where e.nombre like concat('%',:nombre,'%')")
+    public List<Ejercicio> findByNombre(@Param("nombre") String nombre);
 
     /*List<Ejercicio> getEjercicioByClientIdDesempenyo(@Param("clienteId") Integer clienteId, @Param("desempenyoSup") Integer desempenyoLimiteSup,
                                                       @Param("desempenyoInf") Integer desempenyoLimiteInf);*/

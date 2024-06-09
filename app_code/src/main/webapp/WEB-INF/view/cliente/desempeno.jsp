@@ -12,6 +12,7 @@
 <%
     Ejercicio ejercicio = (Ejercicio) request.getAttribute("ejercicio");
     Cliente cliente = (Cliente) request.getAttribute("cliente");
+    Integer entrenamientoId = (Integer) request.getAttribute("entrenamientoId");
 %>
 <html>
 <head>
@@ -21,6 +22,8 @@
 <jsp:include page="../header-footer/navbar.jsp"></jsp:include>
 Está valorando el ejercicio <%=ejercicio.getNombre()%>: <br>
 <form:form modelAttribute="desempeno" method="post" action="/guardarDesempeno">
+    <form:hidden path="ejercicio" value="<%=ejercicio.getId()%>"/>
+    <form:hidden path="entrenamiento" value="<%=entrenamientoId%>"/>
     Valoración: <form:input path="valoracion"/>
     Peso realizado: <form:input path="pesoRealizado"/>
     <form:hidden path="cliente" value="<%=cliente.getId()%>"/>
