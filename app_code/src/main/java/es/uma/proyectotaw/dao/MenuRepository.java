@@ -17,4 +17,5 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
     public List<Menu> filtrarMenus (@Param("inputNombre") String inputNombre,
                                     @Param("inputAlergenos") String inputAlergenos);
 
+
 }

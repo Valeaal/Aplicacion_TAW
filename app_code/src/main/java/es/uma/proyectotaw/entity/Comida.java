@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Getter
 @Setter
 @Entity
@@ -20,5 +23,8 @@ public class Comida {
     @Lob
     @Column(name = "descripcion")
     private String descripcion;
+
+    @OneToMany(mappedBy = "comida")
+    private Set<ComidaMenu> menus = new HashSet<>();
 
 }
