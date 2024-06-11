@@ -21,13 +21,6 @@ import java.util.*;
 public class AppController {
 
     @Autowired
-    protected EjercicioRepository ejercicioRepository;
-    @Autowired
-    protected UsuarioRepository usuarioRepository;
-    @Autowired
-    private TipoUsuarioRepository tipoUsuarioRepository;
-
-    @Autowired
     private AppService appService;
 
 

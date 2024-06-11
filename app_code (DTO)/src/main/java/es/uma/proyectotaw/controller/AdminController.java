@@ -2,8 +2,11 @@
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dao.*;
+import es.uma.proyectotaw.dto.TipoUsuarioDTO;
+import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.entity.Usuario;
+import es.uma.proyectotaw.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +38,8 @@ public class AdminController {
     private EjercicioEntrenamientoRepository ejercicioEntrenamientoRepository;
     @Autowired
     private EntrenamientoRepository entrenamientoRepository;
+    @Autowired
+    private AdminService adminService;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //GESTIÓN DE LOS USUARIOS
@@ -44,16 +49,16 @@ public class AdminController {
     public String login(Model model) {
 
         //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO ------------//
-        List<Integer> edades = usuarioRepository.sacarEdades(); //Esta consulta nos devuelve todas las edades, ordenadas y sin repetir listas para usar
-        List<Integer> ingresos = usuarioRepository.sacarIngresos(); //Esta consulta nos devuelve todos los años, ordenados y sin repetir listos para usar
-        List<TipoUsuario> rolesUsuarios = usuarioRepository.sacarRoles(); //Esta consulta nos devuelve los roles de usuario que se usan ahora
+        List<Integer> edades = adminService.sacarEdades();
+        List<Integer> ingresos = adminService.sacarIngresos();
+        List<TipoUsuarioDTO> rolesUsuarios = adminService.sacarRoles();
 
         model.addAttribute("edades", edades);
         model.addAttribute("ingresos", ingresos);
         model.addAttribute("roles", rolesUsuarios);
 
         //------------ PARA RELLENAR LA TABLA DE USUARIOS (sin filtro)------------//
-        List<Usuario> usuariosCompleto = usuarioRepository.sacarUsuarios();
+        List<UsuarioDTO> usuariosCompleto = adminService.sacarUsuarios();
         model.addAttribute("usuarios", usuariosCompleto);
 
         return "administrador/usuarios";

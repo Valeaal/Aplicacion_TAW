@@ -1,16 +1,15 @@
-<%@ page import="java.util.*" %>
-<%@ page import="es.uma.proyectotaw.entity.Usuario" %>
-<%@ page import="es.uma.proyectotaw.entity.TipoUsuario" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- Autor: Álvaro Valencia Villalón -->
-
+<%@ page import="java.util.*" %>
+<%@ page import="es.uma.proyectotaw.dto.UsuarioDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.TipoUsuarioDTO" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
     List<Integer> Edades = (List<Integer>) request.getAttribute("edades");
     List<Integer> Ingresos = (List<Integer>) request.getAttribute("ingresos");
-    List<Usuario> Usuarios = (List<Usuario>) request.getAttribute("usuarios");
-    List<TipoUsuario> Roles = (List<TipoUsuario>) request.getAttribute("roles");
+    List<UsuarioDTO> Usuarios = (List<UsuarioDTO>) request.getAttribute("usuarios");
+    List<TipoUsuarioDTO> Roles = (List<TipoUsuarioDTO>) request.getAttribute("roles");
 %>
 
 
@@ -74,7 +73,7 @@
                                 <select class="form-select" name="StringRol">
                                     <option selected>Selecciona Rol</option>
                                     <%
-                                        for (TipoUsuario rol : Roles) {
+                                        for (TipoUsuarioDTO rol : Roles) {
                                     %>
                                     <option><%= rol.getTipo() %></option>
                                     <%
@@ -111,7 +110,7 @@
                     </thead>
                     <tbody>
                     <!-- Aquí se pueden agregar filas dinámicamente con datos -->
-                    <% for (Usuario usr : Usuarios) { %>
+                    <% for (UsuarioDTO usr : Usuarios) { %>
                     <tr>
                         <td><input type="radio" name="uSeleccionado" value= "<%= usr.getId() %>" ></td>
                         <td><%= usr.getNombre()%>
