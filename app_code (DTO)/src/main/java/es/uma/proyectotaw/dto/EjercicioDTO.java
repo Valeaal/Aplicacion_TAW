@@ -1,3 +1,4 @@
+//Autor: Álvaro Valencia Villalón
 package es.uma.proyectotaw.dto;
 
 import es.uma.proyectotaw.entity.Entrenamiento;
@@ -10,10 +11,10 @@ public class EjercicioDTO {
 
     private Integer id;
     private String nombre;
-    private Integer tipo;
+    private TipoEjercicioDTO tipo;
     private String descripcion;
     private String urlVideo;
-    private Integer grupoMuscular;
+    private GrupoMuscularDTO grupoMuscular;
     private Set<EjercicioEntrenamientoDTO> entrenamientos;
 
     //Es posible que por ejemplo tipo de ejercicio tengamos que cambiarlo

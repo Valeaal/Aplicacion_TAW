@@ -7,12 +7,12 @@ import lombok.Data;
 public class ClienteDTO {
 
     private Integer id;
-    private Integer usuario;
-    private Integer entrenador;
-    private Integer dieta;
+    private UsuarioDTO usuario;
+    private UsuarioDTO entrenador;
+    //private DietaDTO dieta;
     private Float peso;
     private Integer altura;
     private Integer edad;
-    private Integer dietista;
+    private UsuarioDTO dietista;
 
 }

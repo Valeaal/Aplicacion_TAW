@@ -23,10 +23,12 @@ public class AppService {
     @Autowired
     private TipoUsuarioRepository tipoUsuarioRepository;
 
-    public UsuarioDTO buscarPorEmail (String inputEmail){
+    public UsuarioDTO buscarPorEmail(String inputEmail) {
         Usuario usr = usuarioRepository.buscarPorEmail(inputEmail);
-        UsuarioDTO usuarioDTO = usr.toDTO();
-        return usuarioDTO;
+        if (usr == null) {
+            return null;
+        }
+        return usr.toDTO();
     }
 
     public TipoUsuarioDTO buscarPorID (Integer id){

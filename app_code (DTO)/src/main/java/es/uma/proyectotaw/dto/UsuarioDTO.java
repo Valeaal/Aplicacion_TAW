@@ -15,6 +15,6 @@ public class UsuarioDTO {
     private String apellidos;
     private LocalDate fechaNacimiento;
     private LocalDate perteneceDesde;
-    private Integer tipoUsuario;
+    private TipoUsuarioDTO tipoUsuario;
 
 }

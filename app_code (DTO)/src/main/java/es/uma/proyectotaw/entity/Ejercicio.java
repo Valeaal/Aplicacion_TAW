@@ -1,3 +1,4 @@
+//Autor: Álvaro Valencia Villalón
 package es.uma.proyectotaw.entity;
 
 import es.uma.proyectotaw.dto.DTO;
@@ -47,17 +48,17 @@ public class Ejercicio implements DTO<EjercicioDTO>{
         EjercicioDTO ejercicioDTO = new EjercicioDTO();
         ejercicioDTO.setId(id);
         ejercicioDTO.setNombre(nombre);
-        ejercicioDTO.setTipo(this.tipo.getId());
+        ejercicioDTO.setTipo(this.tipo.toDTO());
         ejercicioDTO.setDescripcion(descripcion);
         ejercicioDTO.setUrlVideo(urlVideo);
-        ejercicioDTO.setGrupoMuscular(grupoMuscular.getId());
+        ejercicioDTO.setGrupoMuscular(grupoMuscular.toDTO());
 
         // Instancia de DTOService (EjercicioEntrenamientoService), que nos proporciona la posibilidad convertir el conjunto a dto
         EjercicioEntrenamientoService dtoService = new EjercicioEntrenamientoService();
 
         // Convertir set de EjercicioEntrenamiento a DTO con el servicio
-        Set<EjercicioEntrenamientoDTO> entrenamientosDTO = dtoService.entidadesADTO(entrenamientos);
-        ejercicioDTO.setEntrenamientos(entrenamientosDTO);
+        Set<EjercicioEntrenamientoDTO> EjerciciosEntrenamientosDTO = dtoService.entidadesADTO(entrenamientos);
+        ejercicioDTO.setEntrenamientos(EjerciciosEntrenamientosDTO);
 
         return ejercicioDTO;
     }

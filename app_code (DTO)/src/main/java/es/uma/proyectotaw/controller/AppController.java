@@ -21,13 +21,6 @@ import java.util.*;
 public class AppController {
 
     @Autowired
-    protected EjercicioRepository ejercicioRepository;
-    @Autowired
-    protected UsuarioRepository usuarioRepository;
-    @Autowired
-    private TipoUsuarioRepository tipoUsuarioRepository;
-
-    @Autowired
     private AppService appService;
 
 
@@ -50,7 +43,7 @@ public class AppController {
             model.addAttribute("error", "Error: Contraseña incorrecta");
             return "login";
         } else{
-            TipoUsuarioDTO tipoUsuario = appService.buscarPorID(user.getTipoUsuario());
+            TipoUsuarioDTO tipoUsuario = appService.buscarPorID(user.getTipoUsuario().getId());
             //Añadimos a la sesion el atributo del tipo de usuario (otra consulta SQL) cuando ya sabemos que tenemos el usuario not null
             session.setAttribute("usuario", user);
             session.setAttribute("tipo", tipoUsuario);
