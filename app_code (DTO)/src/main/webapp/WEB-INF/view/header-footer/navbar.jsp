@@ -1,13 +1,13 @@
 <!-- Autor: Álvaro Valencia Villalón -->
 
-<%@ page import="es.uma.proyectotaw.entity.*" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.dto.UsuarioDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.TipoUsuarioDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
     UsuarioDTO usrActual = (UsuarioDTO) session.getAttribute("usuario");
-    TipoUsuario tipoUsr = (TipoUsuario) session.getAttribute("tipo");
+    TipoUsuarioDTO tipoUsr = (TipoUsuarioDTO) session.getAttribute("tipo");
     String nombre = "No has iniciado sesión";
     if (usrActual != null) {
         nombre = usrActual.getNombre() + " : " + tipoUsr.getTipo();

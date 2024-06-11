@@ -50,7 +50,7 @@ public class AppController {
             model.addAttribute("error", "Error: Contraseña incorrecta");
             return "login";
         } else{
-            TipoUsuarioDTO tipoUsuario = appService.buscarPorID(user.getTipoUsuario());
+            TipoUsuarioDTO tipoUsuario = appService.buscarPorID(user.getTipoUsuario().getId());
             //Añadimos a la sesion el atributo del tipo de usuario (otra consulta SQL) cuando ya sabemos que tenemos el usuario not null
             session.setAttribute("usuario", user);
             session.setAttribute("tipo", tipoUsuario);

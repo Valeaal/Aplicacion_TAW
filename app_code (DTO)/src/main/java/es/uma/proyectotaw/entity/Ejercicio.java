@@ -57,8 +57,8 @@ public class Ejercicio implements DTO<EjercicioDTO>{
         EjercicioEntrenamientoService dtoService = new EjercicioEntrenamientoService();
 
         // Convertir set de EjercicioEntrenamiento a DTO con el servicio
-        Set<EjercicioEntrenamientoDTO> entrenamientosDTO = dtoService.entidadesADTO(entrenamientos);
-        ejercicioDTO.setEntrenamientos(entrenamientosDTO);
+        Set<EjercicioEntrenamientoDTO> EjerciciosEntrenamientosDTO = dtoService.entidadesADTO(entrenamientos);
+        ejercicioDTO.setEntrenamientos(EjerciciosEntrenamientosDTO);
 
         return ejercicioDTO;
     }

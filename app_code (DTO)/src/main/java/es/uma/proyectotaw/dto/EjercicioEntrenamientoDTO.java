@@ -9,7 +9,7 @@ import lombok.Data;
 public class EjercicioEntrenamientoDTO {
 
     private Integer id;
-    private EjercicioDTO ejercicio;
+    private Integer ejercicio;
     //private EntrenamientoDTO entrenamiento;
     //private DesempenoDTO desempeno;
     private Integer series;
