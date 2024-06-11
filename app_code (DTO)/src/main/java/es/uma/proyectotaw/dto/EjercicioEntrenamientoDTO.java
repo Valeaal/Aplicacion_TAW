@@ -9,9 +9,9 @@ import lombok.Data;
 public class EjercicioEntrenamientoDTO {
 
     private Integer id;
-    private Integer ejercicio;
-    private Integer entrenamiento;
-    //private Integer desempeno;
+    private EjercicioDTO ejercicio;
+    //private EntrenamientoDTO entrenamiento;
+    //private DesempenoDTO desempeno;
     private Integer series;
     private Integer repeticiones;
     private Float peso;

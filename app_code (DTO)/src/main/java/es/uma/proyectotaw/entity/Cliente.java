@@ -1,4 +1,4 @@
-//Autor: Álvaro Valencia Villalón: 20%
+//Autor: Álvaro Valencia Villalón: 30%
 package es.uma.proyectotaw.entity;
 
 import es.uma.proyectotaw.dto.ClienteDTO;
@@ -55,10 +55,10 @@ public class Cliente implements DTO<ClienteDTO> {
         clienteDTO.setAltura(this.altura);
         clienteDTO.setPeso(this.peso);
         clienteDTO.setEdad(this.edad);
-        clienteDTO.setEntrenador(this.entrenador.getId());
-        clienteDTO.setDieta(this.dieta.getId());
-        clienteDTO.setDietista(this.getDieta().getId());
-        clienteDTO.setUsuario(this.getUsuario().getId());
+        clienteDTO.setEntrenador(this.entrenador.toDTO());
+        //clienteDTO.setDieta(this.dieta.getId());
+        clienteDTO.setDietista(this.getDietista().toDTO());
+        clienteDTO.setUsuario(this.getUsuario().toDTO());
         return clienteDTO;
     }
 

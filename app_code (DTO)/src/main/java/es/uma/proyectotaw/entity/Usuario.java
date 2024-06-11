@@ -50,7 +50,7 @@ public class Usuario implements DTO<UsuarioDTO> {
         dto.setApellidos(apellidos);
         dto.setFechaNacimiento(fechaNacimiento);
         dto.setPerteneceDesde(perteneceDesde);
-        dto.setTipoUsuario(tipoUsuario.getId());
+        dto.setTipoUsuario(tipoUsuario.toDTO());
         return dto;
     }
 
