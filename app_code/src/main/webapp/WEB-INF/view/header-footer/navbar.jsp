@@ -1,3 +1,5 @@
+<!-- Autor: Álvaro Valencia Villalón -->
+
 <%@ page import="es.uma.proyectotaw.entity.*" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -131,7 +133,7 @@
 </nav>
 
 <%
-} else if (tipoUsr != null && tipoUsr.getTipo().equals("entrenador_bodybuilding")) {    //Mostramos el navbar con las opciones del entrenador crossfit
+} else if (tipoUsr != null && tipoUsr.getTipo().equals("entrenador_bodybuilding")) {    //Mostramos el navbar con las opciones del entrenador bodybuilding
 %>
 <h1>Hola bodybuilder ponme en forma TÚ!</h1>
 

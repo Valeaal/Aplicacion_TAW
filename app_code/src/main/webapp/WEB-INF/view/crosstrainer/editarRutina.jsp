@@ -10,7 +10,7 @@
     List<Entrenamiento> entrenamientos = (List<Entrenamiento>) request.getAttribute("entrenamientos");
 %>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es"> <!--Hecho por Pablo Alonso Burgos-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

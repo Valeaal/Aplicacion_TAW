@@ -1,6 +1,8 @@
 <%@ page import="es.uma.proyectotaw.entity.*" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!-- Autor: Álvaro Valencia Villalón -->
+
 
 <%
     List<TipoUsuario> roles = (List<TipoUsuario>) request.getAttribute("roles");

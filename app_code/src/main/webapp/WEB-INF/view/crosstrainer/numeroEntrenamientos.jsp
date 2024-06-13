@@ -8,7 +8,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<html> <!--Hecho por Pablo Alonso Burgos-->
 <head>
     <title>Generador de Rutinas de Gimnasio</title>
     <style>

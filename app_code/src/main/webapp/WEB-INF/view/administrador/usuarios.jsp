@@ -3,6 +3,8 @@
 <%@ page import="es.uma.proyectotaw.entity.TipoUsuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!-- Autor: Álvaro Valencia Villalón -->
+
 
 <%
     List<Integer> Edades = (List<Integer>) request.getAttribute("edades");

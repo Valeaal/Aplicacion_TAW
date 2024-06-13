@@ -72,7 +72,7 @@ public class CrossfitController {
     public String doAsignarRutinas(Model model, HttpSession session) {
         Usuario entrenador = (Usuario) session.getAttribute("usuario");
         List<Cliente> clientes = this.clienteRepository.getClientesDelEntrenador(entrenador.getId()); // sacamos los cliente del entrenador
-        List<Rutina> rutinas = rutinaRepository.findAll();
+        List<Rutina> rutinas = rutinaRepository.getCrossfitRutinas();
         model.addAttribute("clientes", clientes);
         model.addAttribute("rutinas", rutinas);
         return "crosstrainer/asignarRutinas";
