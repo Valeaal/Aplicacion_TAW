@@ -33,8 +33,8 @@ INSERT INTO TAW.cliente (id, usuario_id, dieta_id, entrenador_id, peso, altura, 
 
 -- Insertar datos en la tabla tipo_rutina
 INSERT INTO TAW.tipo_rutina (id, tipo) VALUES 
-(1, 'Cross-Training'),
-(2, 'Bodybuilding');
+(1, 'Bodybuilding'),
+(2, 'Cross-Training');
 
 -- Insertar datos en la tabla rutina
 INSERT INTO TAW.rutina (id, nombre, descripcion, fecha_creacion, entrenador_id, tipo_rutina) VALUES 
