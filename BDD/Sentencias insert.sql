@@ -44,7 +44,8 @@ INSERT INTO TAW.rutina (id, nombre, descripcion, fecha_creacion, entrenador_id, 
 
 -- Insertar datos en la tabla cliente_rutina
 INSERT INTO TAW.cliente_rutina (id, cliente_id, rutina_id, vigente) VALUES 
-(1, 7, 2, b'1');
+(1, 7, 2, b'1'),
+(2, 8, 3, b'1');
 
 -- Insertar datos en la tabla comida
 INSERT INTO TAW.comida (id, nombre, descripcion) VALUES 
