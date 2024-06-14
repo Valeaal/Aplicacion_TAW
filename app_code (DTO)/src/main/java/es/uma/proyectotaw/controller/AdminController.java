@@ -70,10 +70,9 @@ public class AdminController {
                                 @RequestParam("StringRol") String StringRol, Model model) {
 
         //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO (igual que en /usuarios)------------//
-        List<Integer> edades = usuarioRepository.sacarEdades(); //Esta consulta nos devuelve todas las edades, ordenadas y sin repetir listas para usar
-        List<Integer> ingresos = usuarioRepository.sacarIngresos(); //Esta consulta nos devuelve todos los años, ordenados y sin repetir listos para usar
-        List<Usuario> usuarios = usuarioRepository.sacarUsuarios(); //Esta consulta solo nos devuelve los usuarios, y queremos una lista de los roles
-        List<TipoUsuario> rolesUsuarios = usuarioRepository.sacarRoles(); //Esta consulta nos devuelve los roles de usuario que se usan ahora
+        List<Integer> edades = adminService.sacarEdades();
+        List<Integer> ingresos = adminService.sacarIngresos();
+        List<TipoUsuarioDTO> rolesUsuarios = adminService.sacarRoles();
 
         model.addAttribute("edades", edades);
         model.addAttribute("ingresos", ingresos);
@@ -100,14 +99,14 @@ public class AdminController {
         }
 
         //Para controlar si hemos introducido el dato, ponemos o no a null. Luego esto se maneja en la consulta
-        TipoUsuario inputRol;
+        Integer inputRol;
         if( StringRol.equals("Selecciona Rol") ){
             inputRol = null;
         } else {
-            inputRol = tipoUsuarioRepository.buscarPorString(StringRol);
+            inputRol = adminService.buscarPorString(StringRol);
         }
 
-        List<Usuario> usuariosFiltrado = usuarioRepository.filtrarUsuarios(inputNombre, inputApellidos, inputEdad, inputIngreso, inputRol);
+        List<UsuarioDTO> usuariosFiltrado = adminService.filtrarUsuarios(inputNombre, inputApellidos, inputEdad, inputIngreso, inputRol);
         model.addAttribute("usuarios", usuariosFiltrado);
 
         return "administrador/usuarios";
@@ -151,8 +150,8 @@ public class AdminController {
         usr.setEmail(inputEmail);
         usr.setFechaNacimiento(inputNacimiento);
         usr.setPerteneceDesde(inputIngreso);
-        TipoUsuario nuevoRol = tipoUsuarioRepository.buscarPorString(inputRol);
-        usr.setTipoUsuario(nuevoRol);
+        //TipoUsuario nuevoRol = tipoUsuarioRepository.buscarPorString(inputRol);
+        //usr.setTipoUsuario(nuevoRol);
         //En principio no consideramos que el administrador pueda cambiar la contraseña del usuario no?
 
         usuarioRepository.save(usr);
@@ -177,8 +176,8 @@ public class AdminController {
         nuevoUsuario.setFechaNacimiento(inputNacimiento);
         nuevoUsuario.setPerteneceDesde(inputIngreso);
         nuevoUsuario.setPassword(inputContraseña);
-        TipoUsuario nuevoRol = tipoUsuarioRepository.buscarPorString(inputRol);
-        nuevoUsuario.setTipoUsuario(nuevoRol);
+        //TipoUsuario nuevoRol = tipoUsuarioRepository.buscarPorString(inputRol);
+        //nuevoUsuario.setTipoUsuario(nuevoRol);
 
         usuarioRepository.save(nuevoUsuario);
 

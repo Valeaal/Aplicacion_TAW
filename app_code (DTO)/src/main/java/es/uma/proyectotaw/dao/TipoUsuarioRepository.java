@@ -10,7 +10,7 @@ public interface TipoUsuarioRepository extends JpaRepository<TipoUsuario, Intege
     @Query("select t from TipoUsuario t where t.id = :tipoID")
     public TipoUsuario buscarPorID (@Param("tipoID") int tipoID);
 
-    @Query("select t from TipoUsuario t where t.tipo = :tipoString")
-    public TipoUsuario buscarPorString (@Param("tipoString") String tipoString);
+    @Query("select t.id from TipoUsuario t where t.tipo = :tipoString")
+    public Integer buscarPorString (@Param("tipoString") String tipoString);
 
 }

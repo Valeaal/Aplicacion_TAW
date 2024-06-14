@@ -37,12 +37,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
             "and (u.apellidos like concat('%', :inputApellidos, '%'))" +
             "and ((YEAR(current_date) - YEAR(u.fechaNacimiento) = :inputEdad) or (:inputEdad  is null)) " +
             "and ((:inputIngreso is null) or :inputIngreso = YEAR(u.perteneceDesde))" +
-            "and ((:inputRol is null) or u.tipoUsuario = :inputRol)")
+            "and ((:inputRol is null) or u.tipoUsuario.id = :inputRol)")
     public List<Usuario> filtrarUsuarios (@Param("inputNombre") String inputNombre,
                                           @Param("inputApellidos") String inputApellidos,
                                           @Param("inputEdad") Integer inputEdad,
                                           @Param("inputIngreso") Integer inputIngreso,
-                                          @Param("inputRol") TipoUsuario inputRol);
+                                          @Param("inputRol") Integer inputRol);
 
 
 }
