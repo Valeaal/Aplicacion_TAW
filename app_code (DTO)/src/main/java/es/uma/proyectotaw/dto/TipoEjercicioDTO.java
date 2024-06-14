@@ -1,3 +1,4 @@
+//Autor: Álvaro Valencia Vilallón
 package es.uma.proyectotaw.dto;
 
 import lombok.Data;

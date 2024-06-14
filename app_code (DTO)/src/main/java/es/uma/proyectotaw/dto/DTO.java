@@ -1,3 +1,4 @@
+//Autor: Álvaro Valencia Vilallón
 package es.uma.proyectotaw.dto;
 
 //Esta interfaz permite anunciar que una clase "entity" implementa el método para devolver su

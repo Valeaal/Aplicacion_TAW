@@ -1,5 +1,4 @@
 //Autor: Álvaro Valencia Villalón
-
 package es.uma.proyectotaw.service;
 
 import es.uma.proyectotaw.dto.EjercicioDTO;

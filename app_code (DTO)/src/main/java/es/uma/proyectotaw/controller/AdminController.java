@@ -6,7 +6,7 @@ import es.uma.proyectotaw.dto.TipoUsuarioDTO;
 import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.entity.Usuario;
-import es.uma.proyectotaw.service.AdminService;
+import es.uma.proyectotaw.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,6 +40,8 @@ public class AdminController {
     private EntrenamientoRepository entrenamientoRepository;
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private TipoUsuarioService tipoUsuarioService;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //GESTIÓN DE LOS USUARIOS
@@ -150,7 +152,7 @@ public class AdminController {
         usr.setFechaNacimiento(inputNacimiento);
         usr.setPerteneceDesde(inputIngreso);
         Integer nuevoRolId = adminService.buscarRolPorString(inputRol);
-        TipoUsuarioDTO nuevoRol = adminService.buscarRolPorId(nuevoRolId);
+        TipoUsuarioDTO nuevoRol = tipoUsuarioService.buscarRolPorId(nuevoRolId);
         usr.setTipoUsuario(nuevoRol);
         //En principio no consideramos que el administrador pueda cambiar la contraseña del usuario no?
 
@@ -177,7 +179,7 @@ public class AdminController {
         nuevoUsuario.setPerteneceDesde(inputIngreso);
         nuevoUsuario.setPassword(inputContraseña);
         Integer nuevoRolId = adminService.buscarRolPorString(inputRol);
-        TipoUsuarioDTO nuevoRol = adminService.buscarRolPorId(nuevoRolId);
+        TipoUsuarioDTO nuevoRol = tipoUsuarioService.buscarRolPorId(nuevoRolId);
         nuevoUsuario.setTipoUsuario(nuevoRol);
 
         adminService.guardarUsuario(nuevoUsuario);

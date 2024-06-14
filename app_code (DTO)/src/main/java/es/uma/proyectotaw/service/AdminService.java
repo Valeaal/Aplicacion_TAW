@@ -1,3 +1,4 @@
+//Autor: Álvaro Valencia Vilallón
 package es.uma.proyectotaw.service;
 
 import es.uma.proyectotaw.dao.*;
@@ -65,11 +66,6 @@ public class AdminService {
         return tipoUsuarioRepository.buscarPorString(rol);
     }
 
-    public TipoUsuarioDTO buscarRolPorId(Integer id){
-        TipoUsuario rol = tipoUsuarioRepository.buscarPorID(id);
-        return rol.toDTO();
-    }
-
     public List<UsuarioDTO> filtrarUsuarios(String nombre, String apellidos, Integer edad, Integer ingreso, Integer rol){
         List <Usuario> usuarios = usuarioRepository.filtrarUsuarios(nombre, apellidos, edad, ingreso, rol);
         UsuarioService usuarioService = new UsuarioService(); // Instancia de DTOService que nos proporciona la posibilidad convertir el conjunto a dto
@@ -112,6 +108,10 @@ public class AdminService {
         usr.setPassword(usuario.getPassword());
         usuarioRepository.save(usr);
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //ASIGNACIÓN DE CLIENTES A ENTRENADORES
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
