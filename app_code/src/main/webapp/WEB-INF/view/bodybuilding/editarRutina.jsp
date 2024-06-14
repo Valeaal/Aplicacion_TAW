@@ -26,9 +26,9 @@
               <form:hidden path="id"/>
               <form:hidden path="entrenador"/>
               <form:hidden path="tipoRutina"/>
-              <form:hidden path="clienteRutinas"/>
+              <form:hidden path="clientes"/>
               <form:hidden path="fechaCreacion"/>
-              <form:hidden path="entrenamientoRutinas"/>
+              <form:hidden path="entrenamientos"/>
             <table class="table">
                 <thead>
                 <tr>
@@ -44,12 +44,27 @@
                         </tr>
                 </tbody>
             </table>
-                <h1>Entrenamientos: </h1>
+                <% if(rutina.getId()==null){%>
+                <h3>Para añadir nuevos entrenamientos debe guardar la rutina primero. </h3>
+                <table class="table" border="collapse">
+                    <%for(int i = 1; i<8;i++){%>
+                <tr>
+                    <th scope="col">Día <%=i%> : </th>
+                    <th scope="col">No hay entrenamiento</th>
+                    <td></td>
+                    <td scope="col">
+                        <button class="btn btn-warning" type="button" disabled>Añadir entrenamiento</button>
+                    </td>
+                </tr>
+                    <%  } %>
+                </table>
+              <% }else {%>
+                <h2>Entrenamientos: </h2>
                 <table class="table" border="collapse">
                     <%
                     EntrenamientoRutina entreno = null;
                     for(int i = 1; i<8;i++){
-                    for(EntrenamientoRutina ent: rutina.getEntrenamientoRutinas()) {
+                    for(EntrenamientoRutina ent: rutina.getEntrenamientos()) {
                         if(ent.getDiaSemana() == i){
                             entreno = ent;
                         }
@@ -59,7 +74,7 @@
                     <tr>
                         <th scope="col">Día <%=i%> : </th>
                         <th scope="col"><%=entreno.getEntrenamiento().getNombre()%></th>
-                        <td scope="col"><% for(EjercicioEntrenamiento ej : entreno.getEntrenamiento().getEjercicioEntrenamientos()){ %>
+                        <td scope="col"><% for(EjercicioEntrenamiento ej : entreno.getEntrenamiento().getEjercicios()){ %>
                             <%=ej.getEjercicio().getNombre()%><br/>
                             <%}%>
                         </td>
@@ -84,12 +99,13 @@
                         entreno = null;
                     }%>
                 </table>
+                <%}%>
             <div style="text-align: center">
                 <form:button class="btn btn-outline-success">Guardar</form:button>
             </div>
             </form:form>
 
-            <form action="/bodybuilding/listar" method="get">
+            <form action="/bodybuilding/" method="get">
             <div style="text-align: center">
                 <button class="btn btn-outline-danger">Descartar cambios</button>
             </div>

@@ -1,13 +1,22 @@
 package es.uma.proyectotaw.ui;
 
 import java.time.LocalDate;
+import es.uma.proyectotaw.entity.Usuario;
 
 public class FiltroBodyBuilder {
     private String numEntrenamientos;
     private String nombre;
-    private LocalDate fechaInicio;
-    private LocalDate fechaFin;
-    private boolean activo = true;
+    private LocalDate fecha;
+
+    public Usuario getEntrenadorCreador() {
+        return entrenadorCreador;
+    }
+
+    public void setEntrenadorCreador(Usuario entrenadorCreador) {
+        this.entrenadorCreador = entrenadorCreador;
+    }
+
+    private Usuario entrenadorCreador;
 
     public String getNumEntrenamientos() {
         return numEntrenamientos;
@@ -25,28 +34,11 @@ public class FiltroBodyBuilder {
         this.nombre = nombre;
     }
 
-    public LocalDate getFechaInicio() {
-        return fechaInicio;
+    public LocalDate getFecha() {
+        return fecha;
     }
 
-    public void setFechaInicio(LocalDate fechaInicio) {
-        this.fechaInicio = fechaInicio;
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
-
-    public LocalDate getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(LocalDate fechaFin) {
-        this.fechaFin = fechaFin;
-    }
-
-    public boolean getActivo(){
-        return activo;
-    }
-
-    public void setActivo(Boolean activo){
-        activo = this.activo;
-    }
-
 }

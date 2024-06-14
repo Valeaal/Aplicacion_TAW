@@ -4,7 +4,7 @@
 <%@ page import="es.uma.proyectotaw.entity.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Rutina rutina = (Rutina) request.getAttribute("rutina");
+    EntrenamientoRutina entrenamientoRutina = (EntrenamientoRutina) request.getAttribute("ER");
 %>
 
 <html lang="en">
@@ -21,6 +21,7 @@
 <div class="container-fluid">
     <div class="row">
         <!-- Parte izquierda con tabla y barra de búsqueda -->
+        <h1>Elige un entrenamiento para añadir a la rutina <%=entrenamientoRutina.getRutina().getNombre()%> en el día <%=entrenamientoRutina.getDiaSemana()%></h1>
         <div class="col  flex-grow-1 col-auto">
             <form:form method="post" action="/bodybuilding/guardarEntrenamientoRutina" modelAttribute="ER">
                 <form:hidden path="id"/>
@@ -34,11 +35,10 @@
             </div>
             </form:form>
 
-            <form action="/bodybuilding/listar" method="get">
                 <div style="text-align: center">
-                    <button class="btn btn-outline-danger">Descartar cambios</button>
+                    <a href="/bodybuilding/editarRutina?id=<%=entrenamientoRutina.getRutina().getId()%>"><button class="btn btn-outline-danger">Descartar cambios</button></a>
                 </div>
-            </form>
+
 
             <jsp:include page="../header-footer/footer.jsp"></jsp:include>
 

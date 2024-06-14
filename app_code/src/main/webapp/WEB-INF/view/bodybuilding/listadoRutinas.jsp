@@ -27,7 +27,6 @@
 
 <div class="container-fluid">
     <form:form action="/bodybuilding/filtrarRutinas" method="post" modelAttribute="filtro">
-        <form:hidden path="activo"/>
         <div class="mb-3 d-flex w-100">
             <div class="table-responsive w-100">
                  <table class="table w-100" style="border-collapse: separate; border-spacing: 20px;">
@@ -35,18 +34,23 @@
                         <tr>
                             <th>Nombre de la rutina </th>
                             <th>Numero de entrenamientos </th>
-                            <th>Creado desde </th>
-                            <th>Hasta </th>
+                            <th>Creado a partir de :  </th>
+                            <th>Creador </th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td> <form:input type="text" name="ejercicio" path="nombre"/></td>
                             <td><form:select path="numEntrenamientos" items="${['-',1,2,3,4,5,6,7]}"/></td>
-                            <td><form:input type="date" path="fechaInicio" /></td>
-                            <td> <form:input type="date" path="fechaFin" /></td>
+                            <td><form:input type="date" path="fecha" /></td>
+                            <td><form:select path="entrenadorCreador">
+                                <form:option value="-1">TODOS</form:option>
+                                <form:options items="${entrenadores}" itemLabel="nombre"/>
+                            </form:select></td>
                             <td> <form:button type="submit" class="btn btn-primary">Buscar</form:button></td>
-                            <td><a href="/bodybuilding/listar">
+                            <td><a href="/bodybuilding/">
                                 <button class="btn btn-danger" type="button">Eliminar filtros</button>
                             </a></td>
                         </tr>
