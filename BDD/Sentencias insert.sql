@@ -61,7 +61,10 @@ INSERT INTO TAW.comida_menu (id, comida_id, menu_id) VALUES
 -- Insertar datos en la tabla desempeno
 INSERT INTO TAW.desempeno (id, cliente_id, valoracion, peso_realizado, comentarios) VALUES 
 (1, 1, 5, 70.5, 'Muy buen desempeño'),
-(6, 4, 4, 70, 'Mejoras significativas');
+(6, 4, 4, 70, 'Mejoras significativas'),
+(7, 7, 2, 50, 'No me gusta mucho el ejercicio'),
+(8, 8, 5, 100, 'Genial');
+
 
 -- Insertar datos en la tabla dieta_comida
 INSERT INTO TAW.dieta_comida (id, dieta_id, comida_id, momento_dia) VALUES 
@@ -131,8 +134,8 @@ INSERT INTO TAW.ejercicio_entrenamiento (id, ejercicio_id, entrenamiento_id, des
 (5, 23, 2, 6, NULL, NULL, NULL, 3, 80, 1);
 -- Empuje
 INSERT INTO TAW.ejercicio_entrenamiento (id, ejercicio_id, entrenamiento_id, desempeno_id, series, repeticiones, peso, tiempo, distancia, orden) VALUES 
-(2, 1, 12, NULL, 4, 12, 60.0, NULL, NULL, 1),  -- Press de banca
-(3, 12, 12, NULL, 3, 10, 50.0, NULL, NULL, 2);  -- Press Militar
+(2, 1, 12, 7, 4, 12, 60.0, NULL, NULL, 1),  -- Press de banca
+(3, 12, 12, 8, 3, 10, 70.0, NULL, NULL, 2);  -- Press Militar
 
 -- Tirón
 INSERT INTO TAW.ejercicio_entrenamiento (id, ejercicio_id, entrenamiento_id, desempeno_id, series, repeticiones, peso, tiempo, distancia, orden) VALUES 
@@ -180,4 +183,9 @@ INSERT INTO TAW.ejercicio_entrenamiento (id, ejercicio_id, entrenamiento_id, des
 
 -- Insertar datos en la tabla entrenamiento_rutina
 INSERT INTO TAW.entrenamiento_rutina (id, entrenamiento_id, rutina_id, dia_semana) VALUES 
-(1, 1, 1, 1);
+(1, 1, 1, 1),
+(2, 12, 2, 1),
+(3, 13, 2, 3),
+(4, 14, 2, 5);
+
+
