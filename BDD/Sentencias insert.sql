@@ -14,8 +14,8 @@ INSERT INTO TAW.usuario (id, email, password, nombre, apellidos, fecha_nacimient
 (4, 'dietista@example.com', 'password', 'Emily', 'Brown', '1992-03-10', '2021-06-01', 4),
 (5, 'client@example.com', 'password', 'client', 'client', '1992-03-10', '2021-06-01', 5),
 (6, 'client1@example.com', 'password', 'Pedro', 'Gomez', '1992-03-10', '2021-06-01', 5),
-(7, 'client67@example.com', 'password', 'Javier', 'Smith', '1992-03-10', '2021-06-01', 5);
-(8, 'migueltrainer@example.com', '123', 'Miguel', 'Pérez', '1992-03-10', '2020-01-01', 2);
+(7, 'client67@example.com', 'password', 'Javier', 'Smith', '1992-03-10', '2021-06-01', 5),
+(8, 'migueltrainer@example.com', '123', 'Miguel', 'Pérez', '1992-03-10', '2020-01-01', 2),
 (9, 'client9@example.com', 'password', 'Laura', 'Martínez', '1987-04-05', '2022-02-01', 5),
 (10, 'client8@example.com', 'password', 'Carlos', 'Hernández', '1985-09-25', '2022-03-01', 5);
 
@@ -27,8 +27,8 @@ INSERT INTO TAW.dieta (id, dietista_id, nombre, descripcion, fecha, calorias) VA
 INSERT INTO TAW.cliente (id, usuario_id, dieta_id, entrenador_id, peso, altura, edad, dietista_id) VALUES 
 (1, 5, 1, 2, 70.5, 175, 30, 4),
 (4, 6, 1, 3, 83, 188, 30, 4),
-(6, 7, 1, 3, 67, 168, 28, 4);
-(7, 9, 1, 8, 64, 160, 22, 4);
+(6, 7, 1, 3, 67, 168, 28, 4),
+(7, 9, 1, 8, 64, 160, 22, 4),
 (8, 10, 1, 8, 70, 163, 30, 4);
 
 -- Insertar datos en la tabla tipo_rutina
@@ -38,8 +38,8 @@ INSERT INTO TAW.tipo_rutina (id, tipo) VALUES
 
 -- Insertar datos en la tabla rutina
 INSERT INTO TAW.rutina (id, nombre, descripcion, fecha_creacion, entrenador_id, tipo_rutina) VALUES 
-(1, 'Rutina Fuerza', 'Rutina de fuerza para principiantes', '2023-01-01', 2, 2);
-(2, 'Push-Pull', 'Rutina de fuerza para avanzados', '2023-06-14', 8, 2);
+(1, 'Rutina Fuerza', 'Rutina de fuerza para principiantes', '2023-01-01', 2, 2),
+(2, 'Push-Pull', 'Rutina de fuerza para avanzados', '2023-06-14', 8, 2),
 (3, 'Rutina Fuerza', 'Rutina de fuerza para principiantes', '2023-01-01', 8, 2);
 
 -- Insertar datos en la tabla cliente_rutina
@@ -73,15 +73,15 @@ INSERT INTO TAW.tipo_ejercicio (id, tipo) VALUES
 
 -- Insertar datos en la tabla grupo_muscular
 INSERT INTO TAW.grupo_muscular (id, grupo) VALUES 
-(1, 'Pecho');
-(2, 'Espalda');
-(3, 'Hombro');
-(4, 'Triceps');
-(5, 'Biceps');
-(6, 'Cuadricep');
-(7, 'Aductor');
-(8, 'Femoral');
-(9, 'Gluteo');
+(1, 'Pecho'),
+(2, 'Espalda'),
+(3, 'Hombro'),
+(4, 'Triceps'),
+(5, 'Biceps'),
+(6, 'Cuadricep'),
+(7, 'Aductor'),
+(8, 'Femoral'),
+(9, 'Gluteo'),
 (10, 'Gemelo');
 
 -- Insertar datos en la tabla ejercicio
@@ -98,7 +98,7 @@ INSERT INTO TAW.ejercicio (id, nombre, descripcion, url_video, grupo_muscular_id
 (12, 'Press Militar', 'Ejercicio para trabajar los hombros', 'http://example.com/press_militar', 1, 1),
 (13, 'Elevaciones Laterales', 'Ejercicio para trabajar los hombros', 'http://example.com/elevaciones_laterales', 1, 1),
 (14, 'Prensa de Piernas', 'Ejercicio para trabajar las piernas', 'http://example.com/prensa_piernas', 3, 1),
-(15, 'Curl Femoral', 'Ejercicio para trabajar los isquiotibiales', 'http://example.com/curl_femoral', 3, 1);
+(15, 'Curl Femoral', 'Ejercicio para trabajar los isquiotibiales', 'http://example.com/curl_femoral', 3, 1),
 (23, 'Correr', 'Trabajamos la resistencia', 'http://example.com/video', NULL, 1);
 
 -- Insertar datos en la tabla entrenamiento
@@ -113,7 +113,7 @@ INSERT INTO TAW.entrenamiento (id, nombre, descripcion) VALUES
 (8, 'Eva', '5 rondas por tiempo: 800 metros de carrera, 30 kettlebell swings (70/53 lb), 30 pull-ups'),
 (9, 'Kelly', '5 rondas por tiempo: 400 metros de carrera, 30 box jumps (24/20 pulgadas), 30 wall balls (20/14 lb)'),
 (10, 'Cindy', 'AMRAP en 20 minutos: 5 pull-ups, 10 push-ups, 15 squats'),
-(11, 'Elizabeth', '21-15-9 repeticiones de cleans (135/95 lb) y ring dips');
+(11, 'Elizabeth', '21-15-9 repeticiones de cleans (135/95 lb) y ring dips'),
 (12, 'Entrenamiento de Empuje', 'Entrenamiento enfocado en ejercicios de empuje para el tren superior'),
 (13, 'Entrenamiento de Tirón', 'Entrenamiento enfocado en ejercicios de tirón para el tren superior'),
 (14, 'Entrenamiento de Pierna', 'Entrenamiento enfocado en ejercicios para las piernas'),
