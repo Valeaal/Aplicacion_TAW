@@ -55,7 +55,7 @@ public class AdminService {
     }
 
     public List<UsuarioDTO> sacarUsuarios(){
-        List <Usuario> usuarios = usuarioRepository.sacarUsuarios();
+        List <Usuario> usuarios = usuarioRepository.findAll();
         UsuarioService usuarioService = new UsuarioService(); // Instancia de DTOService que nos proporciona la posibilidad convertir el conjunto a dto
         List<UsuarioDTO> usuariosDTO = usuarioService.entidadesADTO(usuarios);
         return usuariosDTO;
@@ -63,6 +63,11 @@ public class AdminService {
 
     public int buscarRolPorString(String rol){
         return tipoUsuarioRepository.buscarPorString(rol);
+    }
+
+    public TipoUsuarioDTO buscarRolPorId(Integer id){
+        TipoUsuario rol = tipoUsuarioRepository.buscarPorID(id);
+        return rol.toDTO();
     }
 
     public List<UsuarioDTO> filtrarUsuarios(String nombre, String apellidos, Integer edad, Integer ingreso, Integer rol){
@@ -90,6 +95,22 @@ public class AdminService {
 
     public void eliminarUsuario(Integer id){
         usuarioRepository.deleteById(id);
+    }
+
+    public void guardarUsuario(UsuarioDTO usuario){
+        Usuario usr = new Usuario();
+        if (usuario.getId() != null){
+            usr = usuarioRepository.buscarPorID(usuario.getId());
+        }
+        usr.setNombre(usuario.getNombre());
+        usr.setApellidos(usuario.getApellidos());
+        usr.setEmail(usuario.getEmail());
+        usr.setFechaNacimiento(usuario.getFechaNacimiento());
+        usr.setPerteneceDesde(usuario.getPerteneceDesde());
+        TipoUsuario tipoEntity = tipoUsuarioRepository.buscarPorID(usuario.getTipoUsuario().getId());
+        usr.setTipoUsuario(tipoEntity);
+        usr.setPassword(usuario.getPassword());
+        usuarioRepository.save(usr);
     }
 
 

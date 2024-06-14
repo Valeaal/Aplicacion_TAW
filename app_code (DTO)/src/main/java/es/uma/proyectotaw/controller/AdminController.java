@@ -125,7 +125,7 @@ public class AdminController {
         model.addAttribute("roles", rolesUsuarios);
         model.addAttribute("usuario", adminService.buscarUsuarioPorId(inputUsr));
 
-        if (inputBoton.equals("Añadir") && inputUsr != null) {
+        if (inputBoton.equals("Añadir")) {
             direccionRetorno = "administrador/nuevoUsuario";
         } else if (inputUsr != null){
             if (inputBoton.equals("Eliminar")){
@@ -143,17 +143,18 @@ public class AdminController {
                                     @RequestParam("inputApellidos") String inputApellidos, @RequestParam("inputNacimiento") LocalDate inputNacimiento,
                                     @RequestParam("inputIngreso") LocalDate inputIngreso, @RequestParam("inputRol") String inputRol){
 
-        Usuario usr = usuarioRepository.buscarPorID(usuarioId);
+        UsuarioDTO usr = adminService.buscarUsuarioPorId(usuarioId);
         usr.setNombre(inputNombre);
         usr.setApellidos(inputApellidos);
         usr.setEmail(inputEmail);
         usr.setFechaNacimiento(inputNacimiento);
         usr.setPerteneceDesde(inputIngreso);
-        //TipoUsuario nuevoRol = tipoUsuarioRepository.buscarPorString(inputRol);
-        //usr.setTipoUsuario(nuevoRol);
+        Integer nuevoRolId = adminService.buscarRolPorString(inputRol);
+        TipoUsuarioDTO nuevoRol = adminService.buscarRolPorId(nuevoRolId);
+        usr.setTipoUsuario(nuevoRol);
         //En principio no consideramos que el administrador pueda cambiar la contraseña del usuario no?
 
-        usuarioRepository.save(usr);
+        adminService.guardarUsuario(usr);
 
         return "redirect:/admin/usuarios";
     }
@@ -168,17 +169,18 @@ public class AdminController {
                           @RequestParam("inputRol") String inputRol,
                           @RequestParam("inputContraseña") String inputContraseña){
 
-        Usuario nuevoUsuario = new Usuario();
+        UsuarioDTO nuevoUsuario = new UsuarioDTO();
         nuevoUsuario.setNombre(inputNombre);
         nuevoUsuario.setApellidos(inputApellidos);
         nuevoUsuario.setEmail(inputEmail);
         nuevoUsuario.setFechaNacimiento(inputNacimiento);
         nuevoUsuario.setPerteneceDesde(inputIngreso);
         nuevoUsuario.setPassword(inputContraseña);
-        //TipoUsuario nuevoRol = tipoUsuarioRepository.buscarPorString(inputRol);
-        //nuevoUsuario.setTipoUsuario(nuevoRol);
+        Integer nuevoRolId = adminService.buscarRolPorString(inputRol);
+        TipoUsuarioDTO nuevoRol = adminService.buscarRolPorId(nuevoRolId);
+        nuevoUsuario.setTipoUsuario(nuevoRol);
 
-        usuarioRepository.save(nuevoUsuario);
+        adminService.guardarUsuario(nuevoUsuario);
 
         return "redirect:/admin/usuarios";
     }
