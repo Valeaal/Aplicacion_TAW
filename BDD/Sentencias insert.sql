@@ -38,9 +38,9 @@ INSERT INTO TAW.tipo_rutina (id, tipo) VALUES
 
 -- Insertar datos en la tabla rutina
 INSERT INTO TAW.rutina (id, nombre, descripcion, fecha_creacion, entrenador_id, tipo_rutina) VALUES 
-(1, 'Rutina Fuerza', 'Rutina de fuerza para principiantes', '2023-01-01', 2, 2),
-(2, 'Push-Pull', 'Rutina de fuerza para avanzados', '2023-06-14', 8, 2),
-(3, 'Rutina Fuerza', 'Rutina de fuerza para principiantes', '2023-01-01', 8, 2);
+(1, 'Rutina Fuerza', 'Rutina de fuerza para principiantes', '2023-01-01', 2, 1),
+(2, 'Push-Pull', 'Rutina de fuerza para avanzados', '2023-06-14', 8, 1),
+(3, 'Rutina Fuerza', 'Rutina de fuerza para principiantes', '2023-01-01', 8, 1);
 
 -- Insertar datos en la tabla cliente_rutina
 INSERT INTO TAW.cliente_rutina (id, cliente_id, rutina_id, vigente) VALUES 
