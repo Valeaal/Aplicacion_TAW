@@ -1,13 +1,15 @@
 <%@ page import="es.uma.proyectotaw.entity.*" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Set" %>
+<%@ page import="es.uma.proyectotaw.dto.UsuarioDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.TipoUsuarioDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- Autor: Álvaro Valencia Villalón -->
 
 
 <%
-    Usuario usr = (Usuario) request.getAttribute("usuario");
-    List<TipoUsuario> roles = (List<TipoUsuario>) request.getAttribute("roles");
+    UsuarioDTO usr = (UsuarioDTO) request.getAttribute("usuario");
+    List<TipoUsuarioDTO> roles = (List<TipoUsuarioDTO>) request.getAttribute("roles");
 %>
 <html>
 <head>
@@ -66,7 +68,7 @@
             <select class="form-select" id="rol" name="inputRol">
                 <option selected><%= usr.getTipoUsuario().getTipo()%></option>
                 <%
-                for ( TipoUsuario rol : roles){
+                for ( TipoUsuarioDTO rol : roles){
                     if (rol != usr.getTipoUsuario()){
                 %>
                         <option><%= rol.getTipo()%></option>

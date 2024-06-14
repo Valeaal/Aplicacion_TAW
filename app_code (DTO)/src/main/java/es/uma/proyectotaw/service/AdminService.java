@@ -61,7 +61,7 @@ public class AdminService {
         return usuariosDTO;
     }
 
-    public int buscarPorString(String rol){
+    public int buscarRolPorString(String rol){
         return tipoUsuarioRepository.buscarPorString(rol);
     }
 
@@ -70,6 +70,26 @@ public class AdminService {
         UsuarioService usuarioService = new UsuarioService(); // Instancia de DTOService que nos proporciona la posibilidad convertir el conjunto a dto
         List<UsuarioDTO> usuariosDTO = usuarioService.entidadesADTO(usuarios);
         return usuariosDTO;
+    }
+
+    public List<TipoUsuarioDTO> sacarRolesComleto(){
+        List<TipoUsuario> roles = tipoUsuarioRepository.findAll();
+        TipoUsuarioService tipoService = new TipoUsuarioService();
+        List<TipoUsuarioDTO> rolesDTO = tipoService.entidadesADTO(roles);
+        return rolesDTO;
+    }
+
+    public UsuarioDTO buscarUsuarioPorId(Integer id){
+        if (id == null) {
+            return null;
+        } else{
+            Usuario usr = usuarioRepository.findById(id).orElse(null);
+            return usr.toDTO();
+        }
+    }
+
+    public void eliminarUsuario(Integer id){
+        usuarioRepository.deleteById(id);
     }
 
 

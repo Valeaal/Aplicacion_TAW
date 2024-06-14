@@ -103,7 +103,7 @@ public class AdminController {
         if( StringRol.equals("Selecciona Rol") ){
             inputRol = null;
         } else {
-            inputRol = adminService.buscarPorString(StringRol);
+            inputRol = adminService.buscarRolPorString(StringRol);
         }
 
         List<UsuarioDTO> usuariosFiltrado = adminService.filtrarUsuarios(inputNombre, inputApellidos, inputEdad, inputIngreso, inputRol);
@@ -120,17 +120,16 @@ public class AdminController {
         //Independientemente si se selecciona o no un usuario y se pulsa añadir un usuario, llevará a la página correspondiente.
         String direccionRetorno = "redirect:/admin/usuarios";
 
-        List<Usuario> usuarios = usuarioRepository.sacarUsuarios();
-        List<TipoUsuario> rolesUsuarios = tipoUsuarioRepository.findAll();
+        List<TipoUsuarioDTO> rolesUsuarios = adminService.sacarRolesComleto();
 
         model.addAttribute("roles", rolesUsuarios);
-        model.addAttribute("usuario", usuarioRepository.buscarPorID(inputUsr));
+        model.addAttribute("usuario", adminService.buscarUsuarioPorId(inputUsr));
 
-        if (inputBoton.equals("Añadir")) {
+        if (inputBoton.equals("Añadir") && inputUsr != null) {
             direccionRetorno = "administrador/nuevoUsuario";
         } else if (inputUsr != null){
             if (inputBoton.equals("Eliminar")){
-                usuarioRepository.deleteById(inputUsr);
+                adminService.eliminarUsuario(inputUsr);
             } else if (inputBoton.equals("Modificar")){
                 direccionRetorno = "administrador/modificarUsuario";
             }
