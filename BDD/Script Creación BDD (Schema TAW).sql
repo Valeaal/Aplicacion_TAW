@@ -278,7 +278,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS TAW.tipo_ejercicio (
   id INT NOT NULL AUTO_INCREMENT,
-  tipo ENUM('fuerza', 'resistencia', 'velocidad', 'flexibilidad', 'potencia', 'estabilidad', 'movilidad') NOT NULL,
+  tipo ENUM('Fuerza', 'Resistencia', 'Velocidad', 'Flexibilidad', 'Potencia', 'Estabilidad', 'Movilidad') NOT NULL,
   PRIMARY KEY (id))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
@@ -291,7 +291,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS TAW.grupo_muscular (
   id INT NOT NULL AUTO_INCREMENT,
-  grupo ENUM('pecho', 'espalda', 'bicep', 'tricep', 'hombro', 'femoral', 'cuadricep', 'gluteo', 'aductor', 'gemelo') NOT NULL,
+  grupo ENUM('Pecho', 'Espalda', 'Bicep', 'Tricep', 'Hombro', 'Femoral', 'Cuadricep', 'Gluteo', 'Aductor', 'Gemelo') NOT NULL,
   PRIMARY KEY (id))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
