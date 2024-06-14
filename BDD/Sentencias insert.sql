@@ -44,7 +44,7 @@ INSERT INTO TAW.rutina (id, nombre, descripcion, fecha_creacion, entrenador_id, 
 
 -- Insertar datos en la tabla cliente_rutina
 INSERT INTO TAW.cliente_rutina (id, cliente_id, rutina_id, vigente) VALUES 
-(1, 5, 1, b'1');
+(1, 7, 2, b'1');
 
 -- Insertar datos en la tabla comida
 INSERT INTO TAW.comida (id, nombre, descripcion) VALUES 
@@ -79,8 +79,8 @@ INSERT INTO TAW.grupo_muscular (id, grupo) VALUES
 (1, 'Pecho'),
 (2, 'Espalda'),
 (3, 'Hombro'),
-(4, 'Triceps'),
-(5, 'Biceps'),
+(4, 'Tricep'),
+(5, 'Bicep'),
 (6, 'Cuadricep'),
 (7, 'Aductor'),
 (8, 'Femoral'),
@@ -131,7 +131,7 @@ INSERT INTO TAW.entrenamiento (id, nombre, descripcion) VALUES
 -- Insertar datos en la tabla ejercicio_entrenamiento
 INSERT INTO TAW.ejercicio_entrenamiento (id, ejercicio_id, entrenamiento_id, desempeno_id, series, repeticiones, peso, tiempo, distancia, orden) VALUES 
 (1, 1, 1, 1, 3, 10, 70.0, NULL, NULL, 1),
-(5, 23, 2, 6, NULL, NULL, NULL, 3, 80, 1);
+(21, 23, 2, 6, NULL, NULL, NULL, 3, 80, 1);
 -- Empuje
 INSERT INTO TAW.ejercicio_entrenamiento (id, ejercicio_id, entrenamiento_id, desempeno_id, series, repeticiones, peso, tiempo, distancia, orden) VALUES 
 (2, 1, 12, 7, 4, 12, 60.0, NULL, NULL, 1),  -- Press de banca
@@ -187,5 +187,4 @@ INSERT INTO TAW.entrenamiento_rutina (id, entrenamiento_id, rutina_id, dia_seman
 (2, 12, 2, 1),
 (3, 13, 2, 3),
 (4, 14, 2, 5);
-
 
