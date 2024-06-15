@@ -244,11 +244,11 @@ public class AdminController {
     @GetMapping("/clientesDietistas")
     public String clientesDietistas(Model model) {
 
-        TipoUsuario tipoCliente = tipoUsuarioRepository.buscarPorID(5);
-        List<Usuario> clientes = usuarioRepository.buscarPorTipo(tipoCliente);
+        TipoUsuarioDTO tipoCliente = tipoUsuarioService.buscarRolPorId(5);
+        List<UsuarioDTO> clientes = usuarioService.sacarUsuariosPorTipo(tipoCliente);
 
-        TipoUsuario tipoDietista = tipoUsuarioRepository.buscarPorID(4);
-        List<Usuario> dietistas = usuarioRepository.buscarPorTipo(tipoDietista);
+        TipoUsuarioDTO tipoDietista = tipoUsuarioService.buscarRolPorId(4);
+        List<UsuarioDTO> dietistas = usuarioService.sacarUsuariosPorTipo(tipoDietista);
 
         model.addAttribute("clientes", clientes);
         model.addAttribute("dietistas", dietistas);
@@ -263,12 +263,12 @@ public class AdminController {
 
         //El control de si estos valores son nulos también podría hacerse con <Optional> y .isPresent()
         if (clienteId != null && dietistaId != null) {
-            Cliente cliente = clienteRepository.getClienteByUserId(clienteId);
-            Usuario dietista = usuarioRepository.buscarPorID(dietistaId);
+            ClienteDTO cliente = clienteService.getClienteByUserId(clienteId);
+            UsuarioDTO dietista = usuarioService.buscarUsuarioPorId(dietistaId);
 
             cliente.setDietista(dietista);
 
-            clienteRepository.save(cliente);
+            clienteService.guardarCliente(cliente);
         }
 
         return "redirect:/admin/clientesDietistas";

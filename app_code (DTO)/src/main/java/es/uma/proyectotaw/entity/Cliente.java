@@ -55,9 +55,15 @@ public class Cliente implements DTO<ClienteDTO> {
         clienteDTO.setAltura(this.altura);
         clienteDTO.setPeso(this.peso);
         clienteDTO.setEdad(this.edad);
-        clienteDTO.setEntrenador(this.entrenador.toDTO());
-        clienteDTO.setDieta(this.dieta.toDTO());
-        clienteDTO.setDietista(this.getDietista().toDTO());
+        if (this.entrenador != null) {  //Podría ser null
+            clienteDTO.setEntrenador(this.entrenador.toDTO());
+        }
+        if (this.dieta != null) {       //Podría ser null
+            clienteDTO.setDieta(this.dieta.toDTO());
+        }
+        if (this.dietista != null) {    //Podría ser null
+            clienteDTO.setDietista(this.getDietista().toDTO());
+        }
         clienteDTO.setUsuario(this.getUsuario().toDTO());
         return clienteDTO;
     }
