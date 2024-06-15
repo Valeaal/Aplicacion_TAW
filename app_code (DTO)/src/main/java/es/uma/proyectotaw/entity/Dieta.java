@@ -1,5 +1,9 @@
+//Autor: Álvaro Valencia Villalón
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.DTO;
+import es.uma.proyectotaw.dto.DietaDTO;
+import es.uma.proyectotaw.dto.UsuarioDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +16,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "dieta")
-public class Dieta {
+public class Dieta implements DTO<DietaDTO> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -37,5 +41,19 @@ public class Dieta {
 
     @Column(name = "calorias", nullable = false)
     private int calorias;
+
+    public DietaDTO toDTO(){
+        DietaDTO dto = new DietaDTO();
+        dto.setId(id);
+        dto.setDietista(dietista.toDTO());
+        dto.setNombre(nombre);
+        dto.setDescripcion(descripcion);
+        dto.setFecha(fecha);
+        //TODO: setDietas, depende de la implemtación de DietaComidaDTO, para más info ver DietaDTO
+        dto.setCalorias(calorias);
+        return dto;
+    }
+
+
 
 }

@@ -9,7 +9,7 @@ public class ClienteDTO {
     private Integer id;
     private UsuarioDTO usuario;
     private UsuarioDTO entrenador;
-    //private DietaDTO dieta;
+    private DietaDTO dieta;
     private Float peso;
     private Integer altura;
     private Integer edad;

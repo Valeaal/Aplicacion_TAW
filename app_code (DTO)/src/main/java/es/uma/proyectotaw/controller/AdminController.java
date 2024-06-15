@@ -2,6 +2,7 @@
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dao.*;
+import es.uma.proyectotaw.dto.ClienteDTO;
 import es.uma.proyectotaw.dto.TipoUsuarioDTO;
 import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.*;
@@ -44,6 +45,8 @@ public class AdminController {
     private TipoUsuarioService tipoUsuarioService;
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private ClienteService clienteService;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //GESTIÓN DE LOS USUARIOS
@@ -127,7 +130,7 @@ public class AdminController {
         List<TipoUsuarioDTO> rolesUsuarios = tipoUsuarioService.sacarRolesComleto();
 
         model.addAttribute("roles", rolesUsuarios);
-        model.addAttribute("usuario", adminService.buscarUsuarioPorId(inputUsr));
+        model.addAttribute("usuario", usuarioService.buscarUsuarioPorId(inputUsr));
 
         if (inputBoton.equals("Añadir")) {
             direccionRetorno = "administrador/nuevoUsuario";
@@ -147,7 +150,7 @@ public class AdminController {
                                     @RequestParam("inputApellidos") String inputApellidos, @RequestParam("inputNacimiento") LocalDate inputNacimiento,
                                     @RequestParam("inputIngreso") LocalDate inputIngreso, @RequestParam("inputRol") String inputRol){
 
-        UsuarioDTO usr = adminService.buscarUsuarioPorId(usuarioId);
+        UsuarioDTO usr = usuarioService.buscarUsuarioPorId(usuarioId);
         usr.setNombre(inputNombre);
         usr.setApellidos(inputApellidos);
         usr.setEmail(inputEmail);
@@ -223,12 +226,12 @@ public class AdminController {
 
         //El control de si estos valores son nulos también podría hacerse con <Optional> y .isPresent()
         if (clienteId != null && entrenadorId != null) {
-            Cliente cliente = clienteRepository.getClienteByUserId(clienteId);
-            Usuario entrenador = usuarioRepository.buscarPorID(entrenadorId);
+            ClienteDTO cliente = clienteService.getClienteByUserId(clienteId);
+            UsuarioDTO entrenador = usuarioService.buscarUsuarioPorId(entrenadorId);
 
             cliente.setEntrenador(entrenador);
 
-            clienteRepository.save(cliente);
+            clienteService.guardarCliente(cliente);
         }
 
         return "redirect:/admin/clientesEntrenadores";

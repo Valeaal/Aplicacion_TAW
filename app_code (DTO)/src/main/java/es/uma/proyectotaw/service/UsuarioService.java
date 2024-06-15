@@ -33,4 +33,13 @@ public class UsuarioService extends DTOService<UsuarioDTO, Usuario>{
 
     };
 
+    public UsuarioDTO buscarUsuarioPorId(Integer id){
+        if (id == null) {
+            return null;
+        } else{
+            Usuario usr = usuarioRepository.findById(id).orElse(null);
+            return usr.toDTO();
+        }
+    }
+
 }

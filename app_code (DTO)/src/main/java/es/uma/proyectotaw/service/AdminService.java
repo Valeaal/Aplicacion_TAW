@@ -62,15 +62,6 @@ public class AdminService {
         return usuariosDTO;
     }
 
-    public UsuarioDTO buscarUsuarioPorId(Integer id){
-        if (id == null) {
-            return null;
-        } else{
-            Usuario usr = usuarioRepository.findById(id).orElse(null);
-            return usr.toDTO();
-        }
-    }
-
     public void eliminarUsuario(Integer id){
         usuarioRepository.deleteById(id);
     }
