@@ -1,3 +1,5 @@
+//Autor: Álvaro Valencia Villalón
+//Quien sea que use esto también que ajuste el porcentaje porfi
 package es.uma.proyectotaw.dao;
 
 import es.uma.proyectotaw.entity.*;
@@ -42,11 +44,11 @@ public interface EjercicioRepository extends JpaRepository <Ejercicio, Integer> 
     //Gracias al uso del "or is null" hacemos que los parámetros pasados nulos no afecten a la búsqueda, y así no hay que crear
     //una consulta de búsqueda por cada combinación posible de parámetros
     @Query("select e from Ejercicio e where (e.nombre like concat('%', :inputNombre, '%'))" +
-            "and ((:inputTipo is null) or e.tipo = :inputTipo)" +
-            "and ((:inputGrupo is null) or e.grupoMuscular = :inputGrupo)")
+            "and ((:inputTipo is null) or e.tipo.id = :inputTipo)" +
+            "and ((:inputGrupo is null) or e.grupoMuscular.id = :inputGrupo)")
     public List<Ejercicio> filtrarEjercicios (@Param("inputNombre") String inputNombre,
-                                              @Param("inputTipo") TipoEjercicio inputTipo,
-                                              @Param("inputGrupo") GrupoMuscular inputGrupo);
+                                              @Param("inputTipo") Integer inputTipo,
+                                              @Param("inputGrupo") Integer inputGrupo);
 
     @Query("select e from Ejercicio e where e.nombre = :ejercicioString")
     public Ejercicio buscarPorString (@Param("ejercicioString") String ejercicioString);

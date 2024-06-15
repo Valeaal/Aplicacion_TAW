@@ -2,9 +2,7 @@
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dao.*;
-import es.uma.proyectotaw.dto.ClienteDTO;
-import es.uma.proyectotaw.dto.TipoUsuarioDTO;
-import es.uma.proyectotaw.dto.UsuarioDTO;
+import es.uma.proyectotaw.dto.*;
 import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.entity.Usuario;
 import es.uma.proyectotaw.service.*;
@@ -47,6 +45,12 @@ public class AdminController {
     private UsuarioService usuarioService;
     @Autowired
     private ClienteService clienteService;
+    @Autowired
+    private TipoEjercicioService tipoEjercicioService;
+    @Autowired
+    private GrupoMuscularService grupoMuscularService;
+    @Autowired
+    private EjercicioService ejercicioService;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //GESTIÓN DE LOS USUARIOS
@@ -281,14 +285,14 @@ public class AdminController {
     public String ejercicios(Model model) {
 
         //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO ------------//
-        List <TipoEjercicio> tiposEjercicio = tipoEjercicioRepository.findAll();
-        List <GrupoMuscular> gruposMusculares = grupoMuscularRepository.findAll();
+        List <TipoEjercicioDTO> tiposEjercicio = tipoEjercicioService.findAll();
+        List <GrupoMuscularDTO> gruposMusculares = grupoMuscularService.findAll();
 
         model.addAttribute("tiposEjercicio", tiposEjercicio);
         model.addAttribute("gruposMusculares", gruposMusculares);
 
         //------------ PARA RELLENAR LA TABLA DE USUARIOS (sin filtro)------------//
-        List<Ejercicio> ejerciciosCompleto = ejercicioRepository.findAll();
+        List<EjercicioDTO> ejerciciosCompleto = ejercicioService.findAll();
         model.addAttribute("ejercicios", ejerciciosCompleto);
 
         return "/administrador/ejercicios";
@@ -299,8 +303,8 @@ public class AdminController {
                                    @RequestParam("StringTipo") String StringTipo, Model model) {
 
         //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO ------------//
-        List <TipoEjercicio> tiposEjercicio = tipoEjercicioRepository.findAll();
-        List <GrupoMuscular> gruposMusculares = grupoMuscularRepository.findAll();
+        List <TipoEjercicioDTO> tiposEjercicio = tipoEjercicioService.findAll();
+        List <GrupoMuscularDTO> gruposMusculares = grupoMuscularService.findAll();
 
         model.addAttribute("tiposEjercicio", tiposEjercicio);
         model.addAttribute("gruposMusculares", gruposMusculares);
@@ -308,22 +312,22 @@ public class AdminController {
         //------------ PARA RELLENAR LA TABLA (con filtros)------------//
 
         //Para controlar si hemos introducido el dato, ponemos o no a null. Luego esto se maneja en la consulta
-        GrupoMuscular inputGrupo;
+        Integer inputGrupo;
         if(StringGrupo.equals("Selecciona Grupo Muscular") ){
             inputGrupo = null;
         } else {
-            inputGrupo = grupoMuscularRepository.buscarPorString(StringGrupo);
+            inputGrupo = grupoMuscularService.buscarPorString(StringGrupo);
         }
 
         //Para controlar si hemos introducido el dato, ponemos o no a null. Luego esto se maneja en la consulta
-        TipoEjercicio inputTipo;
+        Integer inputTipo;
         if(StringTipo.equals("Selecciona Tipo de Ejercicio") ){
             inputTipo = null;
         } else {
-            inputTipo = tipoEjercicioRepository.buscarPorString(StringTipo);
+            inputTipo = tipoEjercicioService.buscarPorString(StringTipo);
         }
 
-        List<Ejercicio> ejerciciosFiltrado = ejercicioRepository.filtrarEjercicios(inputNombre, inputTipo, inputGrupo);
+        List<EjercicioDTO> ejerciciosFiltrado = ejercicioService.filtrarEjercicios(inputNombre, inputTipo, inputGrupo);
         model.addAttribute("ejercicios", ejerciciosFiltrado);
 
         return "administrador/ejercicios";

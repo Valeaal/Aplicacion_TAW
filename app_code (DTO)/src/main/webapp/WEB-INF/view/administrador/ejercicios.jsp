@@ -1,14 +1,16 @@
+<!-- Autor: Álvaro Valencia Villalón -->
 <%@ page import="java.util.*" %>
 <%@ page import="es.uma.proyectotaw.entity.*" %>
+<%@ page import="es.uma.proyectotaw.dto.EjercicioDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.TipoEjercicioDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.GrupoMuscularDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!-- Autor: Álvaro Valencia Villalón -->
-
 
 <%
-    List<Ejercicio> Ejercicios = (List<Ejercicio>) request.getAttribute("ejercicios");
-    List<TipoEjercicio> TiposEjercicio = (List<TipoEjercicio>) request.getAttribute("tiposEjercicio");
-    List<GrupoMuscular> GruposMusculares = (List<GrupoMuscular>) request.getAttribute("gruposMusculares");
+    List<EjercicioDTO> Ejercicios = (List<EjercicioDTO>) request.getAttribute("ejercicios");
+    List<TipoEjercicioDTO> TiposEjercicio = (List<TipoEjercicioDTO>) request.getAttribute("tiposEjercicio");
+    List<GrupoMuscularDTO> GruposMusculares = (List<GrupoMuscularDTO>) request.getAttribute("gruposMusculares");
 %>
 
 <html lang="es">
@@ -90,12 +92,22 @@
                     </thead>
                     <tbody>
                     <!-- Aquí se pueden agregar filas dinámicamente con datos -->
-                    <% for (Ejercicio ejr : Ejercicios) { %>
+                    <% for (EjercicioDTO ejr : Ejercicios) { %>
                     <tr>
                         <td><input type="radio" name="eSeleccionado" value= "<%= ejr.getId() %>" ></td>
                         <td><%= ejr.getNombre()%></td>
                         <td><%= ejr.getDescripcion()%></td>
-                        <td><%= ejr.getGrupoMuscular().getGrupo()%></td>
+                        <%
+                            if (ejr.getGrupoMuscular() == null){
+                        %>
+                            <td> - </td>
+                        <%
+                            } else{
+                        %>
+                                <td><%= ejr.getGrupoMuscular().getGrupo()%></td>
+                        <%
+                            }
+                        %>
                         <td><%= ejr.getTipo().getTipo()%></td>
                     </tr>
                     <% } %>

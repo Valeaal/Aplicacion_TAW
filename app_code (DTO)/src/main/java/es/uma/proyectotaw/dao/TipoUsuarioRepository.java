@@ -1,3 +1,5 @@
+//Autor: Álvaro Valencia Villalón
+//Quien sea que use esto también que ajuste el porcentaje porfi
 package es.uma.proyectotaw.dao;
 
 import es.uma.proyectotaw.entity.*;

@@ -49,9 +49,15 @@ public class Ejercicio implements DTO<EjercicioDTO>{
         ejercicioDTO.setId(id);
         ejercicioDTO.setNombre(nombre);
         ejercicioDTO.setTipo(this.tipo.toDTO());
-        ejercicioDTO.setDescripcion(descripcion);
-        ejercicioDTO.setUrlVideo(urlVideo);
-        ejercicioDTO.setGrupoMuscular(grupoMuscular.toDTO());
+        if (descripcion != null) {          ////Podría ser null
+            ejercicioDTO.setDescripcion(descripcion);
+        }
+        if (urlVideo != null) {             //Podría ser null
+            ejercicioDTO.setUrlVideo(urlVideo);
+        }
+        if (grupoMuscular != null) {        //Podría ser null
+            ejercicioDTO.setGrupoMuscular(grupoMuscular.toDTO());
+        }
 
         // Instancia de DTOService (EjercicioEntrenamientoService), que nos proporciona la posibilidad convertir el conjunto a dto
         EjercicioEntrenamientoService dtoService = new EjercicioEntrenamientoService();

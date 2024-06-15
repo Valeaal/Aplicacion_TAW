@@ -26,8 +26,7 @@ public class UsuarioService extends DTOService<UsuarioDTO, Usuario>{
             return null;
         } else{
             List<Usuario> usuarioEntity = usuarioRepository.buscarPorTipo(tipoEntity);
-            UsuarioService usuarioService = new UsuarioService(); // Instancia de DTOService que nos proporciona la posibilidad convertir el conjunto a dto
-            List<UsuarioDTO> usuariosDTO = usuarioService.entidadesADTO(usuarioEntity);
+            List<UsuarioDTO> usuariosDTO = this.entidadesADTO(usuarioEntity);
             return usuariosDTO;
         }
 
