@@ -42,6 +42,8 @@ public class AdminController {
     private AdminService adminService;
     @Autowired
     private TipoUsuarioService tipoUsuarioService;
+    @Autowired
+    private UsuarioService usuarioService;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //GESTIÓN DE LOS USUARIOS
@@ -53,7 +55,7 @@ public class AdminController {
         //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO ------------//
         List<Integer> edades = adminService.sacarEdades();
         List<Integer> ingresos = adminService.sacarIngresos();
-        List<TipoUsuarioDTO> rolesUsuarios = adminService.sacarRoles();
+        List<TipoUsuarioDTO> rolesUsuarios = tipoUsuarioService.sacarRoles();
 
         model.addAttribute("edades", edades);
         model.addAttribute("ingresos", ingresos);
@@ -74,7 +76,7 @@ public class AdminController {
         //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO (igual que en /usuarios)------------//
         List<Integer> edades = adminService.sacarEdades();
         List<Integer> ingresos = adminService.sacarIngresos();
-        List<TipoUsuarioDTO> rolesUsuarios = adminService.sacarRoles();
+        List<TipoUsuarioDTO> rolesUsuarios = tipoUsuarioService.sacarRoles();
 
         model.addAttribute("edades", edades);
         model.addAttribute("ingresos", ingresos);
@@ -105,7 +107,7 @@ public class AdminController {
         if( StringRol.equals("Selecciona Rol") ){
             inputRol = null;
         } else {
-            inputRol = adminService.buscarRolPorString(StringRol);
+            inputRol = tipoUsuarioService.buscarRolPorString(StringRol);
         }
 
         List<UsuarioDTO> usuariosFiltrado = adminService.filtrarUsuarios(inputNombre, inputApellidos, inputEdad, inputIngreso, inputRol);
@@ -122,7 +124,7 @@ public class AdminController {
         //Independientemente si se selecciona o no un usuario y se pulsa añadir un usuario, llevará a la página correspondiente.
         String direccionRetorno = "redirect:/admin/usuarios";
 
-        List<TipoUsuarioDTO> rolesUsuarios = adminService.sacarRolesComleto();
+        List<TipoUsuarioDTO> rolesUsuarios = tipoUsuarioService.sacarRolesComleto();
 
         model.addAttribute("roles", rolesUsuarios);
         model.addAttribute("usuario", adminService.buscarUsuarioPorId(inputUsr));
@@ -151,7 +153,7 @@ public class AdminController {
         usr.setEmail(inputEmail);
         usr.setFechaNacimiento(inputNacimiento);
         usr.setPerteneceDesde(inputIngreso);
-        Integer nuevoRolId = adminService.buscarRolPorString(inputRol);
+        Integer nuevoRolId = tipoUsuarioService.buscarRolPorString(inputRol);
         TipoUsuarioDTO nuevoRol = tipoUsuarioService.buscarRolPorId(nuevoRolId);
         usr.setTipoUsuario(nuevoRol);
         //En principio no consideramos que el administrador pueda cambiar la contraseña del usuario no?
@@ -178,7 +180,7 @@ public class AdminController {
         nuevoUsuario.setFechaNacimiento(inputNacimiento);
         nuevoUsuario.setPerteneceDesde(inputIngreso);
         nuevoUsuario.setPassword(inputContraseña);
-        Integer nuevoRolId = adminService.buscarRolPorString(inputRol);
+        Integer nuevoRolId = tipoUsuarioService.buscarRolPorString(inputRol);
         TipoUsuarioDTO nuevoRol = tipoUsuarioService.buscarRolPorId(nuevoRolId);
         nuevoUsuario.setTipoUsuario(nuevoRol);
 
@@ -195,16 +197,16 @@ public class AdminController {
     @GetMapping("/clientesEntrenadores")
     public String clientesEntrenadores(Model model) {
 
-        TipoUsuario tipoCliente = tipoUsuarioRepository.buscarPorID(5);
-        List<Usuario> clientes = usuarioRepository.buscarPorTipo(tipoCliente);
+        TipoUsuarioDTO tipoCliente = tipoUsuarioService.buscarRolPorId(5);
+        List<UsuarioDTO> clientes = usuarioService.sacarUsuariosPorTipo(tipoCliente);
 
-        TipoUsuario tipoBodubuilder = tipoUsuarioRepository.buscarPorID(2);
-        List<Usuario> bodybuilders = usuarioRepository.buscarPorTipo(tipoBodubuilder);
+        TipoUsuarioDTO tipoBodubuilder = tipoUsuarioService.buscarRolPorId(2);
+        List<UsuarioDTO> bodybuilders = usuarioService.sacarUsuariosPorTipo(tipoBodubuilder);
 
-        TipoUsuario tipoCrosstrainer = tipoUsuarioRepository.buscarPorID(3);
-        List<Usuario> crosstrainers = usuarioRepository.buscarPorTipo(tipoCrosstrainer);
+        TipoUsuarioDTO tipoCrosstrainer = tipoUsuarioService.buscarRolPorId(3);
+        List<UsuarioDTO> crosstrainers = usuarioService.sacarUsuariosPorTipo(tipoCrosstrainer);
 
-        List<Usuario> entrenadores = new ArrayList<>();
+        List<UsuarioDTO> entrenadores = new ArrayList<>();
         entrenadores.addAll(bodybuilders);
         entrenadores.addAll(crosstrainers);
 

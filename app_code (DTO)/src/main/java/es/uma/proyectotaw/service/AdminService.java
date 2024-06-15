@@ -48,13 +48,6 @@ public class AdminService {
         return ingresos;
     }
 
-    public List<TipoUsuarioDTO> sacarRoles(){
-        List<TipoUsuario> roles = usuarioRepository.sacarRoles();
-        TipoUsuarioService tipoService = new TipoUsuarioService(); // Instancia de DTOService que nos proporciona la posibilidad convertir la lista a dto
-        List<TipoUsuarioDTO> rolesDTO = tipoService.entidadesADTO(roles);
-        return rolesDTO;
-    }
-
     public List<UsuarioDTO> sacarUsuarios(){
         List <Usuario> usuarios = usuarioRepository.findAll();
         UsuarioService usuarioService = new UsuarioService(); // Instancia de DTOService que nos proporciona la posibilidad convertir el conjunto a dto
@@ -62,22 +55,11 @@ public class AdminService {
         return usuariosDTO;
     }
 
-    public int buscarRolPorString(String rol){
-        return tipoUsuarioRepository.buscarPorString(rol);
-    }
-
     public List<UsuarioDTO> filtrarUsuarios(String nombre, String apellidos, Integer edad, Integer ingreso, Integer rol){
         List <Usuario> usuarios = usuarioRepository.filtrarUsuarios(nombre, apellidos, edad, ingreso, rol);
         UsuarioService usuarioService = new UsuarioService(); // Instancia de DTOService que nos proporciona la posibilidad convertir el conjunto a dto
         List<UsuarioDTO> usuariosDTO = usuarioService.entidadesADTO(usuarios);
         return usuariosDTO;
-    }
-
-    public List<TipoUsuarioDTO> sacarRolesComleto(){
-        List<TipoUsuario> roles = tipoUsuarioRepository.findAll();
-        TipoUsuarioService tipoService = new TipoUsuarioService();
-        List<TipoUsuarioDTO> rolesDTO = tipoService.entidadesADTO(roles);
-        return rolesDTO;
     }
 
     public UsuarioDTO buscarUsuarioPorId(Integer id){
@@ -112,6 +94,8 @@ public class AdminService {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //ASIGNACIÓN DE CLIENTES A ENTRENADORES
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 
 

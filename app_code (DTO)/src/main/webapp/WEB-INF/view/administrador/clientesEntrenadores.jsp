@@ -1,11 +1,12 @@
 <%@ page import="java.util.*" %>
 <%@ page import="es.uma.proyectotaw.entity.Usuario" %>
+<%@ page import="es.uma.proyectotaw.dto.UsuarioDTO" %>
 <!-- Autor: Álvaro Valencia Villalón -->
 
 
 <%
-    List<Usuario> clientes = (List<Usuario>) request.getAttribute("clientes");
-    List<Usuario> entrenadores = (List<Usuario>) request.getAttribute("entrenadores");
+    List<UsuarioDTO> clientes = (List<UsuarioDTO>) request.getAttribute("clientes");
+    List<UsuarioDTO> entrenadores = (List<UsuarioDTO>) request.getAttribute("entrenadores");
 %>
 
 
@@ -50,7 +51,7 @@
                         </thead>
                         <tbody>
 
-                        <% for (Usuario usr : clientes) { %>
+                        <% for (UsuarioDTO usr : clientes) { %>
                         <tr>
                             <td><input type="radio" name="clienteSeleccionado" value="<%= usr.getId()%>"></td>
                             <td><%= usr.getNombre()%>
@@ -87,7 +88,7 @@
                         </thead>
                         <tbody>
                         <!-- Aquí se pueden agregar filas dinámicamente con datos -->
-                        <% for (Usuario usr : entrenadores) { %>
+                        <% for (UsuarioDTO usr : entrenadores) { %>
                         <tr>
                             <td><input type="radio" name="entrenadorSeleccionado" value="<%= usr.getId()%>"></td>
                             <td><%= usr.getNombre()%>
