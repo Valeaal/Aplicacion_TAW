@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-// creado por: Alba de la Torre
+// autor: Alba de la Torre
 
 @Controller
 public class ClienteController {
@@ -394,6 +394,20 @@ public class ClienteController {
         model.addAttribute("dietas", dieta);
         model.addAttribute("cumplimiento", cumplimiento);
         return "/cliente/dietaDesempenyoFiltrada";
+    }
+
+    @GetMapping("/eliminarDesempeno")
+    public String eliminarDesempeno(@RequestParam("id") Integer id,
+                                    @RequestParam("clientId") Integer clientId,
+                                    @RequestParam("entrenamientoId") Integer entrenamientoId,
+                                    Model model){
+        Cliente c = clienteRepository.getReferenceById(clientId);
+        EjercicioEntrenamiento ee = ejercicioEntrenamientoRepository.getEjercicioEntrenamientoFromEjAndEntrenamientoId(id, entrenamientoId);
+        Desempeno d = ee.getDesempeno();
+        ee.setDesempeno(null);
+        ejercicioEntrenamientoRepository.saveAndFlush(ee);
+        desempenoRepository.delete(d);
+        return "redirect:/rutina?id="+ c.getUsuario().getId();
     }
 
 

@@ -1,6 +1,7 @@
 package es.uma.proyectotaw.ui;
 
 import java.time.LocalDate;
+// autor: Alba de la Torre
 
 public class RutinaFiltro {
     Integer clienteId;

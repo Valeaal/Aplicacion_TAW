@@ -1,5 +1,6 @@
 package es.uma.proyectotaw.ui;
 
+// autor: Alba de la Torre
 public class ComidaDesempenyo {
     private Integer cliente;
 

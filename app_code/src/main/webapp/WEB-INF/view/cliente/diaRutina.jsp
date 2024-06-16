@@ -32,6 +32,7 @@
             <th>Repeticiones</th>
             <th>Peso</th>
             <th>Valoración</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -56,10 +57,12 @@
                 if(realizado == 0){
             %>
             <td><a href="/desempeno?id=<%=ejercicio.getId()%>&clientId=<%=clientId%>&entrenamientoId=<%=entrenamientoId%>" class="btn btn-primary">Valorar</a></td>
+            <td></td>
             <%
                 } else {
             %>
             <td><a href="/verDesempeno?id=<%=ejercicio.getId()%>&clientId=<%=clientId%>&entrenamientoId=<%=entrenamientoId%>" class="btn btn-primary">Ver valoración</a></td>
+            <td><a href="/eliminarDesempeno?id=<%=ejercicio.getId()%>&clientId=<%=clientId%>&entrenamientoId=<%=entrenamientoId%>" class="btn btn-primary">Eliminar valoración</a></td>
 
             <%
                 }

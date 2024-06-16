@@ -22,8 +22,8 @@ public class EjercicioEntrenamiento {
     @JoinColumn(name = "entrenamiento_id", nullable = false)
     private Entrenamiento entrenamiento;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "desempeno_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "desempeno_id")
     private Desempeno desempeno;
 
     @Column(name = "series", nullable = false)
