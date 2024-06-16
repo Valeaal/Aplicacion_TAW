@@ -48,6 +48,8 @@
                     } else {
                     %>
                     <a href="/verDietaDesempeno?id=<%=cm.getMenu().getId()%>&comidaId=<%=comida.getId()%>&clientId=<%=client.getId()%>" class="btn btn-secondary">Ver valoración</a>
+                    <td><a href="/eliminarDesempenoMenu?id=<%=cm.getMenu().getId()%>&clientId=<%=client.getId()%>&comidaId=<%=cm.getComida().getId()%>" class="btn btn-primary">Eliminar valoración</a></td>
+
                     <%
                         }
                     %>

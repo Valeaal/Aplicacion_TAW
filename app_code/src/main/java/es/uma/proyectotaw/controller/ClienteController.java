@@ -226,8 +226,8 @@ public class ClienteController {
         Cliente client = clienteRepository.getReferenceById(clientId);
         Set<ComidaMenu> menus =  comida.getMenus();
         HashMap <Integer, Integer> desempenyo = new HashMap();
-        int realizado = 1;
         for(ComidaMenu menu : menus){
+            int realizado = 1;
             if(menu.getDesempeno()==null){
                 realizado = 0;
             }
@@ -408,6 +408,20 @@ public class ClienteController {
         ejercicioEntrenamientoRepository.saveAndFlush(ee);
         desempenoRepository.delete(d);
         return "redirect:/rutina?id="+ c.getUsuario().getId();
+    }
+
+    @GetMapping("/eliminarDesempenoMenu")
+    public String eliminarDesempenoMenu(@RequestParam("id") Integer id,
+                                    @RequestParam("clientId") Integer clientId,
+                                    @RequestParam("comidaId") Integer comidaId,
+                                    Model model){
+        Cliente c = clienteRepository.getReferenceById(clientId);
+        ComidaMenu cm = comidaMenuRepository.getcomidaMenuByMenuAndComidaId(id, comidaId);
+        Desempeno d = cm.getDesempeno();
+        cm.setDesempeno(null);
+        comidaMenuRepository.saveAndFlush(cm);
+        desempenoRepository.delete(d);
+        return "redirect:/menu?id="+ c.getUsuario().getId();
     }
 
 

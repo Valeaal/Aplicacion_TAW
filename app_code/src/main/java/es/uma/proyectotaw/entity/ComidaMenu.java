@@ -22,8 +22,8 @@ public class ComidaMenu {
     @JoinColumn(name = "menu_id", nullable = false)
     private Menu menu;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "desempeno_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "desempeno_id")
     private Desempeno desempeno;
 
 }
