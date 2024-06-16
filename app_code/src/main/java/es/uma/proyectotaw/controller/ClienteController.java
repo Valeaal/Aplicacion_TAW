@@ -111,6 +111,17 @@ public class ClienteController {
         return (res/e.getEjercicios().size())*100;
     }
 
+    private float calcularCumplimientoDieta(Integer id) {
+        float res = 0;
+        Comida c = comidaRepository.getReferenceById(id);
+        for(ComidaMenu cm : c.getMenus()){
+            if(cm.getDesempeno()!=null){
+                res++;
+            }
+        }
+        return (res/c.getMenus().size())*100;
+    }
+
     @GetMapping("/menu")
     public String menu(@RequestParam("id") Integer id, Model model){
         Cliente client = clienteRepository.getClienteByUserId(id);
@@ -122,6 +133,7 @@ public class ClienteController {
         model.addAttribute("comidas", comidas);
         model.addAttribute("comidaFiltro", new ComidaFiltro());
         model.addAttribute("client", client);
+        model.addAttribute("desempenyoFiltro", new DesempenyoFiltro());
         return "cliente/menu";
     }
 
@@ -296,13 +308,13 @@ public class ClienteController {
         return "/cliente/rutinaFiltrada";
     }
 
-    @PostMapping("/filtrarComida")
-    public String comidaFiltrada(@ModelAttribute("comidaFiltro") ComidaFiltro comidaFiltro, Model model){
-        Set<DietaComida> comidaFiltrada = comidaDietaRepository.getComidaDietaByMomentoDiaYNombre(comidaFiltro.getNombre(), comidaFiltro.getMomentoDia());
-        model.addAttribute("dietaComidas", comidaFiltrada);
-        model.addAttribute("comidaFiltro", new ComidaFiltro());
-        return "/cliente/menu";
-    }
+//    @PostMapping("/filtrarComida")
+//    public String comidaFiltrada(@ModelAttribute("comidaFiltro") ComidaFiltro comidaFiltro, Model model){
+//        Set<DietaComida> comidaFiltrada = comidaDietaRepository.getComidaDietaByMomentoDiaYNombre(comidaFiltro.getNombre(), comidaFiltro.getMomentoDia());
+//        model.addAttribute("dietaComidas", comidaFiltrada);
+//        model.addAttribute("comidaFiltro", new ComidaFiltro());
+//        return "/cliente/menu";
+//    }
 
     @PostMapping("/filtrarRutinaDesempenyo")
     public String filtrarRutinaDesempenyo(@ModelAttribute("desempenyoFiltro") DesempenyoFiltro filtro, Model model){
@@ -328,7 +340,7 @@ public class ClienteController {
             for(Entrenamiento e : entrenamientos){
                 desempenyoTotal += calcularCumplimiento(e.getId());
             }
-            desempenyoTotal = desempenyoTotal/rutina.size();
+            desempenyoTotal = desempenyoTotal/entrenamientos.size();
             cumplimiento.put(r.getId(), desempenyoTotal);
             if(desempenyoTotal <= upperBound && desempenyoTotal >= lowerBound){
                 rutinasFiltradas.add(r);
@@ -342,6 +354,46 @@ public class ClienteController {
         model.addAttribute("rutinas", rutina);
         model.addAttribute("cumplimiento", cumplimiento);
         return "/cliente/rutinaDesempenyoFiltrada";
+    }
+
+    @PostMapping("/filtrarDietaDesempenyo")
+    public String filtrarDietaDesempenyo(@ModelAttribute("desempenyoFiltro") DesempenyoFiltro filtro, Model model){
+        Cliente client = clienteRepository.getClienteByUserId(filtro.getIdCliente());
+        List<Dieta> dieta = dietaRepository.getDietaByClientId(filtro.getIdCliente());
+        List<Dieta> dietasFiltradas = new ArrayList<>();
+        HashMap<Integer, Float> cumplimiento = new HashMap<>();
+        int upperBound = 0;
+        int lowerBound = 0;
+        if(filtro.getDesempenyo().equals("Alto")){
+            upperBound = 100;
+            lowerBound = 70;
+        } else if(filtro.getDesempenyo().equals("Medio")){
+            upperBound = 69;
+            lowerBound = 30;
+        } else if(filtro.getDesempenyo().equals("Bajo")){
+            upperBound = 29;
+            lowerBound = 0;
+        }
+        float desempenyoTotal = 0;
+        for(Dieta d : dieta){
+            List<Comida> comidas = comidaRepository.findByDietaId(d.getId());
+            for(Comida c : comidas){
+                desempenyoTotal += calcularCumplimientoDieta(c.getId());
+            }
+            desempenyoTotal = desempenyoTotal/comidas.size();
+            cumplimiento.put(d.getId(), desempenyoTotal);
+            if(desempenyoTotal <= upperBound && desempenyoTotal >= lowerBound){
+                dietasFiltradas.add(d);
+                dieta.remove(d);
+                if(dieta.isEmpty()){
+                    break;
+                }
+            }
+        }
+        model.addAttribute("dietasFiltradas", dietasFiltradas);
+        model.addAttribute("dietas", dieta);
+        model.addAttribute("cumplimiento", cumplimiento);
+        return "/cliente/dietaDesempenyoFiltrada";
     }
 
 

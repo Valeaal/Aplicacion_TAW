@@ -33,6 +33,8 @@ public interface DietaRepository extends JpaRepository<Dieta, Integer> {
             "(d.calorias >= 3000 AND :calorias = 7))")
     List<Dieta> getDietasFiltradas(String nombre, Integer calorias);
 
+    @Query("SELECT d.dieta FROM Cliente d WHERE d.id=:id")
+    List<Dieta> getDietaByClientId(Integer id);
 
 
 
