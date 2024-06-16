@@ -8,5 +8,4 @@ public class GrupoMuscularDTO{
 
     private Integer id;
     private String grupo;
-
 }

@@ -2,12 +2,14 @@
 package es.uma.proyectotaw.dto;
 
 import es.uma.proyectotaw.entity.Entrenamiento;
+import jakarta.persistence.Id;
 import lombok.Data;
 
 import java.util.Set;
 
 @Data
 public class EjercicioDTO {
+
 
     private Integer id;
     private String nombre;

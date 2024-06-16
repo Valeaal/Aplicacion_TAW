@@ -22,7 +22,7 @@
 <div class="container">
     <h2 class="my-4">Crear un ejercicio</h2>
 
-    <form:form modelAttribute="ejercicio" action="/admin/ejercicios/guardar" method="post">
+    <form:form modelAttribute="ejercicioDTO" action="/admin/ejercicios/guardar" method="post">
 
         <form:hidden path="id" />
 
@@ -42,13 +42,13 @@
         </div>
 
         <div class="mb-3">
-            <form:label class="form-label" path="tipo">Tipo de ejercicio:</form:label>
-            <form:select class="form-select" path="tipo" items="${tiposEjercicio}" itemLabel="tipo" itemValue="id" />
+            <form:label class="form-label" path="tipo.id">Tipo de ejercicio:</form:label>
+            <form:select class="form-select" path="tipo.id" items="${tiposEjercicio}" itemLabel="tipo" itemValue="id"/>
         </div>
 
         <div class="mb-3">
-            <form:label class="form-label" path="grupoMuscular">Grupo Muscular:</form:label>
-            <form:select class="form-select" path="grupoMuscular" items="${gruposMusculares}" itemLabel="grupo" itemValue="id" />
+            <form:label class="form-label" path="grupoMuscular.id">Grupo Muscular:</form:label>
+            <form:select class="form-select" path="grupoMuscular.id" items="${gruposMusculares}" itemLabel="grupo" itemValue="id"/>
         </div>
 
         <!-- Botón de enviar -->
