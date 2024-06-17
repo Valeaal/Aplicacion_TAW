@@ -19,8 +19,5 @@ public class EjercicioDTO {
     private GrupoMuscularDTO grupoMuscular;
     private Set<EjercicioEntrenamientoDTO> entrenamientos;
 
-    //Es posible que por ejemplo tipo de ejercicio tengamos que cambiarlo
-    //de Integer (ID) a TipoEjercicioDTO, igual con grupomuscular etc
-
 
 }

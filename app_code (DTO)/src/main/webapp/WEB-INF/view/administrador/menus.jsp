@@ -1,12 +1,12 @@
+<!-- Autor: Álvaro Valencia Villalón -->
 <%@ page import="java.util.*" %>
 <%@ page import="es.uma.proyectotaw.entity.*" %>
+<%@ page import="es.uma.proyectotaw.dto.MenuDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!-- Autor: Álvaro Valencia Villalón -->
-
 
 <%
-    List<Menu> Menus = (List<Menu>) request.getAttribute("menus");
+    List<MenuDTO> Menus = (List<MenuDTO>) request.getAttribute("menus");
 %>
 
 <html lang="es">
@@ -60,7 +60,7 @@
                     </thead>
                     <tbody>
                     <!-- Aquí se pueden agregar filas dinámicamente con datos -->
-                    <% for (Menu m : Menus) { %>
+                    <% for (MenuDTO m : Menus) { %>
                     <tr>
                         <td><input type="radio" name="mSeleccionado" value= "<%= m.getId() %>" ></td>
                         <td><%= m.getNombre()%></td>
