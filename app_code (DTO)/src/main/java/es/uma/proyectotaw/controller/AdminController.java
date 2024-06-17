@@ -353,7 +353,7 @@ public class AdminController {
             direccionRetorno = "administrador/nuevoEjercicio";
         } else if (inputEj != null){
             if (inputBoton.equals("Eliminar")){
-                ejercicioRepository.deleteById(inputEj);
+                ejercicioService.deleteById(inputEj);
             } else if (inputBoton.equals("Modificar")){
                 Ejercicio ejercicio = ejercicioRepository.getById(inputEj);
                 model.addAttribute("ejercicio", ejercicio);

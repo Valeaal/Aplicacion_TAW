@@ -53,4 +53,8 @@ public class EjercicioService extends DTOService<EjercicioDTO, Ejercicio>{
 
         ejercicioRepository.save(ejercicio);
     }
+
+    public void deleteById(Integer ejercicioId) {
+        ejercicioRepository.deleteById(ejercicioId);
+    }
 }
