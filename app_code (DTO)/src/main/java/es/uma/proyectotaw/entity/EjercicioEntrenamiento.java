@@ -1,5 +1,7 @@
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.DTO;
+import es.uma.proyectotaw.dto.EjercicioEntrenamientoDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,5 +45,20 @@ public class EjercicioEntrenamiento {
 
     @Column(name = "orden", nullable = false)
     private Integer orden;
+
+    public EjercicioEntrenamientoDTO toDTO() {
+        EjercicioEntrenamientoDTO dto = new EjercicioEntrenamientoDTO();
+        dto.setId(id);
+        dto.setEjercicio(ejercicio.getId());
+        //dto.setEntrenamiento(entrenamiento.toDTO());
+        //dto.setDesempeno(desempeno.toDTO());
+        dto.setSeries(series);
+        dto.setRepeticiones(repeticiones);
+        dto.setPeso(peso);
+        dto.setTiempo(tiempo);
+        dto.setDistancia(distancia);
+        dto.setOrden(orden);
+        return dto;
+    }
 
 }
