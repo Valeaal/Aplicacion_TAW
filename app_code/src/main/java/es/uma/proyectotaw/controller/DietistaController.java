@@ -2,10 +2,7 @@ package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dao.*;
 import es.uma.proyectotaw.entity.*;
-import es.uma.proyectotaw.ui.ComidasDieta;
-import es.uma.proyectotaw.ui.FiltroDietas;
-import es.uma.proyectotaw.ui.NuevaDieta;
-import es.uma.proyectotaw.ui.SeguimientoDietasCliente;
+import es.uma.proyectotaw.ui.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +28,8 @@ public class DietistaController {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private Dieta_ComidaRepository dietaComidaRepository;
+    @Autowired
+    private ComidaRepository comidaRepository;
 
 
     @GetMapping("/dietistaAsignacion")
@@ -130,15 +129,18 @@ public class DietistaController {
         dieta.setDietista(dietista);
         this.dietaRepository.save(dieta);
         sesion.setAttribute("cantidadIngestas", nuevaDieta.getComidasDiarias());
-        model.addAttribute("ComidasDieta", new ComidasDieta());
+        model.addAttribute("comidas", this.comidaRepository.findAll());
         if((Integer) sesion.getAttribute("cantidadIngestas")==3){
-            strTo = "dietista/nuevaDietaComidas3";
+            model.addAttribute("DietaCrearForm", new DietaCrearForm());
+            strTo = "dietista/nuevaDietaComida3";
         }
         if((Integer) sesion.getAttribute("cantidadIngestas")==4){
-            strTo = "dietista/nuevaDietaComidas4";
+            model.addAttribute("DietaCrearForm", new DietaCrearForm2());
+            strTo = "dietista/nuevaDietaComida4";
         }
         if((Integer) sesion.getAttribute("cantidadIngestas")==5){
-            strTo = "dietista/nuevaDietaComidas5";
+            model.addAttribute("DietaCrearForm", new DietaCrearForm3());
+            strTo = "dietista/nuevaDietaComida5";
         }
         
         return strTo;
