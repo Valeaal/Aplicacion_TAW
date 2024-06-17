@@ -408,7 +408,7 @@ public class AdminController {
 
         //------------ PARA RELLENAR LA TABLA (con filtros)------------//
 
-        List<Menu> menusFiltrado = menuRepository.filtrarMenus(inputNombre, inputAlergenos);
+        List<MenuDTO> menusFiltrado = menuService.filtrarMenus(inputNombre, inputAlergenos);
         model.addAttribute("menus", menusFiltrado);
 
         return "administrador/menus";

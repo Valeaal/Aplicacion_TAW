@@ -21,4 +21,9 @@ public class MenuService extends DTOService<MenuDTO, Menu>{
         return this.entidadesADTO(menuRepository.findAll());
     }
 
+    public List<MenuDTO> filtrarMenus(String inputNombre, String inputAlergenos){
+        return this.entidadesADTO(menuRepository.filtrarMenus(inputNombre, inputAlergenos));
+    }
+
+
 }
