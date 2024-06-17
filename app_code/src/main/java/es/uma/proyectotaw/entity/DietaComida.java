@@ -25,4 +25,7 @@ public class DietaComida {
     @Column(name = "momento_dia", nullable = false)
     private Integer momentoDia;
 
+    @Column(name = "dia", nullable = false)
+    private Integer dia;
+
 }

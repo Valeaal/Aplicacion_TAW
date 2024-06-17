@@ -341,15 +341,15 @@ public class AdminController {
         //Independientemente si se selecciona o no un ejercicio y se pulsa añadir, llevará a la página correspondiente.
         String direccionRetorno = "redirect:/admin/ejercicios";
 
-        List <TipoEjercicio> tiposEjercicio = tipoEjercicioRepository.findAll();
-        List <GrupoMuscular> gruposMusculares = grupoMuscularRepository.findAll();
+        List <TipoEjercicioDTO> tiposEjercicio = tipoEjercicioService.findAll();
+        List <GrupoMuscularDTO> gruposMusculares = grupoMuscularService.findAll();
 
         model.addAttribute("tiposEjercicio", tiposEjercicio);
         model.addAttribute("gruposMusculares", gruposMusculares);
 
         if (inputBoton.equals("Añadir")) {
-            Ejercicio ejercicio = new Ejercicio();
-            model.addAttribute("ejercicio", ejercicio);
+            EjercicioDTO ejercicio = new EjercicioDTO();
+            model.addAttribute("ejercicioDTO", ejercicio);
             direccionRetorno = "administrador/nuevoEjercicio";
         } else if (inputEj != null){
             if (inputBoton.equals("Eliminar")){
@@ -379,9 +379,9 @@ public class AdminController {
     }
 
     @PostMapping("/ejercicios/guardar")
-    public String guardarEjercicios(Model model, @ModelAttribute("ejercicio") Ejercicio ejercicio){
+    public String guardarEjercicios(Model model, @ModelAttribute("ejercicio") EjercicioDTO ejercicio){
 
-        ejercicioRepository.save(ejercicio);
+        ejercicioService.save(ejercicio);
 
         return "redirect:/admin/ejercicios";
     }
