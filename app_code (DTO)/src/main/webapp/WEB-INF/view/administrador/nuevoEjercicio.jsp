@@ -2,6 +2,7 @@
 <%@ page import="es.uma.proyectotaw.entity.*" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Set" %>
+<%@ page import="es.uma.proyectotaw.dto.GrupoMuscularDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- Autor: Álvaro Valencia Villalón -->
 
@@ -48,7 +49,17 @@
 
         <div class="mb-3">
             <form:label class="form-label" path="grupoMuscular.id">Grupo Muscular:</form:label>
-            <form:select class="form-select" path="grupoMuscular.id" items="${gruposMusculares}" itemLabel="grupo" itemValue="id"/>
+            <form:select class="form-select" path="grupoMuscular.id">
+                <form:option value="<%=null%>">Sin grupo muscular</form:option>
+                <%
+                    List<GrupoMuscularDTO> gruposMusculares = (List<GrupoMuscularDTO>) request.getAttribute("gruposMusculares");
+                    for (GrupoMuscularDTO grupo : gruposMusculares) {
+                %>
+                <form:option value="<%= grupo.getId() %>"><%= grupo.getGrupo() %></form:option>
+                <%
+                    }
+                %>
+            </form:select>
         </div>
 
         <!-- Botón de enviar -->

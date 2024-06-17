@@ -355,7 +355,7 @@ public class AdminController {
             if (inputBoton.equals("Eliminar")){
                 ejercicioService.deleteById(inputEj);
             } else if (inputBoton.equals("Modificar")){
-                Ejercicio ejercicio = ejercicioRepository.getById(inputEj);
+                EjercicioDTO ejercicio = ejercicioService.findById(inputEj);
                 model.addAttribute("ejercicio", ejercicio);
                 direccionRetorno = "administrador/modificarEjercicio";
             }
@@ -364,16 +364,16 @@ public class AdminController {
     }
 
     @PostMapping("/ejercicios/actualizar")
-    public String actualizarEjercicios(Model model, @ModelAttribute("ejercicio") Ejercicio ejercicio){
+    public String actualizarEjercicios(Model model, @ModelAttribute("ejercicio") EjercicioDTO ejercicio){
 
-        Ejercicio nuevoEj = ejercicioRepository.findById(ejercicio.getId()).orElse(new Ejercicio());
+        EjercicioDTO nuevoEj = ejercicioService.findById(ejercicio.getId());
         nuevoEj.setNombre(ejercicio.getNombre());
         nuevoEj.setDescripcion(ejercicio.getDescripcion());
         nuevoEj.setUrlVideo(ejercicio.getUrlVideo());
         nuevoEj.setTipo(ejercicio.getTipo());
         nuevoEj.setGrupoMuscular(ejercicio.getGrupoMuscular());
 
-        ejercicioRepository.save(nuevoEj);
+        ejercicioService.save(nuevoEj);
 
         return "redirect:/admin/ejercicios";
     }

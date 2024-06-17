@@ -1,4 +1,3 @@
-//Autor: Álvaro Valencia Villalón
 package es.uma.proyectotaw.entity;
 
 import es.uma.proyectotaw.dto.DTO;
@@ -16,7 +15,7 @@ import java.util.HashSet;
 @Setter
 @Entity
 @Table(name = "ejercicio")
-public class Ejercicio implements DTO<EjercicioDTO>{
+public class Ejercicio implements DTO<EjercicioDTO> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -37,25 +36,25 @@ public class Ejercicio implements DTO<EjercicioDTO>{
     @Column(name = "url_video")
     private String urlVideo;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "grupo_muscular_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "grupo_muscular_id", nullable = true)
     private GrupoMuscular grupoMuscular;
 
     @OneToMany(mappedBy = "ejercicio")
     private Set<EjercicioEntrenamiento> entrenamientos = new HashSet<>();
 
-    public EjercicioDTO toDTO (){
+    public EjercicioDTO toDTO() {
         EjercicioDTO ejercicioDTO = new EjercicioDTO();
         ejercicioDTO.setId(id);
         ejercicioDTO.setNombre(nombre);
         ejercicioDTO.setTipo(this.tipo.toDTO());
-        if (descripcion != null) {          ////Podría ser null
+        if (descripcion != null) {
             ejercicioDTO.setDescripcion(descripcion);
         }
-        if (urlVideo != null) {             //Podría ser null
+        if (urlVideo != null) {
             ejercicioDTO.setUrlVideo(urlVideo);
         }
-        if (grupoMuscular != null) {        //Podría ser null
+        if (grupoMuscular != null) {
             ejercicioDTO.setGrupoMuscular(grupoMuscular.toDTO());
         }
 
@@ -68,6 +67,4 @@ public class Ejercicio implements DTO<EjercicioDTO>{
 
         return ejercicioDTO;
     }
-
-
 }
