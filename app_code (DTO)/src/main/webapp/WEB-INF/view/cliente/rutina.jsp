@@ -33,7 +33,7 @@
         <!-- Entrenamientos Section -->
         <div class="col-md-8">
             <h3>Entrenamientos</h3>
-            <div class="list-group">
+            <ul class="list-group">
                 <% for (Entrenamiento e : entrenamiento) {
                     float c = cumplimiento.get(e.getId());
                     int diaSemana = dia.get(e.getId());
@@ -44,7 +44,7 @@
                     <span class="badge badge-primary badge-pill"></span><%=c%> %
                 </a>
                 <% } %>
-            </div>
+            </ul>
         </div>
 
         <!-- Filtro -->

@@ -11,4 +11,7 @@ public interface ComidaRepository extends JpaRepository<Comida, Integer> {
 
     @Query("SELECT c FROM Comida c JOIN DietaComida dc ON c.id=dc.comida.id WHERE c.nombre like concat ('%', :nombre, '%') AND dc.momentoDia=:momentoDia")
     List<Comida> getComidasByMomentoDiaYNombre(@Param("nombre") String nombre, @Param("momentoDia") Integer momentoDia);
+
+    @Query("SELECT dc.comida FROM DietaComida dc WHERE dc.dieta.id=:dietaId")
+    List<Comida> findByDietaId(Integer dietaId);
 }

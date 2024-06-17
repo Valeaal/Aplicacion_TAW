@@ -1,5 +1,6 @@
 package es.uma.proyectotaw.ui;
 
+// autor: Alba de la Torre
 public class ComidaFiltro {
     private String nombre;
     private Integer momentoDia;

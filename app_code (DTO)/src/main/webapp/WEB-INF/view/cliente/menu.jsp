@@ -51,7 +51,9 @@
                     <h2 class="mt-5">Desayuno</h2>
                     <ul class="list-group">
                         <% for (Comida comida : comidasM1) { %>
-                        <li class="list-group-item"><a href="/comida?id=<%=comida.getId()%>&clientId=<%=client.getId()%>"><%=comida.getNombre()%></a></li>
+                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="/comida?id=<%=comida.getId()%>&clientId=<%=client.getId()%>">
+                                <%=comida.getNombre()%>
+                            </a>
                         <% } %>
                     </ul>
                 </div>
@@ -63,7 +65,9 @@
                     <h2 class="mt-5">Comida</h2>
                     <ul class="list-group">
                         <% for (Comida comida : comidasM2) { %>
-                        <li class="list-group-item"><a href="/comida?id=<%=comida.getId()%>&clientId=<%=client.getId()%>"><%=comida.getNombre()%></a></li>
+                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="/comida?id=<%=comida.getId()%>&clientId=<%=client.getId()%>">
+                                <%=comida.getNombre()%>
+                            </a>
                         <% } %>
                     </ul>
                 </div>
@@ -75,31 +79,33 @@
                     <h2 class="mt-5">Cena</h2>
                     <ul class="list-group">
                         <% for (Comida comida : comidasM3) { %>
-                        <li class="list-group-item"><a href="/comida?id=<%=comida.getId()%>&clientId=<%=client.getId()%>"><%=comida.getNombre()%></a></li>
+                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="/comida?id=<%=comida.getId()%>&clientId=<%=client.getId()%>">
+                                <%=comida.getNombre()%>
+                            </a>
                         <% } %>
                     </ul>
                 </div>
             </div>
+
         </div>
 
         <div class="col-md-4">
-            <div class="mt-5">
-                <h2>Filtrar Comidas</h2>
-                <form:form method="post" action="/filtrarComida" modelAttribute="comidaFiltro">
-                    <div class="form-group">
-                        Nombre de Comida: <br>
-                        <form:input path="nombre"></form:input>
-                    </div>
-                    <div class="form-group">
-                        Momento del Día:<br>
-                        <form:select path="momentoDia">
-                            <option value="1">Desayuno</option>
-                            <option value="2">Comida</option>
-                            <option value="3">Cena</option>
-                        </form:select>
-                    </div>
-                    <form:button class="btn btn-outline-secondary"> Buscar</form:button>
-                </form:form>
+            <div class="container">
+                <div class="col-md-6">
+                    <h3>Filtrar por desempeño de dieta:</h3>
+                    <form:form modelAttribute="desempenyoFiltro" method="post"
+                               action="/filtrarDietaDesempenyo">
+                        <form:hidden path="idCliente" value="<%=client.getId()%>"/>
+                        <div class="form-group">
+                            <form:select path="desempenyo" id="desempenyo">
+                                <form:option value="Alto">Alto (70%-100%)</form:option>
+                                <form:option value="Medio">Medio (30%-70%)</form:option>
+                                <form:option value="Bajo">Bajo (0%-30%)</form:option>
+                            </form:select>
+                        </div>
+                        <button type="submit" class="btn btn-outline-secondary">Buscar</button>
+                    </form:form>
+                </div>
             </div>
         </div>
     </div>
