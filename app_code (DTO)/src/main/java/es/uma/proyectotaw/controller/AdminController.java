@@ -51,6 +51,8 @@ public class AdminController {
     private GrupoMuscularService grupoMuscularService;
     @Autowired
     private EjercicioService ejercicioService;
+    @Autowired
+    private MenuService menuService;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //GESTIÓN DE LOS USUARIOS
@@ -394,7 +396,7 @@ public class AdminController {
     public String menus(Model model) {
 
         //------------ PARA RELLENAR LA TABLA DE USUARIOS (sin filtro)------------//
-        List<Menu> menusCompleto = menuRepository.findAll();
+        List<MenuDTO> menusCompleto = menuService.findAll();
         model.addAttribute("menus", menusCompleto);
 
         return "/administrador/menus";

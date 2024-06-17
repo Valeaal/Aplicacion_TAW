@@ -1,3 +1,4 @@
+//Autor: Álvaro Valencia Villalón
 package es.uma.proyectotaw.entity;
 
 import es.uma.proyectotaw.dto.DTO;
