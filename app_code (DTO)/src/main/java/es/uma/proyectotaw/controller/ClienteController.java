@@ -1,5 +1,6 @@
 package es.uma.proyectotaw.controller;
 
+import es.uma.proyectotaw.service.EjercicioService;
 import es.uma.proyectotaw.ui.*;
 import org.springframework.ui.Model;
 import es.uma.proyectotaw.entity.*;
@@ -21,11 +22,7 @@ import java.util.Set;
 @Controller
 public class ClienteController {
     @Autowired
-    protected EjercicioRepository ejercicioRepository;
-    @Autowired
     protected UsuarioRepository usuarioRepository;
-    @Autowired
-    private TipoUsuarioRepository tipoUsuarioRepository;
     @Autowired
     private RutinaRepository rutinaRepository;
     @Autowired
@@ -43,13 +40,13 @@ public class ClienteController {
     @Autowired
     private DietaRepository dietaRepository;
     @Autowired
-    private ComidaDietaRepository comidaDietaRepository;
-    @Autowired
     private EntrenamientoRutinaRepository entrenamientoRutinaRepository;
     @Autowired
     private MenuRepository menuRepository;
     @Autowired
     private ComidaMenuRepository comidaMenuRepository;
+    @Autowired
+    private EjercicioService ejercicioService;
 
     @GetMapping("/rutina")
     public String rutina(@RequestParam("id") Integer id, Model model) {
@@ -139,23 +136,22 @@ public class ClienteController {
 
     @GetMapping("/dia")
     public String getDia(@RequestParam("id") Integer id, @RequestParam("clientId") Integer clientId, Model model){
-        List<Ejercicio> ejercicios = ejercicioRepository.findEjerciciosByEntrenamientoId(id);
+
+        List<Ejercicio> ejercicios = ejercicioService.findEjerciciosByEntrenamientoId(id);
         model.addAttribute("ejercicios", ejercicios);
         HashMap<Integer, List<Float>> map = new HashMap<>();
         for(Ejercicio ejercicio : ejercicios) {
-            int series = ejercicioRepository.findEjercicioSeries(ejercicio.getId(), id);
-            int rep = ejercicioRepository.findEjercicioRepeticiones(ejercicio.getId(), id);
-            float peso = ejercicioRepository.findEjercicioPeso(ejercicio.getId(), id);
+            List<Float> specs = ejercicioService.getEspecificacionesEjercicio(ejercicio.getId(), id);
             int realizado = 1;
-            int eeID= ejercicioRepository.findId(ejercicio.getId(), id);
+            int eeID= ejercicioService.findId(ejercicio.getId(), id);
             EjercicioEntrenamiento ee = ejercicioEntrenamientoRepository.getReferenceById(eeID);
             if(ee.getDesempeno()==null){
                 realizado = 0;
             }
             List<Float> lista = new ArrayList<>();
-            lista.add((float) series);
-            lista.add((float) rep);
-            lista.add(peso);
+            lista.add(specs.get(0));
+            lista.add(specs.get(1));
+            lista.add(specs.get(2));
             lista.add((float) realizado);
             map.put(ejercicio.getId(), lista);
         }
@@ -170,7 +166,7 @@ public class ClienteController {
                                @RequestParam("clientId") Integer clientId,
                                @RequestParam("entrenamientoId") Integer entrenamientoId,
                                Model model){
-        Ejercicio ejercicio = ejercicioRepository.getReferenceById(id);
+        Ejercicio ejercicio = ejercicioService.getReferenceById(id);
         Cliente cliente = clienteRepository.getReferenceById(clientId);
         //Desempeno desempeno = new Desempeno();
         DesempenyoYEjercicio desempeno = new DesempenyoYEjercicio();
@@ -186,7 +182,7 @@ public class ClienteController {
                                @RequestParam("clientId") Integer clientId,
                                @RequestParam("entrenamientoId") Integer entrenamientoId,
                                Model model){
-        Ejercicio ejercicio = ejercicioRepository.getReferenceById(id);
+        Ejercicio ejercicio = ejercicioService.getReferenceById(id);
         Cliente cliente = clienteRepository.getReferenceById(clientId);
         Desempeno d = desempenoRepository.getDesempenoByEntremanientoAndEjId(id, entrenamientoId);
 
