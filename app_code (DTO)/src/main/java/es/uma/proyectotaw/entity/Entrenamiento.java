@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -30,4 +32,21 @@ public class Entrenamiento {
     @OneToMany(mappedBy = "entrenamiento")
     private Set<EjercicioEntrenamiento> ejercicios = new HashSet<>();
 
+    public Entrenamiento toDTO () {
+        Entrenamiento Entrenamiento = new Entrenamiento();
+        Entrenamiento.setId(this.id);
+        Entrenamiento.setNombre(this.nombre);
+        Entrenamiento.setDescripcion(this.descripcion);
+
+        Set<EntrenamientoRutina> rutinas = new HashSet<>(this.rutinas);
+        Entrenamiento.setRutinas(rutinas);
+
+        Set<EjercicioEntrenamiento> ejercicios = new HashSet<>(this.ejercicios);
+        Entrenamiento.setEjercicios(ejercicios);
+
+        return Entrenamiento;
+
+
+
+    }
 }

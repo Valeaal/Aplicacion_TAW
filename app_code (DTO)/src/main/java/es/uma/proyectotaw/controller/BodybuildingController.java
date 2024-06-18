@@ -3,8 +3,10 @@
  */
 package es.uma.proyectotaw.controller;
 
-import es.uma.proyectotaw.dao.*;
+import es.uma.proyectotaw.dto.*;
+import es.uma.proyectotaw.service.*;
 import es.uma.proyectotaw.entity.*;
+import es.uma.proyectotaw.dao.*;
 import es.uma.proyectotaw.ui.FiltroBodyBuilder;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,9 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/bodybuilding")
 public class BodybuildingController {
+    //Service
     @Autowired
-    EntrenamientoRepository entrenamientoRepository;
+    EntrenamientoService entrenamientoService;
     @Autowired
     RutinaRepository rutinaRepository;
     @Autowired
@@ -49,7 +52,7 @@ public class BodybuildingController {
     }
 
     public void inicializacion(Model model){
-        List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
+        List<Entrenamiento> entrenamientos = this.entrenamientoService.findAll();
         model.addAttribute("entrenamientos", entrenamientos);
     }
     /* TO DO:
@@ -61,7 +64,7 @@ public class BodybuildingController {
         Rutina rutina = this.rutinaRepository.findById(id).orElse(null);
         List<GrupoMuscular> gruposMusculares = this.grupoMuscularRepository.findAll();
         List<TipoEjercicio> tiposEjercicios = this.tipoEjercicioRepository.findAll();
-        List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
+        List<Entrenamiento> entrenamientos = this.entrenamientoService.findAll();
         List<EntrenamientoRutina> entrenamientoRutinas = this.entrenamientoRutinaRepository.findAll();
         model.addAttribute("entrenamientoRutinas", entrenamientoRutinas);
         model.addAttribute("entrenamientos", entrenamientos);
@@ -81,7 +84,7 @@ public class BodybuildingController {
         rutina.setFechaCreacion(LocalDate.parse(new java.sql.Date(System.currentTimeMillis()).toString()));
         List<GrupoMuscular> gruposMusculares = this.grupoMuscularRepository.findAll();
         List<TipoEjercicio> tiposEjercicios = this.tipoEjercicioRepository.findAll();
-        List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
+        List<Entrenamiento> entrenamientos = this.entrenamientoService.findAll();
         List<EntrenamientoRutina> entrenamientoRutinas = this.entrenamientoRutinaRepository.findAll();
         model.addAttribute("entrenamientoRutinas", entrenamientoRutinas);
         model.addAttribute("entrenamientos", entrenamientos);
@@ -138,7 +141,7 @@ public class BodybuildingController {
         Integer idRutina = ER.getRutina().getId();
         this.entrenamientoRutinaRepository.delete(ER);
         this.rutinaRepository.save(rutina);
-        this.entrenamientoRepository.save(entrenamiento);
+        //this.entrenamientoService.guardar(entrenamiento);
         return "redirect:/bodybuilding/editarRutina?id=" + idRutina;
     }
 
@@ -155,7 +158,7 @@ public class BodybuildingController {
         ER.setRutina(rutina);
         ER.setDiaSemana(dia);
         model.addAttribute("ER",ER);
-        List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
+        List<Entrenamiento> entrenamientos = this.entrenamientoService.findAll();
         model.addAttribute("entrenamientos", entrenamientos);
         return "anyadirEntrenoRutina";
     }

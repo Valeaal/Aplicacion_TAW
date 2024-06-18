@@ -5,10 +5,12 @@ import es.uma.proyectotaw.entity.EntrenamientoRutina;
 import jakarta.persistence.Column;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
+import lombok.Data;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Data
 public class EntrenamientoDTO {
     private Integer id;
     private String nombre;
