@@ -1,6 +1,6 @@
 package es.uma.proyectotaw.controller;
 
-import es.uma.proyectotaw.service.EjercicioService;
+import es.uma.proyectotaw.service.*;
 import es.uma.proyectotaw.ui.*;
 import org.springframework.ui.Model;
 import es.uma.proyectotaw.entity.*;
@@ -22,38 +22,34 @@ import java.util.Set;
 @Controller
 public class ClienteController {
     @Autowired
-    protected UsuarioRepository usuarioRepository;
-    @Autowired
-    private RutinaRepository rutinaRepository;
-    @Autowired
-    private ClienteRepository clienteRepository;
-    @Autowired
-    private EntrenamientoRepository entrenamientoRepository;
-    @Autowired
-    private GrupoMuscularRepository grupoMuscularRepository;
-    @Autowired
-    private DesempenoRepository desempenoRepository;
-    @Autowired
-    private EjercicioEntrenamientoRepository ejercicioEntrenamientoRepository;
-    @Autowired
-    private ComidaRepository comidaRepository;
-    @Autowired
-    private DietaRepository dietaRepository;
-    @Autowired
-    private EntrenamientoRutinaRepository entrenamientoRutinaRepository;
-    @Autowired
-    private MenuRepository menuRepository;
-    @Autowired
-    private ComidaMenuRepository comidaMenuRepository;
-    @Autowired
     private EjercicioService ejercicioService;
+    @Autowired
+    private RutinaService rutinaService;
+    @Autowired
+    private ClienteService clienteService;
+    @Autowired
+    private EntrenamientoService entrenamientoService;
+    @Autowired
+    private GrupoMuscularService grupoMuscularService;
+    @Autowired
+    private DesempenoService desempenoService;
+    @Autowired
+    private EjercicioEntrenamientoService ejercicioEntrenamientoService;
+    @Autowired
+    private ComidaService comidaService;
+    @Autowired
+    private DietaService dietaService;
+    @Autowired
+    private EntrenamientoRutinaService entrenamientoRutinaService;
+    @Autowired
+    private MenuService menuService;
 
     @GetMapping("/rutina")
     public String rutina(@RequestParam("id") Integer id, Model model) {
-        Cliente client = clienteRepository.getClienteByUserId(id);
-        Rutina rutina = rutinaRepository.getActiveRutinasByClienteId(client.getId()).get(0);
-        List<Entrenamiento> entrenamientos = entrenamientoRepository.findByRutinaId(rutina.getId());
-        List<GrupoMuscular> grupomuscular = grupoMuscularRepository.findAll();
+        Cliente client = clienteService.getClienteByUserId2(id);
+        Rutina rutina = rutinaService.getActiveRutinasByClienteId(client.getId());
+        List<Entrenamiento> entrenamientos = entrenamientoService.findByRutinaId(rutina.getId());
+        List<GrupoMuscular> grupomuscular = grupoMuscularService.findAll2();
 
         HashMap<Integer, Float> cumplimiento= new HashMap<>();
         for(Entrenamiento entrenamiento: entrenamientos){
@@ -63,7 +59,7 @@ public class ClienteController {
 
         HashMap<Integer, Integer> dia = new HashMap<>();
         for(Entrenamiento entrenamiento: entrenamientos){
-            int diaSemana = entrenamientoRutinaRepository.getdiaSemanaFromRutinaAndEntrenamientoId(rutina.getId(), entrenamiento.getId());
+            int diaSemana = entrenamientoRutinaService.getdiaSemanaFromRutinaAndEntrenamientoId(rutina.getId(), entrenamiento.getId());
             dia.put(entrenamiento.getId(),diaSemana);
         }
         model.addAttribute("rutina", rutina);
@@ -79,7 +75,7 @@ public class ClienteController {
 
     @GetMapping("/verRutina")
     public String verRutinaNoActiva(@RequestParam("id") Integer id, Model model) {
-        List<Entrenamiento> entrenamientos = entrenamientoRepository.findByRutinaId(id);
+        List<Entrenamiento> entrenamientos = entrenamientoService.findByRutinaId(id);
         HashMap<Integer, Float> cumplimiento= new HashMap<>();
         for(Entrenamiento entrenamiento: entrenamientos){
             float c = calcularCumplimiento(entrenamiento.getId());
@@ -87,7 +83,7 @@ public class ClienteController {
         }
         HashMap<Integer, Integer> dia = new HashMap<>();
         for(Entrenamiento entrenamiento: entrenamientos){
-            int diaSemana = entrenamientoRutinaRepository.getdiaSemanaFromRutinaAndEntrenamientoId(id, entrenamiento.getId());
+            int diaSemana = entrenamientoRutinaService.getdiaSemanaFromRutinaAndEntrenamientoId(id, entrenamiento.getId());
             dia.put(entrenamiento.getId(),diaSemana);
         }
         model.addAttribute("entrenamientos", entrenamientos);
@@ -99,7 +95,7 @@ public class ClienteController {
 
     private float calcularCumplimiento(Integer id) {
         float res = 0;
-        Entrenamiento e = entrenamientoRepository.getReferenceById(id);
+        Entrenamiento e = entrenamientoService.getReferenceById(id);
         for(EjercicioEntrenamiento ee: e.getEjercicios()){
             if(ee.getDesempeno()!=null){
                 res++;
@@ -110,7 +106,7 @@ public class ClienteController {
 
     private float calcularCumplimientoDieta(Integer id) {
         float res = 0;
-        Comida c = comidaRepository.getReferenceById(id);
+        Comida c = comidaService.getReferenceById(id);
         for(ComidaMenu cm : c.getMenus()){
             if(cm.getDesempeno()!=null){
                 res++;
@@ -121,10 +117,10 @@ public class ClienteController {
 
     @GetMapping("/menu")
     public String menu(@RequestParam("id") Integer id, Model model){
-        Cliente client = clienteRepository.getClienteByUserId(id);
+        Cliente client = clienteService.getClienteByUserId2(id);
         Dieta dieta = client.getDieta();
-        Set<DietaComida> dietaComidas = dietaRepository.getComidaDietaByDietaId(dieta.getId());
-        List<Comida> comidas = dietaRepository.findComidasByDietaId(dieta.getId());
+        Set<DietaComida> dietaComidas = dietaService.getComidaDietaByDietaId(dieta.getId());
+        List<Comida> comidas = dietaService.findComidasByDietaId(dieta.getId());
         model.addAttribute("dieta", dieta);
         model.addAttribute("dietaComidas", dietaComidas);
         model.addAttribute("comidas", comidas);
@@ -144,7 +140,7 @@ public class ClienteController {
             List<Float> specs = ejercicioService.getEspecificacionesEjercicio(ejercicio.getId(), id);
             int realizado = 1;
             int eeID= ejercicioService.findId(ejercicio.getId(), id);
-            EjercicioEntrenamiento ee = ejercicioEntrenamientoRepository.getReferenceById(eeID);
+            EjercicioEntrenamiento ee = ejercicioEntrenamientoService.getReferenceById(eeID);
             if(ee.getDesempeno()==null){
                 realizado = 0;
             }
@@ -167,7 +163,7 @@ public class ClienteController {
                                @RequestParam("entrenamientoId") Integer entrenamientoId,
                                Model model){
         Ejercicio ejercicio = ejercicioService.getReferenceById(id);
-        Cliente cliente = clienteRepository.getReferenceById(clientId);
+        Cliente cliente = clienteService.getReferenceById(clientId);
         //Desempeno desempeno = new Desempeno();
         DesempenyoYEjercicio desempeno = new DesempenyoYEjercicio();
         model.addAttribute("ejercicio", ejercicio);
@@ -183,8 +179,8 @@ public class ClienteController {
                                @RequestParam("entrenamientoId") Integer entrenamientoId,
                                Model model){
         Ejercicio ejercicio = ejercicioService.getReferenceById(id);
-        Cliente cliente = clienteRepository.getReferenceById(clientId);
-        Desempeno d = desempenoRepository.getDesempenoByEntremanientoAndEjId(id, entrenamientoId);
+        Cliente cliente = clienteService.getReferenceById(clientId);
+        Desempeno d = desempenoService.getDesempenoByEntrenamientoAndEjId(id, entrenamientoId);
 
         DesempenyoYEjercicio desempeno = new DesempenyoYEjercicio();
         desempeno.setComentarios(d.getComentarios());
@@ -200,26 +196,15 @@ public class ClienteController {
 
     @PostMapping("/guardarDesempeno")
     public String guardarDesempeno(@ModelAttribute("desempeno") DesempenyoYEjercicio desempeno, Model model){
-        Desempeno d = new Desempeno();
-        Cliente c = clienteRepository.getReferenceById(desempeno.getCliente());
-        d.setCliente(c);
-        d.setPesoRealizado(desempeno.getPesoRealizado());
-        d.setComentarios(desempeno.getComentarios());
-        d.setValoracion(desempeno.getValoracion());
-
-        EjercicioEntrenamiento ee = ejercicioEntrenamientoRepository.getEjercicioEntrenamientoFromEjAndEntrenamientoId(desempeno.getEjercicio(), desempeno.getEntrenamiento());
-        ee.setOrden(1);
-        ee.setDesempeno(d);
-
-        desempenoRepository.save(d);
-        ejercicioEntrenamientoRepository.save(ee);
+        desempenoService.guardarDesempeno(desempeno.getCliente(), desempeno.getPesoRealizado(), desempeno.getComentarios(), desempeno.getValoracion(), desempeno.getEjercicio(), desempeno.getEntrenamiento());
+        Cliente c = clienteService.getReferenceById(desempeno.getCliente());
         return "redirect:/rutina?id="+ c.getUsuario().getId();
     }
 
     @GetMapping("/comida")
     public String comida(@RequestParam("id") Integer id, @RequestParam("clientId") Integer clientId, Model model){
-        Comida comida = comidaRepository.getReferenceById(id);
-        Cliente client = clienteRepository.getReferenceById(clientId);
+        Comida comida = comidaService.getReferenceById(id);
+        Cliente client = clienteService.getReferenceById(clientId);
         Set<ComidaMenu> menus =  comida.getMenus();
         HashMap <Integer, Integer> desempenyo = new HashMap();
         for(ComidaMenu menu : menus){
@@ -243,8 +228,8 @@ public class ClienteController {
                                   @RequestParam("clientId") Integer clientId,
                                   Model model){
         ComidaDesempenyo desempeno = new ComidaDesempenyo();
-        Menu menu = menuRepository.getReferenceById(id);
-        Cliente cliente = clienteRepository.getReferenceById(clientId);
+        Menu menu = menuService.getReferenceById(id);
+        Cliente cliente = clienteService.getReferenceById(clientId);
 
         model.addAttribute("menu", menu);
         model.addAttribute("desempeno", desempeno);
@@ -255,18 +240,8 @@ public class ClienteController {
     }
     @PostMapping("/guardarDesempenoDieta")
     public String guardarDesempenoDieta(@ModelAttribute("desempeno") ComidaDesempenyo desempeno, Model model){
-        Desempeno d = new Desempeno();
-        Cliente c = clienteRepository.getReferenceById(desempeno.getCliente());
-        d.setCliente(c);
-        d.setPesoRealizado(0F);
-        d.setComentarios(desempeno.getComentarios());
-        d.setValoracion(desempeno.getValoracion());
-
-        ComidaMenu cm = comidaMenuRepository.getcomidaMenuByMenuAndComidaId(desempeno.getMenu(), desempeno.getComida());
-        cm.setDesempeno(d);
-
-        desempenoRepository.save(d);
-        comidaMenuRepository.save(cm);
+        desempenoService.guardarDesempenoDieta(desempeno.getCliente(), 0F, desempeno.getComentarios(), desempeno.getValoracion(), desempeno.getMenu(), desempeno.getComida());
+        Cliente c = clienteService.getReferenceById(desempeno.getCliente());
         return "redirect:/menu?id="+ c.getUsuario().getId();
     }
 
@@ -276,9 +251,9 @@ public class ClienteController {
                                     @RequestParam("clientId") Integer clientId,
                                     Model model){
         ComidaDesempenyo desempeno = new ComidaDesempenyo();
-        Menu menu = menuRepository.getReferenceById(id);
-        Cliente cliente = clienteRepository.getReferenceById(clientId);
-        Desempeno d = desempenoRepository.getDesempenoByMenuAndComidaId(id, comidaId);
+        Menu menu = menuService.getReferenceById(id);
+        Cliente cliente = clienteService.getReferenceById(clientId);
+        Desempeno d = desempenoService.getDesempenoByMenuAndComidaId(id, comidaId);
 
         desempeno.setComentarios(d.getComentarios());
         desempeno.setValoracion(d.getValoracion());
@@ -293,8 +268,8 @@ public class ClienteController {
     @PostMapping("/filtrarRutina")
     public String rutinaFiltrada(@ModelAttribute("rutinaFiltro") RutinaFiltro rutinaFiltro,
                                  Model model){
-        Cliente client = clienteRepository.getClienteByUserId(rutinaFiltro.getClienteId());
-        List<Rutina> rutina = rutinaRepository.getRutinasByNameAndClientId(rutinaFiltro.getClienteId(), rutinaFiltro.getNombre());
+        Cliente client = clienteService.getClienteByUserId2(rutinaFiltro.getClienteId());
+        List<Rutina> rutina = rutinaService.getRutinasByNameAndClientId(rutinaFiltro.getClienteId(), rutinaFiltro.getNombre());
 
 
         model.addAttribute("rutina", rutina);
@@ -314,8 +289,8 @@ public class ClienteController {
 
     @PostMapping("/filtrarRutinaDesempenyo")
     public String filtrarRutinaDesempenyo(@ModelAttribute("desempenyoFiltro") DesempenyoFiltro filtro, Model model){
-        Cliente client = clienteRepository.getClienteByUserId(filtro.getIdCliente());
-        List<Rutina> rutina = rutinaRepository.getAllRutinasByClienteId(filtro.getIdCliente());
+        Cliente client = clienteService.getClienteByUserId2(filtro.getIdCliente());
+        List<Rutina> rutina = rutinaService.getAllRutinasByClienteId(filtro.getIdCliente());
         List<Rutina> rutinasFiltradas = new ArrayList<>();
         HashMap<Integer, Float> cumplimiento = new HashMap<>();
         int upperBound = 0;
@@ -332,7 +307,7 @@ public class ClienteController {
         }
         float desempenyoTotal = 0;
         for(Rutina r : rutina){
-            List<Entrenamiento> entrenamientos = entrenamientoRepository.findByRutinaId(r.getId());
+            List<Entrenamiento> entrenamientos = entrenamientoService.findByRutinaId(r.getId());
             for(Entrenamiento e : entrenamientos){
                 desempenyoTotal += calcularCumplimiento(e.getId());
             }
@@ -354,8 +329,8 @@ public class ClienteController {
 
     @PostMapping("/filtrarDietaDesempenyo")
     public String filtrarDietaDesempenyo(@ModelAttribute("desempenyoFiltro") DesempenyoFiltro filtro, Model model){
-        Cliente client = clienteRepository.getClienteByUserId(filtro.getIdCliente());
-        List<Dieta> dieta = dietaRepository.getDietaByClientId(filtro.getIdCliente());
+        Cliente client = clienteService.getClienteByUserId2(filtro.getIdCliente());
+        List<Dieta> dieta = dietaService.getDietaByClientId(filtro.getIdCliente());
         List<Dieta> dietasFiltradas = new ArrayList<>();
         HashMap<Integer, Float> cumplimiento = new HashMap<>();
         int upperBound = 0;
@@ -372,7 +347,7 @@ public class ClienteController {
         }
         float desempenyoTotal = 0;
         for(Dieta d : dieta){
-            List<Comida> comidas = comidaRepository.findByDietaId(d.getId());
+            List<Comida> comidas = comidaService.findByDietaId(d.getId());
             for(Comida c : comidas){
                 desempenyoTotal += calcularCumplimientoDieta(c.getId());
             }
@@ -397,12 +372,8 @@ public class ClienteController {
                                     @RequestParam("clientId") Integer clientId,
                                     @RequestParam("entrenamientoId") Integer entrenamientoId,
                                     Model model){
-        Cliente c = clienteRepository.getReferenceById(clientId);
-        EjercicioEntrenamiento ee = ejercicioEntrenamientoRepository.getEjercicioEntrenamientoFromEjAndEntrenamientoId(id, entrenamientoId);
-        Desempeno d = ee.getDesempeno();
-        ee.setDesempeno(null);
-        ejercicioEntrenamientoRepository.saveAndFlush(ee);
-        desempenoRepository.delete(d);
+        Cliente c = clienteService.getReferenceById(clientId);
+        desempenoService.delete(clientId, id, entrenamientoId);
         return "redirect:/rutina?id="+ c.getUsuario().getId();
     }
 
@@ -411,12 +382,8 @@ public class ClienteController {
                                     @RequestParam("clientId") Integer clientId,
                                     @RequestParam("comidaId") Integer comidaId,
                                     Model model){
-        Cliente c = clienteRepository.getReferenceById(clientId);
-        ComidaMenu cm = comidaMenuRepository.getcomidaMenuByMenuAndComidaId(id, comidaId);
-        Desempeno d = cm.getDesempeno();
-        cm.setDesempeno(null);
-        comidaMenuRepository.saveAndFlush(cm);
-        desempenoRepository.delete(d);
+        Cliente c = clienteService.getReferenceById(clientId);
+        desempenoService.deleteMenu(clientId, id, comidaId);
         return "redirect:/menu?id="+ c.getUsuario().getId();
     }
 

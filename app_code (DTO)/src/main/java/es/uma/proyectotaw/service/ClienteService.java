@@ -27,6 +27,15 @@ public class ClienteService extends DTOService<ClienteDTO, Cliente>{
         return clienteEntity.toDTO();
     }
 
+    public Cliente getClienteByUserId2(Integer id){
+        Cliente clienteEntity = clienteRepository.getClienteByUserId(id);
+        return clienteEntity;
+    }
+
+    public Cliente getReferenceById(Integer id){
+        return clienteRepository.getReferenceById(id);
+    }
+
     public void guardarCliente (ClienteDTO clienteDTO){
         Cliente clienteEntity = new Cliente();
 

@@ -20,6 +20,10 @@ public class GrupoMuscularService extends DTOService<GrupoMuscularDTO, GrupoMusc
         return this.entidadesADTO(grupoMuscularRepository.findAll());
     }
 
+    public List<GrupoMuscular> findAll2(){
+        return grupoMuscularRepository.findAll();
+    }
+
     public Integer buscarPorString (String grupo){
         return grupoMuscularRepository.buscarPorString(grupo);
     }

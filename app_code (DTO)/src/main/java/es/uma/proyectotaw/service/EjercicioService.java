@@ -1,4 +1,4 @@
-//Autor: Álvaro Valencia Villalón
+//Autor: Álvaro Valencia Villalón 80% y Alba de la Torre 20%
 package es.uma.proyectotaw.service;
 
 import es.uma.proyectotaw.dao.EjercicioRepository;
