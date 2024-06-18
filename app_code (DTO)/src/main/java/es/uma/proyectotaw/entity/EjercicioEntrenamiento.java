@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "ejercicio_entrenamiento")
-public class EjercicioEntrenamiento {
+public class EjercicioEntrenamiento implements DTO<EjercicioEntrenamientoDTO>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
