@@ -51,6 +51,8 @@ public class AdminController {
     private GrupoMuscularService grupoMuscularService;
     @Autowired
     private EjercicioService ejercicioService;
+    @Autowired
+    private MenuService menuService;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //GESTIÓN DE LOS USUARIOS
@@ -353,9 +355,9 @@ public class AdminController {
             direccionRetorno = "administrador/nuevoEjercicio";
         } else if (inputEj != null){
             if (inputBoton.equals("Eliminar")){
-                ejercicioRepository.deleteById(inputEj);
+                ejercicioService.deleteById(inputEj);
             } else if (inputBoton.equals("Modificar")){
-                Ejercicio ejercicio = ejercicioRepository.getById(inputEj);
+                EjercicioDTO ejercicio = ejercicioService.findById(inputEj);
                 model.addAttribute("ejercicio", ejercicio);
                 direccionRetorno = "administrador/modificarEjercicio";
             }
@@ -364,16 +366,16 @@ public class AdminController {
     }
 
     @PostMapping("/ejercicios/actualizar")
-    public String actualizarEjercicios(Model model, @ModelAttribute("ejercicio") Ejercicio ejercicio){
+    public String actualizarEjercicios(Model model, @ModelAttribute("ejercicio") EjercicioDTO ejercicio){
 
-        Ejercicio nuevoEj = ejercicioRepository.findById(ejercicio.getId()).orElse(new Ejercicio());
+        EjercicioDTO nuevoEj = ejercicioService.findById(ejercicio.getId());
         nuevoEj.setNombre(ejercicio.getNombre());
         nuevoEj.setDescripcion(ejercicio.getDescripcion());
         nuevoEj.setUrlVideo(ejercicio.getUrlVideo());
         nuevoEj.setTipo(ejercicio.getTipo());
         nuevoEj.setGrupoMuscular(ejercicio.getGrupoMuscular());
 
-        ejercicioRepository.save(nuevoEj);
+        ejercicioService.save(nuevoEj);
 
         return "redirect:/admin/ejercicios";
     }
@@ -394,7 +396,7 @@ public class AdminController {
     public String menus(Model model) {
 
         //------------ PARA RELLENAR LA TABLA DE USUARIOS (sin filtro)------------//
-        List<Menu> menusCompleto = menuRepository.findAll();
+        List<MenuDTO> menusCompleto = menuService.findAll();
         model.addAttribute("menus", menusCompleto);
 
         return "/administrador/menus";
@@ -406,7 +408,7 @@ public class AdminController {
 
         //------------ PARA RELLENAR LA TABLA (con filtros)------------//
 
-        List<Menu> menusFiltrado = menuRepository.filtrarMenus(inputNombre, inputAlergenos);
+        List<MenuDTO> menusFiltrado = menuService.filtrarMenus(inputNombre, inputAlergenos);
         model.addAttribute("menus", menusFiltrado);
 
         return "administrador/menus";

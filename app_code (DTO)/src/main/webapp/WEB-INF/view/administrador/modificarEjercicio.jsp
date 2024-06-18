@@ -1,10 +1,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page import="es.uma.proyectotaw.entity.*" %>
+<%@ page import="es.uma.proyectotaw.dto.GrupoMuscularDTO" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Set" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- Autor: Álvaro Valencia Villalón -->
-
 
 <html>
 <head>
@@ -17,7 +15,6 @@
 
 <body>
 <jsp:include page="../header-footer/navbar.jsp"></jsp:include>
-
 
 <div class="container">
     <h2 class="my-4">Editar un ejercicio</h2>
@@ -33,7 +30,7 @@
 
         <div class="mb-3">
             <form:label class="form-label" path="descripcion">Descripción:</form:label>
-            <form:input class="form-control" path="descripcion"  />
+            <form:input class="form-control" path="descripcion" />
         </div>
 
         <div class="mb-3">
@@ -42,13 +39,23 @@
         </div>
 
         <div class="mb-3">
-            <form:label class="form-label" path="tipo">Tipo de ejercicio:</form:label>
-            <form:select class="form-select" path="tipo" items="${tiposEjercicio}" itemLabel="tipo" itemValue="id" />
+            <form:label class="form-label" path="tipo.id">Tipo de ejercicio:</form:label>
+            <form:select class="form-select" path="tipo.id" items="${tiposEjercicio}" itemLabel="tipo" itemValue="id" />
         </div>
 
         <div class="mb-3">
-            <form:label class="form-label" path="grupoMuscular">Grupo Muscular:</form:label>
-            <form:select class="form-select" path="grupoMuscular" items="${gruposMusculares}" itemLabel="grupo" itemValue="id" />
+            <form:label class="form-label" path="grupoMuscular.id">Grupo Muscular:</form:label>
+            <form:select class="form-select" path="grupoMuscular.id">
+                <form:option value="<%=null%>">Sin grupo muscular</form:option>
+                <%
+                    List<GrupoMuscularDTO> gruposMusculares = (List<GrupoMuscularDTO>) request.getAttribute("gruposMusculares");
+                    for (GrupoMuscularDTO grupo : gruposMusculares) {
+                %>
+                <form:option value="<%= grupo.getId() %>"><%= grupo.getGrupo() %></form:option>
+                <%
+                    }
+                %>
+            </form:select>
         </div>
 
         <!-- Botón de enviar -->

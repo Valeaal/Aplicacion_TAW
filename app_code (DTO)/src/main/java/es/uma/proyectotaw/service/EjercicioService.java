@@ -35,22 +35,32 @@ public class EjercicioService extends DTOService<EjercicioDTO, Ejercicio>{
     }
 
     public void save(EjercicioDTO ejercicioDTO) {
-        Ejercicio ejercicio = new Ejercicio();
+        Ejercicio ejercicio;
+        if(ejercicioDTO.getId() == null){                   //Permitimos crar nuevo ejercicio y actualizar en el mismo método
+            ejercicio = new Ejercicio();
+        } else{
+            ejercicio = ejercicioRepository.findById(ejercicioDTO.getId()).orElse(null);
+        }
+
         ejercicio.setNombre(ejercicioDTO.getNombre());
 
         TipoEjercicio tipoEjercicio = tipoEjercicioRepository.findById(ejercicioDTO.getTipo().getId()).orElse(null);
         ejercicio.setTipo(tipoEjercicio);
 
-        if (ejercicioDTO.getGrupoMuscular() != null) {        //No es obligatorio según la bdd
-            GrupoMuscular grupoMuscular = grupoMuscularRepository.findById(ejercicioDTO.getGrupoMuscular().getId()).orElse(null);
-            ejercicio.setGrupoMuscular(grupoMuscular);
+        if (ejercicioDTO.getGrupoMuscular().getId() == null){       //Debido a las características del form de Spring, al actualizar un grupo muscular actualizamos grupoMuscular.id, por lo que luego aquí hacemos que efectivamente el grupoMuscular sea null
+            ejercicio.setGrupoMuscular(null);
+        } else{
+            if (ejercicioDTO.getGrupoMuscular() != null) {          //No es obligatorio según la bdd
+                GrupoMuscular grupoMuscular = grupoMuscularRepository.findById(ejercicioDTO.getGrupoMuscular().getId()).orElse(null);
+                ejercicio.setGrupoMuscular(grupoMuscular);
+            }
         }
 
-        if (ejercicioDTO.getDescripcion() != null){         //No es obligatorio según la bdd
+        if (ejercicioDTO.getDescripcion() != null){             //No es obligatorio según la bdd
             ejercicio.setDescripcion(ejercicioDTO.getDescripcion());
         }
 
-        if (ejercicioDTO.getUrlVideo() != null) {            //No es obligatorio según la bdd
+        if (ejercicioDTO.getUrlVideo() != null) {               //No es obligatorio según la bdd
             ejercicio.setDescripcion(ejercicioDTO.getDescripcion());
         }
 
@@ -73,6 +83,12 @@ public class EjercicioService extends DTOService<EjercicioDTO, Ejercicio>{
     }
 
     public Integer findId(Integer ejId, Integer entrenamientoId){
-        return ejercicioRepository.findId(ejId, entrenamientoId);
+        return ejercicioRepository.findId(ejId, entrenamientoId);}
+    public void deleteById(Integer ejercicioId) {
+        ejercicioRepository.deleteById(ejercicioId);
+    }
+
+    public EjercicioDTO findById(Integer ejercicioId) {
+        return ejercicioRepository.findById(ejercicioId).get().toDTO();
     }
 }

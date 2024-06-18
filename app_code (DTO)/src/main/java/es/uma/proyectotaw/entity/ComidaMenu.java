@@ -1,5 +1,9 @@
+//Autor: Álvaro Valencia Villalón
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.ComidaMenuDTO;
+import es.uma.proyectotaw.dto.DTO;
+import es.uma.proyectotaw.dto.EjercicioDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +12,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "comida_menu")
-public class ComidaMenu {
+public class ComidaMenu implements DTO<ComidaMenuDTO> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -25,5 +29,13 @@ public class ComidaMenu {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "desempeno_id")
     private Desempeno desempeno;
+
+    public ComidaMenuDTO toDTO(){
+        ComidaMenuDTO dto = new ComidaMenuDTO();
+        dto.setId(id);
+        dto.setMenu(menu.getId());
+        //TODO: Faltan setear el resto de los campos, que no he rellenado para que lo haga a su gusto al que le toque, yo necesitaba usar el menu.
+        return dto;
+    }
 
 }
