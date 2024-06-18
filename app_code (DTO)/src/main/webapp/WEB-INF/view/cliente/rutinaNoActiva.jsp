@@ -1,6 +1,7 @@
 <%@ page import="es.uma.proyectotaw.entity.Entrenamiento" %>
 <%@ page import="java.util.HashMap" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.dto.EntrenamientoDTO" %><%--
   Created by IntelliJ IDEA.
   User: albadelatorres
   Date: 6/6/24
@@ -9,7 +10,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<Entrenamiento> entrenamiento = (List<Entrenamiento>) request.getAttribute("entrenamientos");
+    List<EntrenamientoDTO> entrenamiento = (List<EntrenamientoDTO>) request.getAttribute("entrenamientos");
     HashMap<Integer,Float> cumplimiento = (HashMap<Integer,Float>) request.getAttribute("cumplimiento");
     HashMap<Integer,Integer> dia = (HashMap<Integer,Integer>) request.getAttribute("dia");
 
@@ -26,7 +27,7 @@
         <div class="col-md-8">
             <h3>Entrenamientos</h3>
             <div class="list-group">
-                <% for (Entrenamiento e : entrenamiento) {
+                <% for (EntrenamientoDTO e : entrenamiento) {
                     float c = cumplimiento.get(e.getId());
                     int diaSemana = dia.get(e.getId());
                 %>

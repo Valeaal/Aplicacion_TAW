@@ -1,5 +1,7 @@
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.DTO;
+import es.uma.proyectotaw.dto.EntrenamientoDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +13,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "entrenamiento")
-public class Entrenamiento {
+public class Entrenamiento implements DTO<EntrenamientoDTO> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -29,5 +31,23 @@ public class Entrenamiento {
 
     @OneToMany(mappedBy = "entrenamiento")
     private Set<EjercicioEntrenamiento> ejercicios = new HashSet<>();
+
+    public EntrenamientoDTO toDTO(){
+        EntrenamientoDTO dto = new EntrenamientoDTO();
+        dto.setId(id);
+        dto.setNombre(nombre);
+        dto.setDescripcion(descripcion);
+        Set<Integer> lista = new HashSet<>();
+        for (EntrenamientoRutina rutina : rutinas) {
+            lista.add(rutina.getId());
+        }
+        dto.setRutinas(lista);
+        lista.clear();;
+        for(EjercicioEntrenamiento ejercicio : ejercicios){
+            lista.add(ejercicio.getId());
+        }
+        dto.setEjercicios(lista);
+        return dto;
+    }
 
 }
