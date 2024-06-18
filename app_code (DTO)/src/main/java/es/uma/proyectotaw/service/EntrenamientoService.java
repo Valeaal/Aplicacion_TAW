@@ -13,21 +13,14 @@ import java.util.List;
 //autor : Alba de la Torre
 //autor:  Miguel Galdeano Rodríguez
 @Service
-public class EntrenamientoService {
+public class EntrenamientoService extends DTOService<EntrenamientoDTO, Entrenamiento>{
 
     @Autowired
     private EntrenamientoRepository entrenamientoRepository;
 
-    @Autowired
-    private EntrenamientoRutinaRepository entrenamientoRutinaRepository;
-
-    public List<Entrenamiento> findAll(){
-        List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
-        return this.entidadesADTO(entrenamientos);
-    }
-
-    public List<Entrenamiento> findByRutinaId(Integer rutinaId) {
-        return entrenamientoRepository.findByRutinaId(rutinaId);
+    public List<EntrenamientoDTO> findByRutinaId(Integer rutinaId) {
+        List<Entrenamiento> er = entrenamientoRepository.findByRutinaId(rutinaId);
+        return this.entidadesADTO(er);
     }
 
     public Entrenamiento getReferenceById(Integer id) {

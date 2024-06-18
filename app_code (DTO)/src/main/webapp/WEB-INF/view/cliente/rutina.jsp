@@ -3,7 +3,10 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.*" %>
 <%@ page import="java.util.Set" %>
-<%@ page import="java.util.HashMap" %><%--
+<%@ page import="java.util.HashMap" %>
+<%@ page import="es.uma.proyectotaw.dto.RutinaDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.ClienteDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.EntrenamientoDTO" %><%--
   Created by IntelliJ IDEA.
   User: albadelatorres
   Date: 30/4/24
@@ -13,9 +16,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    Rutina rutina = (Rutina) request.getAttribute("rutina");
-    Cliente cliente = (Cliente) request.getAttribute("cliente");
-    List<Entrenamiento> entrenamiento = (List<Entrenamiento>) request.getAttribute("entrenamientos");
+    RutinaDTO rutina = (RutinaDTO) request.getAttribute("rutina");
+    ClienteDTO cliente = (ClienteDTO) request.getAttribute("cliente");
+    List<EntrenamientoDTO> entrenamiento = (List<EntrenamientoDTO>) request.getAttribute("entrenamientos");
     HashMap<Integer,Float> cumplimiento = (HashMap<Integer,Float>) request.getAttribute("cumplimiento");
     HashMap<Integer,Integer> dia = (HashMap<Integer,Integer>) request.getAttribute("dia");
 %>
@@ -34,7 +37,7 @@
         <div class="col-md-8">
             <h3>Entrenamientos</h3>
             <ul class="list-group">
-                <% for (Entrenamiento e : entrenamiento) {
+                <% for (EntrenamientoDTO e : entrenamiento) {
                     float c = cumplimiento.get(e.getId());
                     int diaSemana = dia.get(e.getId());
                 %>

@@ -1,5 +1,6 @@
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.TipoRutinaDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,4 +19,10 @@ public class TipoRutina {
     @Column(name = "tipo", nullable = false)
     private String tipo;
 
+    public TipoRutinaDTO toDTO(){
+        TipoRutinaDTO dto = new TipoRutinaDTO();
+        dto.setId(id);
+        dto.setTipo(tipo);
+        return dto;
+    }
 }

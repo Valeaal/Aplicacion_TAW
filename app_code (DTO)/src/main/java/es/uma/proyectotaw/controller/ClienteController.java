@@ -1,5 +1,9 @@
 package es.uma.proyectotaw.controller;
 
+import es.uma.proyectotaw.dto.ClienteDTO;
+import es.uma.proyectotaw.dto.EntrenamientoDTO;
+import es.uma.proyectotaw.dto.GrupoMuscularDTO;
+import es.uma.proyectotaw.dto.RutinaDTO;
 import es.uma.proyectotaw.service.*;
 import es.uma.proyectotaw.ui.*;
 import org.springframework.ui.Model;
@@ -46,19 +50,19 @@ public class ClienteController {
 
     @GetMapping("/rutina")
     public String rutina(@RequestParam("id") Integer id, Model model) {
-        Cliente client = clienteService.getClienteByUserId2(id);
-        Rutina rutina = rutinaService.getActiveRutinasByClienteId(client.getId());
-        List<Entrenamiento> entrenamientos = entrenamientoService.findByRutinaId(rutina.getId());
-        List<GrupoMuscular> grupomuscular = grupoMuscularService.findAll2();
+        ClienteDTO client = clienteService.getClienteByUserId(id);
+        RutinaDTO rutina = rutinaService.getActiveRutinasByClienteId(client.getId());
+        List<EntrenamientoDTO> entrenamientos = entrenamientoService.findByRutinaId(rutina.getId());
+        List<GrupoMuscularDTO> grupomuscular = grupoMuscularService.findAll();
 
         HashMap<Integer, Float> cumplimiento= new HashMap<>();
-        for(Entrenamiento entrenamiento: entrenamientos){
+        for(EntrenamientoDTO entrenamiento: entrenamientos){
             float c = calcularCumplimiento(entrenamiento.getId());
             cumplimiento.put(entrenamiento.getId(), c);
         }
 
         HashMap<Integer, Integer> dia = new HashMap<>();
-        for(Entrenamiento entrenamiento: entrenamientos){
+        for(EntrenamientoDTO entrenamiento: entrenamientos){
             int diaSemana = entrenamientoRutinaService.getdiaSemanaFromRutinaAndEntrenamientoId(rutina.getId(), entrenamiento.getId());
             dia.put(entrenamiento.getId(),diaSemana);
         }
@@ -75,14 +79,14 @@ public class ClienteController {
 
     @GetMapping("/verRutina")
     public String verRutinaNoActiva(@RequestParam("id") Integer id, Model model) {
-        List<Entrenamiento> entrenamientos = entrenamientoService.findByRutinaId(id);
+        List<EntrenamientoDTO> entrenamientos = entrenamientoService.findByRutinaId(id);
         HashMap<Integer, Float> cumplimiento= new HashMap<>();
-        for(Entrenamiento entrenamiento: entrenamientos){
+        for(EntrenamientoDTO entrenamiento: entrenamientos){
             float c = calcularCumplimiento(entrenamiento.getId());
             cumplimiento.put(entrenamiento.getId(), c);
         }
         HashMap<Integer, Integer> dia = new HashMap<>();
-        for(Entrenamiento entrenamiento: entrenamientos){
+        for(EntrenamientoDTO entrenamiento: entrenamientos){
             int diaSemana = entrenamientoRutinaService.getdiaSemanaFromRutinaAndEntrenamientoId(id, entrenamiento.getId());
             dia.put(entrenamiento.getId(),diaSemana);
         }
@@ -307,8 +311,8 @@ public class ClienteController {
         }
         float desempenyoTotal = 0;
         for(Rutina r : rutina){
-            List<Entrenamiento> entrenamientos = entrenamientoService.findByRutinaId(r.getId());
-            for(Entrenamiento e : entrenamientos){
+            List<EntrenamientoDTO> entrenamientos = entrenamientoService.findByRutinaId(r.getId());
+            for(EntrenamientoDTO e : entrenamientos){
                 desempenyoTotal += calcularCumplimiento(e.getId());
             }
             desempenyoTotal = desempenyoTotal/entrenamientos.size();
