@@ -2,6 +2,7 @@ package es.uma.proyectotaw.entity;
 
 import es.uma.proyectotaw.dto.ClienteRutinaDTO;
 import es.uma.proyectotaw.dto.DTO;
+import es.uma.proyectotaw.dto.EntrenamientoRutinaDTO;
 import es.uma.proyectotaw.dto.RutinaDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -58,16 +59,16 @@ public class Rutina implements DTO<RutinaDTO> {
         if (this.tipoRutina != null) {
             rutinaDTO.setTipoRutina(this.tipoRutina.toDTO());
         }
-        Set<Integer> lista = new HashSet<>();
+        Set<ClienteRutinaDTO> lista = new HashSet<>();
         for (ClienteRutina cliente : clientes) {
-            lista.add(cliente.getId());
+            lista.add(cliente.toDTO());
         }
         rutinaDTO.setClientes(lista);
-        lista.clear();
+        Set<EntrenamientoRutinaDTO> lista2 = new HashSet<>();
         for (EntrenamientoRutina er : entrenamientos) {
-            lista.add(er.getId());
+            lista2.add(er.toDTO());
         }
-        rutinaDTO.setEntrenamientos(lista);
+        rutinaDTO.setEntrenamientos(lista2);
         return rutinaDTO;
     }
 

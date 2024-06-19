@@ -1,7 +1,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="es.uma.proyectotaw.entity.Dieta" %>
-<%@ page import="es.uma.proyectotaw.entity.Rutina" %><%--
+<%@ page import="es.uma.proyectotaw.entity.Rutina" %>
+<%@ page import="es.uma.proyectotaw.dto.DietaDTO" %><%--
   Created by IntelliJ IDEA.
   User: albadelatorres
   Date: 16/6/24
@@ -10,8 +11,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<Dieta> dietasFiltradas = (List<Dieta>) request.getAttribute("dietasFiltradas");
-    List<Dieta> dietas= (List<Dieta>) request.getAttribute("dietas");
+    List<DietaDTO> dietasFiltradas = (List<DietaDTO>) request.getAttribute("dietasFiltradas");
+    List<DietaDTO> dietas= (List<DietaDTO>) request.getAttribute("dietas");
     HashMap<Integer, Float> cumplimiento = (HashMap<Integer, Float>) request.getAttribute("cumplimiento");
 %>
 <html>
@@ -28,7 +29,7 @@
         <div class="col-md-6">
             <h2>Dietas Filtradas</h2>
             <div class="list-group">
-                <% for (Dieta d : dietasFiltradas) { %>
+                <% for (DietaDTO d : dietasFiltradas) { %>
                 <a href="#" class="list-group-item list-group-item-action">
                     <%= d.getNombre() %> - Cumplimiento: <%= String.format("%.2f%%", cumplimiento.get(d.getId())) %>
                 </a>
@@ -38,7 +39,7 @@
         <div class="col-md-6">
             <h2>Resto de Dietas</h2>
             <div class="list-group">
-                <% for (Dieta d : dietas) { %>
+                <% for (DietaDTO d : dietas) { %>
                 <a href="#" class="list-group-item list-group-item-action">
                     <%= d.getNombre() %> - Cumplimiento: <%= String.format("%.2f%%", cumplimiento.get(d.getId())) %>
                 </a>

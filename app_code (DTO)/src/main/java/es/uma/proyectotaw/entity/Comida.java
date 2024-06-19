@@ -2,6 +2,7 @@ package es.uma.proyectotaw.entity;
 
 import es.uma.proyectotaw.dto.ComidaDTO;
 import es.uma.proyectotaw.dto.ComidaMenuDTO;
+import es.uma.proyectotaw.dto.DTO;
 import es.uma.proyectotaw.dto.EjercicioEntrenamientoDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "comida")
-public class Comida {
+public class Comida implements DTO<ComidaDTO> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

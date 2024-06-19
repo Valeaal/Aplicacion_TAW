@@ -1,5 +1,7 @@
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.DTO;
+import es.uma.proyectotaw.dto.EntrenamientoRutinaDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "entrenamiento_rutina")
-public class EntrenamientoRutina {
+public class EntrenamientoRutina implements DTO<EntrenamientoRutinaDTO> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -25,4 +27,12 @@ public class EntrenamientoRutina {
     @Column(name = "dia_semana", nullable = false)
     private Integer diaSemana;
 
+    public EntrenamientoRutinaDTO toDTO(){
+        EntrenamientoRutinaDTO entrenamientoRutinaDTO = new EntrenamientoRutinaDTO();
+        entrenamientoRutinaDTO.setId(this.id);
+        entrenamientoRutinaDTO.setEntrenamiento(this.entrenamiento.getId());
+        entrenamientoRutinaDTO.setRutina(this.rutina.getId());
+        entrenamientoRutinaDTO.setDiaSemana(this.diaSemana);
+        return entrenamientoRutinaDTO;
+    }
 }

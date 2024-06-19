@@ -27,8 +27,8 @@ public class ComidaService extends DTOService<ComidaDTO, Comida>{
         return comidaRepository.getReferenceById(id);
     }
 
-    public List<Comida> findByDietaId(Integer id){
-        return comidaRepository.findByDietaId(id);
+    public List<ComidaDTO> findByDietaId(Integer id){
+        return this.entidadesADTO(comidaRepository.findByDietaId(id));
     }
 
     public List<ComidaDTO> findComidasByDietaId(Integer id){

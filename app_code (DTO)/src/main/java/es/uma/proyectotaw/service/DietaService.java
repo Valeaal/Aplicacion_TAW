@@ -14,22 +14,13 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+// autor: Alba de la Torre
 @Service
 public class DietaService extends DTOService<DietaDTO, Dieta> {
     @Autowired
     private DietaRepository dietaRepository;
 
-//    public Set<DietaComidaDTO> getComidaDietaByDietaId(Integer id){
-//        Set<DietaComida> comida= dietaRepository.getComidaDietaByDietaId(id);
-//        return this.entidadesADTO(comida);
-//    }
-
-//    public List<ComidaDTO> findComidasByDietaId(Integer id){
-//        return this.entidadesADTO(dietaRepository.findComidasByDietaId(id));
-//    }
-
-    public List<Dieta> getDietaByClientId(Integer id){
-        return dietaRepository.getDietaByClientId(id);
+    public List<DietaDTO> getDietaByClientId(Integer id){
+        return this.entidadesADTO(dietaRepository.getDietaByClientId(id));
     }
 }

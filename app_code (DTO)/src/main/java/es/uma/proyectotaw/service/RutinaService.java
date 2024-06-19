@@ -25,7 +25,8 @@ public class RutinaService extends DTOService<RutinaDTO, Rutina>{
         return this.entidadesADTO(lista);
     }
 
-    public List<Rutina> getAllRutinasByClienteId(Integer clientId){
-        return rutinaRepository.getAllRutinasByClienteId(clientId);
+    public List<RutinaDTO> getAllRutinasByClienteId(Integer clientId){
+        List<Rutina> rutinas = rutinaRepository.getAllRutinasByClienteId(clientId);
+        return this.entidadesADTO(rutinas);
     }
 }

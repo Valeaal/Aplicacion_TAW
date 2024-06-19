@@ -10,6 +10,7 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+// autor: Alba de la Torre
 
 @Data
 public class RutinaDTO {
@@ -19,6 +20,6 @@ public class RutinaDTO {
     private LocalDate fechaCreacion;
     private UsuarioDTO entrenador;
     private TipoRutinaDTO tipoRutina;
-    private Set<Integer> clientes = new HashSet<>();
-    private Set<Integer> entrenamientos = new HashSet<>();
+    private Set<ClienteRutinaDTO> clientes = new HashSet<>();
+    private Set<EntrenamientoRutinaDTO> entrenamientos = new HashSet<>();
 }

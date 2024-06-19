@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.Rutina" %>
-<%@ page import="java.util.HashMap" %><%--
+<%@ page import="java.util.HashMap" %>
+<%@ page import="es.uma.proyectotaw.dto.RutinaDTO" %><%--
   Created by IntelliJ IDEA.
   User: albadelatorres
   Date: 6/6/24
@@ -9,8 +10,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<Rutina> rutinasFiltradas = (List<Rutina>) request.getAttribute("rutinasFiltradas");
-    List<Rutina> rutinas= (List<Rutina>) request.getAttribute("rutinas");
+    List<RutinaDTO> rutinasFiltradas = (List<RutinaDTO>) request.getAttribute("rutinasFiltradas");
+    List<RutinaDTO> rutinas= (List<RutinaDTO>) request.getAttribute("rutinas");
     HashMap<Integer, Float> cumplimiento = (HashMap<Integer, Float>) request.getAttribute("cumplimiento");
 %>
 <html>
@@ -27,7 +28,7 @@
         <div class="col-md-6">
             <h2>Rutinas Filtradas</h2>
             <div class="list-group">
-                <% for (Rutina r : rutinasFiltradas) { %>
+                <% for (RutinaDTO r : rutinasFiltradas) { %>
                 <a href="/verRutina?id=<%=r.getId()%>" class="list-group-item list-group-item-action">
                     <%= r.getNombre() %> - Cumplimiento: <%= String.format("%.2f%%", cumplimiento.get(r.getId())) %>
                 </a>
@@ -37,7 +38,7 @@
         <div class="col-md-6">
             <h2>Resto de Rutinas</h2>
             <div class="list-group">
-                <% for (Rutina r : rutinas) { %>
+                <% for (RutinaDTO r : rutinas) { %>
                 <a href="/verRutina?id=<%=r.getId()%>" class="list-group-item list-group-item-action">
                     <%= r.getNombre() %> - Cumplimiento: <%= String.format("%.2f%%", cumplimiento.get(r.getId())) %>
                 </a>
