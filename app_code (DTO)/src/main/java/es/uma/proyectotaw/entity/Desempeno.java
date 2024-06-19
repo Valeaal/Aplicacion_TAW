@@ -1,5 +1,6 @@
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.DesempenoDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,5 +28,15 @@ public class Desempeno {
     @Lob
     @Column(name = "comentarios")
     private String comentarios;
+
+    public DesempenoDTO toDTO(){
+        DesempenoDTO desempenoDTO = new DesempenoDTO();
+        desempenoDTO.setId(id);
+        desempenoDTO.setCliente(this.cliente.toDTO());
+        desempenoDTO.setValoracion(this.valoracion);
+        desempenoDTO.setPesoRealizado(this.pesoRealizado);
+        desempenoDTO.setComentarios(this.comentarios);
+        return desempenoDTO;
+    }
 
 }

@@ -10,8 +10,8 @@ public class EjercicioEntrenamientoDTO {
 
     private Integer id;
     private Integer ejercicio;
-    //private EntrenamientoDTO entrenamiento;
-    //private DesempenoDTO desempeno;
+    private Integer entrenamiento;
+    private Integer desempeno;
     private Integer series;
     private Integer repeticiones;
     private Float peso;

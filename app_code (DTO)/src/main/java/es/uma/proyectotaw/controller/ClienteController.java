@@ -1,9 +1,6 @@
 package es.uma.proyectotaw.controller;
 
-import es.uma.proyectotaw.dto.ClienteDTO;
-import es.uma.proyectotaw.dto.EntrenamientoDTO;
-import es.uma.proyectotaw.dto.GrupoMuscularDTO;
-import es.uma.proyectotaw.dto.RutinaDTO;
+import es.uma.proyectotaw.dto.*;
 import es.uma.proyectotaw.service.*;
 import es.uma.proyectotaw.ui.*;
 import org.springframework.ui.Model;
@@ -47,6 +44,8 @@ public class ClienteController {
     private EntrenamientoRutinaService entrenamientoRutinaService;
     @Autowired
     private MenuService menuService;
+    @Autowired
+    private ComidaMenuService comidaMenuService;
 
     @GetMapping("/rutina")
     public String rutina(@RequestParam("id") Integer id, Model model) {
@@ -99,7 +98,7 @@ public class ClienteController {
 
     private float calcularCumplimiento(Integer id) {
         float res = 0;
-        Entrenamiento e = entrenamientoService.getReferenceById(id);
+        Entrenamiento e = entrenamientoService.getEntityById(id);
         for(EjercicioEntrenamiento ee: e.getEjercicios()){
             if(ee.getDesempeno()!=null){
                 res++;
@@ -110,7 +109,7 @@ public class ClienteController {
 
     private float calcularCumplimientoDieta(Integer id) {
         float res = 0;
-        Comida c = comidaService.getReferenceById(id);
+        Comida c = comidaService.getEntityById(id);
         for(ComidaMenu cm : c.getMenus()){
             if(cm.getDesempeno()!=null){
                 res++;
@@ -144,7 +143,7 @@ public class ClienteController {
             List<Float> specs = ejercicioService.getEspecificacionesEjercicio(ejercicio.getId(), id);
             int realizado = 1;
             int eeID= ejercicioService.findId(ejercicio.getId(), id);
-            EjercicioEntrenamiento ee = ejercicioEntrenamientoService.getReferenceById(eeID);
+            EjercicioEntrenamientoDTO ee = ejercicioEntrenamientoService.getReferenceById(eeID);
             if(ee.getDesempeno()==null){
                 realizado = 0;
             }
@@ -167,7 +166,7 @@ public class ClienteController {
                                @RequestParam("entrenamientoId") Integer entrenamientoId,
                                Model model){
         Ejercicio ejercicio = ejercicioService.getReferenceById(id);
-        Cliente cliente = clienteService.getReferenceById(clientId);
+        ClienteDTO cliente = clienteService.getReferenceById(clientId);
         //Desempeno desempeno = new Desempeno();
         DesempenyoYEjercicio desempeno = new DesempenyoYEjercicio();
         model.addAttribute("ejercicio", ejercicio);
@@ -183,7 +182,7 @@ public class ClienteController {
                                @RequestParam("entrenamientoId") Integer entrenamientoId,
                                Model model){
         Ejercicio ejercicio = ejercicioService.getReferenceById(id);
-        Cliente cliente = clienteService.getReferenceById(clientId);
+        ClienteDTO cliente = clienteService.getReferenceById(clientId);
         Desempeno d = desempenoService.getDesempenoByEntrenamientoAndEjId(id, entrenamientoId);
 
         DesempenyoYEjercicio desempeno = new DesempenyoYEjercicio();
@@ -201,28 +200,36 @@ public class ClienteController {
     @PostMapping("/guardarDesempeno")
     public String guardarDesempeno(@ModelAttribute("desempeno") DesempenyoYEjercicio desempeno, Model model){
         desempenoService.guardarDesempeno(desempeno.getCliente(), desempeno.getPesoRealizado(), desempeno.getComentarios(), desempeno.getValoracion(), desempeno.getEjercicio(), desempeno.getEntrenamiento());
-        Cliente c = clienteService.getReferenceById(desempeno.getCliente());
+        ClienteDTO c = clienteService.getReferenceById(desempeno.getCliente());
         return "redirect:/rutina?id="+ c.getUsuario().getId();
     }
 
     @GetMapping("/comida")
     public String comida(@RequestParam("id") Integer id, @RequestParam("clientId") Integer clientId, Model model){
-        Comida comida = comidaService.getReferenceById(id);
-        Cliente client = clienteService.getReferenceById(clientId);
-        Set<ComidaMenu> menus =  comida.getMenus();
+        ComidaDTO comida = comidaService.getReferenceById(id);
+        ClienteDTO client = clienteService.getReferenceById(clientId);
+        Set<ComidaMenuDTO> menus =  comida.getMenus();
         HashMap <Integer, Integer> desempenyo = new HashMap();
-        for(ComidaMenu menu : menus){
+        HashMap <Integer, List<String>> desc = new HashMap();
+        for(ComidaMenuDTO menu : menus){
             int realizado = 1;
             if(menu.getDesempeno()==null){
                 realizado = 0;
             }
-            desempenyo.put(menu.getMenu().getId(), realizado);
+            MenuDTO m = menuService.getReferenceById(menu.getMenu());
+            desempenyo.put(m.getId(), realizado);
+            List<String> list = new ArrayList<>();
+            list.add(m.getNombre());
+            list.add(m.getDescripcion());
+            desc.put(menu.getId(), list);
         }
+
 
         model.addAttribute("desempenyo", desempenyo);
         model.addAttribute("comida", comida);
         model.addAttribute("menus", menus);
         model.addAttribute("client", client);
+        model.addAttribute("desc", desc);
         return "/cliente/comida";
     }
 
@@ -232,8 +239,8 @@ public class ClienteController {
                                   @RequestParam("clientId") Integer clientId,
                                   Model model){
         ComidaDesempenyo desempeno = new ComidaDesempenyo();
-        Menu menu = menuService.getReferenceById(id);
-        Cliente cliente = clienteService.getReferenceById(clientId);
+        MenuDTO menu = menuService.getReferenceById(id);
+        ClienteDTO cliente = clienteService.getReferenceById(clientId);
 
         model.addAttribute("menu", menu);
         model.addAttribute("desempeno", desempeno);
@@ -245,7 +252,7 @@ public class ClienteController {
     @PostMapping("/guardarDesempenoDieta")
     public String guardarDesempenoDieta(@ModelAttribute("desempeno") ComidaDesempenyo desempeno, Model model){
         desempenoService.guardarDesempenoDieta(desempeno.getCliente(), 0F, desempeno.getComentarios(), desempeno.getValoracion(), desempeno.getMenu(), desempeno.getComida());
-        Cliente c = clienteService.getReferenceById(desempeno.getCliente());
+        ClienteDTO c = clienteService.getReferenceById(desempeno.getCliente());
         return "redirect:/menu?id="+ c.getUsuario().getId();
     }
 
@@ -255,8 +262,8 @@ public class ClienteController {
                                     @RequestParam("clientId") Integer clientId,
                                     Model model){
         ComidaDesempenyo desempeno = new ComidaDesempenyo();
-        Menu menu = menuService.getReferenceById(id);
-        Cliente cliente = clienteService.getReferenceById(clientId);
+        MenuDTO menu = menuService.getReferenceById(id);
+        ClienteDTO cliente = clienteService.getReferenceById(clientId);
         Desempeno d = desempenoService.getDesempenoByMenuAndComidaId(id, comidaId);
 
         desempeno.setComentarios(d.getComentarios());
@@ -376,7 +383,7 @@ public class ClienteController {
                                     @RequestParam("clientId") Integer clientId,
                                     @RequestParam("entrenamientoId") Integer entrenamientoId,
                                     Model model){
-        Cliente c = clienteService.getReferenceById(clientId);
+        ClienteDTO c = clienteService.getReferenceById(clientId);
         desempenoService.delete(clientId, id, entrenamientoId);
         return "redirect:/rutina?id="+ c.getUsuario().getId();
     }
@@ -386,7 +393,7 @@ public class ClienteController {
                                     @RequestParam("clientId") Integer clientId,
                                     @RequestParam("comidaId") Integer comidaId,
                                     Model model){
-        Cliente c = clienteService.getReferenceById(clientId);
+        ClienteDTO c = clienteService.getReferenceById(clientId);
         desempenoService.deleteMenu(clientId, id, comidaId);
         return "redirect:/menu?id="+ c.getUsuario().getId();
     }

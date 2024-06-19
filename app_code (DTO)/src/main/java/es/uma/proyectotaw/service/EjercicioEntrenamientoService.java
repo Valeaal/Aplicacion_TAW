@@ -13,8 +13,8 @@ public class EjercicioEntrenamientoService extends DTOService<EjercicioEntrenami
     @Autowired
     private EjercicioEntrenamientoRepository ejercicioEntrenamientoRepository;
 
-    public EjercicioEntrenamiento getReferenceById(Integer id) {
-        return ejercicioEntrenamientoRepository.getReferenceById(id);
+    public EjercicioEntrenamientoDTO getReferenceById(Integer id) {
+        return ejercicioEntrenamientoRepository.getReferenceById(id).toDTO();
     }
 
     public EjercicioEntrenamiento getEjercicioEntrenamientoFromEjAndEntrenamientoId(Integer ejId, Integer entrenamientoId) {

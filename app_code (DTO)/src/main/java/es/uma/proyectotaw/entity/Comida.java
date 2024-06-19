@@ -1,5 +1,8 @@
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.ComidaDTO;
+import es.uma.proyectotaw.dto.ComidaMenuDTO;
+import es.uma.proyectotaw.dto.EjercicioEntrenamientoDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,5 +29,18 @@ public class Comida {
 
     @OneToMany(mappedBy = "comida")
     private Set<ComidaMenu> menus = new HashSet<>();
+
+    public ComidaDTO toDTO() {
+        ComidaDTO comidaDTO = new ComidaDTO();
+        comidaDTO.setId(id);
+        comidaDTO.setNombre(nombre);
+        comidaDTO.setDescripcion(descripcion);
+        Set<ComidaMenuDTO> lista = new HashSet<>();
+        for (ComidaMenu comida : menus) {
+            lista.add(comida.toDTO());
+        }
+        comidaDTO.setMenus(lista);
+        return comidaDTO;
+    }
 
 }

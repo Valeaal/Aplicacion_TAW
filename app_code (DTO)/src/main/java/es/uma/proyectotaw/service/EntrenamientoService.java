@@ -18,12 +18,25 @@ public class EntrenamientoService extends DTOService<EntrenamientoDTO, Entrenami
     @Autowired
     private EntrenamientoRepository entrenamientoRepository;
 
+    // esto tiene que usar el entidadesADTO de la clase DTOService. además, tiene que devolver List<EntrenamientoDTO>
+    // lo he comentado y cambiado a que acceda al repositorio normal porque da fallo
+    public List<Entrenamiento> findAll(){
+//        List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
+//        return this.entidadesADTO(entrenamientos);
+        return entrenamientoRepository.findAll();
+    }
+
     public List<EntrenamientoDTO> findByRutinaId(Integer rutinaId) {
         List<Entrenamiento> er = entrenamientoRepository.findByRutinaId(rutinaId);
+        this.entidadesADTO(er);
         return this.entidadesADTO(er);
     }
 
-    public Entrenamiento getReferenceById(Integer id) {
+    public EntrenamientoDTO getReferenceById(Integer id) {
+        return entrenamientoRepository.getReferenceById(id).toDTO();
+    }
+
+    public Entrenamiento getEntityById(Integer id) {
         return entrenamientoRepository.getReferenceById(id);
     }
 
@@ -38,11 +51,11 @@ public class EntrenamientoService extends DTOService<EntrenamientoDTO, Entrenami
         this.entrenamientoRepository.save(entrenamiento);
     }
 
-    protected List<Entrenamiento> entidadesADTO (List<Entrenamiento> entrenamientos) {
-        List<Entrenamiento> lista = new ArrayList<>();
-        for (Entrenamiento entrenamiento : entrenamientos) {
-            lista.add(entrenamiento.toDTO());
-        }
-        return lista;
-    }
+//    protected List<EntrenamientoDTO> entidadesADTO (List<Entrenamiento> entrenamientos) {
+//        List<Entrenamiento> lista = new ArrayList<>();
+//        for (Entrenamiento entrenamiento : entrenamientos) {
+//            lista.add(entrenamiento.toDTO());
+//        }
+//        return lista;
+//    }
 }

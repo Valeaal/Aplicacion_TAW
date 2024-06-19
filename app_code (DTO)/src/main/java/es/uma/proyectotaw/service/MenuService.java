@@ -25,8 +25,8 @@ public class MenuService extends DTOService<MenuDTO, Menu>{
         return this.entidadesADTO(menuRepository.filtrarMenus(inputNombre, inputAlergenos));
     }
 
-    public Menu getReferenceById(Integer id){
-        return menuRepository.getReferenceById(id);
+    public MenuDTO getReferenceById(Integer id){
+        return menuRepository.getReferenceById(id).toDTO();
     }
 
 

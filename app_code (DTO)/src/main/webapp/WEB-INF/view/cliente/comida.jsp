@@ -4,7 +4,11 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="java.util.HashMap" %>
-<%@ page import="es.uma.proyectotaw.entity.Cliente" %><%--
+<%@ page import="es.uma.proyectotaw.entity.Cliente" %>
+<%@ page import="es.uma.proyectotaw.dto.ComidaDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.ClienteDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.ComidaMenuDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.MenuDTO" %><%--
   Created by IntelliJ IDEA.
   User: albadelatorres
   Date: 4/5/24
@@ -13,10 +17,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Comida comida = (Comida) request.getAttribute("comida");
-    Cliente client = (Cliente) request.getAttribute("client");
-    Set<ComidaMenu> menus = (Set<ComidaMenu>) request.getAttribute("menus");
+    ComidaDTO comida = (ComidaDTO) request.getAttribute("comida");
+    ClienteDTO client = (ClienteDTO) request.getAttribute("client");
+    Set<ComidaMenuDTO> menus = (Set<ComidaMenuDTO>) request.getAttribute("menus");
     HashMap<Integer, Integer> desempenyo = (HashMap<Integer, Integer>) request.getAttribute("desempenyo");
+    HashMap<Integer, List<String>> desc = (HashMap<Integer, List<String>>) request.getAttribute("desc");
 %>
 <html>
 <head>
@@ -30,25 +35,26 @@
     <h1 class="display-4 mb-3"><%= comida.getNombre() %></h1>
     <div class="row">
         <%
-            for (ComidaMenu cm : menus) {
-                int realizado = desempenyo.get(cm.getMenu().getId());
+            for (ComidaMenuDTO cm : menus) {
+                int realizado = desempenyo.get(cm.getMenu());
+                List<String> list = desc.get(cm.getId());
         %>
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="card h-100">
                 <div class="card-body">
-                    <h5 class="card-title"><%= cm.getMenu().getNombre() %></h5>
-                    <p class="card-text"><%= cm.getMenu().getDescripcion() %></p>
+                    <h5 class="card-title"><%= list.get(0) %></h5>
+                    <p class="card-text"><%= list.get(1) %></p>
                 </div>
                 <div class="card-footer">
                     <%
                         if (realizado == 0) {
                     %>
-                    <a href="/dietaDesempeno?id=<%=cm.getMenu().getId()%>&comidaId=<%=comida.getId()%>&clientId=<%=client.getId()%>" class="btn btn-primary">Valorar</a>
+                    <a href="/dietaDesempeno?id=<%=cm.getMenu()%>&comidaId=<%=comida.getId()%>&clientId=<%=client.getId()%>" class="btn btn-primary">Valorar</a>
                     <%
                     } else {
                     %>
-                    <a href="/verDietaDesempeno?id=<%=cm.getMenu().getId()%>&comidaId=<%=comida.getId()%>&clientId=<%=client.getId()%>" class="btn btn-secondary">Ver valoración</a>
-                    <td><a href="/eliminarDesempenoMenu?id=<%=cm.getMenu().getId()%>&clientId=<%=client.getId()%>&comidaId=<%=cm.getComida().getId()%>" class="btn btn-primary">Eliminar valoración</a></td>
+                    <a href="/verDietaDesempeno?id=<%=cm.getMenu()%>&comidaId=<%=comida.getId()%>&clientId=<%=client.getId()%>" class="btn btn-secondary">Ver valoración</a>
+                    <td><a href="/eliminarDesempenoMenu?id=<%=cm.getMenu()%>&clientId=<%=client.getId()%>&comidaId=<%=cm.getComida()%>" class="btn btn-primary">Eliminar valoración</a></td>
 
                     <%
                         }
