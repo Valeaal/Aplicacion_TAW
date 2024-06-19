@@ -423,7 +423,7 @@ public class AdminController {
         String direccionRetorno = "redirect:/admin/menus";
 
         if (inputBoton.equals("Añadir")) {
-            Menu menu = new Menu();
+            MenuDTO menu = new MenuDTO();
             model.addAttribute("menu", menu);
             direccionRetorno = "administrador/nuevoMenu";
         } else if (inputMenu != null){
@@ -452,9 +452,9 @@ public class AdminController {
     }
 
     @PostMapping("/menus/guardar")
-    public String guardarMenus(Model model, @ModelAttribute("menu") Menu menu){
+    public String guardarMenus(Model model, @ModelAttribute("menu") MenuDTO menu){
 
-        menuRepository.save(menu);
+        menuService.save(menu);
 
         return "redirect:/admin/menus";
     }

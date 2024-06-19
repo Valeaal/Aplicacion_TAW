@@ -36,7 +36,7 @@ public class EjercicioService extends DTOService<EjercicioDTO, Ejercicio>{
 
     public void save(EjercicioDTO ejercicioDTO) {
         Ejercicio ejercicio;
-        if(ejercicioDTO.getId() == null){                   //Permitimos crar nuevo ejercicio y actualizar en el mismo método
+        if(ejercicioDTO.getId() == null){                   //Permitimos crear nuevo ejercicio y actualizar en el mismo método
             ejercicio = new Ejercicio();
         } else{
             ejercicio = ejercicioRepository.findById(ejercicioDTO.getId()).orElse(null);

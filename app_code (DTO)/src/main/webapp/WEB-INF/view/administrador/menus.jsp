@@ -63,9 +63,33 @@
                     <% for (MenuDTO m : Menus) { %>
                     <tr>
                         <td><input type="radio" name="mSeleccionado" value= "<%= m.getId() %>" ></td>
+
                         <td><%= m.getNombre()%></td>
-                        <td><%= m.getDescripcion()%></td>
-                        <td><%= m.getAlergenos()%></td>
+
+                        <%
+                            if (m.getDescripcion() == null){
+                        %>
+                                <td>-</td>
+                        <%
+                            } else{
+                        %>
+                                <td><%= m.getDescripcion()%></td>
+                        <%
+                            }
+                        %>
+
+                        <%
+                            if (m.getAlergenos() == null){
+                        %>
+                                <td>-</td>
+                        <%
+                            } else {
+                        %>
+                                <td><%= m.getAlergenos()%></td>
+                        <%
+                            }
+                        %>
+
                     </tr>
                     <% } %>
                     </tbody>
