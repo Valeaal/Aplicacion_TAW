@@ -28,7 +28,6 @@ public class EntrenamientoService extends DTOService<EntrenamientoDTO, Entrenami
 
     public List<EntrenamientoDTO> findByRutinaId(Integer rutinaId) {
         List<Entrenamiento> er = entrenamientoRepository.findByRutinaId(rutinaId);
-        this.entidadesADTO(er);
         return this.entidadesADTO(er);
     }
 

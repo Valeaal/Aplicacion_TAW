@@ -46,6 +46,8 @@ public class ClienteController {
     private MenuService menuService;
     @Autowired
     private ComidaMenuService comidaMenuService;
+    @Autowired
+    private DietaComidaService dietaComidaService;
 
     @GetMapping("/rutina")
     public String rutina(@RequestParam("id") Integer id, Model model) {
@@ -120,26 +122,38 @@ public class ClienteController {
 
     @GetMapping("/menu")
     public String menu(@RequestParam("id") Integer id, Model model){
-        Cliente client = clienteService.getClienteByUserId2(id);
-        Dieta dieta = client.getDieta();
-        Set<DietaComida> dietaComidas = dietaService.getComidaDietaByDietaId(dieta.getId());
-        List<Comida> comidas = dietaService.findComidasByDietaId(dieta.getId());
+        ClienteDTO client = clienteService.getClienteByUserId(id);
+        DietaDTO dieta = client.getDieta();
+        Set<DietaComidaDTO> dietaComidas = dietaComidaService.getComidaDietaByDietaId(dieta.getId());
+        List<ComidaDTO> comidasM1 = new ArrayList<>();
+        List<ComidaDTO> comidasM2 = new ArrayList<>();
+        List<ComidaDTO> comidasM3 = new ArrayList<>();
+        for(DietaComidaDTO dietaComida: dietaComidas){
+            ComidaDTO comida = comidaService.getReferenceById(dietaComida.getComida());
+            if(dietaComida.getMomentoDia()==1){
+                comidasM1.add(comida);
+            } else if(dietaComida.getMomentoDia()==2){
+                comidasM2.add(comida);
+            } else if(dietaComida.getMomentoDia()==3){
+                comidasM3.add(comida);
+            }
+        }
         model.addAttribute("dieta", dieta);
-        model.addAttribute("dietaComidas", dietaComidas);
-        model.addAttribute("comidas", comidas);
         model.addAttribute("comidaFiltro", new ComidaFiltro());
         model.addAttribute("client", client);
         model.addAttribute("desempenyoFiltro", new DesempenyoFiltro());
+        model.addAttribute("comidasM1", comidasM1);
+        model.addAttribute("comidasM2", comidasM2);
+        model.addAttribute("comidasM3", comidasM3);
         return "cliente/menu";
     }
 
     @GetMapping("/dia")
     public String getDia(@RequestParam("id") Integer id, @RequestParam("clientId") Integer clientId, Model model){
 
-        List<Ejercicio> ejercicios = ejercicioService.findEjerciciosByEntrenamientoId(id);
-        model.addAttribute("ejercicios", ejercicios);
+        List<EjercicioDTO> ejercicios = ejercicioService.findEjerciciosByEntrenamientoId(id);
         HashMap<Integer, List<Float>> map = new HashMap<>();
-        for(Ejercicio ejercicio : ejercicios) {
+        for(EjercicioDTO ejercicio : ejercicios) {
             List<Float> specs = ejercicioService.getEspecificacionesEjercicio(ejercicio.getId(), id);
             int realizado = 1;
             int eeID= ejercicioService.findId(ejercicio.getId(), id);
@@ -154,6 +168,7 @@ public class ClienteController {
             lista.add((float) realizado);
             map.put(ejercicio.getId(), lista);
         }
+        model.addAttribute("ejercicios", ejercicios);
         model.addAttribute("map", map);
         model.addAttribute("clientId", clientId);
         model.addAttribute("entrenamientoId", id);
@@ -165,7 +180,7 @@ public class ClienteController {
                                @RequestParam("clientId") Integer clientId,
                                @RequestParam("entrenamientoId") Integer entrenamientoId,
                                Model model){
-        Ejercicio ejercicio = ejercicioService.getReferenceById(id);
+        EjercicioDTO ejercicio = ejercicioService.getReferenceById(id);
         ClienteDTO cliente = clienteService.getReferenceById(clientId);
         //Desempeno desempeno = new Desempeno();
         DesempenyoYEjercicio desempeno = new DesempenyoYEjercicio();
@@ -181,7 +196,7 @@ public class ClienteController {
                                @RequestParam("clientId") Integer clientId,
                                @RequestParam("entrenamientoId") Integer entrenamientoId,
                                Model model){
-        Ejercicio ejercicio = ejercicioService.getReferenceById(id);
+        EjercicioDTO ejercicio = ejercicioService.getReferenceById(id);
         ClienteDTO cliente = clienteService.getReferenceById(clientId);
         Desempeno d = desempenoService.getDesempenoByEntrenamientoAndEjId(id, entrenamientoId);
 
@@ -279,9 +294,8 @@ public class ClienteController {
     @PostMapping("/filtrarRutina")
     public String rutinaFiltrada(@ModelAttribute("rutinaFiltro") RutinaFiltro rutinaFiltro,
                                  Model model){
-        Cliente client = clienteService.getClienteByUserId2(rutinaFiltro.getClienteId());
-        List<Rutina> rutina = rutinaService.getRutinasByNameAndClientId(rutinaFiltro.getClienteId(), rutinaFiltro.getNombre());
-
+        ClienteDTO client = clienteService.getClienteByUserId(rutinaFiltro.getClienteId());
+        List<RutinaDTO> rutina = rutinaService.getRutinasByNameAndClientId(rutinaFiltro.getClienteId(), rutinaFiltro.getNombre());
 
         model.addAttribute("rutina", rutina);
         model.addAttribute("cliente", client);
@@ -289,14 +303,6 @@ public class ClienteController {
         model.addAttribute("desempenyoFiltro", new DesempenyoFiltro());
         return "/cliente/rutinaFiltrada";
     }
-
-//    @PostMapping("/filtrarComida")
-//    public String comidaFiltrada(@ModelAttribute("comidaFiltro") ComidaFiltro comidaFiltro, Model model){
-//        Set<DietaComida> comidaFiltrada = comidaDietaRepository.getComidaDietaByMomentoDiaYNombre(comidaFiltro.getNombre(), comidaFiltro.getMomentoDia());
-//        model.addAttribute("dietaComidas", comidaFiltrada);
-//        model.addAttribute("comidaFiltro", new ComidaFiltro());
-//        return "/cliente/menu";
-//    }
 
     @PostMapping("/filtrarRutinaDesempenyo")
     public String filtrarRutinaDesempenyo(@ModelAttribute("desempenyoFiltro") DesempenyoFiltro filtro, Model model){

@@ -6,7 +6,10 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="es.uma.proyectotaw.ui.ComidaFiltro" %>
-<%@ page import="es.uma.proyectotaw.entity.Cliente" %><%--
+<%@ page import="es.uma.proyectotaw.entity.Cliente" %>
+<%@ page import="es.uma.proyectotaw.dto.DietaComidaDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.ClienteDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.ComidaDTO" %><%--
   Created by IntelliJ IDEA.
   User: albadelatorres
   Date: 30/4/24
@@ -15,9 +18,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Set<DietaComida> dietaComidas = (Set<DietaComida>) request.getAttribute("dietaComidas");
     String comidaFiltro = request.getParameter("comidaFiltro");
-    Cliente client = (Cliente) request.getAttribute("client");
+    ClienteDTO client = (ClienteDTO) request.getAttribute("client");
+    List<ComidaDTO> comidasM1 = (List<ComidaDTO>) request.getAttribute("comidasM1");
+    List<ComidaDTO> comidasM2 = (List<ComidaDTO>) request.getAttribute("comidasM2");
+    List<ComidaDTO> comidasM3 = (List<ComidaDTO>) request.getAttribute("comidasM3");
 %>
 <html>
 <head>
@@ -28,20 +33,6 @@
 <body>
 <jsp:include page="../header-footer/navbar.jsp"></jsp:include>
 <h2>Tu dieta actual:</h2>
-<%
-    List<Comida> comidasM1 = new ArrayList<>();
-    List<Comida> comidasM2 = new ArrayList<>();
-    List<Comida> comidasM3 = new ArrayList<>();
-    for(DietaComida dietaComida: dietaComidas){
-        if(dietaComida.getMomentoDia()==1){
-            comidasM1.add(dietaComida.getComida());
-        } else if(dietaComida.getMomentoDia()==2){
-            comidasM2.add(dietaComida.getComida());
-        } else if(dietaComida.getMomentoDia()==3){
-            comidasM3.add(dietaComida.getComida());
-        }
-    }
-%>
 <div class="container">
     <div class="row">
         <div class="col-md-8">
@@ -50,7 +41,7 @@
                 <div class="col">
                     <h2 class="mt-5">Desayuno</h2>
                     <ul class="list-group">
-                        <% for (Comida comida : comidasM1) { %>
+                        <% for (ComidaDTO comida : comidasM1) { %>
                             <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="/comida?id=<%=comida.getId()%>&clientId=<%=client.getId()%>">
                                 <%=comida.getNombre()%>
                             </a>
@@ -64,7 +55,7 @@
                 <div class="col">
                     <h2 class="mt-5">Comida</h2>
                     <ul class="list-group">
-                        <% for (Comida comida : comidasM2) { %>
+                        <% for (ComidaDTO comida : comidasM2) { %>
                             <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="/comida?id=<%=comida.getId()%>&clientId=<%=client.getId()%>">
                                 <%=comida.getNombre()%>
                             </a>
@@ -78,7 +69,7 @@
                 <div class="col">
                     <h2 class="mt-5">Cena</h2>
                     <ul class="list-group">
-                        <% for (Comida comida : comidasM3) { %>
+                        <% for (ComidaDTO comida : comidasM3) { %>
                             <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="/comida?id=<%=comida.getId()%>&clientId=<%=client.getId()%>">
                                 <%=comida.getNombre()%>
                             </a>

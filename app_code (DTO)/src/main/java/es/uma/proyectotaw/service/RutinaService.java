@@ -20,8 +20,9 @@ public class RutinaService extends DTOService<RutinaDTO, Rutina>{
         return rutina.toDTO();
     }
 
-    public List<Rutina> getRutinasByNameAndClientId(Integer clientId, String name){
-        return rutinaRepository.getRutinasByNameAndClientId(clientId, name);
+    public List<RutinaDTO> getRutinasByNameAndClientId(Integer clientId, String name){
+        List<Rutina> lista = rutinaRepository.getRutinasByNameAndClientId(clientId, name);
+        return this.entidadesADTO(lista);
     }
 
     public List<Rutina> getAllRutinasByClienteId(Integer clientId){

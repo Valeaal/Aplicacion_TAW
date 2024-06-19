@@ -28,7 +28,7 @@ public class EjercicioService extends DTOService<EjercicioDTO, Ejercicio>{
         return this.entidadesADTO(ejercicioRepository.findAll());
     }
 
-    public Ejercicio getReferenceById(Integer id) { return ejercicioRepository.getReferenceById(id);}
+    public EjercicioDTO getReferenceById(Integer id) { return ejercicioRepository.getReferenceById(id).toDTO();}
 
     public List<EjercicioDTO> filtrarEjercicios(String inputNombre, Integer inputTipo, Integer inputGrupo){
         return this.entidadesADTO(ejercicioRepository.filtrarEjercicios(inputNombre, inputTipo, inputGrupo));
@@ -67,8 +67,9 @@ public class EjercicioService extends DTOService<EjercicioDTO, Ejercicio>{
         ejercicioRepository.save(ejercicio);
     }
 
-    public List<Ejercicio> findEjerciciosByEntrenamientoId(Integer id){
-        return this.ejercicioRepository.findEjerciciosByEntrenamientoId(id);
+    public List<EjercicioDTO> findEjerciciosByEntrenamientoId(Integer id){
+        List<Ejercicio> lista = this.ejercicioRepository.findEjerciciosByEntrenamientoId(id);
+        return this.entidadesADTO(lista);
     }
 
     public List<Float> getEspecificacionesEjercicio(Integer ejId, Integer entrenamientoId){

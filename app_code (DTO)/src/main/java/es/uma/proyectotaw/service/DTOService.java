@@ -2,6 +2,8 @@
 package es.uma.proyectotaw.service;
 
 import es.uma.proyectotaw.dto.DTO;
+import es.uma.proyectotaw.dto.DietaComidaDTO;
+import es.uma.proyectotaw.entity.DietaComida;
 
 import java.util.ArrayList;
 import java.util.HashSet;

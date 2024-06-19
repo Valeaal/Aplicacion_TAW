@@ -16,7 +16,7 @@ public class DietaDTO {
     private String nombre;
     private String descripcion;
     private LocalDate fecha;
-    //private Set<DietaComidaDTO> dietas; TODO: DietaComidaDTO, quizás podrían ser también un set de Integer de IDs
+    private Set<DietaComidaDTO> dietas;
     private int calorias;
 
 }

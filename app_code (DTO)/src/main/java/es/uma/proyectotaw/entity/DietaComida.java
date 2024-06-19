@@ -1,5 +1,7 @@
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.DTO;
+import es.uma.proyectotaw.dto.DietaComidaDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "dieta_comida")
-public class DietaComida {
+public class DietaComida implements DTO<DietaComidaDTO> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -25,4 +27,12 @@ public class DietaComida {
     @Column(name = "momento_dia", nullable = false)
     private Integer momentoDia;
 
+    public DietaComidaDTO toDTO(){
+        DietaComidaDTO comida = new DietaComidaDTO();
+        comida.setId(this.id);
+        comida.setDieta(this.dieta.getId());
+        comida.setComida(this.comida.getId());
+        comida.setMomentoDia(this.momentoDia);
+        return comida;
+    }
 }

@@ -1,7 +1,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="es.uma.proyectotaw.entity.Ejercicio" %>
 <%@ page import="es.uma.proyectotaw.entity.Desempeno" %>
-<%@ page import="es.uma.proyectotaw.entity.Cliente" %><%--
+<%@ page import="es.uma.proyectotaw.entity.Cliente" %>
+<%@ page import="es.uma.proyectotaw.dto.ClienteDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.EjercicioDTO" %><%--
   Created by IntelliJ IDEA.
   User: albadelatorres
   Date: 2/5/24
@@ -10,8 +12,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Ejercicio ejercicio = (Ejercicio) request.getAttribute("ejercicio");
-    Cliente cliente = (Cliente) request.getAttribute("cliente");
+    EjercicioDTO ejercicio = (EjercicioDTO) request.getAttribute("ejercicio");
+    ClienteDTO cliente = (ClienteDTO) request.getAttribute("cliente");
     Integer entrenamientoId = (Integer) request.getAttribute("entrenamientoId");
 %>
 <html>

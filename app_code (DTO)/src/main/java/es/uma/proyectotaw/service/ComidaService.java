@@ -1,6 +1,7 @@
 package es.uma.proyectotaw.service;
 
 import es.uma.proyectotaw.dao.ComidaRepository;
+import es.uma.proyectotaw.dao.DietaRepository;
 import es.uma.proyectotaw.dto.ComidaDTO;
 import es.uma.proyectotaw.entity.Comida;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class ComidaService extends DTOService<ComidaDTO, Comida>{
     @Autowired
     private ComidaRepository comidaRepository;
 
+    @Autowired
+    private DietaRepository dietaRepository;
+
     public ComidaDTO getReferenceById(Integer id){
         return comidaRepository.getReferenceById(id).toDTO();
     }
@@ -25,5 +29,10 @@ public class ComidaService extends DTOService<ComidaDTO, Comida>{
 
     public List<Comida> findByDietaId(Integer id){
         return comidaRepository.findByDietaId(id);
+    }
+
+    public List<ComidaDTO> findComidasByDietaId(Integer id){
+        List<Comida> comidas = dietaRepository.findComidasByDietaId(id);
+        return this.entidadesADTO(comidas);
     }
 }

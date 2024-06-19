@@ -1,6 +1,7 @@
 <%@ page import="es.uma.proyectotaw.entity.Ejercicio" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.HashMap" %><%--
+<%@ page import="java.util.HashMap" %>
+<%@ page import="es.uma.proyectotaw.dto.EjercicioDTO" %><%--
   Created by IntelliJ IDEA.
   User: albadelatorres
   Date: 1/5/24
@@ -9,7 +10,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<Ejercicio> ejercicios = (List<Ejercicio>) request.getAttribute("ejercicios");
+    List<EjercicioDTO> ejercicios = (List<EjercicioDTO>) request.getAttribute("ejercicios");
     HashMap<Integer, List<Float>> map = (HashMap<Integer, List<Float>>) request.getAttribute("map");
     Integer clientId = (Integer) request.getAttribute("clientId");
     Integer entrenamientoId = (Integer) request.getAttribute("entrenamientoId");
@@ -36,7 +37,7 @@
         </tr>
         </thead>
         <tbody>
-        <% for(Ejercicio ejercicio : ejercicios) {
+        <% for(EjercicioDTO ejercicio : ejercicios) {
             List<Float> descripcion = map.get(ejercicio.getId());
             int series = (int)(float)descripcion.get(0);
             int reps = (int)(float)descripcion.get(1);
