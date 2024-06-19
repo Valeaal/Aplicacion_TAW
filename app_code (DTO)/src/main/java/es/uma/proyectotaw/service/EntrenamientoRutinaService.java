@@ -3,6 +3,7 @@ package es.uma.proyectotaw.service;
 import es.uma.proyectotaw.dao.EntrenamientoRutinaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+// autor: Alba de la Torre
 
 @Service
 public class EntrenamientoRutinaService {

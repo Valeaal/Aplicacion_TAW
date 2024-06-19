@@ -56,12 +56,17 @@ public class ClienteController {
         List<EntrenamientoDTO> entrenamientos = entrenamientoService.findByRutinaId(rutina.getId());
         List<GrupoMuscularDTO> grupomuscular = grupoMuscularService.findAll();
 
+        // Para cada entrenamiento, guardamos en un mapa su id y su cumplimiento,
+        // que calculamos con el método privado calcularCumplimiento a partir del cumplimiento
+        // medio de cada entrenamiento
         HashMap<Integer, Float> cumplimiento= new HashMap<>();
         for(EntrenamientoDTO entrenamiento: entrenamientos){
             float c = calcularCumplimiento(entrenamiento.getId());
             cumplimiento.put(entrenamiento.getId(), c);
         }
 
+        // Para cada entrenamiento, accedemos a su tabla entrenamiento_rutina correspondiente y accedemos al
+        // atributo día. Lo guardamos también en un mapa
         HashMap<Integer, Integer> dia = new HashMap<>();
         for(EntrenamientoDTO entrenamiento: entrenamientos){
             int diaSemana = entrenamientoRutinaService.getdiaSemanaFromRutinaAndEntrenamientoId(rutina.getId(), entrenamiento.getId());
@@ -82,6 +87,9 @@ public class ClienteController {
     public String verRutinaNoActiva(@RequestParam("id") Integer id, Model model) {
         List<EntrenamientoDTO> entrenamientos = entrenamientoService.findByRutinaId(id);
         HashMap<Integer, Float> cumplimiento= new HashMap<>();
+
+        // Similar a la función anterior, en este caso calculamos el cumplimiento de
+        // los ejercicios dentro de un entrenamiento concreto
         for(EntrenamientoDTO entrenamiento: entrenamientos){
             float c = calcularCumplimiento(entrenamiento.getId());
             cumplimiento.put(entrenamiento.getId(), c);
@@ -97,6 +105,8 @@ public class ClienteController {
 
         return "cliente/rutinaNoActiva";
     }
+
+    ///////////////////////// METODOS PRIVADOS /////////////////////////////////
 
     private float calcularCumplimiento(Integer id) {
         float res = 0;
@@ -120,11 +130,18 @@ public class ClienteController {
         return (res/c.getMenus().size())*100;
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+
     @GetMapping("/menu")
     public String menu(@RequestParam("id") Integer id, Model model){
         ClienteDTO client = clienteService.getClienteByUserId(id);
         DietaDTO dieta = client.getDieta();
         Set<DietaComidaDTO> dietaComidas = dietaComidaService.getComidaDietaByDietaId(dieta.getId());
+
+        // Dividimos las comidas en listas según el momento del día, siendo:
+        // M1: desayuno
+        // M2: almuerzo
+        // M3: cena
         List<ComidaDTO> comidasM1 = new ArrayList<>();
         List<ComidaDTO> comidasM2 = new ArrayList<>();
         List<ComidaDTO> comidasM3 = new ArrayList<>();
@@ -153,6 +170,9 @@ public class ClienteController {
 
         List<EjercicioDTO> ejercicios = ejercicioService.findEjerciciosByEntrenamientoId(id);
         HashMap<Integer, List<Float>> map = new HashMap<>();
+
+        // Accedemos a las especificaciones de un ejercicio en un entrenamiento (peso, repeciciones, etc.)
+        // y las guardamos en un mapa
         for(EjercicioDTO ejercicio : ejercicios) {
             List<Float> specs = ejercicioService.getEspecificacionesEjercicio(ejercicio.getId(), id);
             int realizado = 1;
@@ -182,7 +202,6 @@ public class ClienteController {
                                Model model){
         EjercicioDTO ejercicio = ejercicioService.getReferenceById(id);
         ClienteDTO cliente = clienteService.getReferenceById(clientId);
-        //Desempeno desempeno = new Desempeno();
         DesempenyoYEjercicio desempeno = new DesempenyoYEjercicio();
         model.addAttribute("ejercicio", ejercicio);
         model.addAttribute("desempeno", desempeno);
@@ -198,7 +217,7 @@ public class ClienteController {
                                Model model){
         EjercicioDTO ejercicio = ejercicioService.getReferenceById(id);
         ClienteDTO cliente = clienteService.getReferenceById(clientId);
-        Desempeno d = desempenoService.getDesempenoByEntrenamientoAndEjId(id, entrenamientoId);
+        DesempenoDTO d = desempenoService.getDesempenoByEntrenamientoAndEjId(id, entrenamientoId);
 
         DesempenyoYEjercicio desempeno = new DesempenyoYEjercicio();
         desempeno.setComentarios(d.getComentarios());
@@ -226,6 +245,9 @@ public class ClienteController {
         Set<ComidaMenuDTO> menus =  comida.getMenus();
         HashMap <Integer, Integer> desempenyo = new HashMap();
         HashMap <Integer, List<String>> desc = new HashMap();
+
+        // Guardamos el desempeño del menu y sus especificaciones en un mapa
+        // para así poder acceder a ello a través del id del menú
         for(ComidaMenuDTO menu : menus){
             int realizado = 1;
             if(menu.getDesempeno()==null){
@@ -238,7 +260,6 @@ public class ClienteController {
             list.add(m.getDescripcion());
             desc.put(menu.getId(), list);
         }
-
 
         model.addAttribute("desempenyo", desempenyo);
         model.addAttribute("comida", comida);
@@ -279,7 +300,7 @@ public class ClienteController {
         ComidaDesempenyo desempeno = new ComidaDesempenyo();
         MenuDTO menu = menuService.getReferenceById(id);
         ClienteDTO cliente = clienteService.getReferenceById(clientId);
-        Desempeno d = desempenoService.getDesempenoByMenuAndComidaId(id, comidaId);
+        DesempenoDTO d = desempenoService.getDesempenoByMenuAndComidaId(id, comidaId);
 
         desempeno.setComentarios(d.getComentarios());
         desempeno.setValoracion(d.getValoracion());
@@ -306,10 +327,11 @@ public class ClienteController {
 
     @PostMapping("/filtrarRutinaDesempenyo")
     public String filtrarRutinaDesempenyo(@ModelAttribute("desempenyoFiltro") DesempenyoFiltro filtro, Model model){
-        Cliente client = clienteService.getClienteByUserId2(filtro.getIdCliente());
-        List<Rutina> rutina = rutinaService.getAllRutinasByClienteId(filtro.getIdCliente());
-        List<Rutina> rutinasFiltradas = new ArrayList<>();
+        List<RutinaDTO> rutina = rutinaService.getAllRutinasByClienteId(filtro.getIdCliente());
+        List<RutinaDTO> rutinasFiltradas = new ArrayList<>();
         HashMap<Integer, Float> cumplimiento = new HashMap<>();
+
+        // Definimos los límites del filtro por los que buscar
         int upperBound = 0;
         int lowerBound = 0;
         if(filtro.getDesempenyo().equals("Alto")){
@@ -323,7 +345,10 @@ public class ClienteController {
             lowerBound = 0;
         }
         float desempenyoTotal = 0;
-        for(Rutina r : rutina){
+
+        // Calculamos el desempeño y si cumple con los límites puestos, lo añadimos a rutinasFiltradas
+        // y lo quitamos de la lista del resto de rutinas
+        for(RutinaDTO r : rutina){
             List<EntrenamientoDTO> entrenamientos = entrenamientoService.findByRutinaId(r.getId());
             for(EntrenamientoDTO e : entrenamientos){
                 desempenyoTotal += calcularCumplimiento(e.getId());
@@ -346,9 +371,8 @@ public class ClienteController {
 
     @PostMapping("/filtrarDietaDesempenyo")
     public String filtrarDietaDesempenyo(@ModelAttribute("desempenyoFiltro") DesempenyoFiltro filtro, Model model){
-        Cliente client = clienteService.getClienteByUserId2(filtro.getIdCliente());
-        List<Dieta> dieta = dietaService.getDietaByClientId(filtro.getIdCliente());
-        List<Dieta> dietasFiltradas = new ArrayList<>();
+        List<DietaDTO> dieta = dietaService.getDietaByClientId(filtro.getIdCliente());
+        List<DietaDTO> dietasFiltradas = new ArrayList<>();
         HashMap<Integer, Float> cumplimiento = new HashMap<>();
         int upperBound = 0;
         int lowerBound = 0;
@@ -363,9 +387,9 @@ public class ClienteController {
             lowerBound = 0;
         }
         float desempenyoTotal = 0;
-        for(Dieta d : dieta){
-            List<Comida> comidas = comidaService.findByDietaId(d.getId());
-            for(Comida c : comidas){
+        for(DietaDTO d : dieta){
+            List<ComidaDTO> comidas = comidaService.findByDietaId(d.getId());
+            for(ComidaDTO c : comidas){
                 desempenyoTotal += calcularCumplimientoDieta(c.getId());
             }
             desempenyoTotal = desempenyoTotal/comidas.size();

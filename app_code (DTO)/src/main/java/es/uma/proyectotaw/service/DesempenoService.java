@@ -4,6 +4,7 @@ import es.uma.proyectotaw.dao.ClienteRepository;
 import es.uma.proyectotaw.dao.ComidaMenuRepository;
 import es.uma.proyectotaw.dao.DesempenoRepository;
 import es.uma.proyectotaw.dao.EjercicioEntrenamientoRepository;
+import es.uma.proyectotaw.dto.DesempenoDTO;
 import es.uma.proyectotaw.entity.Cliente;
 import es.uma.proyectotaw.entity.ComidaMenu;
 import es.uma.proyectotaw.entity.Desempeno;
@@ -24,8 +25,8 @@ public class DesempenoService {
     @Autowired
     private ComidaMenuRepository comidaMenuRepository;
 
-    public Desempeno getDesempenoByEntrenamientoAndEjId(Integer ejId, Integer entrenamientoId) {
-        return desempenoRepository.getDesempenoByEntremanientoAndEjId(ejId, entrenamientoId);
+    public DesempenoDTO getDesempenoByEntrenamientoAndEjId(Integer ejId, Integer entrenamientoId) {
+        return desempenoRepository.getDesempenoByEntremanientoAndEjId(ejId, entrenamientoId).toDTO();
     }
 
     public void guardarDesempeno(Integer clientId, float peso, String comentarios, int valoracion, Integer ejId, Integer entrenamientoId){
@@ -59,8 +60,8 @@ public class DesempenoService {
         comidaMenuRepository.save(cm);
     }
 
-    public Desempeno getDesempenoByMenuAndComidaId(Integer menuId, Integer comidaId){
-        return desempenoRepository.getDesempenoByMenuAndComidaId(menuId, comidaId);
+    public DesempenoDTO getDesempenoByMenuAndComidaId(Integer menuId, Integer comidaId){
+        return desempenoRepository.getDesempenoByMenuAndComidaId(menuId, comidaId).toDTO();
     }
 
     public void delete(Integer clientId, Integer ejId, Integer entrenamientoId){

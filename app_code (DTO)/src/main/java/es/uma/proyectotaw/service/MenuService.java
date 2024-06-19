@@ -1,5 +1,4 @@
-//Autor: Álvaro Valencia Vilallón
-//Quien sea que se añada al porcentaje de realización
+//Autor: Álvaro Valencia Vilallón 80% Alba de la Torre 20%
 
 package es.uma.proyectotaw.service;
 

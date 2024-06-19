@@ -33,8 +33,11 @@ public class ComidaMenu implements DTO<ComidaMenuDTO> {
     public ComidaMenuDTO toDTO(){
         ComidaMenuDTO dto = new ComidaMenuDTO();
         dto.setId(id);
+        dto.setComida(comida.getId());
         dto.setMenu(menu.getId());
-        //TODO: Faltan setear el resto de los campos, que no he rellenado para que lo haga a su gusto al que le toque, yo necesitaba usar el menu.
+        if(desempeno != null){
+            dto.setDesempeno(desempeno.getId());
+        }
         return dto;
     }
 

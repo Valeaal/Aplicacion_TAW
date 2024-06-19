@@ -52,12 +52,6 @@
 
         <!-- Filtro -->
         <div class="col-md-4">
-            <h3>Filtrar por nombre de rutina:</h3>
-            <form:form action="/filtrarRutina" method="post" modelAttribute="rutinaFiltro">
-                <form:hidden path="clienteId" value="<%=cliente.getId()%>"/>
-                <form:input path="nombre"/>
-                <form:button>Buscar</form:button>
-            </form:form>
             <div class="container">
                 <div class="col-md-6">
                     <h3>Filtrar por desempeño:</h3>

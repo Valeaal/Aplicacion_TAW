@@ -4,6 +4,7 @@ import es.uma.proyectotaw.entity.Cliente;
 import es.uma.proyectotaw.service.DTOService;
 import jakarta.persistence.*;
 import lombok.Data;
+// autor: Alba de la Torre
 
 @Data
 public class DesempenoDTO {

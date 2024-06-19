@@ -1,4 +1,5 @@
 //Autor: Álvaro Valencia Vilallón
+// Alba de la Torre
 package es.uma.proyectotaw.service;
 
 import es.uma.proyectotaw.dao.EjercicioEntrenamientoRepository;

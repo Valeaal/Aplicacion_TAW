@@ -9,6 +9,7 @@ import lombok.Data;
 
 import java.util.HashSet;
 import java.util.Set;
+// autor: Alba de la Torre
 
 @Data
 public class EntrenamientoDTO {

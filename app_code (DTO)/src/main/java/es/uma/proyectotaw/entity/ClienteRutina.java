@@ -1,5 +1,7 @@
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.ClienteRutinaDTO;
+import es.uma.proyectotaw.dto.DTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "cliente_rutina")
-public class ClienteRutina {
+public class ClienteRutina implements DTO<ClienteRutinaDTO> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -25,4 +27,12 @@ public class ClienteRutina {
     @Column(name = "vigente", nullable = false)
     private Boolean vigente = false;
 
+    public ClienteRutinaDTO toDTO() {
+        ClienteRutinaDTO clienteRutinaDTO = new ClienteRutinaDTO();
+        clienteRutinaDTO.setId(this.id);
+        clienteRutinaDTO.setCliente(this.cliente.getId());
+        clienteRutinaDTO.setRutina(this.rutina.getId());
+        clienteRutinaDTO.setVigente(this.vigente);
+        return clienteRutinaDTO;
+    }
 }
