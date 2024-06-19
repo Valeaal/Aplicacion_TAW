@@ -30,7 +30,11 @@ public class ClienteService extends DTOService<ClienteDTO, Cliente> {
         return clienteEntity.toDTO();
     }
 
-    public ClienteDTO getReferenceById(Integer id) {
+    public ClienteDTO getClienteById(Integer id){
+        return this.clienteRepository.getClienteById(id).toDTO();
+    }
+
+    public ClienteDTO getReferenceById(Integer id){
         return clienteRepository.getReferenceById(id).toDTO();
     }
 
@@ -73,6 +77,11 @@ public class ClienteService extends DTOService<ClienteDTO, Cliente> {
     public List<ClienteDTO> getClientesDelEntrenador(Integer crossfitTrainerId) { //pablo
         List<Cliente> clientesDTO = clienteRepository.getClientesDelEntrenador(crossfitTrainerId);
         return this.entidadesADTO(clientesDTO);
+    }
+    
+    public List<ClienteDTO> findByEntrenador(UsuarioDTO usuarioDTO){
+        Usuario usuario = this.usuarioRepository.findById(usuarioDTO.getId()).orElse(null);
+        return entidadesADTO(this.clienteRepository.findByEntrenador(usuario));
     }
 
 }

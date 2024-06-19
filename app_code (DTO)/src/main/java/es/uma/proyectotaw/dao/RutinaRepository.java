@@ -1,6 +1,8 @@
 package es.uma.proyectotaw.dao;
 
 import es.uma.proyectotaw.entity.Rutina;
+import es.uma.proyectotaw.entity.Usuario;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,6 +14,9 @@ public interface RutinaRepository extends JpaRepository<Rutina, Integer> {
     @Query("select r from Rutina r where r.tipoRutina.id = 2")
     List<Rutina> getCrossfitRutinas();
 
+    @Query("select r from Rutina r where r.tipoRutina =:tipo order by r.id")
+    public List<Rutina> findAllOrdered(@Param("tipo")Integer tipo);
+
     @Query("select r from Rutina r  where r.tipoRutina.id = 2 and r.nombre like concat('%', :nombre, '%')")
     List<Rutina> filtrarPorNombre(@Param("nombre") String nombre);
 
@@ -22,7 +27,6 @@ public interface RutinaRepository extends JpaRepository<Rutina, Integer> {
             " (SELECT COUNT(e) FROM r.entrenamientos e) = :n")
     List<Rutina> filtrarPorNombreynEntrenamientos(@Param("nombre") String nombre,
                                                   @Param("n") Integer n);
-
 
     @Query("SELECT r FROM Rutina r JOIN r.clientes cr WHERE cr.cliente.id = :clienteId AND cr.vigente = true")
     List<Rutina> getActiveRutinasByClienteId(@Param("clienteId") Integer clienteId);
@@ -36,14 +40,19 @@ public interface RutinaRepository extends JpaRepository<Rutina, Integer> {
     @Query("select r from Rutina r where r.tipoRutina.id = :tipo")
     public List<Rutina> findByTipo(@Param("tipo") Integer tipo);
 
-    @Query("select r from Rutina r where r.nombre like concat('%',:nombre,'%') and  r.tipoRutina.id = :tipo")
-    public List<Rutina> findByNombre(@Param("nombre") String nombre,@Param("tipo") Integer tipo);
+    @Query("select r from Rutina r where r.nombre like concat('%',:nombre,'%') and  r.tipoRutina.id = :tipo and r.fechaCreacion>=:fecha")
+    public List<Rutina> findByNombre(@Param("nombre") String nombre,@Param("tipo") Integer tipo, @Param("fecha")LocalDate fecha);
 
-    @Query("select r from Rutina r where r.nombre like concat('%',:nombre,'%') and  r.tipoRutina.id = :tipo and r.fechaCreacion >= :inicio and r.fechaCreacion <= :fin ")
-    public List<Rutina> findByNombre(@Param("nombre") String nombre, @Param("inicio") LocalDate inicio, @Param("fin")LocalDate fin,@Param("tipo") Integer tipo);
+    @Query("select r from Rutina r where r.nombre like concat('%',:nombre,'%') and size(r.entrenamientos) = :num and r.tipoRutina.id = :tipo and r.fechaCreacion>=:fecha")
+    public List<Rutina> findByNombreAndEntrenos(@Param("nombre") String nombre,@Param("num")Integer num,@Param("tipo") Integer tipo, @Param("fecha")LocalDate fecha);
 
-    @Query("select r from Rutina r where r.nombre like concat('%',:nombre,'%') and size(r.entrenamientos) = :num and r.fechaCreacion >= :inicio and r.fechaCreacion <= :fin and r.tipoRutina.id = :tipo")
-    public List<Rutina> findByNombreAndEntrenos(@Param("nombre") String nombre,@Param("num")Integer num,@Param("tipo") Integer tipo,@Param("inicio") LocalDate inicio, @Param("fin")LocalDate fin);
+    @Query("select r from Rutina r where r.nombre like concat('%',:nombre,'%') and size(r.entrenamientos) = :num and r.tipoRutina.id = :tipo and r.entrenador.id =:creador and r.fechaCreacion>=:fecha")
+    public List<Rutina> findByNombreEntrenosAndCreador(@Param("nombre") String nombre,@Param("num")Integer num,@Param("creador")Integer usuario,@Param("tipo") Integer tipo, @Param("fecha")LocalDate fecha);
+
+    @Query("select r from Rutina r where r.nombre like concat('%',:nombre,'%') and r.tipoRutina.id = :tipo and r.entrenador.id =:creador and r.fechaCreacion>=:fecha")
+    public List<Rutina> findByNombreAndCreador(@Param("nombre") String nombre, @Param("creador")Integer usuario, @Param("tipo") Integer tipo, @Param("fecha")LocalDate fecha);
+
+
 
     /*@Query("SELECT R.id, R.nombre, AVG(Performance.porcentaje) AS AveragePerformance" +
             "FROM Rutina R" +
