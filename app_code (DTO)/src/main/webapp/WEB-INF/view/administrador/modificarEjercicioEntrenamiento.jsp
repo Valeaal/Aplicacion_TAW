@@ -36,13 +36,13 @@
         <form:hidden path="desempeno" />
 
         <div class="mb-3">
-            <form:label class="form-label" path="ejercicio">Ejercicio al que instancia:</form:label>
-            <form:select class="form-select" path="ejercicio" items="${ejercicios}" itemValue="id" itemLabel="nombre" />
+            <form:label class="form-label" path="ejercicio.id">Ejercicio al que instancia:</form:label>
+            <form:select class="form-select" path="ejercicio.id" items="${ejercicios}" itemValue="id" itemLabel="nombre" />
         </div>
 
         <div class="mb-3">
-            <form:label class="form-label" path="entrenamiento">Entrenamiento al que pertenece:</form:label>
-            <form:select class="form-select" path="entrenamiento" items="${entrenamientos}" itemLabel="nombre" itemValue="id" />
+            <form:label class="form-label" path="entrenamiento.id">Entrenamiento al que pertenece:</form:label>
+            <form:select class="form-select" path="entrenamiento.id" items="${entrenamientos}" itemLabel="nombre" itemValue="id" />
         </div>
 
         <div class="mb-3">
@@ -57,7 +57,7 @@
 
         <div class="mb-3">
             <form:label class="form-label" path="peso">Peso:</form:label>
-            <form:input class="form-control" path="peso" type="number" min="0"/>
+            <form:input class="form-control" path="peso" type="number" step="0.01" min="0"/>
         </div>
 
         <div class="mb-3">
@@ -67,7 +67,7 @@
 
         <div class="mb-3">
             <form:label class="form-label" path="distancia">Distancia:</form:label>
-            <form:input class="form-control" path="distancia" type="number" min="0"/>
+            <form:input class="form-control" path="distancia" type="number" step="0.01" min="0"/>
         </div>
 
         <div class="mb-3">

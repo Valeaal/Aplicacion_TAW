@@ -1,10 +1,12 @@
-//autor: Alba de la Torre
-//autor: Miguel Galdeano Rodríguez
-//autor: Álvaro Valencia Villalón
+//autor: Alba de la Torre           40%
+//autor: Miguel Galdeano Rodríguez  30%
+//autor: Álvaro Valencia Villalón   30%
+//Modificad los porcentajes, lo he puesto orientativo
 package es.uma.proyectotaw.service;
 
 import es.uma.proyectotaw.dao.EntrenamientoRepository;
 import es.uma.proyectotaw.dao.EntrenamientoRutinaRepository;
+import es.uma.proyectotaw.dto.EjercicioDTO;
 import es.uma.proyectotaw.dto.EntrenamientoDTO;
 import es.uma.proyectotaw.entity.Entrenamiento;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +57,10 @@ public class EntrenamientoService extends DTOService<EntrenamientoDTO, Entrenami
     public List<EntrenamientoDTO> DTOfindAll(){
         List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
         return this.entidadesADTO(entrenamientos);
+    }
+
+    public EntrenamientoDTO buscarPorString(String nombre) {
+        return entrenamientoRepository.buscarPorString(nombre).toDTO();
     }
 
 

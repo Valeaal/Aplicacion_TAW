@@ -1,3 +1,4 @@
+//Autor: Álvaro Valencia Villalón
 package es.uma.proyectotaw.entity;
 
 import es.uma.proyectotaw.dto.DTO;
@@ -28,13 +29,13 @@ public class EjercicioEntrenamiento implements DTO<EjercicioEntrenamientoDTO>{
     @JoinColumn(name = "desempeno_id")
     private Desempeno desempeno;
 
-    @Column(name = "series", nullable = false)
+    @Column(name = "series", nullable = true)
     private Integer series;
 
-    @Column(name = "repeticiones", nullable = false)
+    @Column(name = "repeticiones", nullable = true)
     private Integer repeticiones;
 
-    @Column(name = "peso", nullable = false)
+    @Column(name = "peso", nullable = true)
     private Float peso;
 
     @Column(name = "tiempo")

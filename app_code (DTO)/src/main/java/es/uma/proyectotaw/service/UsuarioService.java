@@ -41,4 +41,48 @@ public class UsuarioService extends DTOService<UsuarioDTO, Usuario>{
         }
     }
 
+    public void guardarUsuario(UsuarioDTO usuario){
+        Usuario usr = new Usuario();
+        if (usuario.getId() != null){
+            usr = usuarioRepository.buscarPorID(usuario.getId());
+        }
+        usr.setNombre(usuario.getNombre());
+        usr.setApellidos(usuario.getApellidos());
+        usr.setEmail(usuario.getEmail());
+        usr.setFechaNacimiento(usuario.getFechaNacimiento());
+        usr.setPerteneceDesde(usuario.getPerteneceDesde());
+        TipoUsuario tipoEntity = tipoUsuarioRepository.buscarPorID(usuario.getTipoUsuario().getId());
+        usr.setTipoUsuario(tipoEntity);
+        usr.setPassword(usuario.getPassword());
+        usuarioRepository.save(usr);
+    }
+
+    public void eliminarUsuario(Integer id){
+        usuarioRepository.deleteById(id);
+    }
+
+    public List<Integer> sacarEdades(){
+        List<Integer> edades = usuarioRepository.sacarEdades();
+        return edades;
+    }
+
+    public List<Integer> sacarIngresos(){
+        List<Integer> ingresos = usuarioRepository.sacarIngresos();
+        return ingresos;
+    }
+
+    public List<UsuarioDTO> sacarUsuarios(){
+        List <Usuario> usuarios = usuarioRepository.findAll();
+        UsuarioService usuarioService = new UsuarioService(); // Instancia de DTOService que nos proporciona la posibilidad convertir el conjunto a dto
+        List<UsuarioDTO> usuariosDTO = usuarioService.entidadesADTO(usuarios);
+        return usuariosDTO;
+    }
+
+    public List<UsuarioDTO> filtrarUsuarios(String nombre, String apellidos, Integer edad, Integer ingreso, Integer rol){
+        List <Usuario> usuarios = usuarioRepository.filtrarUsuarios(nombre, apellidos, edad, ingreso, rol);
+        UsuarioService usuarioService = new UsuarioService(); // Instancia de DTOService que nos proporciona la posibilidad convertir el conjunto a dto
+        List<UsuarioDTO> usuariosDTO = usuarioService.entidadesADTO(usuarios);
+        return usuariosDTO;
+    }
+
 }

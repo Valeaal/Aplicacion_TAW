@@ -1,4 +1,5 @@
-//Autor: Álvaro Valencia Villalón 80% y Alba de la Torre 20%
+//Autor: Álvaro Valencia Villalón 80%
+//Autor: Alba de la Torre 20%
 package es.uma.proyectotaw.service;
 
 import es.uma.proyectotaw.dao.EjercicioRepository;
@@ -91,5 +92,9 @@ public class EjercicioService extends DTOService<EjercicioDTO, Ejercicio>{
 
     public EjercicioDTO findById(Integer ejercicioId) {
         return ejercicioRepository.findById(ejercicioId).get().toDTO();
+    }
+
+    public EjercicioDTO buscarPorString(String nombre) {
+        return ejercicioRepository.buscarPorString(nombre).toDTO();
     }
 }

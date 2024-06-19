@@ -38,11 +38,11 @@
                         <div class="mb-3 d-flex">
                             <input type="number" class="form-control form-control-lg me-2" name="inputSeries" placeholder="Número de series">
                             <input type="number" class="form-control form-control-lg me-2" name="inputRepeticiones" placeholder="Número de repeticiones">
-                            <input type="number" class="form-control form-control-lg me-2" name="inputPeso" placeholder="Kilos">
+                            <input type="number" class="form-control form-control-lg me-2" name="inputPeso" step="0.01" placeholder="Kilos">
                         </div>
                         <div class="mb-3 d-flex">
                             <input type="number" class="form-control form-control-lg me-2" name="inputTiempo" placeholder="Tiempo">
-                            <input type="number" class="form-control form-control-lg me-2" name="inputDistancia" placeholder="Distancia">
+                            <input type="number" class="form-control form-control-lg me-2" name="inputDistancia" step="0.01" placeholder="Distancia">
                             <input type="number" class="form-control form-control-lg me-2" name="inputOrden" placeholder="Posición en el entreno">
                         </div>
                         <div class="mb-3 d-flex">

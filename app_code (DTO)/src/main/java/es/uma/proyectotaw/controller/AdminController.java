@@ -17,28 +17,7 @@ import java.util.*;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
-    private TipoUsuarioRepository tipoUsuarioRepository;
-    @Autowired
-    private ClienteRepository clienteRepository;
-    @Autowired
-    private EjercicioRepository ejercicioRepository;
-    @Autowired
-    private TipoEjercicioRepository tipoEjercicioRepository;
-    @Autowired
-    private GrupoMuscularRepository grupoMuscularRepository;
-    @Autowired
-    private MenuRepository menuRepository;
-    @Autowired
-    private EjercicioEntrenamientoRepository ejercicioEntrenamientoRepository;
-    @Autowired
-    private EntrenamientoRepository entrenamientoRepository;
-    @Autowired
-    private AdminService adminService;
+    
     @Autowired
     private TipoUsuarioService tipoUsuarioService;
     @Autowired
@@ -66,8 +45,8 @@ public class AdminController {
     public String login(Model model) {
 
         //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO ------------//
-        List<Integer> edades = adminService.sacarEdades();
-        List<Integer> ingresos = adminService.sacarIngresos();
+        List<Integer> edades = usuarioService.sacarEdades();
+        List<Integer> ingresos = usuarioService.sacarIngresos();
         List<TipoUsuarioDTO> rolesUsuarios = tipoUsuarioService.sacarRoles();
 
         model.addAttribute("edades", edades);
@@ -75,7 +54,7 @@ public class AdminController {
         model.addAttribute("roles", rolesUsuarios);
 
         //------------ PARA RELLENAR LA TABLA DE USUARIOS (sin filtro)------------//
-        List<UsuarioDTO> usuariosCompleto = adminService.sacarUsuarios();
+        List<UsuarioDTO> usuariosCompleto = usuarioService.sacarUsuarios();
         model.addAttribute("usuarios", usuariosCompleto);
 
         return "administrador/usuarios";
@@ -87,8 +66,8 @@ public class AdminController {
                                 @RequestParam("StringRol") String StringRol, Model model) {
 
         //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO (igual que en /usuarios)------------//
-        List<Integer> edades = adminService.sacarEdades();
-        List<Integer> ingresos = adminService.sacarIngresos();
+        List<Integer> edades = usuarioService.sacarEdades();
+        List<Integer> ingresos = usuarioService.sacarIngresos();
         List<TipoUsuarioDTO> rolesUsuarios = tipoUsuarioService.sacarRoles();
 
         model.addAttribute("edades", edades);
@@ -123,7 +102,7 @@ public class AdminController {
             inputRol = tipoUsuarioService.buscarRolPorString(StringRol);
         }
 
-        List<UsuarioDTO> usuariosFiltrado = adminService.filtrarUsuarios(inputNombre, inputApellidos, inputEdad, inputIngreso, inputRol);
+        List<UsuarioDTO> usuariosFiltrado = usuarioService.filtrarUsuarios(inputNombre, inputApellidos, inputEdad, inputIngreso, inputRol);
         model.addAttribute("usuarios", usuariosFiltrado);
 
         return "administrador/usuarios";
@@ -146,7 +125,7 @@ public class AdminController {
             direccionRetorno = "administrador/nuevoUsuario";
         } else if (inputUsr != null){
             if (inputBoton.equals("Eliminar")){
-                adminService.eliminarUsuario(inputUsr);
+                usuarioService.eliminarUsuario(inputUsr);
             } else if (inputBoton.equals("Modificar")){
                 direccionRetorno = "administrador/modificarUsuario";
             }
@@ -171,7 +150,7 @@ public class AdminController {
         usr.setTipoUsuario(nuevoRol);
         //En principio no consideramos que el administrador pueda cambiar la contraseña del usuario no?
 
-        adminService.guardarUsuario(usr);
+        usuarioService.guardarUsuario(usr);
 
         return "redirect:/admin/usuarios";
     }
@@ -197,7 +176,7 @@ public class AdminController {
         TipoUsuarioDTO nuevoRol = tipoUsuarioService.buscarRolPorId(nuevoRolId);
         nuevoUsuario.setTipoUsuario(nuevoRol);
 
-        adminService.guardarUsuario(nuevoUsuario);
+        usuarioService.guardarUsuario(nuevoUsuario);
 
         return "redirect:/admin/usuarios";
     }
@@ -474,9 +453,9 @@ public class AdminController {
     @GetMapping("/ejerciciosEntrenamientos/filtrar")
     public String EjerciciosEntrenamientosfiltrar(
             @RequestParam(value = "inputRepeticiones", required = false) Integer inputRepeticiones,
-            @RequestParam(value = "inputPeso", required = false) Integer inputPeso,
+            @RequestParam(value = "inputPeso", required = false) Float inputPeso,
             @RequestParam(value = "inputTiempo", required = false) Integer inputTiempo,
-            @RequestParam(value = "inputDistancia", required = false) Integer inputDistancia,
+            @RequestParam(value = "inputDistancia", required = false) Float inputDistancia,
             @RequestParam(value = "inputOrden", required = false) Integer inputOrden,
             @RequestParam(value = "StringEntrenamiento", required = false) String StringEntrenamiento,
             @RequestParam(value = "StringEjercicio", required = false) String StringEjercicio,
@@ -484,8 +463,8 @@ public class AdminController {
             Model model) {
 
         //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO ------------//
-        List <Ejercicio> ejercicios = ejercicioRepository.findAll();
-        List <Entrenamiento> entrenamientos = entrenamientoRepository.findAll();
+        List <EjercicioDTO> ejercicios = ejercicioService.findAll();
+        List <EntrenamientoDTO> entrenamientos = entrenamientoService.DTOfindAll();
 
         model.addAttribute("ejercicios", ejercicios);
         model.addAttribute("entrenamientos", entrenamientos);
@@ -493,22 +472,22 @@ public class AdminController {
         //------------ PARA RELLENAR LA TABLA (con filtros)------------//
 
         //Para controlar si hemos introducido el dato, ponemos o no a null. Luego esto se maneja en la consulta
-        Ejercicio inputEjercicio;
-        if(StringEntrenamiento.equals("Selecciona Ejercicio") ){
+        Integer inputEjercicio;
+        if(StringEjercicio.equals("Selecciona Ejercicio") ){
             inputEjercicio = null;
         } else {
-            inputEjercicio = ejercicioRepository.buscarPorString(StringEjercicio);
+            inputEjercicio = ejercicioService.buscarPorString(StringEjercicio).getId();
         }
 
         //Para controlar si hemos introducido el dato, ponemos o no a null. Luego esto se maneja en la consulta
-        Entrenamiento inputEntrenamiento;
+        Integer inputEntrenamiento;
         if(StringEntrenamiento.equals("Selecciona Entrenamiento") ){
             inputEntrenamiento = null;
         } else {
-            inputEntrenamiento = entrenamientoRepository.buscarPorString(StringEntrenamiento);
+            inputEntrenamiento = entrenamientoService.buscarPorString(StringEntrenamiento).getId();
         }
 
-        List<EjercicioEntrenamiento> ejerciciosEntrenamientoFiltrado = ejercicioEntrenamientoRepository.filtrarEjerciciosEntrenamiento(inputEjercicio, inputEntrenamiento, inputSeries, inputRepeticiones, inputPeso, inputTiempo, inputDistancia, inputOrden);
+        List<EjercicioEntrenamientoDTO> ejerciciosEntrenamientoFiltrado = ejercicioEntrenamientoService.filtrarEjerciciosEntrenamiento(inputEjercicio, inputEntrenamiento, inputSeries, inputRepeticiones, inputPeso, inputTiempo, inputDistancia, inputOrden);
         model.addAttribute("ejerciciosEntrenamientos", ejerciciosEntrenamientoFiltrado);
 
         return "administrador/ejerciciosEntrenamientos";
@@ -522,21 +501,21 @@ public class AdminController {
         //Independientemente si se selecciona o no un ejercicioEntrenamiento y se pulsa añadir, llevará a la página correspondiente.
         String direccionRetorno = "redirect:/admin/ejerciciosEntrenamientos";
 
-        List <Ejercicio> ejercicios = ejercicioRepository.findAll();
-        List <Entrenamiento> entrenamientos = entrenamientoRepository.findAll();
+        List <EjercicioDTO> ejercicios = ejercicioService.findAll();
+        List <EntrenamientoDTO> entrenamientos = entrenamientoService.DTOfindAll();
 
         model.addAttribute("ejercicios", ejercicios);
         model.addAttribute("entrenamientos", entrenamientos);
 
         if (inputBoton.equals("Añadir")) {
-            EjercicioEntrenamiento nuevo = new EjercicioEntrenamiento();
+            EjercicioEntrenamientoDTO nuevo = new EjercicioEntrenamientoDTO();
             model.addAttribute("ejercicioEntrenamiento", nuevo);
             direccionRetorno = "administrador/nuevoEjercicioEntrenamiento";
         } else if (inputEj != null){
             if (inputBoton.equals("Eliminar")){
-                ejercicioEntrenamientoRepository.deleteById(inputEj);
+                ejercicioEntrenamientoService.deleteById(inputEj);
             } else if (inputBoton.equals("Modificar")){
-                EjercicioEntrenamiento ejercicioEntrenamiento = ejercicioEntrenamientoRepository.getById(inputEj);
+                EjercicioEntrenamientoDTO ejercicioEntrenamiento = ejercicioEntrenamientoService.getById(inputEj);
                 model.addAttribute("ejercicioEntrenamiento", ejercicioEntrenamiento);
                 direccionRetorno = "administrador/modificarEjercicioEntrenamiento";
             }
@@ -546,9 +525,9 @@ public class AdminController {
 
     //En este caso, hemos hecho que tanto el modificar como el añadir se manejen en este método
     @PostMapping("/ejerciciosEntrenamientos/guardar")
-    public String guardarEjerciciosEntrenamientos(Model model, @ModelAttribute("ejercicioEntrenamiento") EjercicioEntrenamiento ejercicioEntrenamiento){
+    public String guardarEjerciciosEntrenamientos(Model model, @ModelAttribute("ejercicioEntrenamiento") EjercicioEntrenamientoDTO ejercicioEntrenamiento){
 
-        ejercicioEntrenamientoRepository.save(ejercicioEntrenamiento);
+        ejercicioEntrenamientoService.save(ejercicioEntrenamiento);
 
         return "redirect:/admin/ejerciciosEntrenamientos";
     }
