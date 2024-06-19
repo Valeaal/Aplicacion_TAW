@@ -428,27 +428,14 @@ public class AdminController {
             direccionRetorno = "administrador/nuevoMenu";
         } else if (inputMenu != null){
             if (inputBoton.equals("Eliminar")){
-                menuRepository.deleteById(inputMenu);
+                menuService.deleteById(inputMenu);
             } else if (inputBoton.equals("Modificar")){
-                Menu menu = menuRepository.getById(inputMenu);
+                MenuDTO menu = menuService.getById(inputMenu);
                 model.addAttribute("menu", menu);
                 direccionRetorno = "administrador/modificarMenu";
             }
         }
         return direccionRetorno;
-    }
-
-    @PostMapping("/menus/actualizar")
-    public String actualizarMenus(Model model, @ModelAttribute("menu") Menu menu){
-
-        Menu nuevoMenu = menuRepository.findById(menu.getId()).orElse(new Menu());
-        nuevoMenu.setNombre(menu.getNombre());
-        nuevoMenu.setDescripcion(menu.getDescripcion());
-        nuevoMenu.setAlergenos(menu.getAlergenos());
-
-        menuRepository.save(nuevoMenu);
-
-        return "redirect:/admin/menus";
     }
 
     @PostMapping("/menus/guardar")
