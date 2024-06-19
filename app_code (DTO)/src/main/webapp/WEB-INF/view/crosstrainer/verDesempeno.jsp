@@ -1,14 +1,15 @@
-<%@ page import="es.uma.proyectotaw.entity.Cliente" %>
-<%@ page import="es.uma.proyectotaw.entity.ClienteRutina" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.proyectotaw.entity.Desempeno" %>
-<%@ page import="es.uma.proyectotaw.entity.EjercicioEntrenamiento" %>
+<%@ page import="es.uma.proyectotaw.dto.ClienteDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.ClienteRutinaDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.EjercicioEntrenamientoDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.DesempenoDTO" %>
+<%@ page import="es.uma.proyectotaw.entity.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Cliente cliente = (Cliente) request.getAttribute("cliente");
-    List<ClienteRutina> historialRutinasCliente = (List<ClienteRutina>) request.getAttribute("historialRutinasCliente");
+    ClienteDTO cliente = (ClienteDTO) request.getAttribute("cliente");
+    List<ClienteRutinaDTO> historialRutinasCliente = (List<ClienteRutinaDTO>) request.getAttribute("historialRutinasCliente");
     List<Desempeno> desempenosCliente = (List<Desempeno>) request.getAttribute("desempenosCliente");
-    List<EjercicioEntrenamiento> ejercicios = (List<EjercicioEntrenamiento>) request.getAttribute("ejercicios");
+    List<EjercicioEntrenamientoDTO> ejercicios = (List<EjercicioEntrenamientoDTO>) request.getAttribute("ejercicios");
 %>
 <!DOCTYPE html><!--Hecho por Pablo Alonso Burgos-->
 <html lang="es">
@@ -145,17 +146,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <% for (ClienteRutina rutina : historialRutinasCliente) { %>
+                    <% for (ClienteRutinaDTO rutina : historialRutinasCliente) {%>
                     <tr>
-                        <td><%= rutina.getRutina().getNombre() %>
+                        <td><%= rutina.getRutina() %>
                         </td>
-                        <td><%= rutina.getRutina().getEntrenamientos().size() %>
+                        <td><%= rutina.getRutina()/*.getEntrenamientos().size()*/ %>
                         </td>
-                        <td><%= rutina.getRutina().getDescripcion() %>
+                        <td><%= rutina/*.getRutina().getDescripcion()*/ %>
                         </td>
-                        <td><%= rutina.getRutina().getFechaCreacion() %>
+                        <td><%= rutina/*.getRutina().getFechaCreacion() */%>
                         </td>
-                        <td><%= rutina.getVigente() ? "Sí" : "No" %>
+                        <td><%= rutina/*.getVigente() ? "Sí" : "No" */%>
                         </td>
                     </tr>
                     <% } %>
@@ -188,8 +189,8 @@
                     </thead>
                     <tbody>
                     <% for (Desempeno desempeno : desempenosCliente) { %>
-                    <% for (EjercicioEntrenamiento ejercicio : ejercicios) { %>
-                    <% if (desempeno.getId() == ejercicio.getDesempeno().getId()) { %>
+                    <% for (EjercicioEntrenamientoDTO ejercicio : ejercicios) { %>
+                    <% if (desempeno.getId() == ejercicio.getDesempeno()/*.getId()*/) { %>
                     <tr>
                         <td><%= ejercicio.getEntrenamiento().getNombre() %>
                         </td>

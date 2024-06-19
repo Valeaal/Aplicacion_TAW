@@ -4,17 +4,19 @@ import es.uma.proyectotaw.dao.ClienteRepository;
 import es.uma.proyectotaw.dao.ComidaMenuRepository;
 import es.uma.proyectotaw.dao.DesempenoRepository;
 import es.uma.proyectotaw.dao.EjercicioEntrenamientoRepository;
+import es.uma.proyectotaw.dto.ClienteDTO;
 import es.uma.proyectotaw.dto.DesempenoDTO;
-import es.uma.proyectotaw.entity.Cliente;
-import es.uma.proyectotaw.entity.ComidaMenu;
-import es.uma.proyectotaw.entity.Desempeno;
-import es.uma.proyectotaw.entity.EjercicioEntrenamiento;
+import es.uma.proyectotaw.dto.EjercicioEntrenamientoDTO;
+import es.uma.proyectotaw.dto.RutinaDTO;
+import es.uma.proyectotaw.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 //autor: Alba de la Torre
 
 @Service
-public class DesempenoService {
+public class DesempenoService extends DTOService<DesempenoDTO, Desempeno>{
 
     @Autowired
     private DesempenoRepository desempenoRepository;
@@ -81,6 +83,19 @@ public class DesempenoService {
         comidaMenuRepository.saveAndFlush(cm);
         desempenoRepository.delete(d);
     }
+
+    public List<DesempenoDTO> desempenoDelCliente(Integer clientId){
+        List<Desempeno> lista = desempenoRepository.desempenoDelCliente(clientId);
+        return this.entidadesADTO(lista);
+    }
+
+    public List<DesempenoDTO> desempenoDelClienteA(Integer id){
+        List<Desempeno> lista = desempenoRepository.desempenoDelCliente(id);
+        return this.entidadesADTO(lista);
+    }
+
+
+
 
 
 }
