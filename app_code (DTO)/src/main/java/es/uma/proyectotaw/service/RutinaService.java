@@ -1,19 +1,32 @@
 package es.uma.proyectotaw.service;
 
-import es.uma.proyectotaw.dao.RutinaRepository;
-import es.uma.proyectotaw.dto.RutinaDTO;
-import es.uma.proyectotaw.entity.Rutina;
+import es.uma.proyectotaw.dao.*;
+import es.uma.proyectotaw.dto.*;
+import es.uma.proyectotaw.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 // autor: Alba de la Torre
+// autor: Miguel Galdeano Rodríguez
 
 @Service
 public class RutinaService extends DTOService<RutinaDTO, Rutina>{
     @Autowired
     RutinaRepository rutinaRepository;
+    @Autowired
+    UsuarioRepository usuarioRepository;
+    @Autowired
+    Cliente_RutinaRepository clienteRutinaRepository;
+    @Autowired
+    EntrenamientoRutinaRepository entrenamientoRutinaRepository;
+    @Autowired
+    Tipo_RutinaRepository tipoRutinaRepository;
 
     public RutinaDTO getActiveRutinasByClienteId(Integer idCliente) {
         Rutina rutina = rutinaRepository.getActiveRutinasByClienteId(idCliente).get(0);
@@ -50,8 +63,67 @@ public class RutinaService extends DTOService<RutinaDTO, Rutina>{
         return rutina.toDTO();
     }
 
+    public List<RutinaDTO> findByTipo(Integer tipoRutina) {
+        List<Rutina> rutinas = rutinaRepository.findByTipo(tipoRutina);
+        return this.entidadesADTO(rutinas);
+    }
+
     public List<RutinaDTO> filtrarPorNombreynEntrenamientos(String nombre, Integer n){ // pablo
         List<Rutina> rutinas = rutinaRepository.filtrarPorNombreynEntrenamientos(nombre,n);
         return this.entidadesADTO(rutinas);
+    }
+
+    public List<RutinaDTO> findByNombre(String nombre,Integer tipo, LocalDate fecha){ // pablo
+        List<Rutina> rutinas = rutinaRepository.findByNombre(nombre,tipo,fecha);
+        return this.entidadesADTO(rutinas);
+    }
+
+    public List<RutinaDTO> findByNombreAndEntrenos(String nombre,Integer numEntrenos,Integer tipo, LocalDate fecha){ // pablo
+        List<Rutina> rutinas = rutinaRepository.findByNombreAndEntrenos(nombre,numEntrenos,tipo,fecha);
+        return this.entidadesADTO(rutinas);
+    }
+
+    public List<RutinaDTO> findByNombreAndCreador(String nombre, Integer usuario, Integer tipo, LocalDate fecha){ // pablo
+        List<Rutina> rutinas = rutinaRepository.findByNombreAndCreador(nombre,usuario,tipo,fecha);
+        return this.entidadesADTO(rutinas);
+    }
+
+    public List<RutinaDTO> findByNombreEntrenosAndCreador(String nombre,Integer numEntrenos, Integer usuario, Integer tipo, LocalDate fecha){ // pablo
+        List<Rutina> rutinas = rutinaRepository.findByNombreEntrenosAndCreador(nombre,numEntrenos,usuario,tipo,fecha);
+        return this.entidadesADTO(rutinas);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void guardar(RutinaDTO rutinaDTO){
+        Rutina r = new Rutina();
+        Usuario entrenador = this.usuarioRepository.buscarPorID(rutinaDTO.getEntrenador().getId());
+        r.setEntrenador(entrenador);
+        r.setDescripcion(rutinaDTO.getDescripcion());
+        r.setNombre(rutinaDTO.getNombre());
+
+        Set<ClienteRutinaDTO> clienteRutinaDTOS = rutinaDTO.getClientes();
+        Set<ClienteRutina> clienteRutinas = new HashSet<>();
+
+        for(ClienteRutinaDTO cr : clienteRutinaDTOS){
+            clienteRutinas.add(this.clienteRutinaRepository.findById(cr.getId()).orElse(null));
+        }
+
+        Set<EntrenamientoRutinaDTO> entrenamientoRutinaDTOS = rutinaDTO.getEntrenamientos();
+        Set<EntrenamientoRutina> entrenamientoRutinas = new HashSet<>();
+
+        for(EntrenamientoRutinaDTO er : entrenamientoRutinaDTOS){
+            entrenamientoRutinas.add(this.entrenamientoRutinaRepository.findById(er.getId()).orElse(null));
+        }
+        r.setClientes(clienteRutinas);
+        r.setEntrenamientos(entrenamientoRutinas);
+        TipoRutina tipoRutina = this.tipoRutinaRepository.findById(rutinaDTO.getTipoRutina().getId()).orElse(null);
+        r.setTipoRutina(tipoRutina);
+        r.setFechaCreacion(rutinaDTO.getFechaCreacion());
+        this.rutinaRepository.save(r);
+    }
+
+    public void delete(Integer rutinaID){
+        Rutina r = this.rutinaRepository.findById(rutinaID).orElse(new Rutina());
+        this.rutinaRepository.delete(r);
     }
 }
