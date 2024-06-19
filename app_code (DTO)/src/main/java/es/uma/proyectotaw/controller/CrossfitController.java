@@ -1,15 +1,9 @@
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dao.*;
-import es.uma.proyectotaw.dto.ClienteDTO;
-import es.uma.proyectotaw.dto.ClienteRutinaDTO;
-import es.uma.proyectotaw.dto.RutinaDTO;
-import es.uma.proyectotaw.dto.UsuarioDTO;
+import es.uma.proyectotaw.dto.*;
 import es.uma.proyectotaw.entity.*;
-import es.uma.proyectotaw.service.ClienteRutinaService;
-import es.uma.proyectotaw.service.ClienteService;
-import es.uma.proyectotaw.service.RutinaService;
-import es.uma.proyectotaw.service.UsuarioService;
+import es.uma.proyectotaw.service.*;
 import es.uma.proyectotaw.ui.Filtro_Rutina_nEntrenamientos;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +50,10 @@ public class CrossfitController {
     private ClienteService clienteService;
     @Autowired
     private ClienteRutinaService clienteRutinaService;
-
+    @Autowired
+    private DesempenoService desempenoService;
+    @Autowired
+    private EjercicioEntrenamientoService ejercicioEntrenamientoService;
 
 
     @GetMapping("/crud")
@@ -118,9 +115,8 @@ public class CrossfitController {
 
     @GetMapping("/seguimientoRutinas")
     public String doSeguimientoRutinas(Model model, HttpSession session) {
-        Usuario entrenador = (Usuario) session.getAttribute("usuario");
-        List<Cliente> clientes = this.clienteRepository.getClientesDelEntrenador(entrenador.getId()); // sacamos los cliente del entrenador
-        //  List<Cliente> clientes = this.clienteRepository.findAll();
+        UsuarioDTO entrenador = (UsuarioDTO) session.getAttribute("usuario");
+        List<ClienteDTO> clientes = clienteService.getClientesDelEntrenador(entrenador.getId());
         model.addAttribute("clientes", clientes);
         model.addAttribute("clienteFiltro", new Usuario());
         return "crosstrainer/seguimientoRutinas";
@@ -129,11 +125,11 @@ public class CrossfitController {
     @GetMapping("/filtroClientes")
     public String doSeguimientoRutinas(Model model, HttpSession session,
                                        @ModelAttribute("clienteFiltro") Usuario clienteFiltro) {
-        Usuario entrenador = (Usuario) session.getAttribute("usuario");
+        UsuarioDTO entrenador = (UsuarioDTO) session.getAttribute("usuario");
         if (clienteFiltro.getNombre() == null) {
             return "redirect:/seguimientoRutinas";
         }
-        List<Cliente> clientes = this.clienteRepository.getClientesDelEntrenadorYFiltro(entrenador.getId(), clienteFiltro.getNombre()); // sacamos los cliente del entrenador
+        List<ClienteDTO> clientes = this.clienteService.getClientesDelEntrenadorYFiltro(entrenador.getId(), clienteFiltro.getNombre()); // sacamos los cliente del entrenador
 
         model.addAttribute("clientes", clientes);
         model.addAttribute("clienteFiltro", clienteFiltro);
@@ -143,14 +139,15 @@ public class CrossfitController {
     @GetMapping("/verDesempenoo")
     public String doverDesempeno(Model model, HttpSession session,
                                  @RequestParam("idCliente") Integer idCliente) {
-        Cliente cliente = this.clienteRepository.findById(idCliente).orElse(null);
+        ClienteDTO cliente = clienteService.getClienteById(idCliente);
         model.addAttribute("cliente", cliente);
-        List<ClienteRutina> historialRutinasCliente = this.cliente_RutinaRepository.historialRutinasCliente(idCliente);
+        List<ClienteRutinaDTO> historialRutinasCliente = clienteRutinaService.historialRutinasCliente(idCliente);
         model.addAttribute("historialRutinasCliente", historialRutinasCliente);
         // ahora vamos a sacar el desempeño/valoracion de los ejercicios realizados por el cliente
-        List<Desempeno> desempenosCliente = this.desempenoRepository.desempenoDelCliente(idCliente);
+      //  List<DesempenoDTO> desempenosCliente = desempenoService.desempenoDelClienteA(idCliente);
+        List<Desempeno> desempenosCliente = desempenoRepository.desempenoDelCliente(idCliente);
         model.addAttribute("desempenosCliente", desempenosCliente);
-        List<EjercicioEntrenamiento> ejercicios = this.ejercicioEntrenamientoRepository.findAll();
+        List<EjercicioEntrenamientoDTO> ejercicios = ejercicioEntrenamientoService.findAll();
         model.addAttribute("ejercicios", ejercicios);
         return "crosstrainer/verDesempeno";
     }
@@ -173,7 +170,8 @@ public class CrossfitController {
         nuevaRutina.setFechaCreacion(LocalDate.now());
         TipoRutina tr = this.tipo_RutinaRepository.findById(2).orElse(null);
         nuevaRutina.setTipoRutina(tr);
-        Usuario entrenador = (Usuario) session.getAttribute("usuario");
+        UsuarioDTO entrenadorE = (UsuarioDTO) session.getAttribute("usuario");
+        Usuario entrenador = usuarioRepository.findById(entrenadorE.getId()).orElse(null);
         nuevaRutina.setEntrenador(entrenador);
         this.rutinaRepository.save(nuevaRutina);
         model.addAttribute("idRutina", nuevaRutina.getId());
