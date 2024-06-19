@@ -22,7 +22,7 @@
 <div class="container">
     <h2 class="my-4">Editar un menú</h2>
 
-    <form:form modelAttribute="menu" action="/admin/menus/actualizar" method="post">
+    <form:form modelAttribute="menu" action="/admin/menus/guardar" method="post">
 
         <form:hidden path="id" />
 

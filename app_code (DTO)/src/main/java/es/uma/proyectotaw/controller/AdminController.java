@@ -423,14 +423,14 @@ public class AdminController {
         String direccionRetorno = "redirect:/admin/menus";
 
         if (inputBoton.equals("Añadir")) {
-            Menu menu = new Menu();
+            MenuDTO menu = new MenuDTO();
             model.addAttribute("menu", menu);
             direccionRetorno = "administrador/nuevoMenu";
         } else if (inputMenu != null){
             if (inputBoton.equals("Eliminar")){
-                menuRepository.deleteById(inputMenu);
+                menuService.deleteById(inputMenu);
             } else if (inputBoton.equals("Modificar")){
-                Menu menu = menuRepository.getById(inputMenu);
+                MenuDTO menu = menuService.getById(inputMenu);
                 model.addAttribute("menu", menu);
                 direccionRetorno = "administrador/modificarMenu";
             }
@@ -438,23 +438,10 @@ public class AdminController {
         return direccionRetorno;
     }
 
-    @PostMapping("/menus/actualizar")
-    public String actualizarMenus(Model model, @ModelAttribute("menu") Menu menu){
-
-        Menu nuevoMenu = menuRepository.findById(menu.getId()).orElse(new Menu());
-        nuevoMenu.setNombre(menu.getNombre());
-        nuevoMenu.setDescripcion(menu.getDescripcion());
-        nuevoMenu.setAlergenos(menu.getAlergenos());
-
-        menuRepository.save(nuevoMenu);
-
-        return "redirect:/admin/menus";
-    }
-
     @PostMapping("/menus/guardar")
-    public String guardarMenus(Model model, @ModelAttribute("menu") Menu menu){
+    public String guardarMenus(Model model, @ModelAttribute("menu") MenuDTO menu){
 
-        menuRepository.save(menu);
+        menuService.save(menu);
 
         return "redirect:/admin/menus";
     }
