@@ -3,14 +3,15 @@
 package es.uma.proyectotaw.dto;
 
 import es.uma.proyectotaw.entity.Ejercicio;
+import es.uma.proyectotaw.entity.EjercicioEntrenamiento;
 import lombok.Data;
 
 @Data
 public class EjercicioEntrenamientoDTO {
 
     private Integer id;
-    private Integer ejercicio;
-    private Integer entrenamiento;
+    private EjercicioDTO ejercicio;
+    private EntrenamientoDTO entrenamiento;
     private Integer desempeno;
     private Integer series;
     private Integer repeticiones;

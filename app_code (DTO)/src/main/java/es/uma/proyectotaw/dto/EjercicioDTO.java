@@ -17,7 +17,12 @@ public class EjercicioDTO {
     private String descripcion;
     private String urlVideo;
     private GrupoMuscularDTO grupoMuscular;
-    private Set<EjercicioEntrenamientoDTO> entrenamientos;
+    private Set<Integer> entrenamientos;
+
+    //En entrenamientos, no podemos referenciar a ejercicioEntrenamientoDTO porque se produciría desbordamiento en la pila de llamadas (StackOverflow).
+    //En este caso referenciamos a los id porque desde un Ejercicio no necesitamos acceder al EjercicioEntrenamiento en los JSP, lo cual si debemos de hacer
+    //al revés es decir, acceder a EjercicioDTO desde EjercicioEntrenamiento en los JSP.
+
 
 
 }

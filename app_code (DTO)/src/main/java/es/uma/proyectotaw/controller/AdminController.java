@@ -53,6 +53,10 @@ public class AdminController {
     private EjercicioService ejercicioService;
     @Autowired
     private MenuService menuService;
+    @Autowired
+    private EntrenamientoService entrenamientoService;
+    @Autowired
+    EjercicioEntrenamientoService ejercicioEntrenamientoService;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //GESTIÓN DE LOS USUARIOS
@@ -454,14 +458,14 @@ public class AdminController {
     public String ejerciciosEntrenamientos(Model model) {
 
         //------------ PARA RELLENAR LOS SELECTORES DEL FORMULARIO ------------//
-        List <Ejercicio> ejercicios = ejercicioRepository.findAll();
-        List <Entrenamiento> entrenamientos = entrenamientoRepository.findAll();
+        List <EjercicioDTO> ejercicios = ejercicioService.findAll();
+        List <EntrenamientoDTO> entrenamientos = entrenamientoService.DTOfindAll();
 
         model.addAttribute("ejercicios", ejercicios);
         model.addAttribute("entrenamientos", entrenamientos);
 
         //------------ PARA RELLENAR LA TABLA DE DIMENSIONES DE EJERCICIOS (sin filtro)------------//
-        List<EjercicioEntrenamiento> ejerciciosEntrenamientosCompleto = ejercicioEntrenamientoRepository.findAll();
+        List<EjercicioEntrenamientoDTO> ejerciciosEntrenamientosCompleto = ejercicioEntrenamientoService.findAll();
         model.addAttribute("ejerciciosEntrenamientos", ejerciciosEntrenamientosCompleto);
 
         return "/administrador/ejerciciosEntrenamientos";

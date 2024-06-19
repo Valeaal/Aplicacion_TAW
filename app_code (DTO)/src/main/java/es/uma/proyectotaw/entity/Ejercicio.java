@@ -58,12 +58,11 @@ public class Ejercicio implements DTO<EjercicioDTO> {
             ejercicioDTO.setGrupoMuscular(grupoMuscular.toDTO());
         }
 
-        // Instancia de DTOService (EjercicioEntrenamientoService), que nos proporciona la posibilidad convertir el conjunto a dto
-        EjercicioEntrenamientoService dtoService = new EjercicioEntrenamientoService();
-
-        // Convertir set de EjercicioEntrenamiento a DTO con el servicio
-        Set<EjercicioEntrenamientoDTO> EjerciciosEntrenamientosDTO = dtoService.entidadesADTO(entrenamientos);
-        ejercicioDTO.setEntrenamientos(EjerciciosEntrenamientosDTO);
+        Set EjerciciosEntrenamientoIds = new HashSet();
+        for (EjercicioEntrenamiento e : this.getEntrenamientos()){
+            EjerciciosEntrenamientoIds.add(e.getId());
+        }
+        ejercicioDTO.setEntrenamientos(EjerciciosEntrenamientoIds);
 
         return ejercicioDTO;
     }
