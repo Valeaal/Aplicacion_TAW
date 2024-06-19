@@ -1,3 +1,6 @@
+//autor: Alba de la Torre
+//autor: Miguel Galdeano Rodríguez
+//autor: Álvaro Valencia Villalón
 package es.uma.proyectotaw.service;
 
 import es.uma.proyectotaw.dao.EntrenamientoRepository;
@@ -10,8 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-//autor : Alba de la Torre
-//autor:  Miguel Galdeano Rodríguez
+
 @Service
 public class EntrenamientoService extends DTOService<EntrenamientoDTO, Entrenamiento>{
 
@@ -21,8 +23,8 @@ public class EntrenamientoService extends DTOService<EntrenamientoDTO, Entrenami
     // esto tiene que usar el entidadesADTO de la clase DTOService. además, tiene que devolver List<EntrenamientoDTO>
     // lo he comentado y cambiado a que acceda al repositorio normal porque da fallo
     public List<Entrenamiento> findAll(){
-//        List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
-//        return this.entidadesADTO(entrenamientos);
+        List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
+        //return this.entidadesADTO(entrenamientos);
         return entrenamientoRepository.findAll();
     }
 
@@ -49,6 +51,13 @@ public class EntrenamientoService extends DTOService<EntrenamientoDTO, Entrenami
 
         this.entrenamientoRepository.save(entrenamiento);
     }
+
+    public List<EntrenamientoDTO> DTOfindAll(){
+        List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
+        return this.entidadesADTO(entrenamientos);
+    }
+
+
 
 //    protected List<EntrenamientoDTO> entidadesADTO (List<Entrenamiento> entrenamientos) {
 //        List<Entrenamiento> lista = new ArrayList<>();

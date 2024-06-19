@@ -50,7 +50,7 @@ public class EjercicioEntrenamiento implements DTO<EjercicioEntrenamientoDTO>{
         EjercicioEntrenamientoDTO dto = new EjercicioEntrenamientoDTO();
         dto.setId(id);
         dto.setEjercicio(ejercicio.getId());
-        dto.setEntrenamiento(entrenamiento.getId());
+        //dto.setEntrenamiento(entrenamiento.toDTO());
         if(desempeno != null) {
             dto.setDesempeno(desempeno.getId());
         }

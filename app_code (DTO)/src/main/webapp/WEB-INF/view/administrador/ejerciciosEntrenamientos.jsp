@@ -1,14 +1,17 @@
 <%@ page import="java.util.*" %>
 <%@ page import="es.uma.proyectotaw.entity.*" %>
+<%@ page import="es.uma.proyectotaw.dto.EjercicioDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.EjercicioEntrenamientoDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.EntrenamientoDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- Autor: Álvaro Valencia Villalón -->
 
 
 <%
-    List<EjercicioEntrenamiento> EjerciciosEntrenamientos = (List<EjercicioEntrenamiento>) request.getAttribute("ejerciciosEntrenamientos");
-    List<Ejercicio> Ejercicios = (List<Ejercicio>) request.getAttribute("ejercicios");
-    List<Entrenamiento> Entrenamientos = (List<Entrenamiento>) request.getAttribute("entrenamientos");
+    List<EjercicioEntrenamientoDTO> EjerciciosEntrenamientos = (List<EjercicioEntrenamientoDTO>) request.getAttribute("ejerciciosEntrenamientos");
+    List<EjercicioDTO> Ejercicios = (List<EjercicioDTO>) request.getAttribute("ejercicios");
+    List<EntrenamientoDTO> Entrenamientos = (List<EntrenamientoDTO>) request.getAttribute("entrenamientos");
 %>
 
 
@@ -108,8 +111,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- Aquí se pueden agregar filas dinámicamente con datos -->
-                    <% for (EjercicioEntrenamiento ej : EjerciciosEntrenamientos) { %>
+                    <% for (EjercicioEntrenamientoDTO ej : EjerciciosEntrenamientos) { %>
                     <tr>
                         <td><input type="radio" name="eSeleccionado" value= "<%= ej.getId() %>" ></td>
                         <td><%= ej.getEjercicio().getNombre()%></td>

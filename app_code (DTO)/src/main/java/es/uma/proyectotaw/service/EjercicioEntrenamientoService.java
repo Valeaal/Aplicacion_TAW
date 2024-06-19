@@ -8,6 +8,8 @@ import es.uma.proyectotaw.entity.EjercicioEntrenamiento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EjercicioEntrenamientoService extends DTOService<EjercicioEntrenamientoDTO, EjercicioEntrenamiento> {
 
@@ -20,6 +22,10 @@ public class EjercicioEntrenamientoService extends DTOService<EjercicioEntrenami
 
     public EjercicioEntrenamiento getEjercicioEntrenamientoFromEjAndEntrenamientoId(Integer ejId, Integer entrenamientoId) {
         return ejercicioEntrenamientoRepository.getEjercicioEntrenamientoFromEjAndEntrenamientoId(ejId, entrenamientoId);
+    }
+
+    public List<EjercicioEntrenamientoDTO> findAll(){
+        return this.entidadesADTO(ejercicioEntrenamientoRepository.findAll());
     }
 
 }
