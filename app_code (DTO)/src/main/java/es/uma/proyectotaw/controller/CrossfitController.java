@@ -1,10 +1,15 @@
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dao.*;
+import es.uma.proyectotaw.dto.ClienteDTO;
+import es.uma.proyectotaw.dto.ClienteRutinaDTO;
 import es.uma.proyectotaw.dto.RutinaDTO;
 import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.*;
+import es.uma.proyectotaw.service.ClienteRutinaService;
+import es.uma.proyectotaw.service.ClienteService;
 import es.uma.proyectotaw.service.RutinaService;
+import es.uma.proyectotaw.service.UsuarioService;
 import es.uma.proyectotaw.ui.Filtro_Rutina_nEntrenamientos;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +47,15 @@ public class CrossfitController {
     protected EjercicioEntrenamientoRepository ejercicioEntrenamientoRepository;
 
     // aqui meto los service
+
+    @Autowired
+    private UsuarioService usuarioService;
     @Autowired
     private RutinaService rutinaService;
+    @Autowired
+    private ClienteService clienteService;
+    @Autowired
+    private ClienteRutinaService clienteRutinaService;
 
 
 
@@ -79,7 +91,7 @@ public class CrossfitController {
     @GetMapping("/ClientesRutinas")
     public String doAsignarRutinas(Model model, HttpSession session) {
         UsuarioDTO entrenador = (UsuarioDTO) session.getAttribute("usuario");
-        List<Cliente> clientes = this.clienteRepository.getClientesDelEntrenador(entrenador.getId()); // sacamos los cliente del entrenador
+        List<ClienteDTO> clientes = clienteService.getClientesDelEntrenador(entrenador.getId());
         List<RutinaDTO> rutinas = rutinaService.getCrossfitRutinas();
         model.addAttribute("clientes", clientes);
         model.addAttribute("rutinas", rutinas);
@@ -92,17 +104,13 @@ public class CrossfitController {
                                       Model model) {
 
         if (idRutina != null && idUser != null) {
-         //   RutinaDTO rutina = rutinaService.findById(idRutina);
-            Usuario user = this.usuarioRepository.findById(idUser).orElse(null);
-            Cliente cliente = this.clienteRepository.getClienteByUserId(idUser);
-            ClienteRutina asignacionRutinaACliente = new ClienteRutina();
-            asignacionRutinaACliente.setCliente(cliente);
-           // asignacionRutinaACliente.setRutina(rutina);
-            asignacionRutinaACliente.setVigente(true);
-            for (ClienteRutina cr : this.cliente_RutinaRepository.findActiveRoutines(cliente.getId())) { // para que la nueva sea la vigente
-                cr.setVigente(false);
-            }
-            this.cliente_RutinaRepository.save(asignacionRutinaACliente);
+            RutinaDTO rutina = rutinaService.findById(idRutina);
+            ClienteDTO cliente = clienteService.getClienteByUserId(idUser);
+            ClienteRutinaDTO asignacionRutinaACliente = new ClienteRutinaDTO();
+            asignacionRutinaACliente.setCliente(cliente.getId());
+            asignacionRutinaACliente.setRutina(rutina.getId());
+
+            clienteRutinaService.guardarClienteRutina(asignacionRutinaACliente);
         }
 
         return "redirect:/ClientesRutinas";

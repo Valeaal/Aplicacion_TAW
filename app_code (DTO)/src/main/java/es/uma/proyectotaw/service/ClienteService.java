@@ -5,6 +5,7 @@ import es.uma.proyectotaw.dao.ClienteRepository;
 import es.uma.proyectotaw.dao.DietaRepository;
 import es.uma.proyectotaw.dao.UsuarioRepository;
 import es.uma.proyectotaw.dto.ClienteDTO;
+import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.Cliente;
 import es.uma.proyectotaw.entity.Dieta;
 import es.uma.proyectotaw.entity.Usuario;
@@ -12,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class ClienteService extends DTOService<ClienteDTO, Cliente>{
+public class ClienteService extends DTOService<ClienteDTO, Cliente> {
 
     @Autowired
     private ClienteRepository clienteRepository;
@@ -22,16 +25,16 @@ public class ClienteService extends DTOService<ClienteDTO, Cliente>{
     @Autowired
     private DietaRepository dietaRepository;
 
-    public ClienteDTO getClienteByUserId(Integer id){
+    public ClienteDTO getClienteByUserId(Integer id) {
         Cliente clienteEntity = clienteRepository.getClienteByUserId(id);
         return clienteEntity.toDTO();
     }
 
-    public ClienteDTO getReferenceById(Integer id){
+    public ClienteDTO getReferenceById(Integer id) {
         return clienteRepository.getReferenceById(id).toDTO();
     }
 
-    public void guardarCliente (ClienteDTO clienteDTO){
+    public void guardarCliente(ClienteDTO clienteDTO) {
         Cliente clienteEntity = new Cliente();
 
         clienteEntity.setId(clienteDTO.getId());
@@ -39,23 +42,23 @@ public class ClienteService extends DTOService<ClienteDTO, Cliente>{
         clienteEntity.setEdad(clienteDTO.getEdad());
         clienteEntity.setPeso(clienteDTO.getPeso());
 
-        if(clienteDTO.getDietista() == null){
+        if (clienteDTO.getDietista() == null) {
             clienteEntity.setDietista(null);
-        } else{
+        } else {
             Usuario dietista = usuarioRepository.buscarPorID(clienteDTO.getDietista().getId());
             clienteEntity.setDietista(dietista);
         }
 
-        if(clienteDTO.getEntrenador() == null){
+        if (clienteDTO.getEntrenador() == null) {
             clienteEntity.setEntrenador(null);
-        } else{
+        } else {
             Usuario entrenador = usuarioRepository.buscarPorID(clienteDTO.getEntrenador().getId());
             clienteEntity.setEntrenador(entrenador);
         }
 
-        if(clienteDTO.getDieta() == null){
+        if (clienteDTO.getDieta() == null) {
             clienteEntity.setDieta(null);
-        } else{
+        } else {
             Dieta dieta = dietaRepository.findById(clienteDTO.getDieta().getId()).orElse(null);
             clienteEntity.setDieta(dieta);
         }
@@ -65,6 +68,11 @@ public class ClienteService extends DTOService<ClienteDTO, Cliente>{
         clienteEntity.setUsuario(usuario);
 
         clienteRepository.save(clienteEntity);
+    }
+
+    public List<ClienteDTO> getClientesDelEntrenador(Integer crossfitTrainerId) { //pablo
+        List<Cliente> clientesDTO = clienteRepository.getClientesDelEntrenador(crossfitTrainerId);
+        return this.entidadesADTO(clientesDTO);
     }
 
 }
