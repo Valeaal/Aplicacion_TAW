@@ -2,11 +2,12 @@
 <%@ page import="java.util.*" %>
 <%@ page import="es.uma.proyectotaw.entity.Usuario" %>
 <%@ page import="es.uma.proyectotaw.entity.Rutina" %>
+<%@ page import="es.uma.proyectotaw.dto.RutinaDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    List<Rutina> rutinas = (List<Rutina>) request.getAttribute("rutinas");
+    List<RutinaDTO> rutinas = (List<RutinaDTO>) request.getAttribute("rutinas");
 %>
 <!--Hecho por Pablo Alonso Burgos-->
 <style>
@@ -201,7 +202,7 @@
                 </thead>
                 <tbody>
                 <!-- Aquí se deben iterar las rutinas para generar las filas dinámicamente -->
-                <%for (Rutina rutina : rutinas) {%>
+                <%for (RutinaDTO rutina : rutinas) {%>
                 <tr>
                     <td><%=rutina.getNombre()%>
                     </td>

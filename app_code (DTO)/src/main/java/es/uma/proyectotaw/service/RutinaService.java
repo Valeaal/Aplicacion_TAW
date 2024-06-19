@@ -29,4 +29,29 @@ public class RutinaService extends DTOService<RutinaDTO, Rutina>{
         List<Rutina> rutinas = rutinaRepository.getAllRutinasByClienteId(clientId);
         return this.entidadesADTO(rutinas);
     }
+
+    public List<RutinaDTO> getCrossfitRutinas(){ // pablo
+        List<Rutina> rutinas = rutinaRepository.getCrossfitRutinas();
+        return this.entidadesADTO(rutinas);
+    }
+
+    public List<RutinaDTO> filtrarPorNombre(String nombre){ // pablo
+        List<Rutina> rutinas = rutinaRepository.filtrarPorNombre(nombre);
+        return this.entidadesADTO(rutinas);
+    }
+
+    public List<RutinaDTO> filtrarPornumEntrenamientos(Integer n){ // pablo
+        List<Rutina> rutinas = rutinaRepository.filtrarPornumEntrenamientos(n);
+        return this.entidadesADTO(rutinas);
+    }
+
+    public RutinaDTO findById(Integer idRutina) {
+        Rutina rutina = rutinaRepository.findById(idRutina).orElse(null);
+        return rutina.toDTO();
+    }
+
+    public List<RutinaDTO> filtrarPorNombreynEntrenamientos(String nombre, Integer n){ // pablo
+        List<Rutina> rutinas = rutinaRepository.filtrarPorNombreynEntrenamientos(nombre,n);
+        return this.entidadesADTO(rutinas);
+    }
 }

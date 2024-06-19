@@ -2,10 +2,11 @@
 <%@ page import="es.uma.proyectotaw.entity.Usuario" %>
 <%@ page import="es.uma.proyectotaw.entity.Rutina" %>
 <%@ page import="es.uma.proyectotaw.entity.Cliente" %>
+<%@ page import="es.uma.proyectotaw.dto.RutinaDTO" %>
 
 <%
     List<Cliente> clientes = (List<Cliente>) request.getAttribute("clientes");
-    List<Rutina> rutinas = (List<Rutina>) request.getAttribute("rutinas");
+    List<RutinaDTO> rutinas = (List<RutinaDTO>) request.getAttribute("rutinas");
 
 %>
 
@@ -96,7 +97,7 @@
                         </thead>
                         <tbody>
                         <!-- Filas de rutinas -->
-                        <% for (Rutina rutina : rutinas) { %>
+                        <% for (RutinaDTO rutina : rutinas) { %>
                         <tr>
                             <td><input type="radio" name="idRutina" value="<%= rutina.getId()%>"></td>
                             <td><%= rutina.getNombre()%>

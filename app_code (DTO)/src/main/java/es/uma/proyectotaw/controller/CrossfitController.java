@@ -1,7 +1,10 @@
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dao.*;
+import es.uma.proyectotaw.dto.RutinaDTO;
+import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.*;
+import es.uma.proyectotaw.service.RutinaService;
 import es.uma.proyectotaw.ui.Filtro_Rutina_nEntrenamientos;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +19,7 @@ import java.util.List;
 @Controller
 public class CrossfitController {
 
-
+// primero aqui tengo los repository, que borrare luego
     @Autowired
     private UsuarioRepository usuarioRepository;
     @Autowired
@@ -38,10 +41,15 @@ public class CrossfitController {
     @Autowired
     protected EjercicioEntrenamientoRepository ejercicioEntrenamientoRepository;
 
+    // aqui meto los service
+    @Autowired
+    private RutinaService rutinaService;
+
+
 
     @GetMapping("/crud")
     public String doCRUD(Model model) {
-        List<Rutina> rutinas = rutinaRepository.getCrossfitRutinas();
+        List<RutinaDTO> rutinas = rutinaService.getCrossfitRutinas();
         model.addAttribute("rutinas", rutinas);
         model.addAttribute("filtroRutinas", new Filtro_Rutina_nEntrenamientos());
         return "crosstrainer/crudRutinas";
@@ -54,13 +62,13 @@ public class CrossfitController {
                 filtroRutinas.getNumeroEntrenamientos() == -1) {
             return "redirect:/crud";
         } else if (filtroRutinas.getNumeroEntrenamientos() == -1) {
-            List<Rutina> rutinas = rutinaRepository.filtrarPorNombre(filtroRutinas.getNombreRutina());
+            List<RutinaDTO> rutinas = rutinaService.filtrarPorNombre(filtroRutinas.getNombreRutina());
             model.addAttribute("rutinas", rutinas);
         } else if (filtroRutinas.getNombreRutina() == null || filtroRutinas.getNombreRutina().equals("")) {
-            List<Rutina> rutinas = this.rutinaRepository.filtrarPornumEntrenamientos(filtroRutinas.getNumeroEntrenamientos());
+            List<RutinaDTO> rutinas = this.rutinaService.filtrarPornumEntrenamientos(filtroRutinas.getNumeroEntrenamientos());
             model.addAttribute("rutinas", rutinas);
         } else {
-            List<Rutina> rutinas = this.rutinaRepository.filtrarPorNombreynEntrenamientos(filtroRutinas.getNombreRutina(),
+            List<RutinaDTO> rutinas = this.rutinaService.filtrarPorNombreynEntrenamientos(filtroRutinas.getNombreRutina(),
                     filtroRutinas.getNumeroEntrenamientos());
             model.addAttribute("rutinas", rutinas);
         }
@@ -70,9 +78,9 @@ public class CrossfitController {
 
     @GetMapping("/ClientesRutinas")
     public String doAsignarRutinas(Model model, HttpSession session) {
-        Usuario entrenador = (Usuario) session.getAttribute("usuario");
+        UsuarioDTO entrenador = (UsuarioDTO) session.getAttribute("usuario");
         List<Cliente> clientes = this.clienteRepository.getClientesDelEntrenador(entrenador.getId()); // sacamos los cliente del entrenador
-        List<Rutina> rutinas = rutinaRepository.getCrossfitRutinas();
+        List<RutinaDTO> rutinas = rutinaService.getCrossfitRutinas();
         model.addAttribute("clientes", clientes);
         model.addAttribute("rutinas", rutinas);
         return "crosstrainer/asignarRutinas";
@@ -84,12 +92,12 @@ public class CrossfitController {
                                       Model model) {
 
         if (idRutina != null && idUser != null) {
-            Rutina rutina = rutinaRepository.findById(idRutina).orElse(null);
+         //   RutinaDTO rutina = rutinaService.findById(idRutina);
             Usuario user = this.usuarioRepository.findById(idUser).orElse(null);
             Cliente cliente = this.clienteRepository.getClienteByUserId(idUser);
             ClienteRutina asignacionRutinaACliente = new ClienteRutina();
             asignacionRutinaACliente.setCliente(cliente);
-            asignacionRutinaACliente.setRutina(rutina);
+           // asignacionRutinaACliente.setRutina(rutina);
             asignacionRutinaACliente.setVigente(true);
             for (ClienteRutina cr : this.cliente_RutinaRepository.findActiveRoutines(cliente.getId())) { // para que la nueva sea la vigente
                 cr.setVigente(false);
