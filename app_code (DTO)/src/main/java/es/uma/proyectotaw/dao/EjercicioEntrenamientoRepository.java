@@ -11,6 +11,12 @@ public interface EjercicioEntrenamientoRepository extends JpaRepository<Ejercici
     @Query("select e from EjercicioEntrenamiento e where e.ejercicio.id= :ejercicioId")
     public EjercicioEntrenamiento getEjercicioEntrenamientoFromEjId(@Param("ejercicioId") Integer ejercicioId);
 
+    @Query("select e from EjercicioEntrenamiento e where e.entrenamiento.id= :entrenamiento")
+    public EjercicioEntrenamiento findByEntrenamientoID(@Param("entrenamiento") Integer entrenamientoid);
+
+    @Query("select e from EjercicioEntrenamiento e where e.desempeno.id= :desempeno")
+    public EjercicioEntrenamiento findByDesempeno(@Param("desempeno") Integer desempeno);
+
     //Gracias al uso del "or is null" hacemos que los parámetros pasados nulos no afecten a la búsqueda, y así no hay que crear
     //una consulta de búsqueda por cada combinación posible de parámetros
     @Query("select e from EjercicioEntrenamiento e where ((:inputEjercicio is null) or e.ejercicio.id = :inputEjercicio)" +

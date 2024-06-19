@@ -1,10 +1,10 @@
 <%-- @author: Miguel Galdeano Rodríguez --%> 
 <%@ page import="java.util.*" %>
-<%@ page import="es.uma.proyectotaw.entity.Usuario" %>
+<%@ page import="es.uma.proyectotaw.entity.Cliente" %>
 <%@ page import="es.uma.proyectotaw.entity.Rutina" %>
 
 <%
-    List<Usuario> clientes = (List<Usuario>) request.getAttribute("clientes");
+    List<Cliente> clientes = (List<Cliente>) request.getAttribute("clientes");
     List<Rutina> rutinas = (List<Rutina>) request.getAttribute("rutinas");
 %>
 
@@ -15,7 +15,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nueva Página</title>
+    <title>Asignación Rutinas</title>
     <!-- Enlace a Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -25,16 +25,10 @@
 <jsp:include page="../header-footer/navbar.jsp"></jsp:include>
 
 <div class="container-fluid">
+    <form method="post" action="/bodybuilding/asignarRutinaCliente">
     <div class="row">
         <!-- Parte izquierda con tabla y barra de búsqueda -->
         <div class="col  flex-grow-1 col-auto">
-            <form action="/admin/clientesEntrenadores/filtrarCLientes">
-                <div class="mb-3 d-flex">
-                    <input type="text" class="form-control form-control-lg me-2" name="busquedaN"
-                           placeholder="Nombre cliente">
-                    <button type="submit" class="btn btn-primary">Buscar</button>
-                </div>
-            </form>
             <table class="table">
                 <thead>
                 <tr>
@@ -46,34 +40,23 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!-- Aquí se pueden agregar filas dinámicamente con datos -->
-                <% for (Usuario usr : clientes) { %>
+                <% for (Cliente usr : clientes) { %>
                 <tr>
-                    <td><input type="radio" name="cSeleccionado" value="<%= usr.getId()%>>"></td>
-                    <td><%= usr.getNombre()%>
+                    <td><input type="radio" name="cliente" value="<%= usr.getId()%>"></td>
+                    <td><%= usr.getUsuario().getNombre()%>
                     </td>
-                    <td><%= usr.getApellidos()%>
+                    <td><%= usr.getUsuario().getApellidos()%>
                     </td>
-                    <td><%= usr.getPerteneceDesde()%>
+                    <td><%= usr.getUsuario().getPerteneceDesde()%>
                     </td>
-                    <td><%= usr.getFechaNacimiento()%>
+                    <td><%= usr.getUsuario().getFechaNacimiento()%>
                     </td>
                 </tr>
                 <% } %>
                 </tbody>
             </table>
         </div>
-
-
-        <!-- Parte derecha con tabla y barra de búsqueda -->
         <div class="col flex-grow-1 col-auto">
-            <form action="/admin/clientesEntrenadores/filtrarEntrenadores">
-                <div class="mb-3 d-flex">
-                    <input type="text" class="form-control form-control-lg me-2" name="busquedaN"
-                           placeholder="Nombre entrenador">
-                    <button type="submit" class="btn btn-primary">Buscar</button>
-                </div>
-            </form>
             <table class="table">
                 <thead>
                 <tr>
@@ -83,23 +66,21 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!-- Aquí se pueden agregar filas dinámicamente con datos -->
                 <% for (Rutina rt : rutinas) { %>
                 <tr>
-                    <td><input type="radio" name="cSeleccionado" value="<%= rt.getId()%>>"></td>
+                    <td><input type="radio" name="rutina" value="<%= rt.getId()%>"></td>
                     <td><%= rt.getNombre()%></td>
                     <td><%= rt.getDescripcion()%></td>
                 </tr>
                 <% } %>
                 </tbody>
             </table>
-
         </div>
-        <!-- Botón de asignar -->
-        <div class="col col-auto mt-auto">
-            <button type="button" class="btn btn-success">Asignar</button>
-        </div>
+            <div style="text-align: center">
+               <button class="btn btn-success" type="submit">Asignar</button>
+            </div>
     </div>
+    </form>
 </div>
 
 <jsp:include page="../header-footer/footer.jsp"></jsp:include>

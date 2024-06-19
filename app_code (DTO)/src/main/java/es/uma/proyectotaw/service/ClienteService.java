@@ -5,12 +5,15 @@ import es.uma.proyectotaw.dao.ClienteRepository;
 import es.uma.proyectotaw.dao.DietaRepository;
 import es.uma.proyectotaw.dao.UsuarioRepository;
 import es.uma.proyectotaw.dto.ClienteDTO;
+import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.Cliente;
 import es.uma.proyectotaw.entity.Dieta;
 import es.uma.proyectotaw.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ClienteService extends DTOService<ClienteDTO, Cliente>{
@@ -25,6 +28,10 @@ public class ClienteService extends DTOService<ClienteDTO, Cliente>{
     public ClienteDTO getClienteByUserId(Integer id){
         Cliente clienteEntity = clienteRepository.getClienteByUserId(id);
         return clienteEntity.toDTO();
+    }
+
+    public ClienteDTO getClienteById(Integer id){
+        return this.clienteRepository.getClienteById(id).toDTO();
     }
 
     public ClienteDTO getReferenceById(Integer id){
@@ -65,6 +72,11 @@ public class ClienteService extends DTOService<ClienteDTO, Cliente>{
         clienteEntity.setUsuario(usuario);
 
         clienteRepository.save(clienteEntity);
+    }
+
+    public List<ClienteDTO> findByEntrenador(UsuarioDTO usuarioDTO){
+        Usuario usuario = this.usuarioRepository.findById(usuarioDTO.getId()).orElse(null);
+        return entidadesADTO(this.clienteRepository.findByEntrenador(usuario));
     }
 
 }

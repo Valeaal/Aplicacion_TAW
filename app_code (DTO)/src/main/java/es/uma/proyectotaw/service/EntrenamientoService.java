@@ -4,16 +4,19 @@
 //Modificad los porcentajes, lo he puesto orientativo
 package es.uma.proyectotaw.service;
 
+import es.uma.proyectotaw.dao.EjercicioEntrenamientoRepository;
+import es.uma.proyectotaw.dao.EjercicioRepository;
 import es.uma.proyectotaw.dao.EntrenamientoRepository;
 import es.uma.proyectotaw.dao.EntrenamientoRutinaRepository;
 import es.uma.proyectotaw.dto.EjercicioDTO;
 import es.uma.proyectotaw.dto.EntrenamientoDTO;
-import es.uma.proyectotaw.entity.Entrenamiento;
+import es.uma.proyectotaw.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -21,13 +24,16 @@ public class EntrenamientoService extends DTOService<EntrenamientoDTO, Entrenami
 
     @Autowired
     private EntrenamientoRepository entrenamientoRepository;
+    @Autowired
+    private EntrenamientoRutinaRepository entrenamientoRutinaRepository;
+    @Autowired
+    private EjercicioEntrenamientoRepository ejercicioEntrenamientoRepository;
 
     // esto tiene que usar el entidadesADTO de la clase DTOService. además, tiene que devolver List<EntrenamientoDTO>
     // lo he comentado y cambiado a que acceda al repositorio normal porque da fallo
-    public List<Entrenamiento> findAll(){
+    public List<EntrenamientoDTO> findAll(){
         List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
-        //return this.entidadesADTO(entrenamientos);
-        return entrenamientoRepository.findAll();
+        return this.entidadesADTO(entrenamientos);
     }
 
     public List<EntrenamientoDTO> findByRutinaId(Integer rutinaId) {
@@ -47,11 +53,19 @@ public class EntrenamientoService extends DTOService<EntrenamientoDTO, Entrenami
         Entrenamiento entrenamiento = this.entrenamientoRepository.findById(entrenamientoDTO.getId()).orElse(new Entrenamiento());
         entrenamiento.setNombre(entrenamientoDTO.getNombre());
         entrenamiento.setDescripcion(entrenamientoDTO.getDescripcion());
-        //entrenamiento.setRutinas(this.entrenamientoRutinaRepository.findAllById(entrenamientoDTO.getRutinas()));
-
-
+        entrenamiento.setRutinas((Set<EntrenamientoRutina>) this.entrenamientoRutinaRepository.findAllById(entrenamientoDTO.getRutinas()));
+        entrenamiento.setEjercicios((Set<EjercicioEntrenamiento>) this.ejercicioEntrenamientoRepository.findAllById(entrenamientoDTO.getEjercicios()));
 
         this.entrenamientoRepository.save(entrenamiento);
+    }
+
+    public void delete(Integer entrenamientoId){
+        Entrenamiento e = this.entrenamientoRepository.findById(entrenamientoId).orElse(null);
+        EjercicioEntrenamiento ee = this.ejercicioEntrenamientoRepository.findByEntrenamientoID(entrenamientoId);
+        EntrenamientoRutina er = this.entrenamientoRutinaRepository.findByEntrenamientoID(entrenamientoId);
+        this.ejercicioEntrenamientoRepository.delete(ee);
+        this.entrenamientoRutinaRepository.delete(er);
+        this.entrenamientoRepository.delete(e);
     }
 
     public List<EntrenamientoDTO> DTOfindAll(){
@@ -62,14 +76,4 @@ public class EntrenamientoService extends DTOService<EntrenamientoDTO, Entrenami
     public EntrenamientoDTO buscarPorString(String nombre) {
         return entrenamientoRepository.buscarPorString(nombre).toDTO();
     }
-
-
-
-//    protected List<EntrenamientoDTO> entidadesADTO (List<Entrenamiento> entrenamientos) {
-//        List<Entrenamiento> lista = new ArrayList<>();
-//        for (Entrenamiento entrenamiento : entrenamientos) {
-//            lista.add(entrenamiento.toDTO());
-//        }
-//        return lista;
-//    }
 }
