@@ -5,6 +5,7 @@ import es.uma.proyectotaw.dao.*;
 import es.uma.proyectotaw.dto.TipoUsuarioDTO;
 import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.*;
+import es.uma.proyectotaw.ui.ComidasDieta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,8 @@ public class UsuarioService extends DTOService<UsuarioDTO, Usuario>{
     private DietaRepository dietaRepository;
     @Autowired
     private RutinaService rutinaService;
+    @Autowired
+    private ComidaDietaRepository comidaDietaRepository;
 
     public List<UsuarioDTO> sacarUsuariosPorTipo(TipoUsuarioDTO tipoUsuario) {
         TipoUsuario tipoEntity = tipoUsuarioRepository.findById(tipoUsuario.getId()).orElse(null);
@@ -73,6 +76,7 @@ public class UsuarioService extends DTOService<UsuarioDTO, Usuario>{
         List<Cliente> clientes;
         List<Rutina> rutinas;
         List<Dieta> dietas;
+        List<DietaComida> dietasComidas;
         if (usrABorrar.getTipoUsuario().getId() == 2 || usrABorrar.getTipoUsuario().getId() == 3 ){             //Es entrenador, hay que borrar la relación con sus clientes
             clientes = clienteRepository.getClienteByIdEntrenador(id);
             rutinas = rutinaRepository.getRutinaByEnternadorId(id);
@@ -89,10 +93,15 @@ public class UsuarioService extends DTOService<UsuarioDTO, Usuario>{
             dietas = dietaRepository.getDietaByDietistaId(id);
             for(Cliente c : clientes){
                 c.setDietista(null);
+                c.setDieta(null);
                 clienteRepository.save(c);
             }
-            for(Dieta d : dietas){
-                dietaRepository.delete(d);                                                                      //TODO: Referenciar al método de torrecilla
+            for(Dieta d : dietas){                                                                              //Igualmente, realizamos el borrado en cascada
+                dietasComidas = comidaDietaRepository.getDietaComidasPorDietaId(d.getId());
+                for(DietaComida dc : dietasComidas){
+                    comidaDietaRepository.delete(dc);
+                }
+                dietaRepository.delete(d);
             }
         }
         usuarioRepository.deleteById(id);
