@@ -2,10 +2,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.*" %>
 <%@ page import="es.uma.proyectotaw.dto.*" %>
+<%@ page import="es.uma.proyectotaw.entity.Desempeno" %>
 
 <%
-    Map<EjercicioEntrenamientoDTO,DesempenoDTO> ENR = (Map<EjercicioEntrenamientoDTO,DesempenoDTO>) request.getAttribute("ENR");
+    Map<Integer,EjercicioEntrenamientoDTO> ENR = (Map<Integer,EjercicioEntrenamientoDTO>) request.getAttribute("ENR");
     ClienteDTO cliente = (ClienteDTO) request.getAttribute("cliente");
+    List<DesempenoDTO> desempenos = (List<DesempenoDTO>) request.getAttribute("desempenos");
 %>
 
 
@@ -45,15 +47,15 @@
             </thead>
             <tbody>
             <!-- Aquí se pueden agregar filas dinámicamente con datos -->
-            <%  for (EjercicioEntrenamientoDTO ejercicio : ENR.keySet()) { %>
+            <%  for (DesempenoDTO desempeno : desempenos) { %>
             <tr>
-                <td><%= ejercicio.getEjercicio().getNombre()%></td>
-                <td><%= ejercicio.getSeries()%></td>
-                <td><%= ejercicio.getRepeticiones()%></td>
-                <td><%= ejercicio.getPeso()%></td>
-                <td><%= ENR.get(ejercicio).getPesoRealizado()%></td>
-                <td><%= ENR.get(ejercicio).getComentarios()%></td>
-                <td><%= ENR.get(ejercicio).getValoracion()%></td>
+                <td><%= ENR.get(desempeno.getId()).getEjercicio().getNombre()%></td>
+                <td><%= ENR.get(desempeno.getId()).getSeries()%></td>
+                <td><%= ENR.get(desempeno.getId()).getRepeticiones()%></td>
+                <td><%= ENR.get(desempeno.getId()).getPeso()%></td>
+                <td><%= desempeno.getPesoRealizado()%></td>
+                <td><%= desempeno.getComentarios()%></td>
+                <td><%= desempeno.getValoracion()%></td>
                 <td></td>
             </tr>
             <% }

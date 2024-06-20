@@ -5,6 +5,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     EntrenamientoRutinaDTO entrenamientoRutina = (EntrenamientoRutinaDTO) request.getAttribute("ER");
+    RutinaDTO rutina = (RutinaDTO) request.getAttribute("rutina");
 %>
 
 <html lang="en">
@@ -21,14 +22,14 @@
 <div class="container-fluid">
     <div class="row">
         <!-- Parte izquierda con tabla y barra de búsqueda -->
-        <h1>Elige un entrenamiento para añadir a la rutina <%=entrenamientoRutina.getRutina().getNombre()%> en el día <%=entrenamientoRutina.getDiaSemana()%></h1>
+        <h1>Elige un entrenamiento para añadir a la rutina <%=rutina.getNombre()%> en el día <%=entrenamientoRutina.getDiaSemana()%></h1>
         <div class="col  flex-grow-1 col-auto">
             <form:form method="post" action="/bodybuilding/guardarEntrenamientoRutina" modelAttribute="ER">
                 <form:hidden path="id"/>
                 <form:hidden path="rutina"/>
                 <form:hidden path="diaSemana"/>
             <div style="display: flex; flex-direction:column">
-                <form:radiobuttons path="entrenamiento" items="${entrenamientos}" itemLabel="nombre"/>
+                <form:radiobuttons path="entrenamiento" items="${entrenamientos}" itemValue="id" itemLabel="nombre"/>
             </div>
             <div style="text-align: center">
                 <form:button class="btn btn-outline-success">Añadir</form:button>
@@ -36,7 +37,7 @@
             </form:form>
 
                 <div style="text-align: center">
-                    <a href="/bodybuilding/editarRutina?id=<%=entrenamientoRutina.getRutina().getId()%>"><button class="btn btn-outline-danger">Descartar cambios</button></a>
+                    <a href="/bodybuilding/editarRutina?id=<%=rutina.getId()%>"><button class="btn btn-outline-danger">Descartar cambios</button></a>
                 </div>
 
 

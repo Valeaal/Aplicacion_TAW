@@ -79,19 +79,19 @@ public class BodybuildingController {
 
         List<EjercicioDTO> ejercicios = this.ejercicioService.findAll();
         Map<Integer,EjercicioDTO> ejerciciosConId = new HashMap<>();
-        for(EjercicioDTO ejercicio : ejercicios){
-            ejerciciosConId.put(ejercicio.getId(), ejercicio);
+        for(EjercicioDTO ej : ejercicios){
+            ejerciciosConId.put(ej.getId(), ej);
         }
 
         List<EntrenamientoRutinaDTO> entrenamientoRutinas = this.entrenamientoRutinaService.findAll();
 
         model.addAttribute("entrenamientoRutinas", entrenamientoRutinas);
-        model.addAttribute("entrenamientos", entrenamientosConId);
-        model.addAttribute("ejercicios", ejerciciosConId);
+        model.addAttribute("mapEntrenamientos", entrenamientosConId);
+        model.addAttribute("mapEjercicios", ejerciciosConId);
         model.addAttribute("gruposMusculares", gruposMusculares);
         model.addAttribute("tiposEjercicios", tiposEjercicios);
         model.addAttribute("rutina", rutina);
-        this.inicializacion(model);
+
         return "bodybuilding/editarRutina";
     }
 
@@ -194,6 +194,7 @@ public class BodybuildingController {
         ER.setDiaSemana(dia);
         model.addAttribute("ER",ER);
         List<EntrenamientoDTO> entrenamientos = this.entrenamientoService.findAll();
+        model.addAttribute("rutina", rutina);
         model.addAttribute("entrenamientos", entrenamientos);
         return "bodybuilding/anyadirEntrenoRutina";
     }
@@ -254,12 +255,14 @@ public class BodybuildingController {
     @GetMapping("/verComentarios")
     public String verComentarios(@RequestParam("id")Integer idCliente,Model model, HttpSession session){
         ClienteDTO cliente = this.clienteService.getClienteById(idCliente);
-       List<DesempenoDTO> desempenos = this.desempenoService.desempenoDelCliente(idCliente);
-        Map<EjercicioEntrenamientoDTO,DesempenoDTO> ENR = new HashMap<>();
+        List<DesempenoDTO> desempenos = this.desempenoService.getByClienteId(idCliente);
+        Map<Integer,EjercicioEntrenamientoDTO> ENR = new HashMap<Integer,EjercicioEntrenamientoDTO>();
+
         for(DesempenoDTO desempeno : desempenos){
-            ENR.put(this.ejercicioEntrenamientoService.findByDesempeno(desempeno.getId()),desempeno);
+            ENR.put(desempeno.getId(),this.ejercicioEntrenamientoService.findByDesempeno(desempeno.getId()));
         }
         model.addAttribute("cliente",cliente);
+        model.addAttribute("desempenos",desempenos);
         model.addAttribute("ENR",ENR);
         return"bodybuilding/verComentarios";
     }

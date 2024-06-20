@@ -5,8 +5,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     RutinaDTO rutina = (RutinaDTO) request.getAttribute("rutina");
-    Map<Integer,EjercicioDTO> ejercicios = (Map<Integer,EjercicioDTO>) request.getAttribute("ejercicios");
-    Map<Integer,EntrenamientoDTO> entrenamientos = (Map<Integer,EntrenamientoDTO>) request.getAttribute("entrenamientos");
+    Map<Integer,EjercicioDTO> ejercicios = (Map<Integer,EjercicioDTO>) request.getAttribute("mapEjercicios");
+    Map<Integer,EntrenamientoDTO> entrenamientos = (Map<Integer,EntrenamientoDTO>) request.getAttribute("mapEntrenamientos");
 %>
 
 <html lang="en">
@@ -73,10 +73,8 @@
                     %>
                     <tr>
                         <th scope="col">Día <%=i%> : </th>
-                        <th scope="col"><%=entrenamientos.get(entreno.getEntrenamiento())%></th>
-                        <td scope="col"><% for(Integer ej : entrenamientos.get(entreno.getEntrenamiento()).getEjercicios()){ %>
-                            <%=ejercicios.get(ej).getNombre()%><br/>
-                            <%}%>
+                        <th scope="col"><%=entrenamientos.get(entreno.getEntrenamiento()).getNombre()%></th>
+                        <td>
                         </td>
                         <td scope="col">
                             <a href="/bodybuilding/eliminarEntrenamientoRutina?id=<%=entreno.getId()%>">
