@@ -1,19 +1,12 @@
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dao.*;
-import es.uma.proyectotaw.dto.ClienteDTO;
-import es.uma.proyectotaw.dto.ClienteRutinaDTO;
-import es.uma.proyectotaw.dto.RutinaDTO;
-import es.uma.proyectotaw.dto.UsuarioDTO;
+import es.uma.proyectotaw.dto.*;
 import es.uma.proyectotaw.entity.*;
-import es.uma.proyectotaw.service.ClienteRutinaService;
-import es.uma.proyectotaw.service.ClienteService;
-import es.uma.proyectotaw.service.RutinaService;
-import es.uma.proyectotaw.service.UsuarioService;
+import es.uma.proyectotaw.service.*;
 import es.uma.proyectotaw.ui.Filtro_Rutina_nEntrenamientos;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,27 +17,10 @@ import java.util.List;
 @Controller
 public class CrossfitController {
 
-// primero aqui tengo los repository, que borrare luego
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
-    private TipoUsuarioRepository tipoUsuarioRepository;
-    @Autowired
-    protected RutinaRepository rutinaRepository;
-    @Autowired
-    protected EntrenamientoRepository entrenamientoRepository;
-    @Autowired
-    protected Entrenamiento_RutinaRepository entrenamiento_RutinaRepository;
-    @Autowired
-    protected Cliente_RutinaRepository cliente_RutinaRepository;
-    @Autowired
-    protected ClienteRepository clienteRepository;
-    @Autowired
-    protected Tipo_RutinaRepository tipo_RutinaRepository;
+    // primero aqui tengo los repository, que borrare luego
     @Autowired
     protected DesempenoRepository desempenoRepository;
-    @Autowired
-    protected EjercicioEntrenamientoRepository ejercicioEntrenamientoRepository;
+
 
     // aqui meto los service
 
@@ -56,7 +32,16 @@ public class CrossfitController {
     private ClienteService clienteService;
     @Autowired
     private ClienteRutinaService clienteRutinaService;
-
+    @Autowired
+    private DesempenoService desempenoService;
+    @Autowired
+    private EjercicioEntrenamientoService ejercicioEntrenamientoService;
+    @Autowired
+    private TipoRutinaService tipoRutinaService;
+    @Autowired
+    private EntrenamientoRutinaService entrenamientoRutinaService;
+    @Autowired
+    private EntrenamientoService entrenamientoService;
 
 
     @GetMapping("/crud")
@@ -118,9 +103,8 @@ public class CrossfitController {
 
     @GetMapping("/seguimientoRutinas")
     public String doSeguimientoRutinas(Model model, HttpSession session) {
-        Usuario entrenador = (Usuario) session.getAttribute("usuario");
-        List<Cliente> clientes = this.clienteRepository.getClientesDelEntrenador(entrenador.getId()); // sacamos los cliente del entrenador
-        //  List<Cliente> clientes = this.clienteRepository.findAll();
+        UsuarioDTO entrenador = (UsuarioDTO) session.getAttribute("usuario");
+        List<ClienteDTO> clientes = clienteService.getClientesDelEntrenador(entrenador.getId());
         model.addAttribute("clientes", clientes);
         model.addAttribute("clienteFiltro", new Usuario());
         return "crosstrainer/seguimientoRutinas";
@@ -129,11 +113,11 @@ public class CrossfitController {
     @GetMapping("/filtroClientes")
     public String doSeguimientoRutinas(Model model, HttpSession session,
                                        @ModelAttribute("clienteFiltro") Usuario clienteFiltro) {
-        Usuario entrenador = (Usuario) session.getAttribute("usuario");
+        UsuarioDTO entrenador = (UsuarioDTO) session.getAttribute("usuario");
         if (clienteFiltro.getNombre() == null) {
             return "redirect:/seguimientoRutinas";
         }
-        List<Cliente> clientes = this.clienteRepository.getClientesDelEntrenadorYFiltro(entrenador.getId(), clienteFiltro.getNombre()); // sacamos los cliente del entrenador
+        List<ClienteDTO> clientes = this.clienteService.getClientesDelEntrenadorYFiltro(entrenador.getId(), clienteFiltro.getNombre()); // sacamos los cliente del entrenador
 
         model.addAttribute("clientes", clientes);
         model.addAttribute("clienteFiltro", clienteFiltro);
@@ -143,15 +127,19 @@ public class CrossfitController {
     @GetMapping("/verDesempenoo")
     public String doverDesempeno(Model model, HttpSession session,
                                  @RequestParam("idCliente") Integer idCliente) {
-        Cliente cliente = this.clienteRepository.findById(idCliente).orElse(null);
+        ClienteDTO cliente = clienteService.getClienteById(idCliente);
         model.addAttribute("cliente", cliente);
-        List<ClienteRutina> historialRutinasCliente = this.cliente_RutinaRepository.historialRutinasCliente(idCliente);
+        List<ClienteRutinaDTO> historialRutinasCliente = clienteRutinaService.historialRutinasCliente(idCliente);
         model.addAttribute("historialRutinasCliente", historialRutinasCliente);
         // ahora vamos a sacar el desempeño/valoracion de los ejercicios realizados por el cliente
-        List<Desempeno> desempenosCliente = this.desempenoRepository.desempenoDelCliente(idCliente);
+        //  List<DesempenoDTO> desempenosCliente = desempenoService.desempenoDelClienteA(idCliente);
+        //por algun motivo, no me deja obtener los desempeños de un cliente a través del service, he intentado mil cosas
+        //y no hay manera, por tanto, lo he hecho accediendo directamente al repository
+        List<Desempeno> desempenosCliente = desempenoRepository.desempenoDelCliente(idCliente);
         model.addAttribute("desempenosCliente", desempenosCliente);
-        List<EjercicioEntrenamiento> ejercicios = this.ejercicioEntrenamientoRepository.findAll();
+        List<EjercicioEntrenamientoDTO> ejercicios = ejercicioEntrenamientoService.findAll();
         model.addAttribute("ejercicios", ejercicios);
+        model.addAttribute("rutinaService", rutinaService);
         return "crosstrainer/verDesempeno";
     }
 
@@ -167,21 +155,22 @@ public class CrossfitController {
                                 @RequestParam("numEntrenamientos") Integer numEntrenamientos,
                                 @RequestParam("numeroDia") Integer numeroDia,
                                 HttpSession session, Model model) {
-        Rutina nuevaRutina = new Rutina();
+        RutinaDTO nuevaRutina = new RutinaDTO();
         nuevaRutina.setNombre(nombreRutina);
         nuevaRutina.setDescripcion(descripcionRutina);
-        nuevaRutina.setFechaCreacion(LocalDate.now());
-        TipoRutina tr = this.tipo_RutinaRepository.findById(2).orElse(null);
+        TipoRutinaDTO tr = tipoRutinaService.getTipoCrossfit();
         nuevaRutina.setTipoRutina(tr);
-        Usuario entrenador = (Usuario) session.getAttribute("usuario");
-        nuevaRutina.setEntrenador(entrenador);
-        this.rutinaRepository.save(nuevaRutina);
-        model.addAttribute("idRutina", nuevaRutina.getId());
+        UsuarioDTO entrenadorE = (UsuarioDTO) session.getAttribute("usuario");
+        nuevaRutina.setEntrenador(entrenadorE);
+        rutinaService.guardarRutina(nuevaRutina);
+
+        RutinaDTO rutina = rutinaService.getRutinaByNombre(nombreRutina);
+        model.addAttribute("idRutina", rutina.getId());
 
         numeroDia++;
         model.addAttribute("numeroDia", numeroDia);
 
-        List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
+        List<EntrenamientoDTO> entrenamientos = entrenamientoService.DTOfindAll();
         model.addAttribute("entrenamientos", entrenamientos);
         return "crosstrainer/crearRutina";
     }
@@ -194,14 +183,14 @@ public class CrossfitController {
                                         @RequestParam("numEntrenamientos") Integer numEntrenamientos,
                                         HttpSession session, Model model) {
 
-
-        EntrenamientoRutina er = new EntrenamientoRutina();
-        Rutina rutina = rutinaRepository.findById(idRutina).orElse(null);
-        Entrenamiento entrenamiento = entrenamientoRepository.findById(idEntrenamiento).orElse(null);
-        er.setRutina(rutina);
-        er.setEntrenamiento(entrenamiento);
+        EntrenamientoRutinaDTO er = new EntrenamientoRutinaDTO();
+        er.setId(-1);
+        RutinaDTO rutina = rutinaService.findById(idRutina);
+        EntrenamientoDTO entrenamiento = entrenamientoService.findbyID(idEntrenamiento);
+        er.setRutina(rutina.getId());
+        er.setEntrenamiento(entrenamiento.getId());
         er.setDiaSemana(diaSemana);
-        this.entrenamiento_RutinaRepository.save(er);
+        entrenamientoRutinaService.guardarEntrenamientodeRutina(er);
 
         if (numeroDia == numEntrenamientos) {
             return "redirect:/crud";
@@ -211,39 +200,27 @@ public class CrossfitController {
         model.addAttribute("numeroDia", numeroDia);
 
         model.addAttribute("idRutina", idRutina);
-        List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
+        List<EntrenamientoDTO> entrenamientos = entrenamientoService.DTOfindAll();
         model.addAttribute("entrenamientos", entrenamientos);
         return "crosstrainer/crearRutina";
     }
 
     @GetMapping("/crud/borrar")
     public String doBorrar(@RequestParam("idRutina") Integer idRutina, Model model) {
-        Rutina rutina = this.rutinaRepository.findById(idRutina).orElse(null);
-        for (EntrenamientoRutina erEliminados : this.entrenamiento_RutinaRepository.findAll()) {
-            if (erEliminados.getRutina().getId() == idRutina) {
-                this.entrenamiento_RutinaRepository.delete(erEliminados);
-            }
-        }
-        for (ClienteRutina cr : this.cliente_RutinaRepository.findAll()) {
-            if (cr.getRutina().getId() == idRutina) {
-                this.cliente_RutinaRepository.delete(cr);
-            }
-        }
-        this.rutinaRepository.delete(rutina);
+        RutinaDTO rutina = rutinaService.findById(idRutina);
 
-        List<Rutina> rutinas = rutinaRepository.findAll();
+        rutinaService.borrarRutina(rutina);
 
-        model.addAttribute("rutinas", rutinas);
         return "redirect:/crud";
     }
 
     @GetMapping("/crud/editar")
     public String doEditar(@RequestParam("idRutina") Integer idRutina, Model model) {
-        Rutina rutina = this.rutinaRepository.findById(idRutina).orElse(null);
+        RutinaDTO rutina = rutinaService.findById(idRutina);
         model.addAttribute("rutina", rutina);
-        List<EntrenamientoRutina> entrenamientosdeRutina = this.entrenamiento_RutinaRepository.buscarEntrenamientosdeRutina(idRutina);
+        List<EntrenamientoRutinaDTO> entrenamientosdeRutina = this.entrenamientoRutinaService.buscarEntrenamientosdeRutina(idRutina);
         model.addAttribute("entrenamientosdeRutina", entrenamientosdeRutina);
-        List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
+        List<EntrenamientoDTO> entrenamientos = entrenamientoService.DTOfindAll();
         model.addAttribute("entrenamientos", entrenamientos);
 
         return "crosstrainer/editarRutina";
@@ -254,63 +231,69 @@ public class CrossfitController {
                                                  @RequestParam("idEntrenamiento") Integer idEntrenamiento,
                                                  @RequestParam("idEntrenamientoRutina") Integer idEntrenamientoRutina,
                                                  Model model) {
-        EntrenamientoRutina er = this.entrenamiento_RutinaRepository.findById(idEntrenamientoRutina).orElse(null);
-        Entrenamiento entrenamiento = entrenamientoRepository.findById(idEntrenamiento).orElse(null);
-        er.setEntrenamiento(entrenamiento);
-        er.setDiaSemana(diaSemana);
-        this.entrenamiento_RutinaRepository.save(er);
 
-        return "redirect:/crud/editar?idRutina=" + er.getRutina().getId(); // le hace falta el id de la rutina
+        EntrenamientoRutinaDTO entrut = entrenamientoRutinaService.getEntrenamientoRutina(idEntrenamientoRutina);
+        EntrenamientoDTO entren = entrenamientoService.findbyID(idEntrenamiento);
+        entrut.setEntrenamiento(entren.getId());
+        entrut.setDiaSemana(diaSemana);
+        entrut.setRutina(entrut.getRutina());
+        entrenamientoRutinaService.guardarEntrenamientodeRutina(entrut);
+
+        return "redirect:/crud/editar?idRutina=" + entrut.getRutina(); // le hace falta el id de la rutina
 
     }
 
     @GetMapping("/borrarEntrenamientosdeRutina")
     public String borrarEntrenamientosdeRutina(@RequestParam("id") Integer idEntrenamientoRutina,
                                                Model model) {
-        EntrenamientoRutina er = this.entrenamiento_RutinaRepository.findById(idEntrenamientoRutina).orElse(null);
-        Integer idRutina = er.getRutina().getId();
-        this.entrenamiento_RutinaRepository.delete(er);
+        EntrenamientoRutinaDTO er = entrenamientoRutinaService.getEntrenamientoRutina(idEntrenamientoRutina);
+        Integer idRutina = er.getRutina();
+        entrenamientoRutinaService.borrarEntrenamientodeRutina(er);
 
         return "redirect:/crud/editar?idRutina=" + idRutina; // le hace falta el id de la rutina
     }
 
-    @GetMapping("/addEntrenamientosdeRutina")
+    @GetMapping("/addEntrenamientosdeRutina") // no ref
     public String addEntrenamientosdeRutina(@RequestParam("id") Integer idRutina,
                                             Model model) {
-        Rutina rutina = this.rutinaRepository.findById(idRutina).orElse(null);
-        model.addAttribute("idRutina", rutina.getId());
-        List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
+        model.addAttribute("idRutina", idRutina);
+        List<EntrenamientoDTO> entrenamientos = entrenamientoService.DTOfindAll();
         model.addAttribute("entrenamientos", entrenamientos);
 
         return "crosstrainer/addEntrenamientoRutina"; // le hace falta el id de la rutina
     }
 
-    @PostMapping("/guardarEntrenamientoNuevoDeRutina")
+    @PostMapping("/guardarEntrenamientoNuevoDeRutina") // no ref
     public String guardarEntrenamientoNuevoDeRutina(@RequestParam("idRutina") Integer idRutina,
                                                     @RequestParam("idEntrenamiento") Integer idEntrenamiento,
                                                     @RequestParam("diaSemana") Integer diaSemana,
                                                     Model model) {
-        EntrenamientoRutina er = new EntrenamientoRutina();
-        Rutina rutina = rutinaRepository.findById(idRutina).orElse(null);
-        Entrenamiento entrenamiento = entrenamientoRepository.findById(idEntrenamiento).orElse(null);
-        er.setRutina(rutina);
-        er.setEntrenamiento(entrenamiento);
-        er.setDiaSemana(diaSemana);
-        this.entrenamiento_RutinaRepository.save(er);
+        EntrenamientoRutinaDTO entrut = new EntrenamientoRutinaDTO();
+        entrut.setEntrenamiento(idEntrenamiento);
+        entrut.setDiaSemana(diaSemana);
+        entrut.setRutina(idRutina);
+        entrut.setId(-1);
+        entrenamientoRutinaService.guardarEntrenamientodeRutina(entrut);
 
-        return "redirect:/crud/editar?idRutina=" + idRutina; // le hace falta el id de la rutina
+        return "redirect:/crud/editar?idRutina=" + entrut.getRutina(); // le hace falta el id de la rutina
     }
 
     @PostMapping("/guardarDatosRutina")
     public String doGuardarRutina(@RequestParam("idRutina") Integer idRutina,
                                   @RequestParam("nombreRutina") String nombreRutina,
                                   @RequestParam("descripcionRutina") String descripcionRutina,
-                                  Model model) {
+                                  Model model, HttpSession session) {
 
-        Rutina r = this.rutinaRepository.findById(idRutina).orElse(null);
-        r.setNombre(nombreRutina);
-        r.setDescripcion(descripcionRutina);
-        this.rutinaRepository.save(r);
+
+        RutinaDTO ru = new RutinaDTO();
+        ru.setNombre(nombreRutina);
+        ru.setDescripcion(descripcionRutina);
+        ru.setId(idRutina);
+        TipoRutinaDTO tr = tipoRutinaService.getTipoCrossfit();
+        ru.setTipoRutina(tr);
+        UsuarioDTO entrenadorE = (UsuarioDTO) session.getAttribute("usuario");
+        ru.setEntrenador(entrenadorE);
+        rutinaService.guardarRutina(ru);
 
         return "redirect:/crud";
     }

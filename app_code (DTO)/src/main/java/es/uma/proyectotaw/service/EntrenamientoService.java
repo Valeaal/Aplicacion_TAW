@@ -41,6 +41,10 @@ public class EntrenamientoService extends DTOService<EntrenamientoDTO, Entrenami
         return this.entidadesADTO(er);
     }
 
+    public EntrenamientoDTO findbyID(Integer id) {
+        return entrenamientoRepository.findById(id).orElse(null).toDTO();
+    }
+
     public EntrenamientoDTO getReferenceById(Integer id) {
         return entrenamientoRepository.getReferenceById(id).toDTO();
     }

@@ -84,4 +84,10 @@ public class ClienteService extends DTOService<ClienteDTO, Cliente> {
         return entidadesADTO(this.clienteRepository.findByEntrenador(usuario));
     }
 
+    public List<ClienteDTO> getClientesDelEntrenadorYFiltro(Integer crossfitTrainerId, String nombre) { //pablo
+        List<Cliente> clientesDTO = clienteRepository.getClientesDelEntrenadorYFiltro(crossfitTrainerId,nombre);
+        return this.entidadesADTO(clientesDTO);
+    }
+    
+
 }

@@ -1,5 +1,6 @@
 <%@ page import="es.uma.proyectotaw.entity.Entrenamiento" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.dto.EntrenamientoDTO" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 07/06/2024
@@ -9,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Integer idRutina = (Integer) request.getAttribute("idRutina");
-    List<Entrenamiento> entrenamientos = (List<Entrenamiento>) request.getAttribute("entrenamientos");
+    List<EntrenamientoDTO> entrenamientos = (List<EntrenamientoDTO>) request.getAttribute("entrenamientos");
 %>
 <html> <!--Hecho por Pablo Alonso Burgos-->
 <head>
@@ -184,7 +185,7 @@
                 <td>
                     <h5>Seleccione un entrenamiento</h5>
                     <select name="idEntrenamiento">
-                        <% for (Entrenamiento entrenamiento : entrenamientos) { %>
+                        <% for (EntrenamientoDTO entrenamiento : entrenamientos) { %>
                         <option value="<%= entrenamiento.getId() %>"><%= entrenamiento.getNombre() %>
                         </option>
                         <% } %>

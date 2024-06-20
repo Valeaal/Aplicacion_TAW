@@ -1,9 +1,10 @@
 <%@ page import="es.uma.proyectotaw.entity.Entrenamiento" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.dto.EntrenamientoDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Integer idRutina = (Integer) request.getAttribute("idRutina");
-    List<Entrenamiento> entrenamientos = (List<Entrenamiento>) request.getAttribute("entrenamientos");
+    List<EntrenamientoDTO> entrenamientos = (List<EntrenamientoDTO>) request.getAttribute("entrenamientos");
     String nombreRutina = (String) request.getAttribute("nombreRutina");
     String descripcionRutina = (String) request.getAttribute("descripcionRutina");
     String numEntrenamientosStr = request.getParameter("numEntrenamientos");
@@ -180,7 +181,7 @@
 
             <td>
                 <select name="idEntrenamiento">
-                    <% for (Entrenamiento entrenamiento : entrenamientos) { %>
+                    <% for (EntrenamientoDTO entrenamiento : entrenamientos) { %>
                     <option value="<%= entrenamiento.getId() %>"><%= entrenamiento.getNombre() %>
                     </option>
                     <% } %>

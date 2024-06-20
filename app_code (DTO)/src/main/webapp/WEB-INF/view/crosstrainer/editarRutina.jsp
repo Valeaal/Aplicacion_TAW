@@ -3,11 +3,14 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.Rutina" %>
 <%@ page import="es.uma.proyectotaw.entity.EntrenamientoRutina" %>
+<%@ page import="es.uma.proyectotaw.dto.RutinaDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.EntrenamientoDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.EntrenamientoRutinaDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Rutina rutina = (Rutina) request.getAttribute("rutina");
-    List<EntrenamientoRutina> entrenamientosdeRutina = (List<EntrenamientoRutina>) request.getAttribute("entrenamientosdeRutina");
-    List<Entrenamiento> entrenamientos = (List<Entrenamiento>) request.getAttribute("entrenamientos");
+    RutinaDTO rutina = (RutinaDTO) request.getAttribute("rutina");
+    List<EntrenamientoRutinaDTO> entrenamientosdeRutina = (List<EntrenamientoRutinaDTO>) request.getAttribute("entrenamientosdeRutina");
+    List<EntrenamientoDTO> entrenamientos = (List<EntrenamientoDTO>) request.getAttribute("entrenamientos");
 %>
 <!DOCTYPE html>
 <html lang="es"> <!--Hecho por Pablo Alonso Burgos-->
@@ -181,7 +184,7 @@
                 <th></th>
                 <th></th>
             </tr>
-            <% for (EntrenamientoRutina entrenamientoRutina : entrenamientosdeRutina) { %>
+            <% for (EntrenamientoRutinaDTO entrenamientoRutina : entrenamientosdeRutina) { %>
             <form action="/editarEntrenamientosdeRutina" method="post">
                 <tr>
                     <td>
@@ -205,9 +208,9 @@
                     </td>
                     <td>
                         <select name="idEntrenamiento">
-                            <% for (Entrenamiento entrenamiento : entrenamientos) { %>
+                            <% for (EntrenamientoDTO entrenamiento : entrenamientos) { %>
                             <option value="<%= entrenamiento.getId() %>"
-                                    <%= entrenamientoRutina.getEntrenamiento().getId() == entrenamiento.getId() ? "selected" : "" %>>
+                                    <%= entrenamientoRutina.getEntrenamiento() == entrenamiento.getId() ? "selected" : "" %>>
                                 <%= entrenamiento.getNombre() %>
                             </option>
                             <% } %>
