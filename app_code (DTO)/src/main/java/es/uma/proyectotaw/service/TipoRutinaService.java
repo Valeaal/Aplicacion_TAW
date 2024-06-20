@@ -10,12 +10,14 @@ import es.uma.proyectotaw.entity.TipoRutina;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TipoRutinaService extends DTOService<TipoRutinaDTO, TipoRutina> {
     @Autowired
-    private Tipo_RutinaRepository tipo_RutinaRepository;
+    private Tipo_RutinaRepository tipoRutinaRepository;
     public TipoRutinaDTO getTipoCrossfit() {
-        TipoRutina tr = this.tipo_RutinaRepository.findById(2).orElse(null);
+        TipoRutina tr = this.tipoRutinaRepository.findById(2).orElse(null);
         return tr.toDTO();
     }
     

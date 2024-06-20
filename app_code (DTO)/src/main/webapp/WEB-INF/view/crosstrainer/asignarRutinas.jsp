@@ -8,7 +8,6 @@
 <%
     List<ClienteDTO> clientes = (List<ClienteDTO>) request.getAttribute("clientes");
     List<RutinaDTO> rutinas = (List<RutinaDTO>) request.getAttribute("rutinas");
-
 %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -54,6 +53,7 @@
         <div class="row">
             <!-- Parte izquierda con tabla de clientes -->
             <div class="col-md-6">
+                <h2>Clientes</h2>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -85,6 +85,7 @@
 
             <!-- Parte derecha con tabla de rutinas -->
             <div class="col-md-6">
+                <h2>Rutinas</h2>
                 <div class="d-flex justify-content-center">
                     <table class="table table-striped">
                         <thead>
@@ -109,8 +110,6 @@
                             </td>
                             <td><%= rutina.getFechaCreacion()%>
                             </td>
-
-
                         </tr>
                         <% } %>
                         </tbody>
