@@ -45,6 +45,8 @@ public class BodybuildingController {
     DesempenoService desempenoService;
     @Autowired
     EjercicioEntrenamientoService ejercicioEntrenamientoService;
+    @Autowired
+    EjercicioService ejercicioService;
     private int tipo_rutina = 1;
 
     @GetMapping("/")
@@ -68,10 +70,24 @@ public class BodybuildingController {
         RutinaDTO rutina = this.rutinaService.findById(id);
         List<GrupoMuscularDTO> gruposMusculares = this.grupoMuscularService.findAll();
         List<TipoEjercicioDTO> tiposEjercicios = this.tipoEjercicioService.findAll();
+
         List<EntrenamientoDTO> entrenamientos = this.entrenamientoService.findAll();
+        Map<Integer,EntrenamientoDTO> entrenamientosConId = new HashMap<>();
+        for(EntrenamientoDTO entrenamiento : entrenamientos){
+            entrenamientosConId.put(entrenamiento.getId(), entrenamiento);
+        }
+
+        List<EjercicioDTO> ejercicios = this.ejercicioService.findAll();
+        Map<Integer,EjercicioDTO> ejerciciosConId = new HashMap<>();
+        for(EjercicioDTO ejercicio : ejercicios){
+            ejerciciosConId.put(ejercicio.getId(), ejercicio);
+        }
+
         List<EntrenamientoRutinaDTO> entrenamientoRutinas = this.entrenamientoRutinaService.findAll();
+
         model.addAttribute("entrenamientoRutinas", entrenamientoRutinas);
-        model.addAttribute("entrenamientos", entrenamientos);
+        model.addAttribute("entrenamientos", entrenamientosConId);
+        model.addAttribute("ejercicios", ejerciciosConId);
         model.addAttribute("gruposMusculares", gruposMusculares);
         model.addAttribute("tiposEjercicios", tiposEjercicios);
         model.addAttribute("rutina", rutina);
@@ -82,10 +98,25 @@ public class BodybuildingController {
     @GetMapping("/crearRutina")
     public String doCrearRutina(Model model, HttpSession session){
         RutinaDTO rutina = new RutinaDTO();
+
+        List<EntrenamientoDTO> entrenamientos = this.entrenamientoService.findAll();
+        Map<Integer,EntrenamientoDTO> entrenamientosConId = new HashMap<>();
+        for(EntrenamientoDTO entrenamiento : entrenamientos){
+            entrenamientosConId.put(entrenamiento.getId(), entrenamiento);
+        }
+
+        List<EjercicioDTO> ejercicios = this.ejercicioService.findAll();
+        Map<Integer,EjercicioDTO> ejerciciosConId = new HashMap<>();
+        for(EjercicioDTO ejercicio : ejercicios){
+            ejerciciosConId.put(ejercicio.getId(), ejercicio);
+        }
         rutina.setTipoRutina(this.tipoRutinaService.findById(tipo_rutina));
         rutina.setEntrenador((UsuarioDTO) session.getAttribute("usuario"));
         rutina.setFechaCreacion(LocalDate.parse(new java.sql.Date(System.currentTimeMillis()).toString()));
         model.addAttribute("rutina", rutina);
+        model.addAttribute("ejercicios", ejerciciosConId);
+        model.addAttribute("entrenamientos", entrenamientosConId);
+
         return "bodybuilding/editarRutina";
     }
 
@@ -108,10 +139,10 @@ public class BodybuildingController {
              fecha = LocalDate.parse(new java.sql.Date(System.currentTimeMillis()).toString()).minusYears(200);
         }
 
-        if(filtro.getNumEntrenamientos().equals("-") && filtro.getEntrenadorCreador()==null){
+        if(filtro.getNumEntrenamientos().equals("-") && filtro.getEntrenadorCreador().getId()==null){
             //Filtro solo por nombre
             rutinas = this.rutinaService.findByNombre(filtro.getNombre(),tipo_rutina,fecha);
-        }else if(filtro.getEntrenadorCreador()==null){
+        }else if(filtro.getEntrenadorCreador().getId()==null){
             //Filtro por nombre y numero de entrenos
             rutinas = this.rutinaService.findByNombreAndEntrenos(filtro.getNombre(),Integer.parseInt(filtro.getNumEntrenamientos()), tipo_rutina,fecha);
         }else if(filtro.getNumEntrenamientos().equals("-")){
@@ -145,18 +176,20 @@ public class BodybuildingController {
     public String doGuardarCambios (@ModelAttribute("rutina")RutinaDTO rutina, Model model, HttpSession session){
         if(rutina.getId()==null){
             this.rutinaService.guardar(rutina);
-            model.addAttribute("rutina",rutina);
-            return "bodybuilding/editarRutina";
+            return "redirect:/bodybuilding/";
         }else{
+            RutinaDTO r = this.rutinaService.findById(rutina.getId());
+            rutina.setClientes(r.getClientes());
+            rutina.setEntrenamientos(r.getEntrenamientos());
             this.rutinaService.guardar(rutina);
             return "redirect:/bodybuilding/";
         }
     }
 
     @GetMapping("/anyadirEntrenamientoRutina")
-    public String doAnyadirEntrenamientoRutina(@RequestParam("id")Integer id,@RequestParam("dia")Integer dia,Model model, HttpSession session){
+    public String doAnyadirEntrenamientoRutina(@RequestParam("id")Integer idRutina,@RequestParam("dia")Integer dia,Model model, HttpSession session){
         EntrenamientoRutinaDTO ER = new EntrenamientoRutinaDTO();
-        RutinaDTO rutina = this.rutinaService.findById(id);
+        RutinaDTO rutina = this.rutinaService.findById(idRutina);
         ER.setRutina(rutina.getId());
         ER.setDiaSemana(dia);
         model.addAttribute("ER",ER);
@@ -181,8 +214,8 @@ public class BodybuildingController {
             ClienteRutinaDTO activa = this.clienteRutinaService.findByActiveRoutines(cliente.getId());
             RutinaDTO rutina = this.rutinaService.findById(idRutina);
             ClienteRutinaDTO cr = new ClienteRutinaDTO();
-            //cr.setCliente(cliente);
-            //cr.setRutina(rutina);
+            cr.setCliente(cliente.getId());
+            cr.setRutina(rutina.getId());
             cr.setVigente(true);
             if (activa != null ) {
                 activa.setVigente(false);
@@ -207,8 +240,8 @@ public class BodybuildingController {
         for(ClienteDTO cliente : clientes){
             ClienteRutinaDTO crs = this.clienteRutinaService.findByActiveRoutines(cliente.getId());
             if(crs != null){
-                RutinaDTO rutina = new RutinaDTO();
-                //rutinas.put(cliente,crs.getRutina());
+                RutinaDTO rutina = this.rutinaService.findById(crs.getRutina());
+                rutinas.put(cliente,rutina);
             }else{
                 rutinas.put(cliente,null);
             }
@@ -221,13 +254,13 @@ public class BodybuildingController {
     @GetMapping("/verComentarios")
     public String verComentarios(@RequestParam("id")Integer idCliente,Model model, HttpSession session){
         ClienteDTO cliente = this.clienteService.getClienteById(idCliente);
-        List<DesempenoDTO> desempenos = this.desempenoService.desempenoDelCliente(idCliente);
-        List<EjercicioEntrenamientoDTO> ENR = new ArrayList<>();
+       List<DesempenoDTO> desempenos = this.desempenoService.desempenoDelCliente(idCliente);
+        Map<EjercicioEntrenamientoDTO,DesempenoDTO> ENR = new HashMap<>();
         for(DesempenoDTO desempeno : desempenos){
-            ENR.add(this.ejercicioEntrenamientoService.findByDesempeno(desempeno.getId()));
+            ENR.put(this.ejercicioEntrenamientoService.findByDesempeno(desempeno.getId()),desempeno);
         }
         model.addAttribute("cliente",cliente);
-        model.addAttribute("ejercicios",ENR);
+        model.addAttribute("ENR",ENR);
         return"bodybuilding/verComentarios";
     }
 

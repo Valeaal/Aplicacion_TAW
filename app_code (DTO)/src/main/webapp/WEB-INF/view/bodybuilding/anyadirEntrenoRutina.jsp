@@ -1,10 +1,10 @@
 <%-- @author: Miguel Galdeano Rodríguez --%> 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.*" %>
-<%@ page import="es.uma.proyectotaw.entity.*" %>
+<%@ page import="es.uma.proyectotaw.dto.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    EntrenamientoRutina entrenamientoRutina = (EntrenamientoRutina) request.getAttribute("ER");
+    EntrenamientoRutinaDTO entrenamientoRutina = (EntrenamientoRutinaDTO) request.getAttribute("ER");
 %>
 
 <html lang="en">

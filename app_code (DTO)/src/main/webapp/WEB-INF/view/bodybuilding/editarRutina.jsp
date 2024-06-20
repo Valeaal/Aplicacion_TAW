@@ -1,10 +1,12 @@
 <%-- @author: Miguel Galdeano Rodríguez --%> 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.*" %>
-<%@ page import="es.uma.proyectotaw.entity.*" %>
+<%@ page import="es.uma.proyectotaw.dto.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Rutina rutina = (Rutina) request.getAttribute("rutina");
+    RutinaDTO rutina = (RutinaDTO) request.getAttribute("rutina");
+    Map<Integer,EjercicioDTO> ejercicios = (Map<Integer,EjercicioDTO>) request.getAttribute("ejercicios");
+    Map<Integer,EntrenamientoDTO> entrenamientos = (Map<Integer,EntrenamientoDTO>) request.getAttribute("entrenamientos");
 %>
 
 <html lang="en">
@@ -24,11 +26,9 @@
         <div class="col  flex-grow-1 col-auto">
             <form:form method="post" action="/bodybuilding/guardarCambiosEdicion" modelAttribute="rutina">
               <form:hidden path="id"/>
-              <form:hidden path="entrenador"/>
-              <form:hidden path="tipoRutina"/>
-              <form:hidden path="clientes"/>
+              <form:hidden path="entrenador.id"/>
+              <form:hidden path="tipoRutina.id"/>
               <form:hidden path="fechaCreacion"/>
-              <form:hidden path="entrenamientos"/>
             <table class="table">
                 <thead>
                 <tr>
@@ -62,9 +62,9 @@
                 <h2>Entrenamientos: </h2>
                 <table class="table" border="collapse">
                     <%
-                    EntrenamientoRutina entreno = null;
+                    EntrenamientoRutinaDTO entreno = null;
                     for(int i = 1; i<8;i++){
-                    for(EntrenamientoRutina ent: rutina.getEntrenamientos()) {
+                    for(EntrenamientoRutinaDTO ent: rutina.getEntrenamientos()) {
                         if(ent.getDiaSemana() == i){
                             entreno = ent;
                         }
@@ -73,9 +73,9 @@
                     %>
                     <tr>
                         <th scope="col">Día <%=i%> : </th>
-                        <th scope="col"><%=entreno.getEntrenamiento().getNombre()%></th>
-                        <td scope="col"><% for(EjercicioEntrenamiento ej : entreno.getEntrenamiento().getEjercicios()){ %>
-                            <%=ej.getEjercicio().getNombre()%><br/>
+                        <th scope="col"><%=entrenamientos.get(entreno.getEntrenamiento())%></th>
+                        <td scope="col"><% for(Integer ej : entrenamientos.get(entreno.getEntrenamiento()).getEjercicios()){ %>
+                            <%=ejercicios.get(ej).getNombre()%><br/>
                             <%}%>
                         </td>
                         <td scope="col">
