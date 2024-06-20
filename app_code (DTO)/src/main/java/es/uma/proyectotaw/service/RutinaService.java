@@ -35,7 +35,7 @@ public class RutinaService extends DTOService<RutinaDTO, Rutina> {
     EntrenamientoRutinaRepository entrenamientoRutinaRepository;
     @Autowired
     Tipo_RutinaRepository tipoRutinaRepository;
-
+    @Autowired
     private Tipo_RutinaRepository tipo_RutinaRepository;
 
     @Autowired
