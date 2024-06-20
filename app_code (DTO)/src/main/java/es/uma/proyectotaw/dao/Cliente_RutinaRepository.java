@@ -1,5 +1,6 @@
 package es.uma.proyectotaw.dao;
 
+import ch.qos.logback.core.net.server.Client;
 import es.uma.proyectotaw.entity.ClienteRutina;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,4 +14,5 @@ public interface Cliente_RutinaRepository extends JpaRepository<ClienteRutina, I
 
     @Query("select cr from ClienteRutina cr where cr.cliente.id = :idCliente")
     public List<ClienteRutina> historialRutinasCliente(@Param("idCliente") Integer idCliente);
+
 }

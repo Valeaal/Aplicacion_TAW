@@ -22,14 +22,26 @@
 <section class="container mt-5">
     <h2>Descubre nuestros servicios</h2>
     <p  class="fs-5">Bienvenido al mejor centro deportivo de la zona. Ofrecemos una amplia gama de servicios y actividades para mantenerte en forma y saludable.</p>
-    <p  class="fs-6">En nuestra plataforma, tenemos actualmente <%= listaEjerciciosCompleta.size() %> ejercicios disponibles para ti.</p>
+    <p  class="fs-6">En nuestra plataforma, tenemos actualmente <strong><%= listaEjerciciosCompleta.size() %></strong> ejercicios disponibles para ti.</p>
 </section>
 
-<section id="secondary-content" class="container mt-4">
+<section id="secondary-content" class="container mt-5">
     <p class="fs-6">
-        DTO version<br>
-        El home y login ya funciona con services.<br>
-        Por si te sirve de ejemplo.<br>
+        <strong>DTO version</strong> <hr>
+        <ul class="list-group list-group-flush">
+            <li class="list-item">
+                <strong>Para iniciar sesión</strong> puede usar el icono correspondiente del NavBar.
+            </li>
+            <li class="list-item">
+                <strong>El NavBar</strong> se actualizará dependiendo del rol con el que haya iniciado sesión, permitiéndole realizar las diferentes operaciones disponibles.
+            </li>
+            <li class="list-item">
+                Para la realización de la vista hemos usado <strong>Bootstrap y Composite-View</strong>.
+            </li>
+            <li class="list-item">
+                Con la entrega se proporcionan scripts para crear e insertar los datos necesarios en la <strong>base de datos</strong>.
+            </li>
+        </ul>
     </p>
 </section>
 

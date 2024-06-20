@@ -1,3 +1,6 @@
+//Autor: Pablo Alonso 50%
+//Autor: Miguel Galdeano 50%
+
 package es.uma.proyectotaw.dao;
 
 import es.uma.proyectotaw.entity.Rutina;
@@ -55,6 +58,8 @@ public interface RutinaRepository extends JpaRepository<Rutina, Integer> {
     @Query("select r from Rutina r where r.nombre like concat('%',:nombre,'%') and r.tipoRutina.id = :tipo and r.entrenador.id =:creador and r.fechaCreacion>=:fecha")
     public List<Rutina> findByNombreAndCreador(@Param("nombre") String nombre, @Param("creador")Integer usuario, @Param("tipo") Integer tipo, @Param("fecha")LocalDate fecha);
 
+    @Query("SELECT r from Rutina r where r.entrenador.id = :entrenadorId")
+    public List<Rutina> getRutinaByEnternadorId (@Param("entrenadorId") Integer entrenadorId);
 
 
     /*@Query("SELECT R.id, R.nombre, AVG(Performance.porcentaje) AS AveragePerformance" +

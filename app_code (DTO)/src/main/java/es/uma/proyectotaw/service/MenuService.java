@@ -3,6 +3,7 @@
 
 package es.uma.proyectotaw.service;
 
+import es.uma.proyectotaw.dao.ComidaMenuRepository;
 import es.uma.proyectotaw.dao.MenuRepository;
 import es.uma.proyectotaw.dto.ComidaMenuDTO;
 import es.uma.proyectotaw.dto.MenuDTO;
@@ -21,6 +22,8 @@ public class MenuService extends DTOService<MenuDTO, Menu>{
 
     @Autowired
     MenuRepository menuRepository;
+    @Autowired
+    private ComidaMenuRepository comidaMenuRepository;
 
     public List<MenuDTO> findAll(){
         return this.entidadesADTO(menuRepository.findAll());
@@ -68,6 +71,10 @@ public class MenuService extends DTOService<MenuDTO, Menu>{
     }
 
     public void deleteById(Integer id){
+        List<ComidaMenu> comidaMenus = comidaMenuRepository.getComidaMenuPorMenuId(id);
+        for (ComidaMenu comidaMenu : comidaMenus) {                                             //Hacemos un borrado en cascada
+            comidaMenuRepository.deleteById(comidaMenu.getId());
+        }
         menuRepository.deleteById(id);
     }
 

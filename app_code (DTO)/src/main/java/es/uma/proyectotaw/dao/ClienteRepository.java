@@ -1,3 +1,5 @@
+//Autor: Alba de la torre 80%
+//Autor: Álvaro Valencia 20%
 package es.uma.proyectotaw.dao;
 
 import es.uma.proyectotaw.entity.Cliente;
@@ -38,6 +40,9 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
             "AND (:nombre IS NULL OR LOWER(u.usuario.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))) " +
             "AND (:dieta IS NULL OR LOWER(u.dieta.nombre) LIKE LOWER(CONCAT('%', :dieta, '%')))")
     List<Cliente> getClienteFiltrado(Integer edad, String nombre, String dieta);
+
+    @Query("SELECT c FROM Cliente c WHERE c.dietista.id = :entrenadorId OR c.entrenador.id = :entrenadorId")
+    public List<Cliente> getClienteByIdEntrenador(@Param("entrenadorId") Integer entrenadorId);
 
 }
 

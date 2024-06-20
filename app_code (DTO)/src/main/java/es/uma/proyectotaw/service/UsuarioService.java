@@ -1,12 +1,10 @@
 //Autor: Álvaro Valencia Vilallón
 package es.uma.proyectotaw.service;
 
-import es.uma.proyectotaw.dao.TipoUsuarioRepository;
-import es.uma.proyectotaw.dao.UsuarioRepository;
+import es.uma.proyectotaw.dao.*;
 import es.uma.proyectotaw.dto.TipoUsuarioDTO;
 import es.uma.proyectotaw.dto.UsuarioDTO;
-import es.uma.proyectotaw.entity.TipoUsuario;
-import es.uma.proyectotaw.entity.Usuario;
+import es.uma.proyectotaw.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +17,14 @@ public class UsuarioService extends DTOService<UsuarioDTO, Usuario>{
     private UsuarioRepository usuarioRepository;
     @Autowired
     private TipoUsuarioRepository tipoUsuarioRepository;
+    @Autowired
+    private ClienteRepository clienteRepository;
+    @Autowired
+    private RutinaRepository rutinaRepository;
+    @Autowired
+    private DietaRepository dietaRepository;
+    @Autowired
+    private RutinaService rutinaService;
 
     public List<UsuarioDTO> sacarUsuariosPorTipo(TipoUsuarioDTO tipoUsuario) {
         TipoUsuario tipoEntity = tipoUsuarioRepository.findById(tipoUsuario.getId()).orElse(null);
@@ -63,6 +69,32 @@ public class UsuarioService extends DTOService<UsuarioDTO, Usuario>{
     }
 
     public void eliminarUsuario(Integer id){
+        Usuario usrABorrar = usuarioRepository.findById(id).orElse(null);
+        List<Cliente> clientes;
+        List<Rutina> rutinas;
+        List<Dieta> dietas;
+        if (usrABorrar.getTipoUsuario().getId() == 2 || usrABorrar.getTipoUsuario().getId() == 3 ){             //Es entrenador, hay que borrar la relación con sus clientes
+            clientes = clienteRepository.getClienteByIdEntrenador(id);
+            rutinas = rutinaRepository.getRutinaByEnternadorId(id);
+            for(Cliente c : clientes){
+                c.setEntrenador(null);
+                clienteRepository.save(c);
+            }
+            for(Rutina r : rutinas){
+                rutinaService.borrarRutina(r.toDTO());
+            }
+        }
+        if (usrABorrar.getTipoUsuario().getId() == 4 ){                                                         //Es dietista, hay que borrar la relación con sus clientes
+            clientes = clienteRepository.getClienteByIdEntrenador(id);
+            dietas = dietaRepository.getDietaByDietistaId(id);
+            for(Cliente c : clientes){
+                c.setDietista(null);
+                clienteRepository.save(c);
+            }
+            for(Dieta d : dietas){
+                dietaRepository.delete(d);                                                                      //TODO: Referenciar al método de torrecilla
+            }
+        }
         usuarioRepository.deleteById(id);
     }
 

@@ -1,3 +1,5 @@
+//Autor: Álvaro Valencia Villalón 20%
+//Quien sea que se añada porfi
 package es.uma.proyectotaw.dao;
 
 import es.uma.proyectotaw.entity.*;
@@ -37,4 +39,7 @@ public interface EjercicioEntrenamientoRepository extends JpaRepository<Ejercici
                                           @Param("inputOrden") Integer inputOrden);
     @Query("SELECT e FROM EjercicioEntrenamiento e WHERE e.ejercicio.id=:ejercicioId AND e.entrenamiento.id=:entrenamientoId")
     EjercicioEntrenamiento getEjercicioEntrenamientoFromEjAndEntrenamientoId(Integer ejercicioId, Integer entrenamientoId);
+
+    @Query("SELECT e FROM EjercicioEntrenamiento e WHERE e.ejercicio.id = :ejercicioId")
+    List<EjercicioEntrenamiento> getEjercicioEntrenamientoPorEjercicioId (@Param("ejercicioId") Integer ejercicioId);
 }

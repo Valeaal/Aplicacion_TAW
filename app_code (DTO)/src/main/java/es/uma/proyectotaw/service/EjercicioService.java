@@ -2,11 +2,13 @@
 //Autor: Alba de la Torre 20%
 package es.uma.proyectotaw.service;
 
+import es.uma.proyectotaw.dao.EjercicioEntrenamientoRepository;
 import es.uma.proyectotaw.dao.EjercicioRepository;
 import es.uma.proyectotaw.dao.GrupoMuscularRepository;
 import es.uma.proyectotaw.dao.TipoEjercicioRepository;
 import es.uma.proyectotaw.dto.EjercicioDTO;
 import es.uma.proyectotaw.entity.Ejercicio;
+import es.uma.proyectotaw.entity.EjercicioEntrenamiento;
 import es.uma.proyectotaw.entity.GrupoMuscular;
 import es.uma.proyectotaw.entity.TipoEjercicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,10 @@ public class EjercicioService extends DTOService<EjercicioDTO, Ejercicio>{
     TipoEjercicioRepository tipoEjercicioRepository;
     @Autowired
     GrupoMuscularRepository grupoMuscularRepository;
+    @Autowired
+    EjercicioEntrenamientoRepository entrenamientoRepository;
+    @Autowired
+    private EjercicioEntrenamientoRepository ejercicioEntrenamientoRepository;
 
     public List<EjercicioDTO> findAll() {
         return this.entidadesADTO(ejercicioRepository.findAll());
@@ -85,8 +91,14 @@ public class EjercicioService extends DTOService<EjercicioDTO, Ejercicio>{
     }
 
     public Integer findId(Integer ejId, Integer entrenamientoId){
-        return ejercicioRepository.findId(ejId, entrenamientoId);}
+        return ejercicioRepository.findId(ejId, entrenamientoId);
+    }
+
     public void deleteById(Integer ejercicioId) {
+        List<EjercicioEntrenamiento> ee = ejercicioEntrenamientoRepository.getEjercicioEntrenamientoPorEjercicioId(ejercicioId);
+        for (EjercicioEntrenamiento e: ee) {                                    //Eliminado en cascada
+            ejercicioEntrenamientoRepository.delete(e);
+        }
         ejercicioRepository.deleteById(ejercicioId);
     }
 

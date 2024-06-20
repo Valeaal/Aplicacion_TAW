@@ -1,9 +1,6 @@
 package es.uma.proyectotaw.dao;
 
-import es.uma.proyectotaw.entity.Comida;
-import es.uma.proyectotaw.entity.Dieta;
-import es.uma.proyectotaw.entity.DietaComida;
-import es.uma.proyectotaw.entity.Usuario;
+import es.uma.proyectotaw.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -35,6 +32,9 @@ public interface DietaRepository extends JpaRepository<Dieta, Integer> {
 
     @Query("SELECT d.dieta FROM Cliente d WHERE d.id=:id")
     List<Dieta> getDietaByClientId(Integer id);
+
+    @Query("SELECT d from Dieta d where d.dietista.id = :dietistaId")
+    public List<Dieta> getDietaByDietistaId (@Param("dietistaId") Integer dietistaId);
 
 
 
