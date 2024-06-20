@@ -30,71 +30,70 @@
     <!-- Include Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
 <jsp:include page="../header-footer/navbar.jsp"></jsp:include>
-<h2>Tu dieta actual:</h2>
-<div class="container">
+<div class="container mt-5">
     <div class="row">
+        <div class="col-12 text-center">
+            <h2 class="text-primary">Tu dieta actual</h2>
+            <p class="lead">En la siguiente sección aparece el menú semanal, definido por su dietista.</p>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <!-- Sección de Entrenamientos -->
         <div class="col-md-8">
             <%-- Desayuno --%>
-            <div class="row">
-                <div class="col">
-                    <h2 class="mt-5">Desayuno</h2>
-                    <ul class="list-group">
-                        <% for (ComidaDTO comida : comidasM1) { %>
-                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="/comida?id=<%=comida.getId()%>&clientId=<%=client.getId()%>">
-                                <%=comida.getNombre()%>
-                            </a>
-                        <% } %>
-                    </ul>
-                </div>
+            <div class="mb-4">
+                <h3 class="text-secondary">Desayuno</h3>
+                <ul class="list-group">
+                    <% for (ComidaDTO comida : comidasM1) { %>
+                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="/comida?id=<%=comida.getId()%>&clientId=<%=client.getId()%>">
+                        <%=comida.getNombre()%>
+                    </a>
+                    <% } %>
+                </ul>
             </div>
 
             <%-- Comida --%>
-            <div class="row">
-                <div class="col">
-                    <h2 class="mt-5">Comida</h2>
-                    <ul class="list-group">
-                        <% for (ComidaDTO comida : comidasM2) { %>
-                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="/comida?id=<%=comida.getId()%>&clientId=<%=client.getId()%>">
-                                <%=comida.getNombre()%>
-                            </a>
-                        <% } %>
-                    </ul>
-                </div>
+            <div class="mb-4">
+                <h3 class="text-secondary">Comida</h3>
+                <ul class="list-group">
+                    <% for (ComidaDTO comida : comidasM2) { %>
+                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="/comida?id=<%=comida.getId()%>&clientId=<%=client.getId()%>">
+                        <%=comida.getNombre()%>
+                    </a>
+                    <% } %>
+                </ul>
             </div>
 
             <%-- Cena --%>
-            <div class="row">
-                <div class="col">
-                    <h2 class="mt-5">Cena</h2>
-                    <ul class="list-group">
-                        <% for (ComidaDTO comida : comidasM3) { %>
-                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="/comida?id=<%=comida.getId()%>&clientId=<%=client.getId()%>">
-                                <%=comida.getNombre()%>
-                            </a>
-                        <% } %>
-                    </ul>
-                </div>
+            <div class="mb-4">
+                <h3 class="text-secondary">Cena</h3>
+                <ul class="list-group">
+                    <% for (ComidaDTO comida : comidasM3) { %>
+                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="/comida?id=<%=comida.getId()%>&clientId=<%=client.getId()%>">
+                        <%=comida.getNombre()%>
+                    </a>
+                    <% } %>
+                </ul>
             </div>
-
         </div>
 
+        <!-- Filtro -->
         <div class="col-md-4">
-            <div class="container">
-                <div class="col-md-6">
-                    <h3>Filtrar por desempeño de dieta:</h3>
-                    <form:form modelAttribute="desempenyoFiltro" method="post"
-                               action="/filtrarDietaDesempenyo">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title text-secondary">Filtrar por desempeño de dieta:</h3>
+                    <form:form modelAttribute="desempenyoFiltro" method="post" action="/filtrarDietaDesempenyo">
                         <form:hidden path="idCliente" value="<%=client.getId()%>"/>
                         <div class="form-group">
-                            <form:select path="desempenyo" id="desempenyo">
+                            <form:select path="desempenyo" id="desempenyo" class="form-control">
                                 <form:option value="Alto">Alto (70%-100%)</form:option>
                                 <form:option value="Medio">Medio (30%-70%)</form:option>
                                 <form:option value="Bajo">Bajo (0%-30%)</form:option>
                             </form:select>
                         </div>
-                        <button type="submit" class="btn btn-outline-secondary">Buscar</button>
+                        <button type="submit" class="btn btn-outline-primary btn-block">Buscar</button>
                     </form:form>
                 </div>
             </div>

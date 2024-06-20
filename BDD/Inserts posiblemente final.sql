@@ -17,26 +17,28 @@ INSERT INTO TAW.usuario (id, email, password, nombre, apellidos, fecha_nacimient
 (7, 'client67@example.com', 'password', 'Javier', 'Smith', '1992-03-10', '2021-06-01', 5),
 (8, 'migueltrainer@example.com', '123', 'Miguel', 'Pérez', '1992-03-10', '2020-01-01', 2),
 (9, 'client9@example.com', 'password', 'Laura', 'Martínez', '1987-04-05', '2022-02-01', 5),
-(10, 'client8@example.com', 'password', 'Carlos', 'Hernández', '1985-09-25', '2022-03-01', 5);
+(10, 'client8@example.com', 'password', 'Carlos', 'Hernández', '1985-09-25', '2022-03-01', 5),
+(11, 'dietista2@example.com', 'password', 'James', 'Green', '1992-03-10', '2021-06-01', 4),
+(12, 'dietista3@example.com', 'password', 'Javi', 'Fernández', '1992-03-10', '2021-06-01', 4);
 
 -- Insertar datos en la tabla dieta
 INSERT INTO TAW.dieta (id, dietista_id, nombre, descripcion, fecha, calorias) VALUES 
 (1, 4, 'Dieta Keto', 'Dieta basada en altos niveles de grasas y bajos en carbohidratos', '2023-01-01', 2000),
-(2, 4, 'Dieta Paleo', 'Dieta basada en alimentos no procesados', '2023-01-15', 1800),
-(3, 4, 'Dieta Vegana', 'Dieta basada en plantas', '2023-02-01', 1600),
+(2, 11, 'Dieta Paleo', 'Dieta basada en alimentos no procesados', '2023-01-15', 1800),
+(3, 12, 'Dieta Vegana', 'Dieta basada en plantas', '2023-02-01', 1600),
 (4, 4, 'Dieta Mediterránea', 'Dieta rica en frutas, verduras y grasas saludables', '2023-02-15', 2200),
 (5, 4, 'Dieta Low Carb', 'Dieta baja en carbohidratos', '2023-03-01', 1500),
-(6, 4, 'Dieta Proteica', 'Dieta alta en proteínas', '2023-03-15', 2100),
+(6, 11, 'Dieta Proteica', 'Dieta alta en proteínas', '2023-03-15', 2100),
 (7, 4, 'Dieta Detox', 'Dieta de desintoxicación', '2023-04-01', 1200),
 (8, 4, 'Dieta Sin Gluten', 'Dieta libre de gluten', '2023-04-15', 1700),
-(9, 4, 'Dieta Dash', 'Dieta para la hipertensión', '2023-05-01', 2000),
+(9, 12, 'Dieta Dash', 'Dieta para la hipertensión', '2023-05-01', 2000),
 (10, 4, 'Dieta HCG', 'Dieta basada en el uso de hormona HCG', '2023-05-15', 1300);
 
 -- Insertar datos en la tabla cliente
 INSERT INTO TAW.cliente (id, usuario_id, dieta_id, entrenador_id, peso, altura, edad, dietista_id) VALUES 
 (1, 5, 1, 2, 70.5, 175, 30, 4),
-(2, 6, 2, 3, 83, 188, 30, 4),
-(3, 7, 3, 3, 67, 168, 28, 4),
+(2, 6, 2, 3, 83, 188, 30, 11),
+(3, 7, 3, 3, 67, 168, 28, 12),
 (4, 9, 4, 8, 64, 160, 22, 4),
 (5, 10, 5, 8, 70, 163, 30, 4);
 
@@ -47,10 +49,10 @@ INSERT INTO TAW.tipo_rutina (id, tipo) VALUES
 
 -- Insertar datos en la tabla rutina
 INSERT INTO TAW.rutina (id, nombre, descripcion, fecha_creacion, entrenador_id, tipo_rutina) VALUES 
-(1, 'Rutina Fuerza', 'Rutina de fuerza para principiantes', '2023-01-01', 2, 1),
+(1, 'Rutina Fuerza', 'Rutina de pilates para flexibilidad', '2023-01-01', 2, 1),
 (2, 'Push-Pull', 'Rutina de fuerza para avanzados', '2023-06-14', 8, 1),
 (3, 'Rutina HIIT', 'Rutina de alta intensidad', '2023-02-10', 3, 2),
-(4, 'Rutina Pilates', 'Rutina de pilates para flexibilidad', '2023-03-01', 2, 2),
+(4, 'Rutina Fuerza', 'Rutina de fuerza para principiantes', '2023-03-01', 2, 2),
 (5, 'Rutina Yoga', 'Rutina de yoga para relajación', '2023-03-15', 2, 2),
 (6, 'Rutina Cardio', 'Rutina para mejorar la resistencia cardiovascular', '2023-04-01', 3, 2),
 (7, 'Rutina Funcional', 'Rutina de entrenamiento funcional', '2023-04-15', 2, 1),
@@ -161,8 +163,8 @@ INSERT INTO TAW.ejercicio (id, nombre, descripcion, url_video, grupo_muscular_id
 (1, 'Press de banca', 'Ejercicio para trabajar el pecho', 'https://www.youtube.com/watch?v=rT7DgCr-3pg', 1, 1),
 (4, 'Extensión de Tríceps', 'Ejercicio para trabajar los tríceps', 'https://www.youtube.com/watch?v=8fOyov2P4ZQ', 4, 1),
 (5, 'Aperturas de Pecho', 'Ejercicio para trabajar el pecho', 'https://www.youtube.com/watch?v=eozdVDA78K0', 1, 1),
-(6, 'Jalón', 'Ejercicio para trabajar la espalda', 'https://www.youtube.com/watch?v=CAwf7n6Luuc', 2, 1),
-(7, 'Remo', 'Ejercicio para trabajar la espalda', 'https://www.youtube.com/watch?v=kBWAon7ItDw', 2, 1),
+(6, 'Jalón', 'Ejercicio para trabajar la espalda', 'https://www.youtube.com/watch?v=CAwf7n6Luuc', 2, 5),
+(7, 'Remo', 'Ejercicio para trabajar la espalda', 'https://www.youtube.com/watch?v=kBWAon7ItDw', 2, 5),
 (8, 'Curl de Bíceps', 'Ejercicio para trabajar los bíceps', 'https://www.youtube.com/watch?v=ykJmrZ5v0Oo', 5, 1),
 (9, 'Extensión de Cuádriceps', 'Ejercicio para trabajar los cuádriceps', 'https://www.youtube.com/watch?v=YyvSfVjQeL0', 6, 1),
 (10, 'Sentadilla', 'Ejercicio para trabajar las piernas', 'https://www.youtube.com/watch?v=1oed-UmAxFs', 6, 1),
@@ -172,11 +174,12 @@ INSERT INTO TAW.ejercicio (id, nombre, descripcion, url_video, grupo_muscular_id
 (14, 'Prensa de Piernas', 'Ejercicio para trabajar las piernas', 'https://www.youtube.com/watch?v=IZxyjW7MPJQ', 6, 1),
 (15, 'Curl Femoral', 'Ejercicio para trabajar los isquiotibiales', 'https://www.youtube.com/watch?v=1Tq3QdYUuHs', 8, 1),
 (16, 'Flexiones', 'Ejercicio básico para trabajar el pecho y tríceps', 'https://www.youtube.com/watch?v=_l3ySVKYVJ8', 1, 1),
-(17, 'Dominadas', 'Ejercicio para trabajar la espalda y los bíceps', 'https://www.youtube.com/watch?v=eGo4IYlbE5g', 2, 1),
-(18, 'Abdominales', 'Ejercicio para trabajar el abdomen', 'https://www.youtube.com/watch?v=ZJZzdVt4L1s', 9, 1),
+(17, 'Dominadas', 'Ejercicio para trabajar la espalda y los bíceps', 'https://www.youtube.com/watch?v=eGo4IYlbE5g', 2, 5),
+(18, 'Abdominales', 'Ejercicio para trabajar el abdomen', 'https://www.youtube.com/watch?v=ZJZzdVt4L1s', 9, 6),
 (19, 'Fondos de Tríceps', 'Ejercicio para trabajar los tríceps', 'https://www.youtube.com/watch?v=6kALZikXxLc', 4, 1),
 (20, 'Press Francés', 'Ejercicio para trabajar los tríceps', 'https://www.youtube.com/watch?v=ZO81bExngMI', 4, 1),
-(21, 'Correr', 'Trabajamos la resistencia', 'http://example.com/video', NULL, 1);
+(21, 'Correr', 'Trabajamos la resistencia', 'http://example.com/video', NULL, 4),
+(22, 'Estiramiento de espalda', 'Estiramientos para flexibilizar la espalda baja', 'https://www.youtube.com/watch?v=XcJ1zVXfTfQ', 2, 3);
 
 -- Insertar datos en la tabla entrenamiento
 INSERT INTO TAW.entrenamiento (id, nombre, descripcion) VALUES 
