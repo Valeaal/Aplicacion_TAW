@@ -12,6 +12,7 @@ public interface Cliente_RutinaRepository extends JpaRepository<ClienteRutina, I
     @Query("select cr from ClienteRutina cr where cr.cliente.id = :idCliente and cr.vigente = true")
     public List<ClienteRutina> findActiveRoutines(@Param("idCliente") Integer idCliente);
 
+    //Alvaro tambiéne está usando eso, no borrar xfa
     @Query("select cr from ClienteRutina cr where cr.cliente.id = :idCliente")
     public List<ClienteRutina> historialRutinasCliente(@Param("idCliente") Integer idCliente);
 

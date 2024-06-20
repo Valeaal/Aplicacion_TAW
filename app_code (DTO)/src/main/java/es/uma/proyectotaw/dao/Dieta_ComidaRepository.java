@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface Dieta_ComidaRepository extends JpaRepository<DietaComida,Integer> {
 
+
 }
