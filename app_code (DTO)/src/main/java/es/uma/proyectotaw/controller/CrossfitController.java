@@ -151,10 +151,13 @@ public class CrossfitController {
         model.addAttribute("historialRutinasCliente", historialRutinasCliente);
         // ahora vamos a sacar el desempeño/valoracion de los ejercicios realizados por el cliente
         //  List<DesempenoDTO> desempenosCliente = desempenoService.desempenoDelClienteA(idCliente);
+        //por algun motivo, no me deja obtener los desempeños de un cliente a través del service, he intentado mil cosas
+        //y no hay manera, por tanto, lo he hecho accediendo directamente al repository
         List<Desempeno> desempenosCliente = desempenoRepository.desempenoDelCliente(idCliente);
         model.addAttribute("desempenosCliente", desempenosCliente);
         List<EjercicioEntrenamientoDTO> ejercicios = ejercicioEntrenamientoService.findAll();
         model.addAttribute("ejercicios", ejercicios);
+        model.addAttribute("rutinaService", rutinaService);
         return "crosstrainer/verDesempeno";
     }
 
