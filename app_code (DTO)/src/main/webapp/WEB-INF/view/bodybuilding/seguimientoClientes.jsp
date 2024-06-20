@@ -1,14 +1,11 @@
 <%-- @author: Miguel Galdeano Rodríguez --%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.*" %>
-<%@ page import="es.uma.proyectotaw.entity.Usuario" %>
-<%@ page import="es.uma.proyectotaw.entity.Ejercicio" %>
-<%@ page import="es.uma.proyectotaw.entity.Rutina" %>
-<%@ page import="es.uma.proyectotaw.entity.Cliente" %>
+<%@ page import="es.uma.proyectotaw.dto.*" %>
 
 <%
-    List<Usuario> clientes = (List<Usuario>) request.getAttribute("clientes");
-    Map<Cliente,Rutina> rutinas = (Map<Cliente,Rutina>) request.getAttribute("rutinas");
+    List<UsuarioDTO> clientes = (List<UsuarioDTO>) request.getAttribute("clientes");
+    Map<ClienteDTO,RutinaDTO> rutinas = (Map<ClienteDTO,RutinaDTO>) request.getAttribute("rutinas");
 %>
 
 
@@ -41,7 +38,7 @@
                 </thead>
                 <tbody>
                 <!-- Aquí se pueden agregar filas dinámicamente con datos -->
-                <% for (Cliente cliente : rutinas.keySet()) { %>
+                <% for (ClienteDTO cliente : rutinas.keySet()) { %>
                 <tr>
                     <td><%= cliente.getUsuario().getNombre()%></td>
                     <td><%= cliente.getUsuario().getApellidos()%></td>

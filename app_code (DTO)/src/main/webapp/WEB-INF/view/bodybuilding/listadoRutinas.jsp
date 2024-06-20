@@ -1,12 +1,10 @@
 <%-- @author: Miguel Galdeano Rodríguez --%> 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.*" %>
-<%@ page import="es.uma.proyectotaw.entity.Usuario" %>
-<%@ page import="es.uma.proyectotaw.entity.Ejercicio" %>
-<%@ page import="es.uma.proyectotaw.entity.Rutina" %>
+<%@ page import="es.uma.proyectotaw.dto.*" %>
 
 <%
-   List<Rutina> rutinas = (List<Rutina>) request.getAttribute("rutinas");
+   List<RutinaDTO> rutinas = (List<RutinaDTO>) request.getAttribute("rutinas");
 %>
 
 
@@ -45,9 +43,9 @@
                             <td> <form:input type="text" name="ejercicio" path="nombre"/></td>
                             <td><form:select path="numEntrenamientos" items="${['-',1,2,3,4,5,6,7]}"/></td>
                             <td><form:input type="date" path="fecha" /></td>
-                            <td><form:select path="entrenadorCreador">
-                                <form:option value="-1">TODOS</form:option>
-                                <form:options items="${entrenadores}" itemLabel="nombre"/>
+                            <td><form:select path="entrenadorCreador.id">
+                                <form:option value="">TODOS</form:option>
+                                <form:options items="${entrenadores}" itemLabel="nombre" itemValue="id"/>
                             </form:select></td>
                             <td> <form:button type="submit" class="btn btn-primary">Buscar</form:button></td>
                             <td><a href="/bodybuilding/">
@@ -81,7 +79,7 @@
                 </thead>
                 <tbody>
                 <!-- Aquí se pueden agregar filas dinámicamente con datos -->
-                <% for (Rutina rutina : rutinas) { %>
+                <% for (RutinaDTO rutina : rutinas) { %>
                 <tr>
                     <td><%= rutina.getNombre()%></td>
                     <td><%= rutina.getDescripcion()%></td>
