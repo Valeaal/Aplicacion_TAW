@@ -1,15 +1,15 @@
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.proyectotaw.dto.ClienteDTO" %>
-<%@ page import="es.uma.proyectotaw.dto.ClienteRutinaDTO" %>
-<%@ page import="es.uma.proyectotaw.dto.EjercicioEntrenamientoDTO" %>
-<%@ page import="es.uma.proyectotaw.dto.DesempenoDTO" %>
 <%@ page import="es.uma.proyectotaw.entity.*" %>
+<%@ page import="es.uma.proyectotaw.service.RutinaService" %>
+<%@ page import="org.springframework.beans.factory.annotation.Autowired" %>
+<%@ page import="es.uma.proyectotaw.dto.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     ClienteDTO cliente = (ClienteDTO) request.getAttribute("cliente");
     List<ClienteRutinaDTO> historialRutinasCliente = (List<ClienteRutinaDTO>) request.getAttribute("historialRutinasCliente");
     List<Desempeno> desempenosCliente = (List<Desempeno>) request.getAttribute("desempenosCliente");
     List<EjercicioEntrenamientoDTO> ejercicios = (List<EjercicioEntrenamientoDTO>) request.getAttribute("ejercicios");
+    RutinaService rutinaService = (RutinaService) request.getAttribute("rutinaService");
 %>
 <!DOCTYPE html><!--Hecho por Pablo Alonso Burgos-->
 <html lang="es">
@@ -146,17 +146,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <% for (ClienteRutinaDTO rutina : historialRutinasCliente) {%>
+                    <% for (ClienteRutinaDTO rutinacliente : historialRutinasCliente) {%>
+                        <%
+
+                        RutinaDTO rutina = rutinaService.findById(rutinacliente.getRutina());%>
                     <tr>
-                        <td><%= rutina.getRutina() %>
+                        <td><%= rutina.getNombre() %>
                         </td>
-                        <td><%= rutina.getRutina()/*.getEntrenamientos().size()*/ %>
+                        <td><%= rutina.getEntrenamientos().size() %>
                         </td>
-                        <td><%= rutina/*.getRutina().getDescripcion()*/ %>
+                        <td><%= rutina.getDescripcion() %>
                         </td>
-                        <td><%= rutina/*.getRutina().getFechaCreacion() */%>
+                        <td><%= rutina.getFechaCreacion() %>
                         </td>
-                        <td><%= rutina/*.getVigente() ? "Sí" : "No" */%>
+                        <td><%= rutinacliente.getVigente() ? "Sí" : "No" %>
                         </td>
                     </tr>
                     <% } %>

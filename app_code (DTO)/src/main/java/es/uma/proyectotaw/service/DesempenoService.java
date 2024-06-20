@@ -89,10 +89,6 @@ public class DesempenoService extends DTOService<DesempenoDTO, Desempeno>{
         return this.entidadesADTO(lista);
     }
 
-    public List<DesempenoDTO> desempenoDelClienteA(Integer id){
-        List<Desempeno> lista = desempenoRepository.desempenoDelCliente(id);
-        return this.entidadesADTO(lista);
-    }
 
 
 
