@@ -1,8 +1,10 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.Comida" %>
+<%@ page import="es.uma.proyectotaw.entity.Dieta" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% List<Comida> comidas = (List<Comida>) request.getAttribute("comidas"); %>
+<% Dieta d = (Dieta) request.getAttribute("dieta"); %>
 <html>
 <head>
     <title>Nueva Dieta - 3 Ingestas</title>
@@ -35,7 +37,8 @@
 <body>
 <div>
     <h2 class="mb-4">Nueva Dieta - 3 Ingestas</h2>
-    <form:form method="post" modelAttribute="DietaCrearForm" action="/dietista/generar">
+    <form:form method="post" modelAttribute="DietaCrearForm" action="/dietista/generar3">
+        <form:hidden path="dieta" value="<%=d.getId()%>"></form:hidden>
         <table class="table table-bordered">
             <thead>
             <tr>

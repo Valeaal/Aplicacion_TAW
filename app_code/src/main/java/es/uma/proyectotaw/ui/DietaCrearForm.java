@@ -1,6 +1,17 @@
 package es.uma.proyectotaw.ui;
 
 public class DietaCrearForm {
+
+    private Integer dieta;
+
+    public Integer getDieta() {
+        return dieta;
+    }
+
+    public void setDieta(Integer dieta) {
+        this.dieta = dieta;
+    }
+
     private Integer ingesta1Dia1;
     private Integer ingesta1Dia2;
     private Integer ingesta1Dia3;
