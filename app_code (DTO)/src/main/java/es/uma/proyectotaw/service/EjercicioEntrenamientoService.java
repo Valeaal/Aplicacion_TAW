@@ -41,6 +41,10 @@ public class EjercicioEntrenamientoService extends DTOService<EjercicioEntrenami
         return this.entidadesADTO(ejercicioEntrenamientoRepository.filtrarEjerciciosEntrenamiento(inputEjercicio, inputEntrenamiento, inputSeries, inputRepeticiones, inputPeso, inputTiempo, inputDistancia, inputOrden));
     }
 
+    public EjercicioEntrenamientoDTO findByDesempeno(Integer desempeno) {
+        return this.ejercicioEntrenamientoRepository.findByDesempeno(desempeno).toDTO();
+    }
+
     public void save(EjercicioEntrenamientoDTO dto) {
         EjercicioEntrenamiento ejercicioEntrenamientoEntity;
         if(dto.getId() == null){                                                                                            //Permitimos crear una entidad o actualizarla con el mismo método

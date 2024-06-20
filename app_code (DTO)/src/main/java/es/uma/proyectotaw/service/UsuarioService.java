@@ -32,6 +32,11 @@ public class UsuarioService extends DTOService<UsuarioDTO, Usuario>{
 
     };
 
+    public List<UsuarioDTO> buscarPorTipoUsuario(Integer tipoUsuario) {
+        TipoUsuario tipoEntity = tipoUsuarioRepository.findById(tipoUsuario).orElse(null);
+        return this.entidadesADTO(this.usuarioRepository.buscarPorTipo(tipoEntity));
+    }
+
     public UsuarioDTO buscarUsuarioPorId(Integer id){
         if (id == null) {
             return null;

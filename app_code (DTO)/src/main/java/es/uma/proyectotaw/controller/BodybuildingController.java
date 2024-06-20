@@ -28,33 +28,30 @@ public class BodybuildingController {
     @Autowired
     RutinaService rutinaService;
     @Autowired
-    TipoEjercicioRepository tipoEjercicioRepository;
+    TipoEjercicioService tipoEjercicioService;
     @Autowired
-    GrupoMuscularRepository grupoMuscularRepository;
+    GrupoMuscularService grupoMuscularService;
     @Autowired
     EntrenamientoRutinaService entrenamientoRutinaService;
     @Autowired
-    Tipo_RutinaRepository tipoRutinaRepository;
+    TipoRutinaService tipoRutinaService;
     @Autowired
-    UsuarioRepository usuarioRepository;
+    UsuarioService usuarioService;
     @Autowired
     ClienteService clienteService;
     @Autowired
-    TipoUsuarioRepository tipoUsuarioRepository;
-    @Autowired
     ClienteRutinaService clienteRutinaService;
     @Autowired
-    DesempenoRepository desempenoRepository;
+    DesempenoService desempenoService;
     @Autowired
-    EjercicioEntrenamientoRepository ejercicioEntrenamientoRepository;
+    EjercicioEntrenamientoService ejercicioEntrenamientoService;
     private int tipo_rutina = 1;
 
     @GetMapping("/")
     public String doListar(Model model, HttpSession session){
         List<RutinaDTO> rutinas = this.rutinaService.findByTipo(tipo_rutina);
         FiltroBodyBuilder filtro = new FiltroBodyBuilder();
-        TipoUsuario usuarioBody = this.tipoUsuarioRepository.buscarPorID(2);
-        List<Usuario> entrenadores = this.usuarioRepository.buscarPorTipo(usuarioBody);
+        List<UsuarioDTO> entrenadores = this.usuarioService.buscarPorTipoUsuario(2);
         model.addAttribute("filtro", filtro);
         model.addAttribute("entrenadores",entrenadores);
         model.addAttribute("rutinas", rutinas);
@@ -69,8 +66,8 @@ public class BodybuildingController {
     @GetMapping("/editarRutina")
     public String doEditarEjercicio(@RequestParam("id")Integer id, Model model, HttpSession session){
         RutinaDTO rutina = this.rutinaService.findById(id);
-        List<GrupoMuscular> gruposMusculares = this.grupoMuscularRepository.findAll();
-        List<TipoEjercicio> tiposEjercicios = this.tipoEjercicioRepository.findAll();
+        List<GrupoMuscularDTO> gruposMusculares = this.grupoMuscularService.findAll();
+        List<TipoEjercicioDTO> tiposEjercicios = this.tipoEjercicioService.findAll();
         List<EntrenamientoDTO> entrenamientos = this.entrenamientoService.findAll();
         List<EntrenamientoRutinaDTO> entrenamientoRutinas = this.entrenamientoRutinaService.findAll();
         model.addAttribute("entrenamientoRutinas", entrenamientoRutinas);
@@ -84,9 +81,9 @@ public class BodybuildingController {
 
     @GetMapping("/crearRutina")
     public String doCrearRutina(Model model, HttpSession session){
-        Rutina rutina = new Rutina();
-        rutina.setTipoRutina(this.tipoRutinaRepository.findById(tipo_rutina).orElse(null));
-        rutina.setEntrenador((Usuario) session.getAttribute("usuario"));
+        RutinaDTO rutina = new RutinaDTO();
+        rutina.setTipoRutina(this.tipoRutinaService.findById(tipo_rutina));
+        rutina.setEntrenador((UsuarioDTO) session.getAttribute("usuario"));
         rutina.setFechaCreacion(LocalDate.parse(new java.sql.Date(System.currentTimeMillis()).toString()));
         model.addAttribute("rutina", rutina);
         return "bodybuilding/editarRutina";
@@ -124,8 +121,7 @@ public class BodybuildingController {
             //Filtro por nombre, numero de entrenos y creador
             rutinas = this.rutinaService.findByNombreEntrenosAndCreador(filtro.getNombre(),Integer.parseInt(filtro.getNumEntrenamientos()),filtro.getEntrenadorCreador().getId(), tipo_rutina,fecha);
         }
-        TipoUsuario usuarioBody = this.tipoUsuarioRepository.buscarPorID(2);
-        List<Usuario> entrenadores = this.usuarioRepository.buscarPorTipo(usuarioBody);
+        List<UsuarioDTO> entrenadores = this.usuarioService.buscarPorTipoUsuario(2);
         model.addAttribute("entrenadores", entrenadores);
         model.addAttribute("filtro", filtro);
         model.addAttribute("rutinas", rutinas);
@@ -190,9 +186,9 @@ public class BodybuildingController {
             cr.setVigente(true);
             if (activa != null ) {
                 activa.setVigente(false);
-                this.clienteRutinaService.guardar(activa);
+                this.clienteRutinaService.guardar1(activa);
             }
-            this.clienteRutinaService.guardar(cr);
+            this.clienteRutinaService.guardar1(cr);
         }
         return "redirect:/bodybuilding/asignarRutinas";
     }
@@ -225,10 +221,10 @@ public class BodybuildingController {
     @GetMapping("/verComentarios")
     public String verComentarios(@RequestParam("id")Integer idCliente,Model model, HttpSession session){
         ClienteDTO cliente = this.clienteService.getClienteById(idCliente);
-        List<Desempeno> desempenos = this.desempenoRepository.desempenoDelCliente(idCliente);
-        List<EjercicioEntrenamiento> ENR = new ArrayList<>();
-        for(Desempeno desempeno : desempenos){
-            ENR.add(this.ejercicioEntrenamientoRepository.findByDesempeno(desempeno.getId()));
+        List<DesempenoDTO> desempenos = this.desempenoService.desempenoDelCliente(idCliente);
+        List<EjercicioEntrenamientoDTO> ENR = new ArrayList<>();
+        for(DesempenoDTO desempeno : desempenos){
+            ENR.add(this.ejercicioEntrenamientoService.findByDesempeno(desempeno.getId()));
         }
         model.addAttribute("cliente",cliente);
         model.addAttribute("ejercicios",ENR);

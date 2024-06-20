@@ -1,11 +1,11 @@
 <%-- @author: Miguel Galdeano Rodríguez --%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.*" %>
-<%@ page import="es.uma.proyectotaw.entity.*" %>
+<%@ page import="es.uma.proyectotaw.dto.*" %>
 
 <%
-    List<EjercicioEntrenamiento> ENR = (List<EjercicioEntrenamiento>) request.getAttribute("ejercicios");
-    Cliente cliente = (Cliente) request.getAttribute("cliente");
+    List<EjercicioEntrenamientoDTO> ENR = (List<EjercicioEntrenamientoDTO>) request.getAttribute("ejercicios");
+    ClienteDTO cliente = (ClienteDTO) request.getAttribute("cliente");
 %>
 
 
@@ -45,7 +45,7 @@
             </thead>
             <tbody>
             <!-- Aquí se pueden agregar filas dinámicamente con datos -->
-            <%  for (EjercicioEntrenamiento ejercicio : ENR) { %>
+            <%  for (EjercicioEntrenamientoDTO ejercicio : ENR) { %>
             <tr>
                 <td><%= ejercicio.getEjercicio().getNombre()%></td>
                 <td><%= ejercicio.getSeries()%></td>

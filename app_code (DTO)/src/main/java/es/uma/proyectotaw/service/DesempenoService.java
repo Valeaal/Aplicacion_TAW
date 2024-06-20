@@ -4,6 +4,7 @@ import es.uma.proyectotaw.dao.ClienteRepository;
 import es.uma.proyectotaw.dao.ComidaMenuRepository;
 import es.uma.proyectotaw.dao.DesempenoRepository;
 import es.uma.proyectotaw.dao.EjercicioEntrenamientoRepository;
+import es.uma.proyectotaw.dto.ClienteDTO;
 import es.uma.proyectotaw.dto.DesempenoDTO;
 import es.uma.proyectotaw.entity.Cliente;
 import es.uma.proyectotaw.entity.ComidaMenu;
@@ -11,10 +12,12 @@ import es.uma.proyectotaw.entity.Desempeno;
 import es.uma.proyectotaw.entity.EjercicioEntrenamiento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 //autor: Alba de la Torre
 
 @Service
-public class DesempenoService {
+public class DesempenoService extends DTOService<DesempenoDTO,Desempeno>{
 
     @Autowired
     private DesempenoRepository desempenoRepository;
@@ -62,6 +65,10 @@ public class DesempenoService {
 
     public DesempenoDTO getDesempenoByMenuAndComidaId(Integer menuId, Integer comidaId){
         return desempenoRepository.getDesempenoByMenuAndComidaId(menuId, comidaId).toDTO();
+    }
+
+    public List<DesempenoDTO> desempenoDelCliente(Integer clienteID){
+        return this.entidadesADTO(this.desempenoRepository.desempenoDelCliente(clienteID));
     }
 
     public void delete(Integer clientId, Integer ejId, Integer entrenamientoId){

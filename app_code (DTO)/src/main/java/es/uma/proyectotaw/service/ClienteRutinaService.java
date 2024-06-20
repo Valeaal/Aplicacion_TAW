@@ -54,7 +54,7 @@ public class ClienteRutinaService extends DTOService<ClienteRutinaDTO, ClienteRu
         this.clienteRutinaRepository.save(asignacionRutinaACliente);
     }
 
-    public void guardar1(ClienteRutinaDTO clienteRutinaDTO){
+    public void guardar1 (ClienteRutinaDTO clienteRutinaDTO){
         ClienteRutina clienteRutina = new ClienteRutina();
         clienteRutina.setCliente(this.clienteRepository.findById(clienteRutinaDTO.getCliente()).orElse(null));
         clienteRutina.setRutina(this.rutinaRepository.findById(clienteRutinaDTO.getRutina()).orElse(null));
