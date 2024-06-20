@@ -37,6 +37,7 @@ public class EntrenamientoRutinaService extends DTOService<EntrenamientoRutinaDT
     }
 
 
+
     public List<Integer> findByRutinaId(int rutinaId) {
         List<Integer> entrenamientos = this.entrenamientoRutinaRepository.findByRutinaId(rutinaId);
         return entrenamientos;
@@ -64,6 +65,12 @@ public class EntrenamientoRutinaService extends DTOService<EntrenamientoRutinaDT
 
     public void deleteAllById(List<Integer> id) {
         this.entrenamientoRutinaRepository.deleteAllById(id);
+    }
+
+    public List<EntrenamientoRutinaDTO> buscarEntrenamientosdeRutina(Integer n) { // pablo
+        List<EntrenamientoRutina> rutinas = entrenamientoRutinaRepository.buscarEntrenamientosdeRutina(n);
+        return this.entidadesADTO(rutinas);
+
     }
 
     public EntrenamientoRutinaDTO getEntrenamientoRutina(Integer id) { //pablo

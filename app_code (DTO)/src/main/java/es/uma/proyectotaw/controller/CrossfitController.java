@@ -7,7 +7,6 @@ import es.uma.proyectotaw.service.*;
 import es.uma.proyectotaw.ui.Filtro_Rutina_nEntrenamientos;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,25 +19,8 @@ public class CrossfitController {
 
     // primero aqui tengo los repository, que borrare luego
     @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
-    private TipoUsuarioRepository tipoUsuarioRepository;
-    @Autowired
-    protected RutinaRepository rutinaRepository;
-    @Autowired
-    protected EntrenamientoRepository entrenamientoRepository;
-    @Autowired
-    protected Entrenamiento_RutinaRepository entrenamiento_RutinaRepository;
-    @Autowired
-    protected Cliente_RutinaRepository cliente_RutinaRepository;
-    @Autowired
-    protected ClienteRepository clienteRepository;
-    @Autowired
-    protected Tipo_RutinaRepository tipo_RutinaRepository;
-    @Autowired
     protected DesempenoRepository desempenoRepository;
-    @Autowired
-    protected EjercicioEntrenamientoRepository ejercicioEntrenamientoRepository;
+
 
     // aqui meto los service
 
@@ -167,32 +149,6 @@ public class CrossfitController {
         return "crosstrainer/numeroEntrenamientos";
     }
 
-  /*  @PostMapping("/crearRutina")
-    public String doCrearRutina(@RequestParam("nombreRutina") String nombreRutina,
-                                @RequestParam("descripcionRutina") String descripcionRutina,
-                                @RequestParam("numEntrenamientos") Integer numEntrenamientos,
-                                @RequestParam("numeroDia") Integer numeroDia,
-                                HttpSession session, Model model) {
-        Rutina nuevaRutina = new Rutina();
-        nuevaRutina.setNombre(nombreRutina);
-        nuevaRutina.setDescripcion(descripcionRutina);
-        nuevaRutina.setFechaCreacion(LocalDate.now());
-        TipoRutina tr = this.tipo_RutinaRepository.findById(2).orElse(null);
-        nuevaRutina.setTipoRutina(tr);
-        UsuarioDTO entrenadorE = (UsuarioDTO) session.getAttribute("usuario");
-        Usuario ent = this.usuarioRepository.findById(entrenadorE.getId()).orElse(null);
-        nuevaRutina.setEntrenador(ent);
-        this.rutinaRepository.save(nuevaRutina);
-        model.addAttribute("idRutina", nuevaRutina.getId());
-
-        numeroDia++;
-        model.addAttribute("numeroDia", numeroDia);
-
-        List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
-        model.addAttribute("entrenamientos", entrenamientos);
-        return "crosstrainer/crearRutina";
-    } */
-
     @PostMapping("/crearRutina")
     public String doCrearRutina(@RequestParam("nombreRutina") String nombreRutina,
                                 @RequestParam("descripcionRutina") String descripcionRutina,
@@ -208,8 +164,7 @@ public class CrossfitController {
         nuevaRutina.setEntrenador(entrenadorE);
         rutinaService.guardarRutina(nuevaRutina);
 
-        Rutina rutina = rutinaRepository.getRutinaByNombre(nombreRutina); // soy consciente de que esto no es del
-        // correcto, pero era la unica manera de que me pillase correctamente el id de la rutina
+        RutinaDTO rutina = rutinaService.getRutinaByNombre(nombreRutina);
         model.addAttribute("idRutina", rutina.getId());
 
         numeroDia++;
@@ -228,14 +183,14 @@ public class CrossfitController {
                                         @RequestParam("numEntrenamientos") Integer numEntrenamientos,
                                         HttpSession session, Model model) {
 
-
-        EntrenamientoRutina er = new EntrenamientoRutina();
-        Rutina rutina = rutinaRepository.findById(idRutina).orElse(null);
-        Entrenamiento entrenamiento = entrenamientoRepository.findById(idEntrenamiento).orElse(null);
-        er.setRutina(rutina);
-        er.setEntrenamiento(entrenamiento);
+        EntrenamientoRutinaDTO er = new EntrenamientoRutinaDTO();
+        er.setId(-1);
+        RutinaDTO rutina = rutinaService.findById(idRutina);
+        EntrenamientoDTO entrenamiento = entrenamientoService.findbyID(idEntrenamiento);
+        er.setRutina(rutina.getId());
+        er.setEntrenamiento(entrenamiento.getId());
         er.setDiaSemana(diaSemana);
-        this.entrenamiento_RutinaRepository.save(er);
+        entrenamientoRutinaService.guardarEntrenamientodeRutina(er);
 
         if (numeroDia == numEntrenamientos) {
             return "redirect:/crud";
@@ -261,11 +216,11 @@ public class CrossfitController {
 
     @GetMapping("/crud/editar")
     public String doEditar(@RequestParam("idRutina") Integer idRutina, Model model) {
-        Rutina rutina = this.rutinaRepository.findById(idRutina).orElse(null);
+        RutinaDTO rutina = rutinaService.findById(idRutina);
         model.addAttribute("rutina", rutina);
-        List<EntrenamientoRutina> entrenamientosdeRutina = this.entrenamiento_RutinaRepository.buscarEntrenamientosdeRutina(idRutina);
+        List<EntrenamientoRutinaDTO> entrenamientosdeRutina = this.entrenamientoRutinaService.buscarEntrenamientosdeRutina(idRutina);
         model.addAttribute("entrenamientosdeRutina", entrenamientosdeRutina);
-        List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
+        List<EntrenamientoDTO> entrenamientos = entrenamientoService.DTOfindAll();
         model.addAttribute("entrenamientos", entrenamientos);
 
         return "crosstrainer/editarRutina";
@@ -301,9 +256,8 @@ public class CrossfitController {
     @GetMapping("/addEntrenamientosdeRutina") // no ref
     public String addEntrenamientosdeRutina(@RequestParam("id") Integer idRutina,
                                             Model model) {
-        Rutina rutina = this.rutinaRepository.findById(idRutina).orElse(null);
-        model.addAttribute("idRutina", rutina.getId());
-        List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
+        model.addAttribute("idRutina", idRutina);
+        List<EntrenamientoDTO> entrenamientos = entrenamientoService.DTOfindAll();
         model.addAttribute("entrenamientos", entrenamientos);
 
         return "crosstrainer/addEntrenamientoRutina"; // le hace falta el id de la rutina
