@@ -12,6 +12,7 @@ import es.uma.proyectotaw.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 //autor: Alba de la Torre
 
@@ -66,8 +67,13 @@ public class DesempenoService extends DTOService<DesempenoDTO, Desempeno>{
         return desempenoRepository.getDesempenoByMenuAndComidaId(menuId, comidaId).toDTO();
     }
 
-    public List<DesempenoDTO> desempenoDelCliente(Integer clienteID){
-        return this.entidadesADTO(this.desempenoRepository.desempenoDelCliente(clienteID));
+    public List<DesempenoDTO> getByClienteId(Integer clienteID){
+        List<Desempeno> desempenos = this.desempenoRepository.desempenoDelCliente(clienteID);
+        List<DesempenoDTO> desempenoDTOs = new ArrayList<>();
+        for(Desempeno d : desempenos){
+            desempenoDTOs.add(d.toDTO());
+        }
+        return desempenoDTOs;
     }
 
     public void delete(Integer clientId, Integer ejId, Integer entrenamientoId){

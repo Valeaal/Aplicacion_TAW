@@ -113,6 +113,9 @@ public class RutinaService extends DTOService<RutinaDTO, Rutina> {
     @SuppressWarnings("unchecked")
     public void guardar(RutinaDTO rutinaDTO){
         Rutina r = new Rutina();
+       if(rutinaDTO.getId()!=null){
+           r.setId(rutinaDTO.getId());
+       }
         Usuario entrenador = this.usuarioRepository.buscarPorID(rutinaDTO.getEntrenador().getId());
         r.setEntrenador(entrenador);
         r.setDescripcion(rutinaDTO.getDescripcion());
