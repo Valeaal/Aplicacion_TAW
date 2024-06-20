@@ -9,10 +9,12 @@ import es.uma.proyectotaw.dto.RutinaDTO;
 import es.uma.proyectotaw.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 // autor: Alba de la Torre
 
 @Service
-public class EntrenamientoRutinaService {
+public class EntrenamientoRutinaService extends DTOService<EntrenamientoRutinaDTO, EntrenamientoRutina> {
 
     @Autowired
     private EntrenamientoRutinaRepository entrenamientoRutinaRepository;
@@ -23,6 +25,11 @@ public class EntrenamientoRutinaService {
 
     public int getdiaSemanaFromRutinaAndEntrenamientoId(int rutinaId, int entrenamientoId) {
         return entrenamientoRutinaRepository.getdiaSemanaFromRutinaAndEntrenamientoId(rutinaId, entrenamientoId);
+    }
+
+    public List<EntrenamientoRutinaDTO> buscarEntrenamientosdeRutina(Integer n) { // pablo
+        List<EntrenamientoRutina> rutinas = entrenamientoRutinaRepository.buscarEntrenamientosdeRutina(n);
+        return this.entidadesADTO(rutinas);
     }
 
     public EntrenamientoRutinaDTO getEntrenamientoRutina(Integer id) { //pablo
