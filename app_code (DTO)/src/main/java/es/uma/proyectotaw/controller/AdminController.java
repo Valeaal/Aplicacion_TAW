@@ -146,6 +146,21 @@ public class AdminController {
         usr.setFechaNacimiento(inputNacimiento);
         usr.setPerteneceDesde(inputIngreso);
         Integer nuevoRolId = tipoUsuarioService.buscarRolPorString(inputRol);
+        if(usr.getTipoUsuario().getId() != nuevoRolId && (usr.getTipoUsuario().getId() == 2 || usr.getTipoUsuario().getId() == 3 )){    //Hay que quitar las asignaciones de los clientes. Quizás tenga ahora en entrenadorId el Id de un dietista
+            List<ClienteDTO> clientes = clienteService.sacarUsuariosPorEntrenadorId(usuarioId);
+            for(ClienteDTO c : clientes){
+                c.setEntrenador(null);
+                clienteService.guardarCliente(c);
+            }
+        }
+        if(usr.getTipoUsuario().getId() != nuevoRolId && (usr.getTipoUsuario().getId() == 4 )){                                         //Igual, pero con el dietista (y las dietas en consecuencia)
+            List<ClienteDTO> clientes = clienteService.sacarUsuariosPorEntrenadorId(usuarioId);
+            for(ClienteDTO c : clientes){
+                c.setDietista(null);
+                c.setDieta(null);
+                clienteService.guardarCliente(c);
+            }
+        }
         TipoUsuarioDTO nuevoRol = tipoUsuarioService.buscarRolPorId(nuevoRolId);
         usr.setTipoUsuario(nuevoRol);
         //En principio no consideramos que el administrador pueda cambiar la contraseña del usuario no?

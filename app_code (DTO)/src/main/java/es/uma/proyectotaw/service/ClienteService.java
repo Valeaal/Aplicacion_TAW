@@ -1,4 +1,5 @@
 //Autor: Álvaro Valencia Villalón
+// Quien sea que se añada
 package es.uma.proyectotaw.service;
 
 import es.uma.proyectotaw.dao.ClienteRepository;
@@ -87,6 +88,10 @@ public class ClienteService extends DTOService<ClienteDTO, Cliente> {
     public List<ClienteDTO> getClientesDelEntrenadorYFiltro(Integer crossfitTrainerId, String nombre) { //pablo
         List<Cliente> clientesDTO = clienteRepository.getClientesDelEntrenadorYFiltro(crossfitTrainerId,nombre);
         return this.entidadesADTO(clientesDTO);
+    }
+
+    public List<ClienteDTO> sacarUsuariosPorEntrenadorId(Integer idEntrenador) {
+        return this.entidadesADTO(clienteRepository.getClienteByIdEntrenador(idEntrenador));
     }
     
 

@@ -41,5 +41,4 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
                                           @Param("inputIngreso") Integer inputIngreso,
                                           @Param("inputRol") Integer inputRol);
 
-
 }
