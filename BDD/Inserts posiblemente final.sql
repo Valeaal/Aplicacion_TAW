@@ -50,8 +50,8 @@ INSERT INTO TAW.rutina (id, nombre, descripcion, fecha_creacion, entrenador_id, 
 (1, 'Rutina Fuerza', 'Rutina de fuerza para principiantes', '2023-01-01', 2, 1),
 (2, 'Push-Pull', 'Rutina de fuerza para avanzados', '2023-06-14', 8, 1),
 (3, 'Rutina HIIT', 'Rutina de alta intensidad', '2023-02-10', 3, 2),
-(4, 'Rutina Pilates', 'Rutina de pilates para flexibilidad', '2023-03-01', 4, 2),
-(5, 'Rutina Yoga', 'Rutina de yoga para relajación', '2023-03-15', 4, 2),
+(4, 'Rutina Pilates', 'Rutina de pilates para flexibilidad', '2023-03-01', 2, 2),
+(5, 'Rutina Yoga', 'Rutina de yoga para relajación', '2023-03-15', 2, 2),
 (6, 'Rutina Cardio', 'Rutina para mejorar la resistencia cardiovascular', '2023-04-01', 3, 2),
 (7, 'Rutina Funcional', 'Rutina de entrenamiento funcional', '2023-04-15', 2, 1),
 (8, 'Rutina Powerlifting', 'Rutina para levantar pesado', '2023-05-01', 2, 1),
@@ -68,29 +68,30 @@ INSERT INTO TAW.cliente_rutina (id, cliente_id, rutina_id, vigente) VALUES
 
 -- Insertar datos en la tabla comida
 INSERT INTO TAW.comida (id, nombre, descripcion) VALUES 
-(1, 'Pollo a la plancha', 'Pollo cocido a la plancha con especias'),
-(2, 'Ensalada de quinoa', 'Ensalada fresca con quinoa y verduras'),
-(3, 'Batido de proteínas', 'Batido con leche y proteínas'),
-(4, 'Tacos de pescado', 'Tacos con pescado fresco y vegetales'),
-(5, 'Salmón al horno', 'Salmón horneado con hierbas'),
-(6, 'Avena con frutas', 'Avena cocida con frutas frescas'),
-(7, 'Pasta integral', 'Pasta integral con salsa de tomate'),
-(8, 'Arroz con pollo', 'Arroz cocido con pollo y vegetales'),
-(9, 'Sopa de verduras', 'Sopa caliente con variedad de verduras'),
-(10, 'Tortilla de espinacas', 'Tortilla hecha con espinacas frescas');
+(1, 'Menu Saludable', 'Menu equilibrado sin alergenos'),
+(2, 'Menu Proteico', 'Menu alto en proteínas'),
+(3, 'Menu Vegano', 'Menu basado en plantas'),
+(4, 'Menu Keto', 'Menu bajo en carbohidratos'),
+(5, 'Menu Paleo', 'Menu con alimentos no procesados'),
+(6, 'Menu Mediterráneo', 'Menu con frutas y verduras'),
+(7, 'Menu Low Carb', 'Menu bajo en carbohidratos'),
+(8, 'Menu Detox', 'Menu de desintoxicación'),
+(9, 'Menu Sin Gluten', 'Menu libre de gluten'),
+(10, 'Menu Dash', 'Menu para la hipertensión');
 
 -- Insertar datos en la tabla menu
 INSERT INTO TAW.menu (id, nombre, descripcion, alergenos) VALUES 
-(1, 'Menu Saludable', 'Menu equilibrado sin alergenos', 'Ninguno'),
-(2, 'Menu Proteico', 'Menu alto en proteínas', 'Lácteos'),
-(3, 'Menu Vegano', 'Menu basado en plantas', 'Ninguno'),
-(4, 'Menu Keto', 'Menu bajo en carbohidratos', 'Lácteos, Nueces'),
-(5, 'Menu Paleo', 'Menu con alimentos no procesados', 'Ninguno'),
-(6, 'Menu Mediterráneo', 'Menu con frutas y verduras', 'Pescado, Frutos secos'),
-(7, 'Menu Low Carb', 'Menu bajo en carbohidratos', 'Nueces'),
-(8, 'Menu Detox', 'Menu de desintoxicación', 'Ninguno'),
-(9, 'Menu Sin Gluten', 'Menu libre de gluten', 'Ninguno'),
-(10, 'Menu Dash', 'Menu para la hipertensión', 'Ninguno');
+(1, 'Pollo a la plancha', 'Pollo cocido a la plancha con especias', 'Ninguno'),
+(2, 'Ensalada de quinoa', 'Ensalada fresca con quinoa y verduras', 'Ninguno'),
+(3, 'Batido de proteínas', 'Batido con leche y proteínas', 'Ninguno'),
+(4, 'Tacos de pescado', 'Tacos con pescado fresco y vegetales', 'Ninguno'),
+(5, 'Salmón al horno', 'Salmón horneado con hierbas', 'Ninguno'),
+(6, 'Avena con frutas', 'Avena cocida con frutas frescas', 'Ninguno'),
+(7, 'Pasta integral', 'Pasta integral con salsa de tomate', 'Ninguno'),
+(8, 'Arroz con pollo', 'Arroz cocido con pollo y vegetales', 'Ninguno'),
+(9, 'Sopa de verduras', 'Sopa caliente con variedad de verduras', 'Ninguno'),
+(10, 'Tortilla de espinacas', 'Tortilla hecha con espinacas frescas', 'Ninguno'),
+(11, 'Yogur con fruta', 'Yogur griego alto en proteínas con fruta', 'Ninguno');
 
 -- Insertar datos en la tabla comida_menu
 INSERT INTO TAW.comida_menu (id, comida_id, menu_id) VALUES 
@@ -103,7 +104,11 @@ INSERT INTO TAW.comida_menu (id, comida_id, menu_id) VALUES
 (7, 7, 7),
 (8, 8, 8),
 (9, 9, 9),
-(10, 10, 10);
+(10, 10, 10),
+(11, 1, 9),
+(12, 2, 11),
+(13, 7, 10),
+(14, 7, 7);
 
 -- Insertar datos en la tabla desempeno
 INSERT INTO TAW.desempeno (id, cliente_id, valoracion, peso_realizado, comentarios) VALUES 
@@ -115,16 +120,18 @@ INSERT INTO TAW.desempeno (id, cliente_id, valoracion, peso_realizado, comentari
 
 -- Insertar datos en la tabla dieta_comida
 INSERT INTO TAW.dieta_comida (id, dieta_id, comida_id, momento_dia) VALUES 
-(1, 1, 1, 1),
+(1, 1, 1, 2),
 (2, 2, 2, 2),
 (3, 3, 3, 3),
-(4, 4, 4, 4),
-(5, 5, 5, 5),
+(4, 4, 4, 1),
+(5, 5, 5, 1),
 (6, 6, 6, 1),
 (7, 7, 7, 2),
 (8, 8, 8, 3),
-(9, 9, 9, 4),
-(10, 10, 10, 5);
+(9, 9, 9, 2),
+(10, 10, 10, 2),
+(11, 1, 2, 1),
+(12, 1, 7, 3);
 
 -- Insertar datos en la tabla tipo_ejercicio
 INSERT INTO TAW.tipo_ejercicio (id, tipo) VALUES 
