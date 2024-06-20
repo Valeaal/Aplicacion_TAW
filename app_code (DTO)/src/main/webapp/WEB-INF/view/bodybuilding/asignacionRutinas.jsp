@@ -1,11 +1,10 @@
 <%-- @author: Miguel Galdeano Rodríguez --%> 
 <%@ page import="java.util.*" %>
-<%@ page import="es.uma.proyectotaw.entity.Cliente" %>
-<%@ page import="es.uma.proyectotaw.entity.Rutina" %>
+<%@ page import="es.uma.proyectotaw.dto.*" %>
 
 <%
-    List<Cliente> clientes = (List<Cliente>) request.getAttribute("clientes");
-    List<Rutina> rutinas = (List<Rutina>) request.getAttribute("rutinas");
+    List<ClienteDTO> clientes = (List<ClienteDTO>) request.getAttribute("clientes");
+    List<RutinaDTO> rutinas = (List<RutinaDTO>) request.getAttribute("rutinas");
 %>
 
 
@@ -40,7 +39,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <% for (Cliente usr : clientes) { %>
+                <% for (ClienteDTO usr : clientes) { %>
                 <tr>
                     <td><input type="radio" name="cliente" value="<%= usr.getId()%>"></td>
                     <td><%= usr.getUsuario().getNombre()%>
@@ -66,7 +65,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <% for (Rutina rt : rutinas) { %>
+                <% for (RutinaDTO rt : rutinas) { %>
                 <tr>
                     <td><input type="radio" name="rutina" value="<%= rt.getId()%>"></td>
                     <td><%= rt.getNombre()%></td>

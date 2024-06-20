@@ -1,3 +1,4 @@
+//Autor: Álvaro Valencia Villalón 20%
 package es.uma.proyectotaw.dao;
 
 import es.uma.proyectotaw.entity.Desempeno;
@@ -17,5 +18,8 @@ public interface DesempenoRepository extends JpaRepository<Desempeno, Integer> {
 
     @Query("SELECT d.desempeno FROM ComidaMenu d WHERE d.menu.id=:menuId AND d.comida.id=:comidaId")
     Desempeno getDesempenoByMenuAndComidaId(@Param("menuId") Integer menuId, @Param("comidaId") Integer comidaId);
+
+    @Query("SELECT d from Desempeno d where d.cliente.id = :clienteId")
+    List<Desempeno> getDesempenoPorCliente (@Param("clienteId") Integer clienteId);
 
 }

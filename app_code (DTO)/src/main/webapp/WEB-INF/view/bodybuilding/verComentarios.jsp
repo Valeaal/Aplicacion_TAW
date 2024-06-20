@@ -4,7 +4,7 @@
 <%@ page import="es.uma.proyectotaw.dto.*" %>
 
 <%
-    List<EjercicioEntrenamientoDTO> ENR = (List<EjercicioEntrenamientoDTO>) request.getAttribute("ejercicios");
+    Map<EjercicioEntrenamientoDTO,DesempenoDTO> ENR = (Map<EjercicioEntrenamientoDTO,DesempenoDTO>) request.getAttribute("ENR");
     ClienteDTO cliente = (ClienteDTO) request.getAttribute("cliente");
 %>
 
@@ -45,15 +45,15 @@
             </thead>
             <tbody>
             <!-- Aquí se pueden agregar filas dinámicamente con datos -->
-            <%  for (EjercicioEntrenamientoDTO ejercicio : ENR) { %>
+            <%  for (EjercicioEntrenamientoDTO ejercicio : ENR.keySet()) { %>
             <tr>
                 <td><%= ejercicio.getEjercicio().getNombre()%></td>
                 <td><%= ejercicio.getSeries()%></td>
                 <td><%= ejercicio.getRepeticiones()%></td>
                 <td><%= ejercicio.getPeso()%></td>
-                <td><%= ejercicio.getDesempeno().getPesoRealizado()%></td>
-                <td><%= ejercicio.getDesempeno().getComentarios()%></td>
-                <td><%= ejercicio.getDesempeno().getValoracion()%></td>
+                <td><%= ENR.get(ejercicio).getPesoRealizado()%></td>
+                <td><%= ENR.get(ejercicio).getComentarios()%></td>
+                <td><%= ENR.get(ejercicio).getValoracion()%></td>
                 <td></td>
             </tr>
             <% }

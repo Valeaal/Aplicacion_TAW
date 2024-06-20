@@ -156,7 +156,7 @@
                     <a class="nav-link" href="../bodybuilding/asignarRutinas">Asignar Rutinas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../bodybuilding/seguimientoRutinas">Seguimiento Clientes</a>
+                    <a class="nav-link" href="../bodybuilding/seguimientoClientes">Seguimiento Clientes</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/salir">Salir</a>

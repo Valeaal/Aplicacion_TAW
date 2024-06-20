@@ -254,8 +254,10 @@ public class AdminController {
         if (clienteId != null && dietistaId != null) {
             ClienteDTO cliente = clienteService.getClienteByUserId(clienteId);
             UsuarioDTO dietista = usuarioService.buscarUsuarioPorId(dietistaId);
-
-            cliente.setDietista(dietista);
+            if (cliente.getDietista() != dietista){               //Si le cambiamos el dietista tiene sentido borrarle la dieta, ya que esta está asociada a su vez a un dietista, y debería de ser al suyo. Así es mas sencillo de mantener la consistencia por ejemplo al borrar un dietista
+                cliente.setDieta(null);
+                cliente.setDietista(dietista);
+            }
 
             clienteService.guardarCliente(cliente);
         }

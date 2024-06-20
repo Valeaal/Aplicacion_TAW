@@ -5,6 +5,7 @@ import es.uma.proyectotaw.dao.*;
 import es.uma.proyectotaw.dto.TipoUsuarioDTO;
 import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.*;
+import es.uma.proyectotaw.ui.ComidasDieta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,14 @@ public class UsuarioService extends DTOService<UsuarioDTO, Usuario>{
     private DietaRepository dietaRepository;
     @Autowired
     private RutinaService rutinaService;
+    @Autowired
+    private ComidaDietaRepository comidaDietaRepository;
+    @Autowired
+    private Cliente_RutinaRepository cliente_RutinaRepository;
+    @Autowired
+    private DesempenoRepository desempenoRepository;
+    @Autowired
+    private EjercicioEntrenamientoRepository ejercicioEntrenamientoRepository;
 
     public List<UsuarioDTO> sacarUsuariosPorTipo(TipoUsuarioDTO tipoUsuario) {
         TipoUsuario tipoEntity = tipoUsuarioRepository.findById(tipoUsuario.getId()).orElse(null);
@@ -73,6 +82,7 @@ public class UsuarioService extends DTOService<UsuarioDTO, Usuario>{
         List<Cliente> clientes;
         List<Rutina> rutinas;
         List<Dieta> dietas;
+        List<DietaComida> dietasComidas;
         if (usrABorrar.getTipoUsuario().getId() == 2 || usrABorrar.getTipoUsuario().getId() == 3 ){             //Es entrenador, hay que borrar la relación con sus clientes
             clientes = clienteRepository.getClienteByIdEntrenador(id);
             rutinas = rutinaRepository.getRutinaByEnternadorId(id);
@@ -81,7 +91,7 @@ public class UsuarioService extends DTOService<UsuarioDTO, Usuario>{
                 clienteRepository.save(c);
             }
             for(Rutina r : rutinas){
-                rutinaService.borrarRutina(r.toDTO());
+                rutinaService.borrarRutina(r.toDTO());                                                          //Hecho por alonso
             }
         }
         if (usrABorrar.getTipoUsuario().getId() == 4 ){                                                         //Es dietista, hay que borrar la relación con sus clientes
@@ -89,11 +99,33 @@ public class UsuarioService extends DTOService<UsuarioDTO, Usuario>{
             dietas = dietaRepository.getDietaByDietistaId(id);
             for(Cliente c : clientes){
                 c.setDietista(null);
+                c.setDieta(null);
                 clienteRepository.save(c);
             }
-            for(Dieta d : dietas){
-                dietaRepository.delete(d);                                                                      //TODO: Referenciar al método de torrecilla
+            for(Dieta d : dietas){                                                                              //Igualmente, realizamos el borrado en cascada
+                dietasComidas = comidaDietaRepository.getDietaComidasPorDietaId(d.getId());
+                for(DietaComida dc : dietasComidas){
+                    comidaDietaRepository.delete(dc);
+                }
+                dietaRepository.delete(d);
             }
+        }
+        if (usrABorrar.getTipoUsuario().getId() == 5 ){                                                         //Si es cliente, hay que borarlo también de cliente repository
+            Cliente c = clienteRepository.getClienteByUserId(id);
+            List<ClienteRutina> clientesRutina = cliente_RutinaRepository.historialRutinasCliente(c.getId());
+            List<Desempeno> desempenos = desempenoRepository.getDesempenoPorCliente(c.getId());
+            List<EjercicioEntrenamiento> ejercicioEntrenamientos;
+            for(ClienteRutina cr : clientesRutina){                                                             //Borrado en cascada de las tablas pertinentes
+                cliente_RutinaRepository.delete(cr);
+            }
+            for(Desempeno d : desempenos){                                                                      //Borrado en cascada de las tablas pertinentes
+                ejercicioEntrenamientos = ejercicioEntrenamientoRepository.getEjercicioEntrenamientoPorDesempenoId(d.getId());
+            for(EjercicioEntrenamiento ee : ejercicioEntrenamientos){                                           //Borrado en cascada de las tablas pertinentes
+                    ejercicioEntrenamientoRepository.delete(ee);
+                }
+                desempenoRepository.delete(d);
+            }
+            clienteRepository.delete(c);
         }
         usuarioRepository.deleteById(id);
     }
