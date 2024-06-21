@@ -118,7 +118,11 @@ INSERT INTO TAW.desempeno (id, cliente_id, valoracion, peso_realizado, comentari
 (2, 2, 4, 80, 'Mejoras visibles'),
 (3, 3, 3, 65, 'Promedio, seguir trabajando'),
 (4, 4, 5, 90, 'Excelente progreso'),
-(5, 5, 2, 55, 'Debe esforzarse más');
+(5, 9, 4, 70, 'Muy contenta con el progreso'),
+(6, 10, 5, 110, 'Hoy ha sido un gran dia'),
+(7, 10, 3, 90, 'Descanso insuficiente'),
+(8, 10, 2, 50, 'Dolor en el codo'),
+(9, 5, 2, 55, 'Debe esforzarse más');
 
 -- Insertar datos en la tabla dieta_comida
 INSERT INTO TAW.dieta_comida (id, dieta_id, comida_id, momento_dia) VALUES 
@@ -234,13 +238,13 @@ INSERT INTO TAW.ejercicio_entrenamiento (id, ejercicio_id, entrenamiento_id, des
 
 -- Hombros
 INSERT INTO TAW.ejercicio_entrenamiento (id, ejercicio_id, entrenamiento_id, desempeno_id, series, repeticiones, peso, tiempo, distancia, orden) VALUES 
-(12, 12, 17, NULL, 4, 10, 50.0, NULL, NULL, 1),  -- Press Militar
+(12, 12, 17, 8, 4, 10, 70.0, NULL, NULL, 1),  -- Press Militar
 (13, 13, 17, NULL, 3, 12, 15.0, NULL, NULL, 2);  -- Elevaciones Laterales
 
 -- Cuerpo Completo
 INSERT INTO TAW.ejercicio_entrenamiento (id, ejercicio_id, entrenamiento_id, desempeno_id, series, repeticiones, peso, tiempo, distancia, orden) VALUES 
 (14, 1, 18, NULL, 3, 10, 70.0, NULL, NULL, 1),  -- Press de banca
-(15, 10, 18, NULL, 3, 10, 80.0, NULL, NULL, 2);  -- Sentadilla
+(15, 10, 18, 6, 3, 10, 100.0, NULL, NULL, 2);  -- Sentadilla
 
 -- Resistencia
 INSERT INTO TAW.ejercicio_entrenamiento (id, ejercicio_id, entrenamiento_id, desempeno_id, series, repeticiones, peso, tiempo, distancia, orden) VALUES 
@@ -253,8 +257,9 @@ INSERT INTO TAW.ejercicio_entrenamiento (id, ejercicio_id, entrenamiento_id, des
 
 -- Hipertrofia
 INSERT INTO TAW.ejercicio_entrenamiento (id, ejercicio_id, entrenamiento_id, desempeno_id, series, repeticiones, peso, tiempo, distancia, orden) VALUES 
-(19, 1, 21, NULL, 4, 12, 70.0, NULL, NULL, 1),  -- Press de banca
-(20, 10, 21, NULL, 4, 12, 80.0, NULL, NULL, 2);  -- Sentadilla
+(19, 1, 21, 5, 4, 12, 70.0, NULL, NULL, 1), -- Press de banca
+(20, 1, 21, 7, 3, 12, 80.0, NULL, NULL, 1), -- Press de banca
+(21, 10, 21, NULL, 4, 12, 80.0, NULL, NULL, 2);  -- Sentadilla
 
 -- Insertar datos en la tabla entrenamiento_rutina
 INSERT INTO TAW.entrenamiento_rutina (id, entrenamiento_id, rutina_id, dia_semana) VALUES 
