@@ -1,5 +1,6 @@
 package es.uma.proyectotaw.service;
 
+import ch.qos.logback.core.net.server.Client;
 import es.uma.proyectotaw.dao.ClienteRepository;
 import es.uma.proyectotaw.dao.Cliente_RutinaRepository;
 import es.uma.proyectotaw.dao.RutinaRepository;
@@ -28,7 +29,12 @@ public class ClienteRutinaService extends DTOService<ClienteRutinaDTO, ClienteRu
     }
 
     public ClienteRutinaDTO findByActiveRoutines(Integer clienteID) {
-        return this.clienteRutinaRepository.findActiveRoutines(clienteID).get(0).toDTO();
+        List<ClienteRutina> cr = this.clienteRutinaRepository.findActiveRoutines(clienteID);
+        return cr.isEmpty() ? null : cr.get(0).toDTO();
+    }
+
+    public List<ClienteRutinaDTO> findByRoutines (Integer rutinaID){
+        return this.entidadesADTO(this.clienteRutinaRepository.rutinasPorRutina(rutinaID));
     }
 
     public List<ClienteRutinaDTO> findActiveRoutines(Integer clientId){
@@ -60,7 +66,15 @@ public class ClienteRutinaService extends DTOService<ClienteRutinaDTO, ClienteRu
         clienteRutina.setCliente(this.clienteRepository.findById(clienteRutinaDTO.getCliente()).orElse(null));
         clienteRutina.setRutina(this.rutinaRepository.findById(clienteRutinaDTO.getRutina()).orElse(null));
         clienteRutina.setVigente(clienteRutinaDTO.getVigente());
+        for (ClienteRutina cr : this.clienteRutinaRepository.findActiveRoutines(clienteRutinaDTO.getCliente())) {
+            cr.setVigente(false);
+        }
         clienteRutinaRepository.save(clienteRutina);
+    }
+
+    public void eliminar(ClienteRutinaDTO clienteRutinaDTO){
+        ClienteRutina clienteRutina = this.clienteRutinaRepository.findById(clienteRutinaDTO.getId()).orElse(null);
+        clienteRutinaRepository.delete(clienteRutina);
     }
 }
 

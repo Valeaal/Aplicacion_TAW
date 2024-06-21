@@ -44,7 +44,9 @@
                     <td><%= cliente.getUsuario().getApellidos()%></td>
                     <td><% if(rutinas.get(cliente)!=null){%>
                     <%=rutinas.get(cliente).getNombre()%>
-                    <%}%>
+                    <%}else{%>
+                        No hay rutina vigente
+                        <%}%>
                     </td>
                     <td><a href="/bodybuilding/verComentarios?id=<%=cliente.getId()%>">
                         <button class="btn btn-primary" type="button">Ver</button>

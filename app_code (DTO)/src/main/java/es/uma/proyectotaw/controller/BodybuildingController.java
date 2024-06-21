@@ -125,6 +125,10 @@ public class BodybuildingController {
     public String doEliminarRutina(@RequestParam("id")Integer id,Model model, HttpSession session){
         List<Integer> entrenamientos = this.entrenamientoRutinaService.findByRutinaId(id);
         this.entrenamientoRutinaService.deleteAllById(entrenamientos);
+        List<ClienteRutinaDTO> clienteRutinaDTOS = this.clienteRutinaService.findByRoutines(id);
+        for(ClienteRutinaDTO cr : clienteRutinaDTOS){
+            this.clienteRutinaService.eliminar(cr);
+        }
         RutinaDTO rutina = this.rutinaService.findById(id);
         this.rutinaService.delete(rutina.getId());
         return "redirect:/bodybuilding/";
@@ -212,16 +216,11 @@ public class BodybuildingController {
     public String asignarRutinaCliente(@RequestParam("cliente")Integer idCliente,@RequestParam("rutina")Integer idRutina,Model model, HttpSession session){
         if(idRutina!=null && idCliente!=null) {
             ClienteDTO cliente = this.clienteService.getClienteById(idCliente);
-            ClienteRutinaDTO activa = this.clienteRutinaService.findByActiveRoutines(cliente.getId());
             RutinaDTO rutina = this.rutinaService.findById(idRutina);
             ClienteRutinaDTO cr = new ClienteRutinaDTO();
             cr.setCliente(cliente.getId());
             cr.setRutina(rutina.getId());
             cr.setVigente(true);
-            if (activa != null ) {
-                activa.setVigente(false);
-                this.clienteRutinaService.guardar(activa);
-            }
             this.clienteRutinaService.guardar(cr);
         }
         return "redirect:/bodybuilding/asignarRutinas";
@@ -239,8 +238,8 @@ public class BodybuildingController {
         List<ClienteDTO> clientes = this.clienteService.findByEntrenador(usuario);
         Map<ClienteDTO,RutinaDTO> rutinas = new HashMap<>();
         for(ClienteDTO cliente : clientes){
-            ClienteRutinaDTO crs = this.clienteRutinaService.findByActiveRoutines(cliente.getId());
-            if(crs != null){
+            if(this.clienteRutinaService.findByActiveRoutines(cliente.getId()) != null){
+                ClienteRutinaDTO crs = this.clienteRutinaService.findByActiveRoutines(cliente.getId());
                 RutinaDTO rutina = this.rutinaService.findById(crs.getRutina());
                 rutinas.put(cliente,rutina);
             }else{
