@@ -122,7 +122,7 @@ INSERT INTO TAW.desempeno (id, cliente_id, valoracion, peso_realizado, comentari
 (6, 5, 5, 110, 'Hoy ha sido un gran dia'),
 (7, 5, 3, 72.5, 'Descanso insuficiente'),
 (8, 5, 2, 50, 'Dolor en el codo'),
-(9, 5, 2, 40, 'Debo esforzarme más');
+(9, 5, 2, 25, 'Debo esforzarme más');
 
 -- Insertar datos en la tabla dieta_comida
 INSERT INTO TAW.dieta_comida (id, dieta_id, comida_id, momento_dia) VALUES 
