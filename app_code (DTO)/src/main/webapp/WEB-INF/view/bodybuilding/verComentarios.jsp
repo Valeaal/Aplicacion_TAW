@@ -46,8 +46,8 @@
             </tr>
             </thead>
             <tbody>
-            <!-- Aquí se pueden agregar filas dinámicamente con datos -->
-            <%  for (DesempenoDTO desempeno : desempenos) { %>
+            <%  for (DesempenoDTO desempeno : desempenos) {
+            if(ENR.get(desempeno.getId())!=null){%>
             <tr>
                 <td><%= ENR.get(desempeno.getId()).getEjercicio().getNombre()%></td>
                 <td><%= ENR.get(desempeno.getId()).getSeries()%></td>
@@ -58,8 +58,10 @@
                 <td><%= desempeno.getValoracion()%></td>
                 <td></td>
             </tr>
-            <% }
-                } %>
+            <%
+                    }
+                }
+            } %>
             </tbody>
         </table>
         <a href="/bodybuilding/seguimientoClientes">
