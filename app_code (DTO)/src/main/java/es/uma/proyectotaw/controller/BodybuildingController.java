@@ -163,12 +163,12 @@ public class BodybuildingController {
     public String doEliminarEntrenamientoRutina(@RequestParam("id")Integer id,Model model, HttpSession session){
         EntrenamientoRutinaDTO ER = this.entrenamientoRutinaService.findById(id);
         RutinaDTO rutina = this.rutinaService.findById(ER.getRutina());
-        EntrenamientoDTO entrenamiento = this.entrenamientoService.findByRutinaId(ER.getRutina()).get(0);
+        EntrenamientoDTO entrenamiento = this.entrenamientoService.findbyID(ER.getEntrenamiento());
         rutina.getEntrenamientos().remove(ER);
         entrenamiento.getRutinas().remove(ER.getId());
-        this.entrenamientoRutinaService.delete(ER.getId());
         this.rutinaService.guardar(rutina);
         this.entrenamientoService.guardar(entrenamiento);
+        this.entrenamientoRutinaService.delete(ER.getId());
         return "redirect:/bodybuilding/editarRutina?id=" + rutina.getId();
     }
 
@@ -220,9 +220,9 @@ public class BodybuildingController {
             cr.setVigente(true);
             if (activa != null ) {
                 activa.setVigente(false);
-                this.clienteRutinaService.guardar1(activa);
+                this.clienteRutinaService.guardar(activa);
             }
-            this.clienteRutinaService.guardar1(cr);
+            this.clienteRutinaService.guardar(cr);
         }
         return "redirect:/bodybuilding/asignarRutinas";
     }

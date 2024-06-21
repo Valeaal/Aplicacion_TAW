@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 //autor: Alba de la Torre
+//autor: Miguel Galdeano Rodríguez
 
 @Service
 public class DesempenoService extends DTOService<DesempenoDTO, Desempeno>{

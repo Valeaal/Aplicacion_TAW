@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+//autor: Miguel Galdeano Rodríguez
 @Service
 public class ClienteRutinaService extends DTOService<ClienteRutinaDTO, ClienteRutina> {
 
@@ -54,16 +54,9 @@ public class ClienteRutinaService extends DTOService<ClienteRutinaDTO, ClienteRu
         this.clienteRutinaRepository.save(asignacionRutinaACliente);
     }
 
-    public void guardar1 (ClienteRutinaDTO clienteRutinaDTO){
-        ClienteRutina clienteRutina = new ClienteRutina();
-        clienteRutina.setCliente(this.clienteRepository.findById(clienteRutinaDTO.getCliente()).orElse(null));
-        clienteRutina.setRutina(this.rutinaRepository.findById(clienteRutinaDTO.getRutina()).orElse(null));
-        clienteRutina.setVigente(clienteRutinaDTO.getVigente());
-        clienteRutinaRepository.save(clienteRutina);
-    }
-
     public void guardar(ClienteRutinaDTO clienteRutinaDTO){
         ClienteRutina clienteRutina = new ClienteRutina();
+        clienteRutina.setId(clienteRutinaDTO.getRutina());
         clienteRutina.setCliente(this.clienteRepository.findById(clienteRutinaDTO.getCliente()).orElse(null));
         clienteRutina.setRutina(this.rutinaRepository.findById(clienteRutinaDTO.getRutina()).orElse(null));
         clienteRutina.setVigente(clienteRutinaDTO.getVigente());

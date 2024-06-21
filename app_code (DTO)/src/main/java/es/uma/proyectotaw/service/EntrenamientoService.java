@@ -4,17 +4,14 @@
 //Modificad los porcentajes, lo he puesto orientativo
 package es.uma.proyectotaw.service;
 
-import es.uma.proyectotaw.dao.EjercicioEntrenamientoRepository;
-import es.uma.proyectotaw.dao.EjercicioRepository;
-import es.uma.proyectotaw.dao.EntrenamientoRepository;
-import es.uma.proyectotaw.dao.EntrenamientoRutinaRepository;
-import es.uma.proyectotaw.dto.EjercicioDTO;
-import es.uma.proyectotaw.dto.EntrenamientoDTO;
+import es.uma.proyectotaw.dao.*;
+import es.uma.proyectotaw.dto.*;
 import es.uma.proyectotaw.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -28,9 +25,11 @@ public class EntrenamientoService extends DTOService<EntrenamientoDTO, Entrenami
     private EntrenamientoRutinaRepository entrenamientoRutinaRepository;
     @Autowired
     private EjercicioEntrenamientoRepository ejercicioEntrenamientoRepository;
+    @Autowired
+    private EjercicioRepository ejercicioRepository;
+    @Autowired
+    private RutinaRepository rutinaRepository;
 
-    // esto tiene que usar el entidadesADTO de la clase DTOService. además, tiene que devolver List<EntrenamientoDTO>
-    // lo he comentado y cambiado a que acceda al repositorio normal porque da fallo
     public List<EntrenamientoDTO> findAll(){
         List<Entrenamiento> entrenamientos = this.entrenamientoRepository.findAll();
         return this.entidadesADTO(entrenamientos);
@@ -57,8 +56,22 @@ public class EntrenamientoService extends DTOService<EntrenamientoDTO, Entrenami
         Entrenamiento entrenamiento = this.entrenamientoRepository.findById(entrenamientoDTO.getId()).orElse(new Entrenamiento());
         entrenamiento.setNombre(entrenamientoDTO.getNombre());
         entrenamiento.setDescripcion(entrenamientoDTO.getDescripcion());
-        entrenamiento.setRutinas((Set<EntrenamientoRutina>) this.entrenamientoRutinaRepository.findAllById(entrenamientoDTO.getRutinas()));
-        entrenamiento.setEjercicios((Set<EjercicioEntrenamiento>) this.ejercicioEntrenamientoRepository.findAllById(entrenamientoDTO.getEjercicios()));
+
+        Set<Integer> rutinas = new HashSet<Integer>();
+        for(Integer rutina : entrenamientoDTO.getRutinas()){
+           Rutina r = this.rutinaRepository.findById(rutina).orElse(null);
+           if(r != null){
+               rutinas.add(r.getId());
+           }
+        }
+
+        Set<Integer> ejercicios = new HashSet<Integer>();
+        for(Integer ejercicio : entrenamientoDTO.getEjercicios()){
+           Ejercicio e = this.ejercicioRepository.findById(ejercicio).orElse(null);
+            if(e != null){
+                rutinas.add(e.getId());
+            }
+        }
 
         this.entrenamientoRepository.save(entrenamiento);
     }
