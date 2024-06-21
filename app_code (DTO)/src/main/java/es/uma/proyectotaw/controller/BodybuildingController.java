@@ -258,7 +258,10 @@ public class BodybuildingController {
         Map<Integer,EjercicioEntrenamientoDTO> ENR = new HashMap<Integer,EjercicioEntrenamientoDTO>();
 
         for(DesempenoDTO desempeno : desempenos){
-            ENR.put(desempeno.getId(),this.ejercicioEntrenamientoService.findByDesempeno(desempeno.getId()));
+            EjercicioEntrenamientoDTO EE = this.ejercicioEntrenamientoService.findByDesempeno(desempeno.getId());
+            if(EE!=null){
+                ENR.put(desempeno.getId(),EE);
+            }
         }
         model.addAttribute("cliente",cliente);
         model.addAttribute("desempenos",desempenos);

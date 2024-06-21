@@ -42,7 +42,8 @@ public class EjercicioEntrenamientoService extends DTOService<EjercicioEntrenami
     }
 
     public EjercicioEntrenamientoDTO findByDesempeno(Integer desempeno) {
-        return this.ejercicioEntrenamientoRepository.findByDesempeno(desempeno).toDTO();
+        EjercicioEntrenamiento EE =  this.ejercicioEntrenamientoRepository.findByDesempeno(desempeno);
+        return EE == null ? null : EE.toDTO();
     }
 
     public void save(EjercicioEntrenamientoDTO dto) {
