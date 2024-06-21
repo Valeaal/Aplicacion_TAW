@@ -118,10 +118,10 @@ INSERT INTO TAW.desempeno (id, cliente_id, valoracion, peso_realizado, comentari
 (2, 2, 4, 80, 'Mejoras visibles'),
 (3, 3, 3, 65, 'Promedio, seguir trabajando'),
 (4, 4, 5, 90, 'Excelente progreso'),
-(5, 9, 4, 70, 'Muy contenta con el progreso'),
-(6, 10, 5, 110, 'Hoy ha sido un gran dia'),
-(7, 10, 3, 90, 'Descanso insuficiente'),
-(8, 10, 2, 50, 'Dolor en el codo'),
+(5, 4, 4, 70, 'Muy contenta con el progreso'),
+(6, 5, 5, 110, 'Hoy ha sido un gran dia'),
+(7, 5, 3, 90, 'Descanso insuficiente'),
+(8, 5, 2, 50, 'Dolor en el codo'),
 (9, 5, 2, 55, 'Debe esforzarse más');
 
 -- Insertar datos en la tabla dieta_comida
