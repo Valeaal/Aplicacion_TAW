@@ -27,7 +27,7 @@ public class DietaComida implements DTO<DietaComidaDTO> {
     @Column(name = "momento_dia", nullable = false)
     private Integer momentoDia;
 
-    @Column(name = "dia", nullable = false)
+    @Column(name = "dia", nullable = true)
     private Integer dia;
 
     public DietaComidaDTO toDTO(){

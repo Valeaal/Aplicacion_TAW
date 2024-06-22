@@ -95,20 +95,7 @@ public class UsuarioService extends DTOService<UsuarioDTO, Usuario>{
             }
         }
         if (usrABorrar.getTipoUsuario().getId() == 4 ){                                                         //Es dietista, hay que borrar la relación con sus clientes
-            clientes = clienteRepository.getClienteByIdEntrenador(id);
-            dietas = dietaRepository.getDietaByDietistaId(id);
-            for(Cliente c : clientes){
-                c.setDietista(null);
-                c.setDieta(null);
-                clienteRepository.save(c);
-            }
-            for(Dieta d : dietas){                                                                              //Igualmente, realizamos el borrado en cascada
-                dietasComidas = comidaDietaRepository.getDietaComidasPorDietaId(d.getId());
-                for(DietaComida dc : dietasComidas){
-                    comidaDietaRepository.delete(dc);
-                }
-                dietaRepository.delete(d);
-            }
+            BorradoCascadaDietista(id);
         }
         if (usrABorrar.getTipoUsuario().getId() == 5 ){                                                         //Si es cliente, hay que borarlo también de cliente repository
             Cliente c = clienteRepository.getClienteByUserId(id);
@@ -152,6 +139,28 @@ public class UsuarioService extends DTOService<UsuarioDTO, Usuario>{
         UsuarioService usuarioService = new UsuarioService(); // Instancia de DTOService que nos proporciona la posibilidad convertir el conjunto a dto
         List<UsuarioDTO> usuariosDTO = usuarioService.entidadesADTO(usuarios);
         return usuariosDTO;
+    }
+
+    //Cuando se use este método, asegurarse que el id es de un dietista
+    public void BorradoCascadaDietista(Integer id){
+        Usuario usrABorrar = usuarioRepository.findById(id).orElse(null);
+        List<Cliente> clientes;
+        List<Dieta> dietas;
+        List<DietaComida> dietasComidas;
+        clientes = clienteRepository.getClienteByIdEntrenador(id);
+        dietas = dietaRepository.getDietaByDietistaId(id);
+        for(Cliente c : clientes){
+            c.setDietista(null);
+            c.setDieta(null);
+            clienteRepository.save(c);
+        }
+        for(Dieta d : dietas){                                                                              //Igualmente, realizamos el borrado en cascada
+            dietasComidas = comidaDietaRepository.getDietaComidasPorDietaId(d.getId());
+            for(DietaComida dc : dietasComidas){
+                comidaDietaRepository.delete(dc);
+            }
+            dietaRepository.delete(d);
+        }
     }
 
 }

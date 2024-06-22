@@ -153,13 +153,8 @@ public class AdminController {
                 clienteService.guardarCliente(c);
             }
         }
-        if(usr.getTipoUsuario().getId() != nuevoRolId && (usr.getTipoUsuario().getId() == 4 )){                                         //Igual, pero con el dietista (y las dietas en consecuencia)
-            List<ClienteDTO> clientes = clienteService.sacarUsuariosPorEntrenadorId(usuarioId);
-            for(ClienteDTO c : clientes){
-                c.setDietista(null);
-                c.setDieta(null);
-                clienteService.guardarCliente(c);
-            }
+        if(usr.getTipoUsuario().getId() != nuevoRolId && (usr.getTipoUsuario().getId() == 4 )){                 //Si es dietista, debería de hacer borrado en cascada de sus dietas, si no puede fallar por ejemplo al borrar el usuario                                    //Igual, pero con el dietista (y las dietas en consecuencia)
+            usuarioService.BorradoCascadaDietista(usuarioId);
         }
         TipoUsuarioDTO nuevoRol = tipoUsuarioService.buscarRolPorId(nuevoRolId);
         usr.setTipoUsuario(nuevoRol);
@@ -269,7 +264,7 @@ public class AdminController {
         if (clienteId != null && dietistaId != null) {
             ClienteDTO cliente = clienteService.getClienteByUserId(clienteId);
             UsuarioDTO dietista = usuarioService.buscarUsuarioPorId(dietistaId);
-            if (cliente.getDietista() != dietista){               //Si le cambiamos el dietista tiene sentido borrarle la dieta, ya que esta está asociada a su vez a un dietista, y debería de ser al suyo. Así es mas sencillo de mantener la consistencia por ejemplo al borrar un dietista
+            if (cliente.getDietista().getId() != dietistaId){               //Si le cambiamos el dietista tiene sentido borrarle la dieta, ya que esta está asociada a su vez a un dietista, y debería de ser al suyo. Así es mas sencillo de mantener la consistencia por ejemplo al borrar un dietista
                 cliente.setDieta(null);
                 cliente.setDietista(dietista);
             }

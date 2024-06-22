@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 // autor: Alba de la Torre
 
@@ -53,7 +50,11 @@ public class ClienteController {
     public String rutina(@RequestParam("id") Integer id, Model model) {
         ClienteDTO client = clienteService.getClienteByUserId(id);
         RutinaDTO rutina = rutinaService.getActiveRutinasByClienteId(client.getId());
-        List<EntrenamientoDTO> entrenamientos = entrenamientoService.findByRutinaId(rutina.getId());
+        List<EntrenamientoDTO> entrenamientos = new ArrayList<>();
+        if(rutina!=null){
+            entrenamientos = entrenamientoService.findByRutinaId(rutina.getId());
+        }
+
         List<GrupoMuscularDTO> grupomuscular = grupoMuscularService.findAll();
 
         // Para cada entrenamiento, guardamos en un mapa su id y su cumplimiento,
@@ -112,7 +113,10 @@ public class ClienteController {
     public String menu(@RequestParam("id") Integer id, Model model){
         ClienteDTO client = clienteService.getClienteByUserId(id);
         DietaDTO dieta = client.getDieta();
-        Set<DietaComidaDTO> dietaComidas = dietaComidaService.getComidaDietaByDietaId(dieta.getId());
+        Set<DietaComidaDTO> dietaComidas = new HashSet<>();
+        if(dieta!=null){
+            dietaComidas = dietaComidaService.getComidaDietaByDietaId(dieta.getId());
+        }
 
         // Dividimos las comidas en listas según el momento del día, siendo:
         // M1: desayuno
