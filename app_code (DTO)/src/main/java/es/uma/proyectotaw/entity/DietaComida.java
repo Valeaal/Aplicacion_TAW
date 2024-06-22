@@ -36,6 +36,7 @@ public class DietaComida implements DTO<DietaComidaDTO> {
         comida.setDieta(this.dieta.getId());
         comida.setComida(this.comida.getId());
         comida.setMomentoDia(this.momentoDia);
+        comida.setDia(this.dia);
         return comida;
     }
 }

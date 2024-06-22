@@ -106,39 +106,7 @@ public class ClienteController {
         return "cliente/rutinaNoActiva";
     }
 
-    ///////////////////////// METODOS PRIVADOS /////////////////////////////////
 
-    private float calcularCumplimiento(Integer id) {
-        float res = 0;
-        Entrenamiento e = entrenamientoService.getEntityById(id);
-        if(e.getEjercicios().isEmpty()){
-            return 0F;
-        } else {
-            for (EjercicioEntrenamiento ee : e.getEjercicios()) {
-                if (ee.getDesempeno() != null) {
-                    res++;
-                }
-            }
-            return (res / e.getEjercicios().size()) * 100;
-        }
-    }
-
-    private float calcularCumplimientoDieta(Integer id) {
-        float res = 0;
-        Comida c = comidaService.getEntityById(id);
-        if(c.getMenus().isEmpty()){
-            return 0F;
-        } else {
-            for (ComidaMenu cm : c.getMenus()) {
-                if (cm.getDesempeno() != null) {
-                    res++;
-                }
-            }
-            return (res/c.getMenus().size())*100;
-        }
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
 
     @GetMapping("/menu")
     public String menu(@RequestParam("id") Integer id, Model model){
@@ -452,5 +420,38 @@ public class ClienteController {
         return "redirect:/menu?id="+ c.getUsuario().getId();
     }
 
+///////////////////////// METODOS PRIVADOS /////////////////////////////////
 
+    private float calcularCumplimiento(Integer id) {
+        float res = 0;
+        Entrenamiento e = entrenamientoService.getEntityById(id);
+        if(e.getEjercicios().isEmpty()){
+            return 0F;
+        } else {
+            for (EjercicioEntrenamiento ee : e.getEjercicios()) {
+                if (ee.getDesempeno() != null) {
+                    res++;
+                }
+            }
+            return (res / e.getEjercicios().size()) * 100;
+        }
+    }
+
+    private float calcularCumplimientoDieta(Integer id) {
+        float res = 0;
+        Comida c = comidaService.getEntityById(id);
+        if(c.getMenus().isEmpty()){
+            return 0F;
+        } else {
+            for (ComidaMenu cm : c.getMenus()) {
+                if (cm.getDesempeno() != null) {
+                    res++;
+                }
+            }
+            return (res/c.getMenus().size())*100;
+        }
+    }
+
+///////////////////////////////////////////////////////////////////////////
 }
+
