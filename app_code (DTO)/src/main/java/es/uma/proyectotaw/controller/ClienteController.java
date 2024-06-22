@@ -111,23 +111,31 @@ public class ClienteController {
     private float calcularCumplimiento(Integer id) {
         float res = 0;
         Entrenamiento e = entrenamientoService.getEntityById(id);
-        for(EjercicioEntrenamiento ee: e.getEjercicios()){
-            if(ee.getDesempeno()!=null){
-                res++;
+        if(e.getEjercicios().isEmpty()){
+            return 0F;
+        } else {
+            for (EjercicioEntrenamiento ee : e.getEjercicios()) {
+                if (ee.getDesempeno() != null) {
+                    res++;
+                }
             }
+            return (res / e.getEjercicios().size()) * 100;
         }
-        return (res/e.getEjercicios().size())*100;
     }
 
     private float calcularCumplimientoDieta(Integer id) {
         float res = 0;
         Comida c = comidaService.getEntityById(id);
-        for(ComidaMenu cm : c.getMenus()){
-            if(cm.getDesempeno()!=null){
-                res++;
+        if(c.getMenus().isEmpty()){
+            return 0F;
+        } else {
+            for (ComidaMenu cm : c.getMenus()) {
+                if (cm.getDesempeno() != null) {
+                    res++;
+                }
             }
+            return (res/c.getMenus().size())*100;
         }
-        return (res/c.getMenus().size())*100;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -329,6 +337,7 @@ public class ClienteController {
     public String filtrarRutinaDesempenyo(@ModelAttribute("desempenyoFiltro") DesempenyoFiltro filtro, Model model){
         List<RutinaDTO> rutina = rutinaService.getAllRutinasByClienteId(filtro.getIdCliente());
         List<RutinaDTO> rutinasFiltradas = new ArrayList<>();
+        List<RutinaDTO> rutinaNoFiltradas = new ArrayList<>(rutina);
         HashMap<Integer, Float> cumplimiento = new HashMap<>();
 
         // Definimos los límites del filtro por los que buscar
@@ -346,10 +355,14 @@ public class ClienteController {
         }
         float desempenyoTotal = 0;
 
+        // Lista temporal para almacenar las rutinas a eliminar
+        List<RutinaDTO> rutinasAEliminar = new ArrayList<>();
+
         // Calculamos el desempeño y si cumple con los límites puestos, lo añadimos a rutinasFiltradas
-        // y lo quitamos de la lista del resto de rutinas
+        // y lo marcamos para quitarlo de la lista del resto de rutinas
         for(RutinaDTO r : rutina){
             List<EntrenamientoDTO> entrenamientos = entrenamientoService.findByRutinaId(r.getId());
+            desempenyoTotal = 0;
             for(EntrenamientoDTO e : entrenamientos){
                 desempenyoTotal += calcularCumplimiento(e.getId());
             }
@@ -357,23 +370,27 @@ public class ClienteController {
             cumplimiento.put(r.getId(), desempenyoTotal);
             if(desempenyoTotal <= upperBound && desempenyoTotal >= lowerBound){
                 rutinasFiltradas.add(r);
-                rutina.remove(r);
-                if(rutina.isEmpty()){
-                    break;
-                }
+                rutinasAEliminar.add(r);
             }
         }
+
+        // Eliminar las rutinas marcadas de la lista del resto de rutinas
+        rutinaNoFiltradas.removeAll(rutinasAEliminar);
+
         model.addAttribute("rutinasFiltradas", rutinasFiltradas);
-        model.addAttribute("rutinas", rutina);
+        model.addAttribute("rutinas", rutinaNoFiltradas);
         model.addAttribute("cumplimiento", cumplimiento);
         return "/cliente/rutinaDesempenyoFiltrada";
     }
+
 
     @PostMapping("/filtrarDietaDesempenyo")
     public String filtrarDietaDesempenyo(@ModelAttribute("desempenyoFiltro") DesempenyoFiltro filtro, Model model){
         List<DietaDTO> dieta = dietaService.getDietaByClientId(filtro.getIdCliente());
         List<DietaDTO> dietasFiltradas = new ArrayList<>();
+        List<DietaDTO> dietaNoFiltradas = new ArrayList<>(dieta);
         HashMap<Integer, Float> cumplimiento = new HashMap<>();
+
         int upperBound = 0;
         int lowerBound = 0;
         if(filtro.getDesempenyo().equals("Alto")){
@@ -387,8 +404,13 @@ public class ClienteController {
             lowerBound = 0;
         }
         float desempenyoTotal = 0;
+
+        // Lista temporal para almacenar las dietas a eliminar
+        List<DietaDTO> dietasAEliminar = new ArrayList<>();
+
         for(DietaDTO d : dieta){
             List<ComidaDTO> comidas = comidaService.findByDietaId(d.getId());
+            desempenyoTotal = 0;
             for(ComidaDTO c : comidas){
                 desempenyoTotal += calcularCumplimientoDieta(c.getId());
             }
@@ -396,17 +418,19 @@ public class ClienteController {
             cumplimiento.put(d.getId(), desempenyoTotal);
             if(desempenyoTotal <= upperBound && desempenyoTotal >= lowerBound){
                 dietasFiltradas.add(d);
-                dieta.remove(d);
-                if(dieta.isEmpty()){
-                    break;
-                }
+                dietasAEliminar.add(d);
             }
         }
+
+        // Eliminar las dietas marcadas de la lista del resto de dietas
+        dietaNoFiltradas.removeAll(dietasAEliminar);
+
         model.addAttribute("dietasFiltradas", dietasFiltradas);
-        model.addAttribute("dietas", dieta);
+        model.addAttribute("dietas", dietaNoFiltradas);
         model.addAttribute("cumplimiento", cumplimiento);
         return "/cliente/dietaDesempenyoFiltrada";
     }
+
 
     @GetMapping("/eliminarDesempeno")
     public String eliminarDesempeno(@RequestParam("id") Integer id,

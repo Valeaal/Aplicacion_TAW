@@ -259,6 +259,7 @@ CREATE TABLE IF NOT EXISTS TAW.dieta_comida (
   dieta_id INT NOT NULL,
   comida_id INT NOT NULL,
   momento_dia INT NOT NULL,
+  dia INT NULL DEFAULT NULL,
   PRIMARY KEY (id),
   INDEX comida_id (comida_id ASC) VISIBLE,
   INDEX dieta_comida_ibfk_1 (dieta_id ASC) VISIBLE,
