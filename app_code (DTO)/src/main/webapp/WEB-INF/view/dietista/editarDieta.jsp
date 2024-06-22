@@ -6,8 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page import="es.uma.proyectotaw.entity.Dieta" %>
+<%@ page import="es.uma.proyectotaw.dto.DietaDTO" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<% Dieta dieta = (Dieta) request.getAttribute("dieta"); %>
+<% DietaDTO dieta = (DietaDTO) request.getAttribute("dieta"); %>
 <html lang="es">
 <head>
     <meta charset="UTF-8">

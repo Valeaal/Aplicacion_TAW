@@ -1,6 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="es.uma.proyectotaw.entity.Dieta" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.dto.DietaDTO" %>
 <%--
   Created by IntelliJ IDEA.
   User: javiertorrecilla
@@ -10,7 +11,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-  List<Dieta> dietas = (List<Dieta>) request.getAttribute("dietas");
+  List<DietaDTO> dietas = (List<DietaDTO>) request.getAttribute("dietas");
 %>
 <html lang="es">
 <head>
@@ -106,7 +107,7 @@
           </tr>
           </thead>
           <tbody>
-          <% for(Dieta dieta : dietas) { %>
+          <% for(DietaDTO dieta : dietas) { %>
           <tr>
             <td><%=dieta.getNombre()%></td>
             <td><%=dieta.getDescripcion()%></td>

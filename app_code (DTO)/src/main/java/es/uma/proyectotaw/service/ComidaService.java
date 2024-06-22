@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-//autor: Alba de la Torre
+//autor: Alba de la Torre y Javier Torrecilla
 
 @Service
 public class ComidaService extends DTOService<ComidaDTO, Comida>{
@@ -34,5 +34,9 @@ public class ComidaService extends DTOService<ComidaDTO, Comida>{
     public List<ComidaDTO> findComidasByDietaId(Integer id){
         List<Comida> comidas = dietaRepository.findComidasByDietaId(id);
         return this.entidadesADTO(comidas);
+    }
+
+    public List<ComidaDTO> getAll(){
+        return this.entidadesADTO(comidaRepository.findAll());
     }
 }
