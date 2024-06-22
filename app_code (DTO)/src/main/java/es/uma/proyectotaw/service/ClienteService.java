@@ -1,5 +1,5 @@
-//Autor: Álvaro Valencia Villalón
-// Quien sea que se añada
+//Autor: Álvaro Valencia Villalón y Javier Torrecilla
+
 package es.uma.proyectotaw.service;
 
 import es.uma.proyectotaw.dao.ClienteRepository;
@@ -93,6 +93,21 @@ public class ClienteService extends DTOService<ClienteDTO, Cliente> {
     public List<ClienteDTO> sacarUsuariosPorEntrenadorId(Integer idEntrenador) {
         return this.entidadesADTO(clienteRepository.getClienteByIdEntrenador(idEntrenador));
     }
+
+    public List<ClienteDTO> clientesSinDietas(){
+        return this.entidadesADTO(clienteRepository.getClientesSinDieta());
+    }
+
+    public List<ClienteDTO> clientesConDieta(){
+        return this.entidadesADTO(clienteRepository.getClientesConDieta());
+    }
+
+    public List<ClienteDTO> clientesFiltradosSeguimiento(Integer edad, String nombre, String dieta){
+        return this.entidadesADTO(clienteRepository.getClienteFiltrado(edad, nombre, dieta));
+
+    }
+
+
     
 
 }

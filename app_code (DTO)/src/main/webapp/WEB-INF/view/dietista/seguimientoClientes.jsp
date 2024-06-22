@@ -1,5 +1,6 @@
 <%@ page import="es.uma.proyectotaw.entity.Cliente" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.dto.ClienteDTO" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %><%--
   Created by IntelliJ IDEA.
   User: javiertorrecilla
@@ -9,7 +10,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<Cliente> clientes = (List<Cliente>) request.getAttribute("clientes");
+    List<ClienteDTO> clientes = (List<ClienteDTO>) request.getAttribute("clientes");
 %>
 <html lang="es">
 <head>
@@ -101,7 +102,7 @@
                     </thead>
                     <tbody>
                     <%
-                        for (Cliente cliente : clientes) {
+                        for (ClienteDTO cliente : clientes) {
                     %>
                     <tr>
                         <td><%=cliente.getUsuario().getNombre()%></td>

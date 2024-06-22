@@ -9,10 +9,12 @@
 <%@ page import="es.uma.proyectotaw.entity.Usuario" %>
 <%@ page import="es.uma.proyectotaw.entity.Dieta" %>
 <%@ page import="es.uma.proyectotaw.entity.Cliente" %>
+<%@ page import="es.uma.proyectotaw.dto.ClienteDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.DietaDTO" %>
 
 <%
-    List<Cliente> clientes = (List<Cliente>) request.getAttribute("clientes");
-    List<Dieta> dietas = (List<Dieta>) request.getAttribute("dietas");
+    List<ClienteDTO> clientes = (List<ClienteDTO>) request.getAttribute("clientes");
+    List<DietaDTO> dietas = (List<DietaDTO>) request.getAttribute("dietas");
 %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -82,7 +84,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <% for (Cliente c : clientes) { %>
+                    <% for (ClienteDTO c : clientes) { %>
                     <tr>
                         <td><input type="radio" name="clienteSeleccionado" value="<%= c.getId() %>"></td>
                         <td><%= c.getUsuario().getNombre() %></td>
@@ -109,11 +111,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <% for (Dieta d : dietas) { %>
+                    <% for (DietaDTO d : dietas) { %>
                     <tr>
                         <td><input type="radio" name="dietaSeleccionado" value="<%= d.getId() %>"></td>
                         <td><%= d.getNombre() %></td>
                         <td><%= d.getDescripcion() %></td>
+                        <td><%= d.getCalorias()%></td>
                     </tr>
                     <% } %>
                     </tbody>

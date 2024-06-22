@@ -9,4 +9,5 @@ public class DietaComidaDTO {
     private Integer dieta;
     private Integer comida;
     private Integer momentoDia;
+    private Integer dia;
 }

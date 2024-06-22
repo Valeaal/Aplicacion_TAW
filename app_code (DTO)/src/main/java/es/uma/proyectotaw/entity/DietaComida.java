@@ -27,6 +27,9 @@ public class DietaComida implements DTO<DietaComidaDTO> {
     @Column(name = "momento_dia", nullable = false)
     private Integer momentoDia;
 
+    @Column(name = "dia", nullable = false)
+    private Integer dia;
+
     public DietaComidaDTO toDTO(){
         DietaComidaDTO comida = new DietaComidaDTO();
         comida.setId(this.id);
