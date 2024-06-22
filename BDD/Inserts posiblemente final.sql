@@ -248,7 +248,7 @@ INSERT INTO TAW.ejercicio_entrenamiento (id, ejercicio_id, entrenamiento_id, des
 
 -- Resistencia
 INSERT INTO TAW.ejercicio_entrenamiento (id, ejercicio_id, entrenamiento_id, desempeno_id, series, repeticiones, peso, tiempo, distancia, orden) VALUES 
-(16, 21, 19, NULL, 0, 0, 0, 30, NULL, 1);  -- Correr
+(16, 21, 19, 2, 0, 0, 0, 30, NULL, 1);  -- Correr
 
 -- Fuerza Máxima
 INSERT INTO TAW.ejercicio_entrenamiento (id, ejercicio_id, entrenamiento_id, desempeno_id, series, repeticiones, peso, tiempo, distancia, orden) VALUES 
