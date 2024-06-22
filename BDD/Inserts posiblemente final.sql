@@ -183,7 +183,17 @@ INSERT INTO TAW.ejercicio (id, nombre, descripcion, url_video, grupo_muscular_id
 (19, 'Fondos de Tríceps', 'Ejercicio para trabajar los tríceps', 'https://www.youtube.com/watch?v=6kALZikXxLc', 4, 1),
 (20, 'Press Francés', 'Ejercicio para trabajar los tríceps', 'https://www.youtube.com/watch?v=ZO81bExngMI', 4, 1),
 (21, 'Correr', 'Trabajamos la resistencia', 'http://example.com/video', NULL, 4),
-(22, 'Estiramiento de espalda', 'Estiramientos para flexibilizar la espalda baja', 'https://www.youtube.com/watch?v=XcJ1zVXfTfQ', 2, 3);
+(22, 'Estiramiento de espalda', 'Estiramientos para flexibilizar la espalda baja', 'https://www.youtube.com/watch?v=XcJ1zVXfTfQ', 2, 3),
+(23, 'Burpees', 'Ejercicio de cuerpo completo que combina una sentadilla, una flexión y un salto', 'https://www.youtube.com/watch?v=TU8QYVW0gDU', 6, 4),
+(24, 'Clean and Jerk', 'Ejercicio de levantamiento olímpico que trabaja múltiples grupos musculares', 'https://www.youtube.com/watch?v=G_9M5C2eM8Q', 6, 4),
+(25, 'Snatch', 'Ejercicio de levantamiento olímpico para trabajar fuerza y coordinación', 'https://www.youtube.com/watch?v=9L0wGZ0KczI', 6, 4),
+(26, 'Kettlebell Swing', 'Ejercicio para trabajar la fuerza y la resistencia cardiovascular', 'https://www.youtube.com/watch?v=YSxRA5F4Mpc', 6, 4),
+(27, 'Box Jump', 'Ejercicio pliométrico para mejorar la explosividad en las piernas', 'https://www.youtube.com/watch?v=52rj6LwQSBk', 6, 4),
+(28, 'Wall Ball', 'Ejercicio para trabajar la fuerza y la resistencia cardiovascular', 'https://www.youtube.com/watch?v=9p1yBLikRL8', 6, 4),
+(29, 'Double Unders', 'Ejercicio con cuerda para mejorar la coordinación y la resistencia', 'https://www.youtube.com/watch?v=82jNjDS19lg', 6, 4),
+(30, 'Thrusters', 'Ejercicio combinado que trabaja hombros, piernas y core', 'https://www.youtube.com/watch?v=G0y3kE0AT78', 6, 4),
+(31, 'Handstand Push-Ups', 'Flexiones verticales para trabajar hombros y tríceps', 'https://www.youtube.com/watch?v=5KJxQeQ9iso', 3, 4),
+(32, 'Toes to Bar', 'Ejercicio para trabajar el core y la coordinación', 'https://www.youtube.com/watch?v=e_fh5QL4_HY', 9, 4);
 
 -- Insertar datos en la tabla entrenamiento
 INSERT INTO TAW.entrenamiento (id, nombre, descripcion) VALUES 
