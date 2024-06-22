@@ -49,13 +49,13 @@ INSERT INTO TAW.tipo_rutina (id, tipo) VALUES
 
 -- Insertar datos en la tabla rutina
 INSERT INTO TAW.rutina (id, nombre, descripcion, fecha_creacion, entrenador_id, tipo_rutina) VALUES 
-(1, 'Rutina Fuerza', 'Rutina de pilates para flexibilidad', '2023-01-01', 2, 1),
+(1, 'Rutina Pilates', 'Rutina de pilates para flexibilidad', '2023-01-01', 2, 1),
 (2, 'Push-Pull', 'Rutina de fuerza para avanzados', '2023-06-14', 8, 1),
 (3, 'Rutina HIIT', 'Rutina de alta intensidad', '2023-02-10', 3, 2),
 (4, 'Rutina Fuerza', 'Rutina de fuerza para principiantes', '2023-03-01', 2, 2),
-(5, 'Rutina Yoga', 'Rutina de yoga para relajación', '2023-03-15', 2, 2),
+(5, 'Rutina Yoga', 'Rutina de yoga para relajación', '2023-03-15', 3, 2),
 (6, 'Rutina Cardio', 'Rutina para mejorar la resistencia cardiovascular', '2023-04-01', 3, 2),
-(7, 'Rutina Funcional', 'Rutina de entrenamiento funcional', '2023-04-15', 2, 1),
+(7, 'Rutina Funcional', 'Rutina de entrenamiento funcional', '2023-04-15', 8, 1),
 (8, 'Rutina Powerlifting', 'Rutina para levantar pesado', '2023-05-01', 2, 1),
 (9, 'Rutina Calistenia', 'Rutina con ejercicios de peso corporal', '2023-05-15', 3, 1),
 (10, 'Rutina Strongman', 'Rutina para ganar fuerza y masa muscular', '2023-06-01', 8, 1);

@@ -49,7 +49,7 @@
                 <a href="/dia?id=<%=e.getId()%>&clientId=<%=cliente.getId()%>"
                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                     Día <%= diaSemana %>
-                    <span class="badge badge-primary badge-pill"><%=c%> %</span>
+                    <span class="badge badge-primary badge-pill text-dark"><%=c%> %</span>
                 </a>
                 <% } %>
             </ul>
