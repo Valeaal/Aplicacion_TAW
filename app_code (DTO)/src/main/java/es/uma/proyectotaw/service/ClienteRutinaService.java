@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+// autor: Pablo Alonso Burgos
 //autor: Miguel Galdeano Rodríguez
 @Service
 public class ClienteRutinaService extends DTOService<ClienteRutinaDTO, ClienteRutina> {

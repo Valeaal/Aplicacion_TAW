@@ -1,4 +1,4 @@
-//pablo alonso burgos
+// autor: Pablo Alonso Burgos
 //autor: Miguel Galdeano Rodríguez
 package es.uma.proyectotaw.service;
 

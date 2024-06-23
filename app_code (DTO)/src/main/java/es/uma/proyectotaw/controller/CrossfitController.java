@@ -17,7 +17,8 @@ import java.util.List;
 @Controller
 public class CrossfitController {
 
-    // primero aqui tengo los repository, que borrare luego
+    // he tenido que dejar este repository porque tuve un problema al sacar los desempeños
+    // de un cliente con el service
     @Autowired
     protected DesempenoRepository desempenoRepository;
 
@@ -49,6 +50,7 @@ public class CrossfitController {
         List<RutinaDTO> rutinas = rutinaService.getCrossfitRutinas();
         model.addAttribute("rutinas", rutinas);
         model.addAttribute("filtroRutinas", new Filtro_Rutina_nEntrenamientos());
+
         return "crosstrainer/crudRutinas";
     }
 
@@ -80,6 +82,7 @@ public class CrossfitController {
         List<RutinaDTO> rutinas = rutinaService.getCrossfitRutinas();
         model.addAttribute("clientes", clientes);
         model.addAttribute("rutinas", rutinas);
+
         return "crosstrainer/asignarRutinas";
     }
 
@@ -107,6 +110,7 @@ public class CrossfitController {
         List<ClienteDTO> clientes = clienteService.getClientesDelEntrenador(entrenador.getId());
         model.addAttribute("clientes", clientes);
         model.addAttribute("clienteFiltro", new Usuario());
+
         return "crosstrainer/seguimientoRutinas";
     }
 
@@ -121,6 +125,7 @@ public class CrossfitController {
 
         model.addAttribute("clientes", clientes);
         model.addAttribute("clienteFiltro", clienteFiltro);
+
         return "crosstrainer/seguimientoRutinas";
     }
 
@@ -133,8 +138,7 @@ public class CrossfitController {
         model.addAttribute("historialRutinasCliente", historialRutinasCliente);
         // ahora vamos a sacar el desempeño/valoracion de los ejercicios realizados por el cliente
         //  List<DesempenoDTO> desempenosCliente = desempenoService.desempenoDelClienteA(idCliente);
-        //por algun motivo, no me deja obtener los desempeños de un cliente a través del service, he intentado mil cosas
-        //y no hay manera, por tanto, lo he hecho accediendo directamente al repository
+        //por algun motivo, no me deja obtener los desempeños de un cliente a través del service, por tanto, lo he hecho accediendo directamente al repository
         List<Desempeno> desempenosCliente = desempenoRepository.desempenoDelCliente(idCliente);
         model.addAttribute("desempenosCliente", desempenosCliente);
         List<EjercicioEntrenamientoDTO> ejercicios = ejercicioEntrenamientoService.findAll();
@@ -184,7 +188,7 @@ public class CrossfitController {
                                         HttpSession session, Model model) {
 
         EntrenamientoRutinaDTO er = new EntrenamientoRutinaDTO();
-        er.setId(-1);
+        er.setId(-1); // porque al service le hace falta un id
         RutinaDTO rutina = rutinaService.findById(idRutina);
         EntrenamientoDTO entrenamiento = entrenamientoService.findbyID(idEntrenamiento);
         er.setRutina(rutina.getId());
