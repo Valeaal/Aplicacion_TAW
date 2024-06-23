@@ -1,4 +1,4 @@
-//Autor: Álvaro Valencia Villalón y Javier Torrecilla
+//Autor: Álvaro Valencia Villalón, Javier Torrecilla , Miguel Galdeano Rodríguez
 
 package es.uma.proyectotaw.service;
 
