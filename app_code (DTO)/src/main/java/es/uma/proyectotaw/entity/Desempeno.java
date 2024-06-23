@@ -1,5 +1,6 @@
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.DTO;
 import es.uma.proyectotaw.dto.DesempenoDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "desempeno")
-public class Desempeno {
+public class Desempeno implements DTO<DesempenoDTO> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
