@@ -1,5 +1,6 @@
-//Autor: Álvaro Valencia Villalón 80%
+//Autor: Álvaro Valencia Villalón 70%
 //Autor: Alba de la Torre 20%
+//Autor: Miguel Galdeano Rodríguez 10%
 package es.uma.proyectotaw.service;
 
 import es.uma.proyectotaw.dao.EjercicioEntrenamientoRepository;
