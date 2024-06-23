@@ -22,4 +22,7 @@ public interface DesempenoRepository extends JpaRepository<Desempeno, Integer> {
     @Query("SELECT d from Desempeno d where d.cliente.id = :clienteId")
     List<Desempeno> getDesempenoPorCliente (@Param("clienteId") Integer clienteId);
 
+    @Query("SELECT d from Desempeno d where d.cliente.id = :clienteId and d.pesoRealizado=0")
+    List<Desempeno> getDesempenoDietaPorCliente (@Param("clienteId") Integer clienteId);
+
 }

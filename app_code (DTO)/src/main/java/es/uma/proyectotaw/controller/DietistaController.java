@@ -27,11 +27,11 @@ public class DietistaController {
     @Autowired
     private DietaService dietaService;
     @Autowired
-    private MenuService menuService;
+    private ComidaMenuService comidaMenuService;
     @Autowired
     private TipoUsuarioService tipoUsuarioService;
     @Autowired
-    private UsuarioService usuarioService;
+    private DesempenoService desempenoService;
     @Autowired
     private DietaComidaService dietaComidaService;
     @Autowired
@@ -134,11 +134,13 @@ public class DietistaController {
         dieta.setDescripcion(nuevaDieta.getDescripcion());
         dieta.setCalorias(nuevaDieta.getCalorias());
         dieta.setFecha(LocalDate.now());
+        dieta.setId(-1);
+
+        dietaService.guardarDietaCreada(dieta);
 
         UsuarioDTO dietista = (UsuarioDTO) sesion.getAttribute("usuario");
         dieta.setDietista(dietista);
 
-        dietaService.guardarDieta(dieta);
         sesion.setAttribute("cantidadIngestas", nuevaDieta.getComidasDiarias());
 
         model.addAttribute("comidas", comidaService.getAll());
@@ -269,6 +271,20 @@ public class DietistaController {
 
         return "redirect:/dietas";
 
+    }
+
+    @GetMapping("/seguimiento/hacer")
+    public String doHacerSeguimientoIndividual(Model model, @RequestParam("id") Integer id){
+        List<DesempenoDTO> desempenosCliente = desempenoService.desempenoDietaCliente(id);
+        List<ComidaDTO> comidasCliente = new ArrayList<>();
+        model.addAttribute("desempenos", desempenosCliente);
+        for(DesempenoDTO d : desempenosCliente){
+            ComidaMenuDTO cm = comidaMenuService.getByDesempeno(d.getId());
+            ComidaDTO comida = comidaService.getReferenceById(cm.getComida());
+            comidasCliente.add(comida);
+        }
+        model.addAttribute("comidasmenus", comidasCliente);
+        return "dietista/seguimientoDietas";
     }
 
 

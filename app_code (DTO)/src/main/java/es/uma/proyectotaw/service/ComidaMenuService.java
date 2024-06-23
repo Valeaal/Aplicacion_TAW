@@ -15,4 +15,8 @@ public class ComidaMenuService extends DTOService<ComidaMenuDTO, ComidaMenu>{
     public ComidaMenuDTO getComidaMenuDTO(Integer idComidaMenu) {
         return comidaMenuRepository.getReferenceById(idComidaMenu).toDTO();
     }
+
+    public ComidaMenuDTO getByDesempeno(Integer id){
+        return comidaMenuRepository.getComidaMenuPorDesempeno(id).toDTO();
+    }
 }

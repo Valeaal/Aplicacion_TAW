@@ -2,13 +2,9 @@ package es.uma.proyectotaw.service;
 
 import es.uma.proyectotaw.dao.DietaRepository;
 import es.uma.proyectotaw.dao.UsuarioRepository;
-import es.uma.proyectotaw.dto.ComidaDTO;
-import es.uma.proyectotaw.dto.DTO;
-import es.uma.proyectotaw.dto.DietaComidaDTO;
-import es.uma.proyectotaw.dto.DietaDTO;
-import es.uma.proyectotaw.entity.Comida;
-import es.uma.proyectotaw.entity.Dieta;
-import es.uma.proyectotaw.entity.DietaComida;
+import es.uma.proyectotaw.dto.*;
+import es.uma.proyectotaw.entity.*;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -76,6 +72,16 @@ public class DietaService extends DTOService<DietaDTO, Dieta> {
             dietaEntity.setDescripcion(dietaDTO.getDescripcion());
         }
 
+    }
+
+    public void guardarDietaCreada(DietaDTO dietaDTO) {
+        Dieta dieta = dietaRepository.findById(dietaDTO.getId()).orElse(new Dieta());
+        dieta.setDescripcion(dietaDTO.getDescripcion());
+        dieta.setNombre(dietaDTO.getNombre());
+        dieta.setCalorias(dietaDTO.getCalorias());
+        dieta.setFecha(dietaDTO.getFecha());
+
+        this.dietaRepository.save(dieta);
     }
 
 }

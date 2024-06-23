@@ -95,4 +95,9 @@ public class DesempenoService extends DTOService<DesempenoDTO, Desempeno>{
         desempenoRepository.delete(d);
     }
 
+    public List<DesempenoDTO> desempenoDietaCliente(Integer id){
+        return this.entidadesADTO(desempenoRepository.getDesempenoDietaPorCliente(id));
+    }
+
+
 }

@@ -1,4 +1,4 @@
-//Autor: Álvaro Valencia Villalón 50%
+//Autor: Álvaro Valencia Villalón 66% Javier Torrecilla Reyes 33%
 package es.uma.proyectotaw.dao;
 
 import es.uma.proyectotaw.entity.ComidaMenu;
@@ -15,5 +15,8 @@ public interface ComidaMenuRepository extends JpaRepository<ComidaMenu, Integer>
 
     @Query("SELECT cm FROM ComidaMenu cm WHERE cm.menu.id = :menuId")
     List<ComidaMenu> getComidaMenuPorMenuId(@Param("menuId") Integer menuId);
+
+    @Query("SELECT cm FROM ComidaMenu cm WHERE cm.desempeno.id = :id")
+    ComidaMenu getComidaMenuPorDesempeno(@Param("id") Integer id);
 
 }
