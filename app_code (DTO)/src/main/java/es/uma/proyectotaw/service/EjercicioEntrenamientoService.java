@@ -1,5 +1,6 @@
 //Autor: Álvaro Valencia Vilallón 60%
 //Autor: Alba de la Torre 40%
+//Autor: Miguel Galdeano Rodríguez
 package es.uma.proyectotaw.service;
 
 import es.uma.proyectotaw.dao.DesempenoRepository;
