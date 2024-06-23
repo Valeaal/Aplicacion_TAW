@@ -70,11 +70,7 @@ public class DesempenoService extends DTOService<DesempenoDTO, Desempeno>{
 
     public List<DesempenoDTO> getByClienteId(Integer clienteID){
         List<Desempeno> desempenos = this.desempenoRepository.desempenoDelCliente(clienteID);
-        List<DesempenoDTO> desempenoDTOs = new ArrayList<>();
-        for(Desempeno d : desempenos){
-            desempenoDTOs.add(d.toDTO());
-        }
-        return desempenoDTOs;
+        return entidadesADTO(desempenos);
     }
 
     public void delete(Integer clientId, Integer ejId, Integer entrenamientoId){
