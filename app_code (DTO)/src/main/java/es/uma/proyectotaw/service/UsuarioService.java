@@ -84,35 +84,13 @@ public class UsuarioService extends DTOService<UsuarioDTO, Usuario>{
         List<Dieta> dietas;
         List<DietaComida> dietasComidas;
         if (usrABorrar.getTipoUsuario().getId() == 2 || usrABorrar.getTipoUsuario().getId() == 3 ){             //Es entrenador, hay que borrar la relación con sus clientes
-            clientes = clienteRepository.getClienteByIdEntrenador(id);
-            rutinas = rutinaRepository.getRutinaByEnternadorId(id);
-            for(Cliente c : clientes){
-                c.setEntrenador(null);
-                clienteRepository.save(c);
-            }
-            for(Rutina r : rutinas){
-                rutinaService.borrarRutina(r.toDTO());                                                          //Hecho por alonso
-            }
+           BorradoCascadaEntrenador(id);
         }
         if (usrABorrar.getTipoUsuario().getId() == 4 ){                                                         //Es dietista, hay que borrar la relación con sus clientes
             BorradoCascadaDietista(id);
         }
         if (usrABorrar.getTipoUsuario().getId() == 5 ){                                                         //Si es cliente, hay que borarlo también de cliente repository
-            Cliente c = clienteRepository.getClienteByUserId(id);
-            List<ClienteRutina> clientesRutina = cliente_RutinaRepository.historialRutinasCliente(c.getId());
-            List<Desempeno> desempenos = desempenoRepository.getDesempenoPorCliente(c.getId());
-            List<EjercicioEntrenamiento> ejercicioEntrenamientos;
-            for(ClienteRutina cr : clientesRutina){                                                             //Borrado en cascada de las tablas pertinentes
-                cliente_RutinaRepository.delete(cr);
-            }
-            for(Desempeno d : desempenos){                                                                      //Borrado en cascada de las tablas pertinentes
-                ejercicioEntrenamientos = ejercicioEntrenamientoRepository.getEjercicioEntrenamientoPorDesempenoId(d.getId());
-            for(EjercicioEntrenamiento ee : ejercicioEntrenamientos){                                           //Borrado en cascada de las tablas pertinentes
-                    ejercicioEntrenamientoRepository.delete(ee);
-                }
-                desempenoRepository.delete(d);
-            }
-            clienteRepository.delete(c);
+            BorradoCascadaCliente(id);
         }
         usuarioRepository.deleteById(id);
     }
@@ -161,6 +139,44 @@ public class UsuarioService extends DTOService<UsuarioDTO, Usuario>{
             }
             dietaRepository.delete(d);
         }
+    }
+
+    //Cuando se use este método, asegurarse que el id es de un entrenador
+    public void BorradoCascadaEntrenador(Integer id){
+        Usuario usrABorrar = usuarioRepository.findById(id).orElse(null);
+        List<Cliente> clientes;
+        List<Rutina> rutinas;
+        clientes = clienteRepository.getClienteByIdEntrenador(id);
+        rutinas = rutinaRepository.getRutinaByEnternadorId(id);
+        for(Cliente c : clientes){
+            c.setEntrenador(null);
+            clienteRepository.save(c);
+        }
+        for(Rutina r : rutinas){
+            rutinaService.borrarRutina(r.toDTO());                                                          //Hecho por alonso
+        }
+    }
+
+    //Cuando se use este método, asegurarse que el id es de un cliente
+    public void BorradoCascadaCliente(Integer id){
+        Usuario usrABorrar = usuarioRepository.findById(id).orElse(null);
+        List<Cliente> clientes;
+        List<Rutina> rutinas;
+        List<EjercicioEntrenamiento> ejercicioEntrenamientos;
+        Cliente c = clienteRepository.getClienteByUserId(id);
+        List<ClienteRutina> clientesRutina = cliente_RutinaRepository.historialRutinasCliente(c.getId());
+        List<Desempeno> desempenos = desempenoRepository.getDesempenoPorCliente(c.getId());
+        for(ClienteRutina cr : clientesRutina){                                                             //Borrado en cascada de las tablas pertinentes
+            cliente_RutinaRepository.delete(cr);
+        }
+        for(Desempeno d : desempenos){                                                                      //Borrado en cascada de las tablas pertinentes
+            ejercicioEntrenamientos = ejercicioEntrenamientoRepository.getEjercicioEntrenamientoPorDesempenoId(d.getId());
+            for(EjercicioEntrenamiento ee : ejercicioEntrenamientos){                                       //Borrado en cascada de las tablas pertinentes
+                ejercicioEntrenamientoRepository.delete(ee);
+            }
+            desempenoRepository.delete(d);
+        }
+        clienteRepository.delete(c);
     }
 
 }

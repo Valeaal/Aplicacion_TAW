@@ -147,14 +147,13 @@ public class AdminController {
         usr.setPerteneceDesde(inputIngreso);
         Integer nuevoRolId = tipoUsuarioService.buscarRolPorString(inputRol);
         if(usr.getTipoUsuario().getId() != nuevoRolId && (usr.getTipoUsuario().getId() == 2 || usr.getTipoUsuario().getId() == 3 )){    //Hay que quitar las asignaciones de los clientes. Quizás tenga ahora en entrenadorId el Id de un dietista
-            List<ClienteDTO> clientes = clienteService.sacarUsuariosPorEntrenadorId(usuarioId);
-            for(ClienteDTO c : clientes){
-                c.setEntrenador(null);
-                clienteService.guardarCliente(c);
-            }
+            usuarioService.BorradoCascadaEntrenador(usuarioId);
         }
-        if(usr.getTipoUsuario().getId() != nuevoRolId && (usr.getTipoUsuario().getId() == 4 )){                 //Si es dietista, debería de hacer borrado en cascada de sus dietas, si no puede fallar por ejemplo al borrar el usuario                                    //Igual, pero con el dietista (y las dietas en consecuencia)
+        if(usr.getTipoUsuario().getId() != nuevoRolId && (usr.getTipoUsuario().getId() == 4 )){                                         //Si es dietista, debería de hacer borrado en cascada de sus dietas, si no puede fallar por ejemplo al borrar el usuario                                    //Igual, pero con el dietista (y las dietas en consecuencia)
             usuarioService.BorradoCascadaDietista(usuarioId);
+        }
+        if(usr.getTipoUsuario().getId() != nuevoRolId && (usr.getTipoUsuario().getId() == 5 )){                                         //Hay que quitar las asignaciones propias de los clientes
+            usuarioService.BorradoCascadaCliente(usuarioId);
         }
         TipoUsuarioDTO nuevoRol = tipoUsuarioService.buscarRolPorId(nuevoRolId);
         usr.setTipoUsuario(nuevoRol);
