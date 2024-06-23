@@ -141,6 +141,8 @@ public class DietistaController {
         UsuarioDTO dietista = (UsuarioDTO) sesion.getAttribute("usuario");
         dieta.setDietista(dietista);
 
+        dietaService.guardarDieta(dieta);
+
         sesion.setAttribute("cantidadIngestas", nuevaDieta.getComidasDiarias());
 
         model.addAttribute("comidas", comidaService.getAll());
