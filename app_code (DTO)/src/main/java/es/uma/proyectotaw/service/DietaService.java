@@ -80,6 +80,8 @@ public class DietaService extends DTOService<DietaDTO, Dieta> {
         dieta.setNombre(dietaDTO.getNombre());
         dieta.setCalorias(dietaDTO.getCalorias());
         dieta.setFecha(dietaDTO.getFecha());
+        Usuario usuario = this.usuarioRepository.findById(dietaDTO.getDietista().getId()).orElseThrow();
+        dieta.setDietista(usuario);
 
         this.dietaRepository.save(dieta);
     }

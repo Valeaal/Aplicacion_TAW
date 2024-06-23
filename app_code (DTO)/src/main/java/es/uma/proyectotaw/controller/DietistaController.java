@@ -136,12 +136,11 @@ public class DietistaController {
         dieta.setFecha(LocalDate.now());
         dieta.setId(-1);
 
-        dietaService.guardarDietaCreada(dieta);
-
         UsuarioDTO dietista = (UsuarioDTO) sesion.getAttribute("usuario");
         dieta.setDietista(dietista);
 
-        dietaService.guardarDieta(dieta);
+        dietaService.guardarDietaCreada(dieta);
+
 
         sesion.setAttribute("cantidadIngestas", nuevaDieta.getComidasDiarias());
 
